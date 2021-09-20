@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const errorMiddleware = require('../../middlewares/errorController');
-const userController = require('../../controllers');
+const { UserController } = require('../../controllers');
 
 const app = express();
 
@@ -17,7 +17,9 @@ app.get('/ping', (_req, res) => {
   res.send('pong');
 });
 
-app.post('/users', userController.create);
+app.post('/users', UserController.create);
+
+app.post('/login', UserController.login);
 
 app.use(errorMiddleware);
 

@@ -1,5 +1,5 @@
-const { create } = require('./userController');
+const UserController = require('./userController');
 
 module.exports = {
-  create,
+  UserController,
 };

@@ -2,20 +2,20 @@
 const getConnection = require('./connection');
 
 const findByEmail = async (email) => {
-  const productsCollection = await getConnection()
+  const usersCollection = await getConnection()
     .then((db) => db.collection('users'));
 
-  const response = await productsCollection
+  const response = await usersCollection
     .findOne({ email });
 
   return response;
 };
 
 const create = async (name, email, password, role) => {
-  const productsCollection = await getConnection()
+  const usersCollection = await getConnection()
     .then((db) => db.collection('users'));
 
-  const response = await productsCollection
+  const response = await usersCollection
     .insertOne({ name, email, password, role });
 
   return {
@@ -28,7 +28,18 @@ const create = async (name, email, password, role) => {
   };
 };
 
+const login = async (email, password) => {
+  const usersCollection = await getConnection()
+    .then((db) => db.collection('users'));
+
+  const response = await usersCollection
+    .findOne({ email, password });
+
+  return response;
+};
+
 module.exports = {
   create,
+  login,
   findByEmail,
 };
