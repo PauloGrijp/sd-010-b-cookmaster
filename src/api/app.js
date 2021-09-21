@@ -12,7 +12,9 @@ app.get('/', (request, response) => {
 // Não remover esse end-point, ele é necessário para o avaliador
 
 const users = require('../routers/usersRouter');
+const login = require('../routers/loginRouter');
 
 app.use('/users', users);
+app.use('/login', login);
 
 module.exports = app;
