@@ -7,9 +7,9 @@ const getAll = async () => {
 };
 const createUser = async (user) => {
     const { email } = user;
-    if (validations.allInfos) return false;
+    if (await usersModel.userExists(email)) return 'email_exist';
+    if (!validations.allInfos(user)) return false;
     if (!validations.validEmail(email)) return false;
-    if (!usersModel.userExists(email)) return false;
     const response = await usersModel.create(user);
     return response;
 };
