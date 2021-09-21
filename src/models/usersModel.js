@@ -3,7 +3,7 @@ const connection = require('./connection');
 const getUserByEmail = async (email) => {
   const db = await connection();
   const user = await db.collection('users').findOne({ email });
- return user !== null;
+  if (user !== null) return user;
 };
 
 const createUser = async (name, email, password) => {
