@@ -11,11 +11,12 @@ const invalid = (email) => {
   return !regex.test(email);
 };
 
-const validate = ({ name, email }) => {
+const validate = ({ name, email, password }) => {
   switch (true) {
     case blank(name): return invalidEntries;
     case blank(email): return invalidEntries;
     case invalid(email): return invalidEntries;
+    case blank(password): return invalidEntries;
     default: return false;
   }
 };
