@@ -46,6 +46,22 @@ const enableModifications = async (request, response, next) => {
   } 
 };
 
+const isAdmin = async (request, response, next) => {
+  try {
+    const { userId } = request.user;
+    console.log(userId);
+    const db = await connection();
+    const { role } = await db.collection('users').findOne({ _id: ObjectId(userId) });  
+
+    if (role === 'user') {
+      return response.status(403).json({ message: 'Only admins can register new admins' });
+    } 
+    next();
+  } catch (error) {
+    return response.status(403).json({ message: 'Only admins can register new admins' });
+  } 
+};
+
 const verifyPassword = (request, response, next) => {
   try {
     const { password } = request.body;
@@ -97,4 +113,5 @@ verifyName,
 verifyEmail,
 verifyEmailToLogin,
 verifyPasswordToLogin,
-enableModifications };
+enableModifications,
+isAdmin };

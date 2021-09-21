@@ -10,6 +10,13 @@ const newUser = async ({ email, name, password }) => {
   return { user: { _id: insertedId, name, email, role: 'user' } };
 };
 
+const newAdmin = async ({ email, name, password }) => {
+  const db = await connection();
+  const user = await db.collection('users').insertOne({ name, email, password, role: 'admin' });
+  const { insertedId } = JSON.parse(user);
+  return { user: { _id: insertedId, name, email, role: 'admin' } };
+};
+
 const login = async ({ email, password }) => {
   const db = await connection();
   const user = await db.collection('users').findOne({ email, password });
@@ -35,4 +42,4 @@ const requestLogin = async ({ email, password }) => {
   return { token: newToken };
 };
 
-module.exports = { newUser, requestLogin };
+module.exports = { newUser, requestLogin, newAdmin };
