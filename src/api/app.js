@@ -2,10 +2,10 @@ const express = require('express');
 const bodyParser = require('body-parser');
 
 const { createUser, login } = require('../controllers/userController');
-const { createRecipe, getAllRecipes } = require('../controllers/recipesController');
+const { createRecipe, getAllRecipes, findRecipe } = require('../controllers/recipesController');
 const { isValidUser } = require('../middlewares/userMiddleware');
 const { isValidLogin } = require('../middlewares/loginMiddleware');
-const { isValidRecipe } = require('../middlewares/recipeMiddleware');
+const { isValidRecipe, existsRecipe } = require('../middlewares/recipeMiddleware');
 const validateJWT = require('./auth/validateJWT');
 
 const app = express();
@@ -22,6 +22,7 @@ app.post('/users', isValidUser, createUser);
 app.post('/login', isValidLogin, login);
 
 app.get('/recipes', getAllRecipes);
+app.get('/recipes/:id', existsRecipe, findRecipe);
 app.post('/recipes', validateJWT, isValidRecipe, createRecipe);
 
 module.exports = app;
