@@ -24,7 +24,9 @@ const create = async (name, email, password) => {
     return resp;
   }
 
-  const userCreated = await UsersModel.create(name, email);
+  const userCreated = await UsersModel.create(name, email, password);
+
+  delete userCreated.password;
 
   return userCreated;
 };
