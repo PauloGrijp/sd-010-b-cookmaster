@@ -15,4 +15,8 @@ app
   .route('/users')
   .post(usersController.createUser);
 
+app
+  .route('/login')
+  .post(usersController.login);
+
 module.exports = app;
