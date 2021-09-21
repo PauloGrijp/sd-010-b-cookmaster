@@ -2,17 +2,22 @@ const StatusCodes = require('http-status-codes');
 const UserService = require('../services/UserService');
 
 const createUser = async (req, res) => {
-  const { body } = req;
+  const { name, email, password, role } = req.body;  
   
-  const { id, message } = await UserService.createUser(body);
+  const { id, message } = await UserService.createUser({ name, email, password, role });
   
-  if (message) {
+  if (message === 'Invalid entries. Try again.') {
     return res.status(StatusCodes.BAD_REQUEST).json({
       message,
   });
   }
+  if (message === 'Email already registered') {
+    return res.status(StatusCodes.CONFLICT).json({
+      message,
+    });
+  }
   res.status(StatusCodes.CREATED).json({ user: {
-    body, _id: id,
+    name, email, role: 'user', _id: id,
   } });
 };
 

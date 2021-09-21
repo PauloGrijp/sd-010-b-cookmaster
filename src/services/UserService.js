@@ -1,6 +1,6 @@
 const UserModel = require('../models/UserModel');
 
-const message = 'Invalid entries. Try again';
+const message = 'Invalid entries. Try again.';
 
 const requiredFields = (name, email, password) => {
   if (!name || !email || !password) {
@@ -12,29 +12,29 @@ const requiredFields = (name, email, password) => {
 const isValidEmail = (email) => {
   const regexEmail = /^[\w-.]+@([\w-]+.)+[\w-]{2,4}$/;
   if (!regexEmail.test(email)) {
-    return false;
+   return false;
   }
   return true;
 };
 
-const createUser = async (name, email, password, role) => {
+const createUser = async ({ name, email, password, role }) => {
   const fieldValid = requiredFields(name, email, password);
   const emailValid = isValidEmail(email);
+  
   if (!fieldValid || !emailValid) {
-    return {
-      message,
-      status: 400,
-    };
+    return { message, status: 400 };
   }
-  const existEmail = await UserModel.findByEmail({ email });
+  const existEmail = await UserModel.findByEmail(email);
   if (existEmail) {
     return {
-      message: 'Email already exists',
+      message: 'Email already registered',
       status: 400,
     };
   }
-  const { id } = await UserModel.createUser({ name, email, password, role });
-  return { id, name, password, role };
+  const { id } = await UserModel.createUser({
+    name, email, password, role,
+  });
+  return { id, name, email, password, role };
 };
 
 module.exports = {
