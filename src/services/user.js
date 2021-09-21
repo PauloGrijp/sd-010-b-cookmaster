@@ -16,4 +16,12 @@ const create = async (user) => {
   return returnUser(userCreate);
 };
 
-module.exports = { create };
+const login = async (user) => {
+  const search = await Models.user.findByEmail(user.email);
+
+  if (!search || search.password !== user.password) return false;
+
+  return true;
+};
+
+module.exports = { create, login };

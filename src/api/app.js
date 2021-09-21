@@ -13,6 +13,7 @@ app.get('/', (_req, res) => {
 });
 
 app.post('/users', Controllers.user.create);
+app.post('/login', Controllers.user.login);
 
 app.use(Middlewares.error);
 

@@ -19,9 +19,17 @@ module.exports = (err, _req, res, _next) => {
   if (err.invalidEntries) {
     return res.status(400).json({ message: 'Invalid entries. Try again.' });
   }
-  
+
   if (err.emailExists) {
     return res.status(409).json({ message: 'Email already registered' });
+  }
+
+  if (err.fieldsRequired) {
+    return res.status(401).json({ message: 'All fields must be filled' });
+  }
+
+  if (err.incorrectUserInfo) {
+    return res.status(401).json({ message: 'Incorrect username or password' });
   }
 
   res
