@@ -56,7 +56,6 @@ const updateOne = rescue(async (req, res, _next) => {
 const deleteOne = rescue(async (req, res, _next) => {
   const { id } = req.params;
   const { role, userId } = res;
-  console.log({ role, userId });
 
   const recipe = await RecipesService.getOne(id);
 
@@ -67,7 +66,22 @@ const deleteOne = rescue(async (req, res, _next) => {
   return res.status(401).json({ message: 'not authorized to delete this recipe' });
 });
 
+const addImage = rescue(async (req, res, next) => {
+  const { id } = req.params;
+  const { role, userId } = res;
+
+  const recipe = await RecipesService.getOne(id);
+
+  if (userId === recipe.userId || role === 'admin') {
+    await RecipesService.addImage(id, `${id}.jpeg`);
+    res.response = { ...recipe, image: `localhost:3000/src/uploads/${id}.jpeg` };
+    return next();
+  }
+  return res.status(401).json({ message: 'not authorized to add image this recipe' });
+});
+
 module.exports = {
+  addImage,
   create,
   deleteOne,
   getAll,

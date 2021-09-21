@@ -57,16 +57,33 @@ const deleteOne = async (id) => {
   const recipesCollection = await getConnection()
     .then((db) => db.collection('recipes'));
 
-    try {
-      const response = await recipesCollection.deleteOne({ _id: id });
-      if (response) return true;
-      return false;
-    } catch (err) {
-      return err;
-    }
+  try {
+    const response = await recipesCollection.deleteOne({ _id: id });
+    if (response) return true;
+    return false;
+  } catch (err) {
+    return err;
+  }
+};
+
+const addImage = async (id, image) => {
+  const recipesCollection = await getConnection()
+    .then((db) => db.collection('recipes'));
+
+  try {
+    const response = await recipesCollection.updateOne(
+      { _id: id },
+      { $set: { image: `localhost:3000/src/uploads/${image}` } },
+    );
+    if (response) return true;
+    return false;
+  } catch (err) {
+    return err;
+  }
 };
 
 module.exports = {
+  addImage,
   create,
   deleteOne,
   getAll,
