@@ -1,11 +1,24 @@
 const express = require('express');
+const path = require('path');
+const { errorMiddleware } = require('../middlewares');
+const users = require('../controllers/Users');
+const login = require('../controllers/Login');
+const recipe = require('../controllers/Recipes');
 
 const app = express();
 
-// Não remover esse end-point, ele é necessário para o avaliador
+app.use(express.json());
+
 app.get('/', (request, response) => {
   response.send();
 });
-// Não remover esse end-point, ele é necessário para o avaliador
+
+app.use('/images', express.static(path.join(__dirname, '..', 'uploads')));
+
+app.use('/login', login);
+app.use('/users', users);
+app.use('/recipes', recipe);
+
+app.use(errorMiddleware);
 
 module.exports = app;
