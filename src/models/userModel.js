@@ -19,7 +19,14 @@ const signUp = async ({ name, password, email }) => {
     _id: result.insertedId } };
 };
 
+const findUser = async (email) => {
+  const db = await connection();
+  const user = await db.collection('users').findOne({ email });
+  return user;
+};
+
 module.exports = {
   uniqueEmail,
   signUp,
+  findUser,
 };

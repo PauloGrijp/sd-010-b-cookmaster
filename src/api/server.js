@@ -1,6 +1,7 @@
 const bodyParser = require('body-parser');
 const app = require('./app');
 const signUpMiddleware = require('../middlewares/signUpMiddleware');
+const loginMiddleware = require('../middlewares/loginMiddlewares');
 const userController = require('../controllers/userController');
 
 app.use(bodyParser.json());
@@ -14,3 +15,8 @@ signUpMiddleware.validateName,
 signUpMiddleware.validateEmail,
 signUpMiddleware.validatePassword,
 userController.signUp);
+
+app.post('/login',
+loginMiddleware.checkEmailPassword,
+loginMiddleware.validateEmailPassword,
+userController.login);
