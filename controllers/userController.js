@@ -6,7 +6,7 @@ const UserService = require('../services/userService');
 
 const secret = 'MyReallySuperSecretSecret';
 const jwtConfig = {
-  expiresIn: '1h',
+  expiresIn: '1d',
   algorithm: 'HS256',
 };
 
@@ -42,9 +42,10 @@ const login = rescue(async (req, res, _next) => {
 
   const user = await UserService.login(email, password);
   if (!user) return res.status(401).json({ message: 'Incorrect username or password' });
-  console.log(user);
+
   if (user.email === email && user.password === password) {
-    const token = jwt.sign({ data: email }, secret, jwtConfig);
+    const { _id, role } = user;
+    const token = jwt.sign({ id: _id, email, role }, secret, jwtConfig);
     return res.status(200).json({ token });
   }
   return res.status(401).json({ message: 'Incorrect username or password' });
