@@ -6,9 +6,10 @@ const { CREATE } = require('../utils/statusCode');
 
 const users = express.Router();
 
+users.use(usersValidate);
+
 users.post(
   '/',
-  usersValidate,
   rescue(async (req, res, next) => {
     const { name, email, password, role } = req.body;
     const user = await Users.create(name, email, password, role);
