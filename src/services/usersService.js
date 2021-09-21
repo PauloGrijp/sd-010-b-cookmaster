@@ -41,5 +41,6 @@ const authenticate = async (reqBodyEntries) => {
 };
 
 module.exports = {
-  createUser,
+  create,
+  authenticate,
 };
