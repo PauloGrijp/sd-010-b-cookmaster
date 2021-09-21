@@ -1,5 +1,4 @@
 const express = require('express');
-const path = require('path');
 const { errorMiddleware } = require('../middlewares');
 const users = require('../controllers/Users');
 const login = require('../controllers/Login');
@@ -13,8 +12,7 @@ app.get('/', (request, response) => {
   response.send();
 });
 
-app.use('/images', express.static(path.join(__dirname, '..', 'uploads')));
-
+app.use('/images', express.static(`${__dirname}/../uploads`));
 app.use('/login', login);
 app.use('/users', users);
 app.use('/recipes', recipe);
