@@ -68,6 +68,8 @@ app.put(
 
 app.use(Middlewares.recipeError);
 
+app.get('/images/:id.jpeg', Controllers.image.find);
+
 module.exports = app;
 
 // {
