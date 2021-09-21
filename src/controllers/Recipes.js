@@ -9,8 +9,8 @@ const recipes = express.Router();
 recipes.get(
   '/',
   rescue(async (req, res) => {
-    const allRecipes = await Recipes.getAll();
-    return res.status(SUCCESS).json(allRecipes);
+    const fullRecipes = await Recipes.getAll();
+    return res.status(SUCCESS).json(fullRecipes);
   }),
 );
 
