@@ -3,20 +3,17 @@ const connection = require('./connection');
 const USERS = 'users';
 
 const create = async ({ name, email, password }) => {
-  const newUser = {
-    name,
-    email,
-    password,
-    role: 'user',
-  };
+  const role = 'user';
 
   const db = await connection();
-  const { insertedId } = await db.collection(USERS).insertOne(newUser);
+  const { insertedId } = await db.collection(USERS).insertOne({ name, email, password, role });
 
   return {
     user: {
       _id: insertedId,
-      ...newUser,
+      name,
+      email,
+      role,
     },
   };
 };
