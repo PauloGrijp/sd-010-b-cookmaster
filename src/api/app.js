@@ -21,7 +21,7 @@ app.use(Middlewares.userError);
 app.get('/recipes', Controllers.recipe.listRecipes);
 app.post('/recipes', validateJWT, Controllers.recipe.create);
 app.get('/recipes/:id', Controllers.recipe.findRecipe);
-app.put('/recipes/:id', validateJWT, () => {});
+app.put('/recipes/:id', validateJWT, Controllers.recipe.edit);
 
 app.use(Middlewares.recipeError);
 

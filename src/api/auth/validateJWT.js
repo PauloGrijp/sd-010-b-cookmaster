@@ -23,6 +23,7 @@ module.exports = async (req, res, next) => {
     next();
   } catch (err) {
     if (err.message === 'jwt must be provided') { err.message = 'missing auth token'; }
+    
     return res.status(401).json({ message: err.message });
   }
 };

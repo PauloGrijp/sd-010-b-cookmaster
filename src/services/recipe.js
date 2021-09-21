@@ -17,7 +17,7 @@ const listRecipes = async () => {
 
 const findRecipe = async (id) => {
   const validId = ObjectId.isValid(id);
-  
+
   if (!validId) return false;
 
   const recipeFound = await Models.recipe.findRecipe(id);
@@ -25,4 +25,14 @@ const findRecipe = async (id) => {
   return recipeFound;
 };
 
-module.exports = { create, listRecipes, findRecipe };
+const edit = async (id, recipe) => {
+  const validId = ObjectId.isValid(id);
+
+  if (!validId) return false;
+
+  const recipeFound = await Models.recipe.edit(id, recipe);
+
+  return recipeFound;
+};
+
+module.exports = { create, listRecipes, findRecipe, edit };
