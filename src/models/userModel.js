@@ -24,7 +24,6 @@ const findByEmail = async (email) => {
 const findUser = async ({ email, password }) => {
   const userCollection = await mongoConnection.getConnection()
     .then((db) => db.collection('users').findOne({ email, password }));
-
   return userCollection;  
 };
 
