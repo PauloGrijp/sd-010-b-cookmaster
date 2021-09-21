@@ -1,4 +1,3 @@
-const ErrorRequest = require('../helpers/errorRequest');
 const connection = require('./connection');
 
 const users = 'users';
@@ -28,5 +27,6 @@ const validUser = async ({ email, password }) => {
 
 module.exports = {
   existsEmail,
-  createUser,
+  create,
+  validUser,
 };
