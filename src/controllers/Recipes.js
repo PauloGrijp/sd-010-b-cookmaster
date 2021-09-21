@@ -50,8 +50,8 @@ recipes.put(
 recipes.delete(
   '/:id',
   rescue(async (req, res) => {
-    const { id } = req.params;
-    await Recipes.excluse(id);
+    const { id: idRecipe } = req.params;
+    await Recipes.excluse(idRecipe);
     return res.status(NO_CONTENT).json();
   }),
 );
