@@ -21,6 +21,7 @@ app.use('/images', express.static(path.join(__dirname, '..', 'uploads')));
  */
 
 app.post('/users', UserController.createUser);
+app.post('/login', () => console.log('login aqui'));
 
 // Não remover esse end-point, ele é necessário para o avaliador
 app.get('/', (_req, res) => {
