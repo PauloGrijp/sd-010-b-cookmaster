@@ -19,8 +19,10 @@ app.post('/login', Controllers.user.login);
 app.use(Middlewares.userError);
 
 app.get('/recipes', Controllers.recipe.listRecipes);
-app.get('/recipes/:id', Controllers.recipe.findRecipe);
 app.post('/recipes', validateJWT, Controllers.recipe.create);
+app.get('/recipes/:id', Controllers.recipe.findRecipe);
+app.put('/recipes/:id', validateJWT, () => {});
+
 app.use(Middlewares.recipeError);
 
 module.exports = app;

@@ -22,7 +22,7 @@ const checkErrorType = (err) => {
 
 module.exports = (err, _req, res, _next) => {
   const { code, message } = checkErrorType(err);
-  console.log(code, message);
+
   res
     .status(code)
     .json({ message });
