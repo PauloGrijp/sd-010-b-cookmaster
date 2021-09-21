@@ -26,7 +26,22 @@ const createUser = async (name, email, password) => {
       status: 400,
     };
   }
+  const user = await UserModel.findByEmail({ email });
+  if (user) {
+    return {
+      message: 'Email already exists',
+      status: 400,
+    };
+  }
+  const newUser = await UserModel.create({ name, email, password });
+  return {
+    message: 'User created successfully',
+    status: 201,
+    data: newUser,
+  };
+
 };
+
 
 module.exports = {
   createUser,
