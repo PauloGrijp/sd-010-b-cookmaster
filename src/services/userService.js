@@ -16,11 +16,11 @@ const isValidEmail = (email) => {
 };
 
 const create = async ({ name, email, password }) => {
-    // const existingEmail = await usersModel.findByEmail(email);
+    const existingEmail = await usersModel.findByEmail(email);
     if (!existField || !isValidEmail) {
       return { message: 'Invalid entries. Try again' }; 
     }
-    // if (existingEmail) return { message: 'Email already exists' }; 
+    if (existingEmail) return { message: 'Email already exists' }; 
     const { id } = await usersModel.create({ name, email, password });
     return { id, name, password };
 };
