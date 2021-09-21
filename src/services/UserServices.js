@@ -1,9 +1,9 @@
 const UserModel = require('../models/UserModel');
 
-const isValidName = (name) => {
-  if (!name) {
-    return {
-      message: 'Invalid entries. Try again'
-    }
+const requiredFields = (name, email, password) => {
+  if (!name || !email || !password) {
+    return false;
   }
-  
+  return true;
+};
+
