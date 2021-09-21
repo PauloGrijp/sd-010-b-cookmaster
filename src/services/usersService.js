@@ -20,6 +20,12 @@ const create = async (reqBodyEntries) => {
   if (!validateEntries(reqBodyEntries)) {
     throw new ErrorRequest('badRequest', 'Invalid entries. Try again.');
   }
+
+  const registeredEmail = await usersModel.existsEmail(reqBodyEntries.email); 
+  if (registeredEmail) throw new ErrorRequest('conflict', 'Email already registered');
+
+  const userCreated = await usersModel.create(reqBodyEntries);
+  return userCreated;
 };
 
 const createUser = async (reqBodyEntries) => {
