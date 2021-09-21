@@ -1,16 +1,23 @@
 const mongoConnection = require('./connection');
 
 const create = async ({ name, email, password }) => {
-    const productsCollection = await mongoConnection.getConnection()
+    const usersCollection = await mongoConnection.getConnection()
       .then((db) => db.collection('users'));
   
-    const createdProduct = await productsCollection.insertOne({ name, email, password });
+    const createdUser = await usersCollection.insertOne({ name, email, password });
     return {
       name,
       email,
       password,
-      id: createdProduct.insertedId,
+      id: createdUser.insertedId,
     };
   };
 
-  module.exports = { create };
+const findByEmail = async (email) => {
+  const userCollection = await mongoConnection.getConnection()
+    .then((db) => db.collection('users').findOne({ email }));
+
+  return userCollection;  
+};
+
+  module.exports = { create, findByEmail };
