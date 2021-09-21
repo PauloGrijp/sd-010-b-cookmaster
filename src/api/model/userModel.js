@@ -25,7 +25,17 @@ const createUser = async ({ name, email, password }) => {
   };
 };
 
+const login = async ({ email, password }) => {
+  const Cookmaster = await connection();
+  const user = await Cookmaster.collection('users');
+
+  const query = { email, password };
+  const result = await user.findOne(query);
+  return result === null;
+};
+
 module.exports = {
   createUser,
   findByEmail,
+  login,
 };

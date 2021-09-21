@@ -1,4 +1,12 @@
+const jwt = require('jsonwebtoken');
 const userService = require('../service/userService');
+
+const secret = 'minhaSenha';
+
+const jwtConfig = {
+  expiresIn: '7d',
+  algorithm: 'HS256',
+};
 
 const createUser = async (req, res) => {
   const { name, email, password } = req.body;
@@ -17,6 +25,28 @@ const createUser = async (req, res) => {
   res.status(201).json({ user });
 };
 
+const login = async (req, res) => {
+  const { email, password } = req.body;
+  const user = await userService.login({ email, password });
+  const { _id, role } = user;
+  const payload = { _id, role, email };
+
+  console.log(user);
+
+  if (user === 'emailOrPassWrong') {
+    return res.status(401).json({ message: 'All fields must be filled' });
+  }
+
+  if (user) {
+    return res.status(401).json({ message: 'Incorrect username or password' });
+  }
+
+  const token = jwt.sign(payload, secret, jwtConfig);
+
+  return res.status(200).json(token);
+};
+
 module.exports = {
   createUser,
+  login,
 };

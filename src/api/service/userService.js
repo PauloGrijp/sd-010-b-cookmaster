@@ -19,6 +19,22 @@ const createUser = async ({ name, email, password }) => {
   return user;
 };
 
+const login = async ({ email, password }) => {
+  const user = await userModel.login({ email, password });
+
+  const { error } = Joi.object({
+    email: Joi.string().email().required(),
+    password: Joi.string().required(),
+  }).validate({ email, password });
+
+  if (error) return 'emailOrPassWrong';
+
+  console.log(user);
+
+  return user;
+};
+
 module.exports = {
   createUser,
+  login,
 };
