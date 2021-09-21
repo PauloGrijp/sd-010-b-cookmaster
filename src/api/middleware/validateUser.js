@@ -43,7 +43,7 @@ const validateUserInDB = async (req, res, next) => {
 
   const user = await getUserByEmail(email);
 
-  if (!user || user.email !== email || user.password !== password) {
+  if (!user || user.password !== password) {
     return res.status(401).json({ message: 'Incorrect username or password' });
   }
 
