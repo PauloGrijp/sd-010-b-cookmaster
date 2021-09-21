@@ -1,6 +1,6 @@
 const { getUserByEmail } = require('../models/userModel');
 const { ApiError } = require('../utils/ApiError');
-const { getRecipeData } = require('../models/recipeModel');
+// const { getRecipeData } = require('../models/recipeModel');
 
 const verifyEmail = (email) => {
     const pattern = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
@@ -46,15 +46,15 @@ const checkOwnerOrAdmin = (recipeId = '', idUser, role) => {
   return false;
 };
 
-const checkIfRecipeExists = async (idRecipe, idUser, role) => {
-  const recipe = await getRecipeData(idRecipe);
-  if (!recipe) throw new ApiError('There is no recipe with this id', null, 404);
-  const checkCredentials = await checkOwnerOrAdmin(recipe.userId, idUser, role);
-  if (!checkCredentials) {
-    throw new ApiError('you do not have permission for this action!', null, 404);
-  }
-  return recipe;
-};
+// const checkIfRecipeExists = async (idRecipe, idUser, role) => {
+//   // const recipe = await getRecipeData(idRecipe);
+//   if (!recipe) throw new ApiError('There is no recipe with this id', null, 404);
+//   const checkCredentials = await checkOwnerOrAdmin(recipe.userId, idUser, role);
+//   if (!checkCredentials) {
+//     throw new ApiError('you do not have permission for this action!', null, 404);
+//   }
+//   return recipe;
+// };
 
 module.exports = {
   validateUser,
@@ -63,5 +63,5 @@ module.exports = {
   validateId,
   checkOwnerOrAdmin,
   checkRecipe,
-  checkIfRecipeExists,
+  // checkIfRecipeExists,
 };

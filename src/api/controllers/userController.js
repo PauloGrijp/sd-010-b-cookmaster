@@ -1,5 +1,6 @@
-const { createUser, createAdminUser } = require('../service/userService');
+const { createUser } = require('../service/userService');
 const catchAsync = require('../utils/catchAsync');
+// createAdminUser
 
 const create = catchAsync(async (req, res) => {
   const user = await createUser(req.body);
