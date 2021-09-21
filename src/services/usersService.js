@@ -28,12 +28,17 @@ const create = async (reqBodyEntries) => {
   return userCreated;
 };
 
-const createUser = async (reqBodyEntries) => {
-  validateEntries(reqBodyEntries);
-  await usersModel.existsEmail(reqBodyEntries.email);
-  const userCreated = await usersModel.createUser(reqBodyEntries);
-  return userCreated;
-}; 
+const authenticate = async (reqBodyEntries) => {
+  if (existsBlanksValues(reqBodyEntries)) {
+    throw new ErrorRequest('unauthorized', 'All fields must be filled');
+  }
+
+  const user = await usersModel.validUser(reqBodyEntries);
+  if (!user) throw new ErrorRequest('unauthorized', 'Incorrect username or password');
+
+  const tokenCreated = tokenService.createToken(user);
+  return tokenCreated;
+};
 
 module.exports = {
   createUser,
