@@ -1,6 +1,7 @@
 const usersService = require('../Service/usersService');
 
 const getAll = async (req, res) => {
+    console.log('getALL');
     try {
         const users = await usersService.getAll();
         return res.status(201).json(users);
