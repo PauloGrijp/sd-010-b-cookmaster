@@ -1,10 +1,10 @@
 const statusCode = require('http-status-codes');
 const userService = require('../services/userService');
+/* const userModel = require('../models/userModel'); */
 
 const create = async (req, res) => {
-	const { name, email, password } = req.body;
-    const role = 'user';
-	const user = await userService.create({ name, email, password });
+	const { name, email, password, role } = req.body;
+	const user = await userService.create({ name, email, password, role });
 	const { id } = user;
 
 	if (user.message === 'Invalid entries. Try again') {
@@ -12,11 +12,13 @@ const create = async (req, res) => {
 			{ message: user.message },
 		);
 	} 
-        res.status(statusCode.CONFLICT).json(
+    if (user.message === 'Email already exists') {
+        return res.status(statusCode.CONFLICT).json(
 			{ message: user.message },
 		);
+    }
     
-	return res.status(statusCode.CREATED).json({ user: { name, email, role, _id: id } });
+	return res.status(statusCode.CREATED).json({ user: { name, email, role: 'user', _id: id } });
 };
 
 module.exports = { create };
