@@ -22,6 +22,8 @@ app.post('/recipes', auth, RecipesController.create);
 
 app.get('/recipes/:id', RecipesController.getOne);
 
+app.put('/recipes/:id', auth, RecipesController.updateOne);
+
 app.get('/recipes', RecipesController.getAll);
 
 app.post('/users', UserController.create);

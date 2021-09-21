@@ -12,18 +12,19 @@ const create = rescue(async (req, res, next) => {
   }).validate(req.body);
 
   if (error) return res.status(400).json({ message: 'Invalid entries. Try again.' });
+  const { userId } = res;
 
-  const newRecipe = await RecipesService.create(name, ingredients, preparation);
+  const newRecipe = await RecipesService.create(name, ingredients, preparation, userId);
   if (newRecipe.err) return next(newRecipe.err);
+  console.log(newRecipe);
   return res.status(201).json({
     recipe: {
       ...newRecipe,
-      userId: res.id,
     },
   });
 });
 
-const getAll = rescue(async (rec, res, _next) => {
+const getAll = rescue(async (_req, res, _next) => {
   const allRecipes = await RecipesService.getAll();
   return res.status(200).json(allRecipes);
 });
@@ -38,8 +39,24 @@ const getOne = rescue(async (req, res, _next) => {
   return res.status(200).json(response);
 });
 
+const updateOne = rescue(async (req, res, _next) => {
+  const { id } = req.params;
+  const { role, userId } = res;
+  const { name, ingredients, preparation } = req.body;
+
+  const recipe = await RecipesService.getOne(id);
+  console.log(recipe);
+
+  if (userId === recipe.userId || role === 'admin') {
+    await RecipesService.updateOne(id, name, ingredients, preparation);
+    return res.status(200).json({ _id: id, name, ingredients, preparation, userId });
+  }
+  return res.status(401).json({ message: 'not authorized to edit this recipe' });
+});
+
 module.exports = {
   create,
   getAll,
   getOne,
+  updateOne,
 };
