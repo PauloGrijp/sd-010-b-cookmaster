@@ -16,12 +16,12 @@ const INTERNAL_SERVER_ERROR_CODE = 500;
 // };
 
 module.exports = (err, _req, res, _next) => {
-  if (err.isJoi) {
+  if (err.invalidEntries) {
     return res.status(400).json({ message: 'Invalid entries. Try again.' });
   }
   
-  if (err.emailError) {
-    return res.status(409).json(err.emailError);
+  if (err.emailExists) {
+    return res.status(409).json({ message: 'Email already registered' });
   }
 
   res
