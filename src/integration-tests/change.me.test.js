@@ -59,46 +59,4 @@ describe('Testa rota GET /recipes', () => {
     });
 
 	});
-
-  describe.skip('Testa getRecipeById', () => {
-		const newRecipe = [
-			{
-				name: 'beijinho',
-				ingredients: 'leite em pós, leite condensado, açúcar e cravo',
-				preparation: 'misture o leite em pós com o leite condensado e faça bolinhas. passe no açúcar e coloque um cravo por cima',
-			},
-		];
-	
-    let response;
-		const DBServer = new MongoMemoryServer();
-
-		let connectionMock;
-
-		before(async () => {
-      const URLMock = await DBServer.getUri();
-      connectionMock = await MongoClient.connect(URLMock, { useNewUrlParser: true, useUnifiedTopology: true });
-      sinon.stub(MongoClient, 'connect').resolves(connectionMock);
-
-			await connectionMock.db('Cookmaster').collection('recipes').insertOne(newRecipe);
-      recipes = await chai.request(server).get('/recipes');
-      response = await chai.request(server).get(`/recipes/${recipes.body[0]._id}`);
-		});
-
-		after(async () => {
-      await connectionMock.db('Cookmaster').collection('recipes').deleteMany({});
-			MongoClient.connect.restore();
-    });
-
-    it('retorna código status "200"', () => {
-      expect(response).to.have.status(200);
-    })
-
-    it('retorna um array', () => {
-    	expect(response.body).to.be.an('array')
-    })
-
-    it('a receita possui a seguinte chave', () => {
-      expect(response.body[0]).to.have.keys('_id', 'name', 'ingredients', 'preparation');
-    });		
-  });
 })
