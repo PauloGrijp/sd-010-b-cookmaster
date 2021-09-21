@@ -45,7 +45,7 @@ const validateLoginInput = async (email, password) => {
 const validateLogin = async (email, password) => {
   const userData = await model.findByEmail(email);
   if (userData.password !== password) {
-    return { status: badLoginStatus, err: { message: `${errors.incorrectLogin} AQUI` } };
+    return { status: badLoginStatus, err: { message: errors.incorrectLogin } };
   }
   return userData;
 };
