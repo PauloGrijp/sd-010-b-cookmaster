@@ -12,6 +12,12 @@ const validateCreate = (body) => {
   return error;
 };
 
+const listRecipes = rescue(async (_req, res, _next) => {
+  const recipeList = await Services.recipe.listRecipes();
+
+  res.status(200).json(recipeList);
+});
+
 const create = rescue(async (req, res, next) => {
   const recipe = req.body;
   const { userId } = req;
@@ -21,8 +27,8 @@ const create = rescue(async (req, res, next) => {
   if (entriesError) return next({ invalidEntries: true });
 
   const recipeCreate = await Services.recipe.create(recipe, userId);
-  
+
   res.status(201).json({ recipe: recipeCreate });
 });
 
-module.exports = { create };
+module.exports = { create, listRecipes };

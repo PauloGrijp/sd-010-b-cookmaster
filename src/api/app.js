@@ -16,6 +16,7 @@ app.get('/', (_req, res) => {
 app.post('/users', Controllers.user.create);
 app.post('/login', Controllers.user.login);
 
+app.get('/recipes', Controllers.recipe.listRecipes);
 app.post('/recipes', validateJWT, Controllers.recipe.create);
 
 app.use(Middlewares.error);

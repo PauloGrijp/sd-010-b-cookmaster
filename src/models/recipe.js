@@ -7,4 +7,11 @@ const create = async (recipe) => {
   return recipeAdd.ops[0];
 };
 
-module.exports = { create };
+const listRecipes = async () => {
+  const db = await connection();
+  const recipeList = await db.collection('recipes').find().toArray();
+
+  return recipeList;
+};
+
+module.exports = { create, listRecipes };

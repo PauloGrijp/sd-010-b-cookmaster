@@ -7,4 +7,10 @@ const create = async (recipeData, userId) => {
   return recipeCreate;
 };
 
-module.exports = { create };
+const listRecipes = async () => {
+  const recipeList = await Models.recipe.listRecipes();
+
+  return recipeList;
+};
+
+module.exports = { create, listRecipes };
