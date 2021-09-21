@@ -6,7 +6,7 @@ const { MongoClient } = require('mongodb');
  const MONGO_DB_URL = 'mongodb://localhost:27017/StoreManager';
 const DB_NAME = 'Cookmaster';
 
-const getConnection = () => MongoClient
+const connection = () => MongoClient
     .connect(MONGO_DB_URL, {
       // urlNewParser: true,
       useUnifiedTopology: true,
@@ -18,5 +18,5 @@ const getConnection = () => MongoClient
     });
 
 module.exports = {
-  getConnection,
+  connection,
 };

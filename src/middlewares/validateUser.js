@@ -2,12 +2,12 @@ let err;
 const statusError = 400;
 
 const validateInput = (req, res, next) => {
-    const { name, email, password } = req.params;
+    const { name, email, password } = req.body;
     if (!name || !email || !password ) {
         err = { message: 'Invalid entries. Try again.' }
       return res.status(statusError).json(err);
     }
-    next();
+    next()
   };
 
 module.exports = { validateInput }
