@@ -70,6 +70,7 @@ const addImage = rescue(async (req, res, next) => {
   const { role, userId } = res;
 
   const recipe = await RecipesService.getOne(id);
+  if (!recipe) return res.status(400).json({ message: 'recipe not found' });
 
   if (userId === recipe.userId || role === 'admin') {
     await RecipesService.addImage(id, `${id}.jpeg`);
