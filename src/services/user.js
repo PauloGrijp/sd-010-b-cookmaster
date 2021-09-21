@@ -1,7 +1,13 @@
 const Models = require('../models');
 
-const returnUser = (user) => {
+const returnUserCreated = (user) => {
   const { password, ...newUser } = user; // https://stackoverflow.com/questions/208105/how-do-i-remove-a-property-from-a-javascript-object
+
+  return newUser;
+};
+
+const returnUserLogin = (user) => {
+  const { password, name, ...newUser } = user; // https://stackoverflow.com/questions/208105/how-do-i-remove-a-property-from-a-javascript-object
 
   return newUser;
 };
@@ -13,7 +19,7 @@ const create = async (user) => {
 
   const userCreate = await Models.user.create({ ...user, role: 'user' });
 
-  return returnUser(userCreate);
+  return returnUserCreated(userCreate);
 };
 
 const login = async (user) => {
@@ -21,7 +27,7 @@ const login = async (user) => {
 
   if (!search || search.password !== user.password) return false;
 
-  return true;
+  return returnUserLogin(search);
 };
 
 module.exports = { create, login };

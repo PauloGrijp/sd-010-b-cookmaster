@@ -1,6 +1,15 @@
 const rescue = require('express-rescue');
 const Joi = require('joi');
+const jwt = require('jsonwebtoken');
+
 const Services = require('../services');
+
+const secret = 'cookmaster';
+
+const jwtConfig = {
+  expiresIn: '7d',
+  algorithm: 'HS256',
+};
 
 const validateCreate = (body) => {
   const { error } = Joi.object({
@@ -40,12 +49,14 @@ const login = rescue(async (req, res, next) => {
   const fieldsRequiredError = validateLoginRequired(user);
 
   if (fieldsRequiredError) return next({ fieldsRequired: true });
-  
+
   const userLogged = await Services.user.login(user);
 
   if (!userLogged) return next({ incorrectUserInfo: true });
-  
-  res.status(201).json('ok');
+
+  const token = jwt.sign(userLogged, secret, jwtConfig);
+
+  res.status(200).json({ token });
 });
 
 module.exports = { create, login };
