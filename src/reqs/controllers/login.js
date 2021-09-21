@@ -3,7 +3,7 @@ const { loginService } = require('../services/loginService');
 
 const secret = 'secreto';
 const jwtConfig = {
-  expiresIn: '15m',
+  expiresIn: '7d',
   algorithm: 'HS256',
 };
 
@@ -15,7 +15,7 @@ const tryLogin = async (req, res) => {
   }
   const { _id, name, role } = user;
   const token = jwt.sign({ _id, name, email, role }, secret, jwtConfig);
-  return res.status(200).json(token);
+  return res.status(200).json({ token });
 };
 
 module.exports = { tryLogin };
