@@ -56,4 +56,15 @@ const edit = rescue(async (req, res, next) => {
   res.status(200).json(recipeEdited);
 });
 
-module.exports = { create, listRecipes, findRecipe, edit };
+const exclude = rescue(async (req, res, next) => {
+  const { id } = req.params;
+  const { userId } = req;
+
+  const recipeDeleted = await Services.recipe.exclude(id, userId);
+
+  if (!recipeDeleted) next({ notFound: true });
+
+  res.status(204).json();
+});
+
+module.exports = { create, listRecipes, findRecipe, edit, exclude };

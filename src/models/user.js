@@ -1,8 +1,16 @@
+const { ObjectId } = require('mongodb');
 const connection = require('./connection');
 
 const findByEmail = async (email) => {
   const db = await connection();
   const userFound = await db.collection('users').findOne({ email });
+
+  return userFound;
+};
+
+const findById = async (id) => {
+  const db = await connection();
+  const userFound = await db.collection('users').findOne(ObjectId(id));
 
   return userFound;
 };
@@ -14,4 +22,4 @@ const create = async (user) => {
   return userAdd.ops[0];
 };
 
-module.exports = { findByEmail, create };
+module.exports = { findByEmail, findById, create };

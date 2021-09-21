@@ -35,4 +35,23 @@ const edit = async (id, recipe) => {
   return recipeFound;
 };
 
-module.exports = { create, listRecipes, findRecipe, edit };
+const exclude = async (recipeId, userId) => {
+  const validRecipeId = ObjectId.isValid(recipeId);
+  const validUserId = ObjectId.isValid(userId);
+
+  if (!validRecipeId || !validUserId) return false;
+  
+  const { _id, role } = await Models.user.findById(userId);
+  const recipe = await Models.recipe.findRecipe(recipeId);
+
+  if (
+    ObjectId(_id).toString() !== ObjectId(recipe.userId).toString()
+    && role !== 'admin'
+  ) return false; 
+
+  const recipeDeleted = await Models.recipe.exclude(recipeId);
+
+  return recipeDeleted;
+};
+
+module.exports = { create, listRecipes, findRecipe, edit, exclude };
