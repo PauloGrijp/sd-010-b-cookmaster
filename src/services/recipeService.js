@@ -7,13 +7,13 @@ const existField = (name, ingredients, preparation) => {
     return true;
 };
 
-const create = async ({ name, ingredients, preparation }, email) => {
+const create = async ({ name, ingredients, preparation }) => {
     const existFields = existField(name, ingredients, preparation);
     if (!existFields) {
       return { message: 'Invalid entries. Try again.' }; 
     }
-    const { id } = await recipesModel.create({ name, ingredients, preparation }, email);
-    return { id, name, ingredients, preparation };
+    const { id, _id } = await recipesModel.create({ name, ingredients, preparation });
+    return { id, name, ingredients, preparation, _id };
 };
 
 module.exports = { create };

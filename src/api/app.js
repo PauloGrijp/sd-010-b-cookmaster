@@ -4,6 +4,7 @@ const path = require('path');
 const userController = require('../controllers/userController');
 const loginController = require('../controllers/loginController');
 const recipesController = require('../controllers/recipeController');
+const validateJWT = require('../middlewares/validateJWT');
 
 const app = express();
 app.use('/images', express.static(path.join(__dirname, '..', 'uploads')));
@@ -15,6 +16,6 @@ app.get('/', (request, response) => {
 // Não remover esse end-point, ele é necessário para o avaliador
 app.post('/users', userController.create);
 app.post('/login', loginController.login);
-app.post('/recipes', recipesController.create);
+app.post('/recipes', validateJWT, recipesController.create);
 
 module.exports = app;

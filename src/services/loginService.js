@@ -26,7 +26,7 @@ const existPassword = (loginUser, passUser) => {
 };
 
 const login = async ({ email, password }) => {
-    console.log(password);
+    /* console.log(password); */
     const fieldsExists = existField(email, password);
     const validEmail = isValidEmail(email);
     if (!fieldsExists) {
@@ -37,7 +37,7 @@ const login = async ({ email, password }) => {
     }
 
     const loginUser = await usersModel.findUser({ email, password });
-    console.log(loginUser);
+    /* console.log(loginUser); */
    /*  if (!loginUser.password) {
         return { message: 'Incorret username or password' }; 
     } */
