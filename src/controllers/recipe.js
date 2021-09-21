@@ -67,4 +67,14 @@ const exclude = rescue(async (req, res, next) => {
   res.status(204).json();
 });
 
-module.exports = { create, listRecipes, findRecipe, edit, exclude };
+const addImage = rescue(async (req, res, _next) => {
+  const { filename } = req.file;
+  const { id } = req.params;
+  const { userId } = req;
+console.log(req.file);
+  const recipeUpdate = await Services.recipe.addImage(id, userId, filename);
+
+  res.status(200).json(recipeUpdate);
+});
+
+module.exports = { create, listRecipes, findRecipe, edit, exclude, addImage };
