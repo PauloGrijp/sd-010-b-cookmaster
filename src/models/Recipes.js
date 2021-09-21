@@ -46,9 +46,34 @@ const update = async (id, userId, { name, ingredients, preparation }) => {
   };
 };
 
+const exclude = async (id) => {
+  if (!ObjectId.isValid(id)) return null;
+
+  const db = await connection.getConnection();
+  const recipe = await db.collection('recipes').deleteOne({ _id: ObjectId(id) });
+
+  return recipe;
+};
+
+const insertImage = async (id, image) => {
+  if (!ObjectId.isValid(id)) return null;
+
+  const db = await connection.getConnection();
+
+  await db.collection('recipes')
+    .updateOne({ _id: ObjectId(id) }, { $set: { image } });
+
+  const recipe = await db.collection('recipes')
+    .findOne({ _id: ObjectId(id) });
+
+  return recipe;
+};
+
 module.exports = {
   create,
   getAll,
   findById,
   update,
+  exclude,
+  insertImage,
 };
