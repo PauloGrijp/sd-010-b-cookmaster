@@ -5,7 +5,7 @@ const validateEmail = async (email) => {
   if (!email || !emailRegex.test(email)) {
     return null;
   }
-return true;
+  return true;
 };
 
 const emailExistance = async (email) => {

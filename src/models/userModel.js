@@ -1,3 +1,4 @@
+// const { ObjectId } = require('mongodb');
 const connection = require('./connection');
 
 const findEmail = async (email) => {
@@ -7,8 +8,11 @@ const findEmail = async (email) => {
 };
 
 const createUser = async (userData) => {
+  const { name, email, password } = userData;
+  const role = 'user';
   const db = await connection();
-  const newUser = await db.collection('users').insertOne(userData);
+  const newUser = await db.collection('users').insertOne({ name, email, password, role });
+  delete newUser.ops[0].password; // remove a senha para não ser exibida no front
 
 return newUser.ops[0];
 };

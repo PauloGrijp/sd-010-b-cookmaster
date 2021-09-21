@@ -8,7 +8,7 @@ const verifyName = (req, res, next) => {
 
 const verifyEmail = async (req, res, next) => {
   const { email } = req.body;
-  const validEmail = userService.validateEmail(email);
+  const validEmail = await userService.validateEmail(email);
   if (!validEmail) { 
     return res.status(400).json({ message: 'Invalid entries. Try again.' }); 
 }
@@ -28,7 +28,7 @@ const verifyPassword = (req, res, next) => {
 const createUser = async (req, res) => {
   const { name, email, password } = req.body;
   const result = await userService.createUser({ name, email, password });
-  return res.status(200).json({ user: result });
+  return res.status(201).json({ user: result });
 };
 
 module.exports = { 
