@@ -13,8 +13,10 @@ app.get('/', (request, response) => {
 
 const users = require('../routers/usersRouter');
 const login = require('../routers/loginRouter');
+const recipes = require('../routers/recipesRouter');
 
 app.use('/users', users);
 app.use('/login', login);
+app.use('/recipes', recipes);
 
 module.exports = app;
