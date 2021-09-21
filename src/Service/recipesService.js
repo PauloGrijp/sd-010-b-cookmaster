@@ -5,6 +5,10 @@ const getAll = async () => {
     const users = await recipesModel.getAll();
     return users;
 };
+const getById = async (id) => {
+    const recipe = await recipesModel.getById(id);
+    return recipe;
+};
 
 const createRecipe = async (recipe, id) => {
     console.log(recipe, id);
@@ -15,4 +19,4 @@ const createRecipe = async (recipe, id) => {
     return response;
 };
 
-module.exports = { createRecipe, getAll };
+module.exports = { createRecipe, getAll, getById };

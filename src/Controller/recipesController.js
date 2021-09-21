@@ -9,6 +9,19 @@ const getAll = async (req, res) => {
     }
 };
 
+const getById = async (req, res) => {
+    const { id } = req.params;
+    try {
+        if (id.length < 24) {
+            return res.status(404).json({ message: 'recipe not found' });
+        }
+        const recipe = await recipesService.getById(id);
+        return res.status(200).json(recipe);
+    } catch (error) {
+        return res.status(500).json({ message: 'Ops, algo de errado :( ' });
+    }
+};
+
 const createRecipe = async (req, res) => {
     try {
         const { users: { _id } } = req.user;
@@ -23,4 +36,4 @@ const createRecipe = async (req, res) => {
         return res.status(500).json({ message: 'Ops, algo de errado :( ' });
     }
 };
-module.exports = { createRecipe, getAll };
+module.exports = { createRecipe, getAll, getById };
