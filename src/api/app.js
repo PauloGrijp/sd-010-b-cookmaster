@@ -8,4 +8,8 @@ app.get('/', (request, response) => {
 });
 // Não remover esse end-point, ele é necessário para o avaliador
 
+const users = require('../routers/usersRouter');
+
+app.use('/users', users);
+
 module.exports = app;
