@@ -5,7 +5,7 @@ const routerUsers = require('../routers/userRouters');
 const app = express();
 app.use(bodyParser.json());
 
-app.use('/users');
+app.use('/users', routerUsers);
 
 // Não remover esse end-point, ele é necessário para o avaliador
 app.get('/', (request, response) => {
