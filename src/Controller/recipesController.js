@@ -1,5 +1,14 @@
 const recipesService = require('../Service/recipesService');
 
+const getAll = async (req, res) => {
+    try {
+        const users = await recipesService.getAll();
+        return res.status(200).json(users);
+    } catch (error) {
+        return res.status(500).json({ message: 'Ops, algo de errado :( ' });
+    }
+};
+
 const createRecipe = async (req, res) => {
     try {
         const { users: { _id } } = req.user;
@@ -14,4 +23,4 @@ const createRecipe = async (req, res) => {
         return res.status(500).json({ message: 'Ops, algo de errado :( ' });
     }
 };
-module.exports = { createRecipe };
+module.exports = { createRecipe, getAll };

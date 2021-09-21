@@ -1,6 +1,11 @@
 const recipesModel = require('../Model/recipesModel');
 const validations = require('../validations/validations');
 
+const getAll = async () => {
+    const users = await recipesModel.getAll();
+    return users;
+};
+
 const createRecipe = async (recipe, id) => {
     console.log(recipe, id);
     const infosRecipe = validations.infosRecipe(recipe);
@@ -10,4 +15,4 @@ const createRecipe = async (recipe, id) => {
     return response;
 };
 
-module.exports = { createRecipe };
+module.exports = { createRecipe, getAll };
