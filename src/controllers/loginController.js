@@ -29,7 +29,7 @@ const user = await loginService.findUser({ email, password });
 if (!user) { return res.status(401).json({ message: 'Incorrect username or password' }); }
 delete user.password;
 const token = jwt.sign({ data: user }, secret, jwtConfiguration);
-return res.status(200).json(token);
+return res.status(200).json({ token });
 };
 
 module.exports = {

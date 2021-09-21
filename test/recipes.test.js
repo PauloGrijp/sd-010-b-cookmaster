@@ -152,7 +152,7 @@ describe('3 - Crie um endpoint para o cadastro de receitas', () => {
       });
   });
 
-  it.only('Será validado que é possível cadastrar uma receita com sucesso', async () => {
+  it('Será validado que é possível cadastrar uma receita com sucesso', async () => {
     await frisby
       .post(`${url}/login/`, {
         email: 'erickjacquin@gmail.com',

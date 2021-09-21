@@ -7,8 +7,8 @@ const recipesController = require('../controllers/recipesController');
 const validateJWT = require('../middlewares/validateJWT');
 
 router.post('/',
-recipesController.verifyRecipe,
 validateJWT,
+recipesController.verifyRecipe,
 recipesController.createRecipe);
 
 module.exports = router;
