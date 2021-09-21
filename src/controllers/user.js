@@ -5,7 +5,8 @@ const Services = require('../services');
 const create = rescue(async (req, res, next) => {
   const { error } = Joi.object({
     name: Joi.string().not().empty().required(),
-    email: Joi.string().not().empty().required(),
+    email: Joi.string().email().not().empty()
+.required(),
     password: Joi.string().not().empty().required(),
   }).validate(req.body);
 
@@ -14,7 +15,9 @@ const create = rescue(async (req, res, next) => {
   const user = { ...req.body, role: 'user' };
   const userCreate = await Services.user.create(user);
 
-  res.status(200).json(userCreate);
+  if (userCreate.emailError) return next(userCreate);
+
+  res.status(201).json({ user: userCreate });
 });
 
 module.exports = { create };

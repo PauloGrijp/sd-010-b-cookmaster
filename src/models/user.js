@@ -1,12 +1,18 @@
 const connection = require('./connection');
 
+const findByEmail = async (email) => {
+  const db = await connection();
+  const userFound = await db.collection('users').findOne({ email }, {});
+
+  return userFound;
+};
+
 const create = async (user) => {
   const db = await connection();
-  const userAdd = await db
-    .collection('users')
-    .insertOne(user);
+  const userAdd = await db.collection('users').insertOne(user);
 
+  console.log(userAdd.ops[0]);
   return userAdd.ops[0];
 };
 
-module.exports = { create };
+module.exports = { findByEmail, create };
