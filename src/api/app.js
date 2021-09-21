@@ -16,11 +16,12 @@ app.get('/', (_req, res) => {
 app.post('/users', Controllers.user.create);
 app.post('/login', Controllers.user.login);
 
+app.use(Middlewares.userError);
+
 app.get('/recipes', Controllers.recipe.listRecipes);
 app.get('/recipes/:id', Controllers.recipe.findRecipe);
 app.post('/recipes', validateJWT, Controllers.recipe.create);
-
-app.use(Middlewares.userError);
+app.use(Middlewares.recipeError);
 
 module.exports = app;
 

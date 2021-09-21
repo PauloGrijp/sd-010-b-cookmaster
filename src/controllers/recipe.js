@@ -31,13 +31,15 @@ const create = rescue(async (req, res, next) => {
   res.status(201).json({ recipe: recipeCreate });
 });
 
-const findRecipe = rescue(async (req, res, _next) => {
+const findRecipe = rescue(async (req, res, next) => {
   const { id } = req.params;
-  
+
   const recipeFound = await Services.recipe.findRecipe(id);
 
-  if (!recipeFound) return res.status(404).json({ message: 'recipe not found' });
-  
+  if (!recipeFound) {
+    return next({ notFound: true });
+  }
+
   res.status(200).json(recipeFound);
 });
 

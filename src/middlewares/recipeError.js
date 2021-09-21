@@ -6,8 +6,8 @@ const checkErrorType = (err) => {
     case err.invalidEntries:
       return { code: 400, message: 'Invalid entries. Try again.' };
 
-    case err.emailExists:
-      return { code: 409, message: 'Email already registered' };
+    case err.notFound:
+      return { code: 404, message: 'recipe not found' };
 
     case err.fieldsRequired:
       return { code: 401, message: 'All fields must be filled' };
@@ -22,7 +22,7 @@ const checkErrorType = (err) => {
 
 module.exports = (err, _req, res, _next) => {
   const { code, message } = checkErrorType(err);
-  console.log(code, message);
+
   res
     .status(code)
     .json({ message });
