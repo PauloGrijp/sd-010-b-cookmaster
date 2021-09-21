@@ -8,7 +8,7 @@ const existField = (name, email, password) => {
 };
 const isValidEmail = (email) => {
     const regexEmail = /^[\w-.]+@([\w-]+.)+[\w-]{2,4}$/;
-    if (!email.match(regexEmail)) {
+    if (!regexEmail.test(email)) {
         return false;
     }
     return true;
@@ -19,11 +19,11 @@ const create = async ({ name, email, password, role }) => {
     const validEmail = isValidEmail(email);
     const existingEmail = await usersModel.findByEmail(email);
     if (!existFields || !validEmail) {
-      return { message: 'Invalid entries. Try again' }; 
+      return { message: 'Invalid entries. Try again.' }; 
     }
-    if (existingEmail) return { message: 'Email already exists' }; 
+    if (existingEmail) return { message: 'Email already registered' }; 
     const { id } = await usersModel.create({ name, email, password, role });
-    return { id, name, password, role };
+    return { id, name, email, password, role };
 };
 
 module.exports = { create };
