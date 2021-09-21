@@ -6,8 +6,7 @@ const users = 'users';
 const existsEmail = async (email) => {
   const db = await connection();
   const result = await db.collection(users).findOne({ email });
-  if (result) throw new ErrorRequest('conflict', 'Email already registered');
-  return false;
+  return !!(result);
 };
 
 const createUser = async ({ name, email, password }) => {
