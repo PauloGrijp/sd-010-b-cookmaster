@@ -1,87 +1,104 @@
 const sinon = require('sinon');
 const chai = require('chai');
 const chaiHttp = require('chai-http');
-
-chai.use(chaiHttp);
-const { expect } = chai;
+const server = require('../api/app');
 const { MongoClient } = require('mongodb');
-const { getConnection } = require('mongodb-memory-server')
-const server = require('./api/app');
+const { MongoMemoryServer } = require('mongodb-memory-server');
+const { expect } = chai;
+chai.use(chaiHttp);
 
-describe('GET /api/posts', () => {
+describe('Testa rota GET /recipes', () => {
+  const newRecipes = [
+    {
+      name: 'arroz',
+      ingredients: 'arroz, água e tompero',
+      preparation: 'torrar o arroz, colocar tompero, colocar água até tampar o arroz e cozinhar',
+    },
+    {
+      name: 'macarrão',
+      ingredients: 'macarrão, água e sal',
+      preparation: 'cozinhar o macarrão na água com sal',
+    },
+  ];
 
-    let connectionMock;
+  describe('Testa listRecipes', () => {
+    let response;
+    const DBServer = new MongoMemoryServer();
+
+		let connectionMock;
 
     before(async () => {
-        connectionMock = await getConnection();
-        sinon.stub(MongoClient, 'connect').resolves(connectionMock);
-    })
+      const URLMock = await DBServer.getUri();
+      connectionMock = await MongoClient.connect(URLMock, { useNewUrlParser: true, useUnifiedTopology: true });
+      sinon.stub(MongoClient, 'connect').resolves(connectionMock);
 
-    after(() => {
-        MongoClient.connect.restore();
-    })
-
-    describe('Quando não é passado um JWT para autenticação', () => {
-        let response;
-        before(async () => {
-            response = await chai.request(server).get('/api/posts').set('authorization', '');
-        })
-
-        it('retornar código status "401"', () => {
-            expect(response).to.have.status(401);
-        })
-
-        it('retorna um objeto no body', () => {
-            expect(response.body).to.be.an('object');
-        })
-
-        it('objeto de resposta possui a propriedade "error"', () => {
-            expect(response.body).to.have.property('error');
-        });
-
-        it('a propriedade "error" possui a mensagem "Token não encontrado ou informado"', () => {
-            expect(response.body.error).to.be.equal('Token não encontrado ou informado');
-        });
-
+      await connectionMock.db('Cookmaster').collection('recipes').insertMany(newRecipes);
+      response = await chai.request(server).get('/recipes');
     });
 
-    describe('Quando os posts são buscados com sucesso', () => {
+    after(async () => {
+      await connectionMock.db('Cookmaster').collection('recipes').deleteMany({});
+			MongoClient.connect.restore();
+    });
+        
+		it('retorna código status "200"', () => {
+      expect(response).to.have.status(200);
+    })
 
-        let response;
+    it('retorna um array', () => {
+      expect(response.body).to.be.an('array');
+    })
 
-        before(async () => {
-            //TODO: Cadastrar no banco de dados um user
-            const userCollection = connectionMock.db('jwt_exercise').collection('users')
-            await userCollection.insertOne({
-                username: 'user-logado',
-                password: 'senha-logado'
-            })
-
-            //TODO: Fazer login
-            const authResponse = await chai.request(server).post('/api/login').send({
-                username: 'user-logado',
-                password: 'senha-logado'
-            })
-
-            const token = authResponse.body.message;
-
-            //TODO: Fazer a request com o token
-            response = await chai.request(server).get('/api/posts').set('authorization', token)
-
-        });
-
-        it('retorna código status "200"', () => {
-            expect(response).to.have.status(200);
-        })
-
-        it('retorna um objeto', () => {
-            expect(response.body).to.be.an('object')
-
-        })
-
-        it('a propriedade "mockPosts" é um array', () => {
-            expect(response.body.mockPosts).to.be.an('array')
-        })
+  	it('tem duas receitas', () => {
+      expect(response.body.length).to.be.equal(2);
     });
 
+    it('as receitas possuem as seguintes chaves', () => {
+      expect(response.body[0]).to.have.keys('_id', 'name', 'ingredients', 'preparation');
+      expect(response.body[1]).to.have.keys('_id', 'name', 'ingredients', 'preparation');
+    });
+
+	});
+
+  describe.skip('Testa getRecipeById', () => {
+		const newRecipe = [
+			{
+				name: 'beijinho',
+				ingredients: 'leite em pós, leite condensado, açúcar e cravo',
+				preparation: 'misture o leite em pós com o leite condensado e faça bolinhas. passe no açúcar e coloque um cravo por cima',
+			},
+		];
+	
+    let response;
+		const DBServer = new MongoMemoryServer();
+
+		let connectionMock;
+
+		before(async () => {
+      const URLMock = await DBServer.getUri();
+      connectionMock = await MongoClient.connect(URLMock, { useNewUrlParser: true, useUnifiedTopology: true });
+      sinon.stub(MongoClient, 'connect').resolves(connectionMock);
+
+			await connectionMock.db('Cookmaster').collection('recipes').insertOne(newRecipe);
+      recipes = await chai.request(server).get('/recipes');
+      response = await chai.request(server).get(`/recipes/${recipes.body[0]._id}`);
+		});
+
+		after(async () => {
+      await connectionMock.db('Cookmaster').collection('recipes').deleteMany({});
+			MongoClient.connect.restore();
+    });
+
+    it('retorna código status "200"', () => {
+      expect(response).to.have.status(200);
+    })
+
+    it('retorna um array', () => {
+    	expect(response.body).to.be.an('array')
+    })
+
+    it('a receita possui a seguinte chave', () => {
+      expect(response.body[0]).to.have.keys('_id', 'name', 'ingredients', 'preparation');
+    });		
+  });
 })
