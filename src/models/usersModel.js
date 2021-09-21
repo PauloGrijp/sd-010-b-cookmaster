@@ -9,7 +9,7 @@ const existsEmail = async (email) => {
   return !!(result);
 };
 
-const createUser = async ({ name, email, password }) => {
+const create = async ({ name, email, password }) => {
   const db = await connection();
   const result = await db.collection(users).insertOne({ name, email, password, role: 'user' });
   const { _id, role } = result.ops[0];
