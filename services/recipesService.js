@@ -20,8 +20,14 @@ const updateOne = async (id, name, ingredients, preparation) => {
   return response;
 };
 
+const deleteOne = async (id) => {
+  const response = await RecipesModel.deleteOne(id);
+  return response;
+};
+
 module.exports = {
   create,
+  deleteOne,
   getAll,
   getOne,
   updateOne,

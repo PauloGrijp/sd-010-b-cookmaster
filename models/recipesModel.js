@@ -46,6 +46,19 @@ const updateOne = async (id, name, ingredients, preparation) => {
       { _id: id },
       { $set: { name, ingredients, preparation } },
       );
+    if (response) return true;
+    return false;
+  } catch (err) {
+    return err;
+  }
+};
+
+const deleteOne = async (id) => {
+  const recipesCollection = await getConnection()
+    .then((db) => db.collection('recipes'));
+
+    try {
+      const response = await recipesCollection.deleteOne({ _id: id });
       if (response) return true;
       return false;
     } catch (err) {
@@ -55,6 +68,7 @@ const updateOne = async (id, name, ingredients, preparation) => {
 
 module.exports = {
   create,
+  deleteOne,
   getAll,
   getOne,
   updateOne,
