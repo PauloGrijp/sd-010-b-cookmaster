@@ -1,13 +1,12 @@
 const connection = require('../models/connection');
 
 const mensageError = 'Invalid entries. Try again.';
+const loginError = 'All fields must be filled';
 
 const NameValidation = async (req, res, next) => {
     const { name } = req.body;
-    console.log(req.body, 'fora');
 
     if (!name) {
-        console.log(name, 'dentro');
         return res.status(400).json({ message: mensageError });
     }
     next();
@@ -43,9 +42,29 @@ const EmailExist = async (req, res, next) => {
     next();
 };
 
+const EmailValidationLogin = async (req, res, next) => {
+    const { email } = req.body;
+
+    if (!email || !email.includes('@') || !email.includes('.com')) {
+        return res.status(401).json({ message: loginError });
+    }
+    next();
+};
+
+const PasswordValidationLogin = async (req, res, next) => {
+    const { password } = req.body;
+
+    if (!password || password.length < 6) {
+        return res.status(401).json({ message: loginError });
+    }
+    next();
+};
+
 module.exports = {
     NameValidation,
     EmailValidation,
     EmailExist,
     PasswordValidation,
+    EmailValidationLogin,
+    PasswordValidationLogin,
 };
