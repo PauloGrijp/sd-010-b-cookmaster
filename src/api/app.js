@@ -2,12 +2,11 @@ const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
 const controllers = require('../controllers');
-const middlewareError = require('../middlewares/erro');
+const authentication = require('../middlewares/authentication');
 
 const app = express();
 app.use('/images', express.static(path.join(__dirname, '..', 'uploads')));
 app.use(bodyParser.json());
-app.use(middlewareError);
 
 // Não remover esse end-point, ele é necessário para o avaliador
 app.get('/', (request, response) => {
@@ -16,5 +15,7 @@ app.get('/', (request, response) => {
 // Não remover esse end-point, ele é necessário para o avaliador
 
 app.post('/users', controllers.createUser);
+
+app.post('/login', authentication.login, controllers.login);
 
 module.exports = app;
