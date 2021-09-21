@@ -15,7 +15,7 @@ app.use('/images', express.static(path.join(__dirname, '..', 'uploads')));
 // ...
  */
 
-app.get('/users', (_req, res) => {
+app.post('/users', (_req, res) => {
   res.status(200).json({ message: 'Listagem de usuários' });
 });
 
