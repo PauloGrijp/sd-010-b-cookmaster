@@ -17,7 +17,7 @@ const isValidEmail = (email) => {
   return true;
 };
 
-const createUser = async (name, email, password) => {
+const createUser = async (name, email, password, role) => {
   const fieldValid = requiredFields(name, email, password);
   const emailValid = isValidEmail(email);
   if (!fieldValid || !emailValid) {
@@ -26,22 +26,16 @@ const createUser = async (name, email, password) => {
       status: 400,
     };
   }
-  const user = await UserModel.findByEmail({ email });
-  if (user) {
+  const existEmail = await UserModel.findByEmail({ email });
+  if (existEmail) {
     return {
       message: 'Email already exists',
       status: 400,
     };
   }
-  const newUser = await UserModel.create({ name, email, password });
-  return {
-    message: 'User created successfully',
-    status: 201,
-    data: newUser,
-  };
-
+  const { id } = await UserModel.createUser({ name, email, password, role });
+  return { id, name, password, role };
 };
-
 
 module.exports = {
   createUser,
