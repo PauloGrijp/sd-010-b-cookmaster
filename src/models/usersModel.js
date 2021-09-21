@@ -6,12 +6,13 @@ const findUser = async (email) => {
   return user;
 };
 
-const addUser = async (name, email) => {
+const addUser = async (name, email, password) => {
   const db = await connection();
 
   const user = await db.collection('users').insertOne({
     name,
     email,
+    password,
     role: 'user',
   });
 
