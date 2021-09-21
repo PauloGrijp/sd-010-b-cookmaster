@@ -3,10 +3,13 @@ const model = require('../models/userModel');
 const errors = {
   invalidEntries: 'Invalid entries. Try again.',
   existingEmail: 'Email already registered',
+  loginMissingField: 'All fields must be filled',
+  incorrectLogin: 'Incorrect username or password',
 };
 
 const invalidEntryStatus = 400;
 const existingEmailStatus = 409;
+const badLoginStatus = 401;
 
 const isString = (value) => typeof value === 'string';
 const validateEmailFormat = (email) => {
@@ -25,13 +28,31 @@ const emailExistsInDb = async (email) => {
   }
 };
 
-const validateImputType = (name, email, password) => (
+const validateInputType = (name, email, password) => (
   isString(email) && isString(name) && isString(password)
 );
 
-const validateNameEmailAndPassword = async (name, email, password) => {
+const validateLoginInput = async (email, password) => {
+  if (email === undefined || password === undefined) {
+    return { status: badLoginStatus, err: { message: errors.loginMissingField } };
+  }
+  if (!validateEmailFormat(email) || !(await emailExistsInDb(email))) {
+    return { status: badLoginStatus, err: { message: errors.incorrectLogin } };
+  }
+  return {};
+};
+
+const validateLogin = async (email, password) => {
+  const userData = await model.findByEmail(email);
+  if (userData.password !== password) {
+    return { status: badLoginStatus, err: { message: `${errors.incorrectLogin} AQUI` } };
+  }
+  return userData;
+};
+
+const validateCreateUser = async (name, email, password) => {
   switch (true) {
-    case (!validateImputType(email, name, password)):
+    case (!validateInputType(email, name, password)):
       return { status: invalidEntryStatus, err: { message: errors.invalidEntries } };
     case (!validateEmailFormat(email)):
         return { status: invalidEntryStatus, err: { message: errors.invalidEntries } };
@@ -42,5 +63,7 @@ const validateNameEmailAndPassword = async (name, email, password) => {
 };
 
 module.exports = {
-  validateNameEmailAndPassword,
+  validateCreateUser,
+  validateLoginInput,
+  validateLogin,
 };
