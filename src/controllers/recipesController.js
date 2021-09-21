@@ -17,7 +17,13 @@ const createRecipe = async (req, res) => {
   return res.status(201).json({ recipe: recipeCreated });
 };
 
+const getAll = async (_req, res) => {
+const allRecipes = await recipesService.getAll();
+return res.status(200).json(allRecipes);
+};
+
 module.exports = {
   verifyRecipe,
   createRecipe,
+  getAll,
 };

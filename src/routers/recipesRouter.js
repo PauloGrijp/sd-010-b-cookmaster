@@ -11,4 +11,7 @@ validateJWT,
 recipesController.verifyRecipe,
 recipesController.createRecipe);
 
+router.get('/',
+recipesController.getAll);
+
 module.exports = router;
