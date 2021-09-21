@@ -1,10 +1,11 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const routerUsers = require('../routers/userRouters');
 
 const app = express();
 app.use(bodyParser.json());
 
-app.use();
+app.use('/users');
 
 // Não remover esse end-point, ele é necessário para o avaliador
 app.get('/', (request, response) => {
