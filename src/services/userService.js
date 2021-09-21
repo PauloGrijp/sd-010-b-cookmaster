@@ -2,7 +2,7 @@ const UserModel = require('../models/usersModel');
 const UserSchema = require('../schemas/UserSchema');
 
 const create = async (user) => {
-  const validations = UserSchema.validate(user.name);
+  const validations = UserSchema.validate(user);
 
   if (validations.code) return validations;
 

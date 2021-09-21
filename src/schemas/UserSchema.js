@@ -5,9 +5,10 @@ const errors = {
 
 const blank = (value) => (!value);
 
-const validate = (name) => {
+const validate = ({ name, email }) => {
   switch (true) {
     case blank(name): return { code: BAD_REQUEST, message: errors.nameBlank };
+    case blank(email): return { code: BAD_REQUEST, message: errors.nameBlank };
     default: return false;
   }
 };
