@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 
 const UserController = require('../controllers/UserController');
+const LoginController = require('../controllers/LoginController');
 
 const app = express();
 
@@ -21,7 +22,7 @@ app.use('/images', express.static(path.join(__dirname, '..', 'uploads')));
  */
 
 app.post('/users', UserController.createUser);
-app.post('/login', () => console.log('login aqui'));
+app.post('/login', LoginController.findUser);
 
 // Não remover esse end-point, ele é necessário para o avaliador
 app.get('/', (_req, res) => {

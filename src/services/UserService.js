@@ -10,7 +10,7 @@ const requiredFields = (name, email, password) => {
 };
 
 const isValidEmail = (email) => {
-  const regexEmail = /^[\w-.]+@([\w-]+.)+[\w-]{2,4}$/;
+  const regexEmail = /\b[\w.-]+@[a-z]+.\w{2,4}\b/;
   if (!regexEmail.test(email)) {
    return false;
   }
