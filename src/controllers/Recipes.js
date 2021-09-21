@@ -17,8 +17,8 @@ recipes.get(
 recipes.get(
   '/:id',
   rescue(async (req, res, next) => {
-    const { id: idRecipe } = req.params;
-    const recipe = await Recipes.findById(idRecipe);
+    const { id } = req.params;
+    const recipe = await Recipes.findById(id);
     if (recipe.isError) return next(recipe);
     return res.status(SUCCESS).json(recipe);
   }),
@@ -50,8 +50,8 @@ recipes.put(
 recipes.delete(
   '/:id',
   rescue(async (req, res) => {
-    const { id: idRecipe } = req.params;
-    await Recipes.excluse(idRecipe);
+    const { id } = req.params;
+    await Recipes.excluse(id);
     return res.status(NO_CONTENT).json();
   }),
 );
