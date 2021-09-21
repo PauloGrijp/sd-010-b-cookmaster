@@ -39,15 +39,16 @@ const editRecipe = async (id, name, ingredients, preparation) => {
   return { _id: id, name, ingredients, preparation };
 };
 
-const editRecipeWithUrl = async (props) => {
+const editRecipeWithUrl = async (id, image) => {
   const db = await connection();
-  const { _id } = props;
-  if (!ObjectId.isValid(_id)) return null;
-  await db.collection('recipes').findOneAndUpdate(
-    { _id: ObjectId(_id) },
-    { $set: props },
+  if (!ObjectId.isValid(id)) return null;
+  const result = await db.collection('recipes').findOneAndUpdate(
+    { _id: ObjectId(id) },
+    { $set: { image } },
+    // https://stackoverflow.com/questions/35626040/how-to-get-updated-document-back-from-the-findoneandupdate-method
+    { returnOriginal: false },
   );
-  return { props };
+  return result.value;
 };
 
 const deleteRecipe = async (id) => {

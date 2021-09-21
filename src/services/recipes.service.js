@@ -1,5 +1,5 @@
 const { newRecipeModel, getAllRecipes, getById, 
-  editRecipe, deleteRecipe } = require('../models/recipes.model');
+  editRecipe, deleteRecipe, editRecipeWithUrl } = require('../models/recipes.model');
 
 const newRecipe = async (name, ingredients, preparation, userId) => {
   const recipe = await newRecipeModel(name, ingredients, preparation, userId);
@@ -26,8 +26,14 @@ const deletarRecipe = async (id) => {
   return recipe;
 };
 
+const uploadImage = async (id, image) => {
+  const result = await editRecipeWithUrl(id, image);
+  return result;
+};
+
 module.exports = { newRecipe,
 getRecipe,
 getRecipeById,
 editarRecipe,
-deletarRecipe };
+deletarRecipe, 
+uploadImage };

@@ -1,14 +1,9 @@
 const path = require('path');
-const fs = require('fs').promises;
 
 const { newRecipe, getRecipe, getRecipeById, 
-  editarRecipe, deletarRecipe } = require('../services/recipes.service');
+  editarRecipe, deletarRecipe, uploadImage } = require('../services/recipes.service');
 
-const { editRecipeWithUrl } = require('../models/recipes.model');
-
-  const {
-    memoryUpload,
-  } = require('../middlewares/upload');
+const { memoryUpload } = require('../middlewares/upload');
 
 const addRecipes = async (req, res) => {
   const { name, ingredients, preparation } = req.body;
@@ -49,16 +44,9 @@ const uploadPicture = [
   memoryUpload.single('image'),
   async (req, res) => {
     const { id } = req.params;
-    console.log(id);
-    const { result, result: { _id } } = await getRecipeById(id);
-    const { file: { buffer } } = req;
-    const filePath = path.join(__dirname, '..', 'uploads', `${_id}.jpg`);
-    await fs.writeFile(filePath, buffer);
-
-    const newSaleEdited = { ...result, image: `localhost:3000/src/uploads/${_id}.jpg` };
-
-    const editedRecipe = await editRecipeWithUrl(newSaleEdited);
-    res.status(200).json(editedRecipe);
+    const result = await uploadImage(id, 
+      path.join('localhost:3000', 'src', 'uploads', `${id}.jpeg`));
+    res.status(200).json(result);
   },
 ];
 
