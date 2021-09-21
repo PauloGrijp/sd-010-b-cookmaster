@@ -23,6 +23,7 @@ app.use('/images', express.static(path.join(__dirname, '..', 'uploads')));
 
 app.post('/users', UserController.createUser);
 app.post('/login', LoginController.findUser);
+app.get('/recipes', () => console.log('mudar a rota recipes'));
 
 // Não remover esse end-point, ele é necessário para o avaliador
 app.get('/', (_req, res) => {
