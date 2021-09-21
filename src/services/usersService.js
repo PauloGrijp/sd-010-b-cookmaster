@@ -7,7 +7,17 @@ const validateEntries = (entries) => {
   const isTruthyValues = requestBodyValues.every((value) => value);
   const emailRegex = /[a-z]+@[a-z]+\.com/;
 
-  if (!isTruthyValues || !emailRegex.test(entries.email)) {
+  return (isTruthyValues && emailRegex.test(entries.email));
+};
+
+const existsBlanksValues = (entries) => {
+  const requestBodyValues = Object.values(entries);
+  const hasSomeBlankValues = requestBodyValues.some((value) => !value);
+  return hasSomeBlankValues;
+};
+
+const create = async (reqBodyEntries) => {
+  if (!validateEntries(reqBodyEntries)) {
     throw new ErrorRequest('badRequest', 'Invalid entries. Try again.');
   }
 };
