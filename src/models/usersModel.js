@@ -16,6 +16,16 @@ const create = async ({ name, email, password }) => {
   return { _id, email, name, role };
 };
 
+const validUser = async ({ email, password }) => {
+  const db = await connection();
+  const result = await db.collection(users).findOne({ email, password });
+  if (result) {
+    const { _id, role } = result;
+    return { _id, email, role };
+  }
+  return false;
+};
+
 module.exports = {
   existsEmail,
   createUser,
