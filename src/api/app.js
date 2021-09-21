@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const Middlewares = require('../middlewares');
+const validateJWT = require('./auth/validateJWT');
 
 const Controllers = require('../controllers');
 
@@ -14,6 +15,8 @@ app.get('/', (_req, res) => {
 
 app.post('/users', Controllers.user.create);
 app.post('/login', Controllers.user.login);
+
+app.post('/recipes', validateJWT, Controllers.recipe.create);
 
 app.use(Middlewares.error);
 
