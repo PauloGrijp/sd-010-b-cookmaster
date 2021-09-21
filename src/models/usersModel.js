@@ -20,7 +20,14 @@ const findByEmail = async (email) => {
   return findEmail !== null;
 };
 
+const checkLogin = async (email, password) => {
+  const db = await getConnection();
+  const verifyEmail = await db.collection('users').findOne({ email, password });
+  return verifyEmail === null; 
+};
+
 module.exports = {
    registerUsers,
   findByEmail, 
+  checkLogin,
 };

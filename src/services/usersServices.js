@@ -1,7 +1,7 @@
 const Joi = require('joi');
 const UsersModel = require('../models/usersModel');
 
-const validateUser = async (name, email, password) => {
+const validateUser = async (email, password, name) => {
   const { error } = Joi.object({
      email: Joi.string().email().required(),
      name: Joi.string().required(), 
@@ -11,14 +11,27 @@ const validateUser = async (name, email, password) => {
     return false;
 };
 
+const fieldObrigatory = async (email, password) => {
+  const { error } = Joi.object({
+     email: Joi.string().email().required(),
+     password: Joi.string().required(),
+    }).validate({ email, password });
+    if (error) {
+      return {
+       status: 401,
+        message: 'All fields must be filled',
+      };
+     }
+    return false;
+};
+
 const verifyEmail = async (email) => {
   const uniqueEmail = await UsersModel.findByEmail(email);
   return uniqueEmail;
 };
 
 const registerUsers = async (email, password, name) => {
-  console.log(email);
-  const validate = await validateUser(name, email, password);
+  const validate = await validateUser(email, password, name);
   if (validate) {
  return {
   status: 400,
@@ -26,7 +39,6 @@ const registerUsers = async (email, password, name) => {
  };
 }
   const uniqueEmail = await verifyEmail(email);
-  console.log(uniqueEmail);
   if (uniqueEmail) {
  return {
    status: 409,
@@ -37,4 +49,19 @@ const registerUsers = async (email, password, name) => {
   return register;
 };
 
-module.exports = { registerUsers };
+const loginUser = async (email, password) => {
+  const validate = await fieldObrigatory(email, password);
+  if (validate) return validate;
+  const checkLogin = await UsersModel.checkLogin(email, password);
+  if (checkLogin) {
+    return { 
+      status: 401,  
+      message: 'Incorrect username or password',
+    };
+  }
+  return checkLogin;
+};
+
+module.exports = { 
+  registerUsers,
+  loginUser };

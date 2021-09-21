@@ -6,12 +6,12 @@ const app = express();
 
 app.use(bodyParser.json());
 
-// USERS
-
 app.get('/', (request, response) => {
   response.send();
 });
 
+// USERS
 app.post('/users', UsersController.registerUsers);
+app.post('/login', UsersController.loginUser);
 
 module.exports = app;
