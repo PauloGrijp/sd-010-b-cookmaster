@@ -8,9 +8,10 @@ const { SUCCESS } = require('../utils/statusCode');
 
 const login = express.Router();
 
-login.post( 
+login.use(loginValidate);
+
+login.post(
   '/',
-  loginValidate,
   rescue(async (req, res, next) => {
     const { email: emailUser, password } = req.body;
     const verify = await Login.verify(emailUser, password);
