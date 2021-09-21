@@ -1,4 +1,3 @@
-// const mongo = require('mongodb');
 const connection = require('./connection');
 
 const COLLECTION_NAME = 'users';
