@@ -1,4 +1,4 @@
-const { registerRecipe } = require('../models/recipeModel');
+const { registerRecipe, getAll } = require('../models/recipeModel');
 
 const createRecipe = async (req, res) => {
   const { user } = req.user;
@@ -10,6 +10,13 @@ const createRecipe = async (req, res) => {
   res.status(201).json({ recipe });
 };
 
+const getAllRecipes = async (req, res) => {
+  const { recipes } = await getAll();
+
+  return res.status(200).json(recipes);
+};
+
 module.exports = {
   createRecipe,
+  getAllRecipes,
 };
