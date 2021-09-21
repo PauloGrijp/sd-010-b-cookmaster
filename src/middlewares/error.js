@@ -32,7 +32,7 @@ module.exports = (err, _req, res, _next) => {
   if (err.incorrectUserInfo) {
     return res.status(401).json({ message: 'Incorrect username or password' });
   }
-  
+
   res
     .status(INTERNAL_SERVER_ERROR_CODE)
     .json({ err: { code: 'internal', message: 'Internal server error' } });

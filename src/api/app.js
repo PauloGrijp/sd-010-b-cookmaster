@@ -17,6 +17,7 @@ app.post('/users', Controllers.user.create);
 app.post('/login', Controllers.user.login);
 
 app.get('/recipes', Controllers.recipe.listRecipes);
+app.get('/recipes/:id', Controllers.recipe.findRecipe);
 app.post('/recipes', validateJWT, Controllers.recipe.create);
 
 app.use(Middlewares.error);

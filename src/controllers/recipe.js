@@ -31,4 +31,14 @@ const create = rescue(async (req, res, next) => {
   res.status(201).json({ recipe: recipeCreate });
 });
 
-module.exports = { create, listRecipes };
+const findRecipe = rescue(async (req, res, _next) => {
+  const { id } = req.params;
+  
+  const recipeFound = await Services.recipe.findRecipe(id);
+
+  if (!recipeFound) return res.status(404).json({ message: 'recipe not found' });
+  
+  res.status(200).json(recipeFound);
+});
+
+module.exports = { create, listRecipes, findRecipe };
