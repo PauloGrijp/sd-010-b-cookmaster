@@ -2,9 +2,9 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const multer = require('multer');
 const path = require('path');
-const errorMiddleware = require('../../middlewares/errorController');
-const { UserController, RecipesController } = require('../../controllers');
-const auth = require('../../middlewares/auth');
+const errorMiddleware = require('../middlewares/errorController');
+const { UserController, RecipesController } = require('../controllers');
+const auth = require('../middlewares/auth');
 
 const app = express();
 

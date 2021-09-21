@@ -1,4 +1,0 @@
-use('Cookmaster')
-
-db.users.deleteMany({});
-db.recipes.deleteMany({});

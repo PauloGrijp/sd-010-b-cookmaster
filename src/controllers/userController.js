@@ -1,5 +1,4 @@
 const rescue = require('express-rescue');
-// const { ObjectID } = require('mongodb');
 const Joi = require('joi');
 const jwt = require('jsonwebtoken');
 const UserService = require('../services/userService');
