@@ -1,7 +1,9 @@
 const express = require('express');
+const bodyParser = require('body-parser');
+
+const UserController = require('../controllers/UserController');
 
 const app = express();
-const bodyParser = require('body-parser');
 
 app.use(bodyParser.json());
 /* Adicionado de acordo com o readme
@@ -18,9 +20,7 @@ app.use('/images', express.static(path.join(__dirname, '..', 'uploads')));
 // ...
  */
 
-app.post('/users', (_req, res) => {
-  res.status(200).json({ message: 'Listagem de usuários' });
-});
+app.post('/users', UserController.createUser);
 
 // Não remover esse end-point, ele é necessário para o avaliador
 app.get('/', (_req, res) => {
