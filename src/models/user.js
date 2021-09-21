@@ -9,10 +9,21 @@ const emailExiste = async (user) => {
 
 const cadastrarUsuario = async (user) => {
   const db = await connection();
-  const userFinal = { ...user, role: 'user' };
+  const userFinal = { 
+    ...user, 
+    role: 'user', 
+  };
+  
   const usuarioInserido = await db.collection('users').insertOne(userFinal);
 
-  return { _id: usuarioInserido.insertedId, ...userFinal };
+  return { 
+    user: { 
+      _id: usuarioInserido.insertedId, 
+      name: userFinal.name,
+      role: userFinal.role,
+      email: userFinal.email,
+    },
+  };
 };
 
 module.exports = { 
