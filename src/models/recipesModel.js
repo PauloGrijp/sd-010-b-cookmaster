@@ -17,7 +17,6 @@ const getById = async (id) => {
   if (!ObjectId.isValid(id)) return null;
   const db = await connection();
   const recipe = await db.collection('recipes').findOne(ObjectId(id));
-  console.log(recipe);
   return recipe;
 };
 
