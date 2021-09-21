@@ -1,7 +1,7 @@
 const { createRecipe,
   getAllRecipes,
   getRecipeById,
-  updateRecipe, removeRecipe } = require('../service/recipeService');
+  updateRecipe, removeRecipe, addRecipeFile } = require('../service/recipeService');
 const catchAsync = require('../utils/catchAsync');
 
 const create = catchAsync(async (req, res) => {
@@ -37,11 +37,18 @@ const remove = catchAsync(async (req, res) => {
   if (recipe) return res.status(204).json(null);
 });
 
+const addFile = catchAsync(async (req, res) => {
+  const { _id: idUser, role } = req.user;
+  const { id: idRecipe } = req.params;
+  const recipe = await addRecipeFile(idUser, idRecipe, role);
+  if (recipe) return res.status(200).json(recipe);
+});
+
 module.exports = {
   create,
   getAll,
   getById,
   update,
   remove,
-
+  addFile,
 };

@@ -43,6 +43,22 @@ const updateRec = async (id, body, idUser) => {
   };
 };
 
+const setPicFile = async (body, idRecipe, idUser) => {
+  await connection().then((db) =>
+    db.collection('recipes')
+    .updateOne({ _id: ObjectId(idRecipe) },
+    { $set: { image: `localhost:3000/src/uploads/${idRecipe}.jpeg` } }));
+
+    return {
+      _id: idRecipe,
+      name: body.name,
+      ingredients: body.ingredients,
+      preparation: body.preparation,
+      userId: idUser,
+      image: `localhost:3000/src/uploads/${idRecipe}.jpeg`,
+    };
+};
+
 const removeRecipeData = async (id) => {
     const { value } = await connection().then((db) =>
     db.collection('recipes').findOneAndDelete({ _id: ObjectId(id) }));
@@ -55,5 +71,5 @@ module.exports = {
   getRecipeData,
   updateRec,
   removeRecipeData,
-
+  setPicFile,
 };
