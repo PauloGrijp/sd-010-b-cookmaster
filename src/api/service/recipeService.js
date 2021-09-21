@@ -4,7 +4,6 @@ const {
   getRecipeData,
   updateRec,
   removeRecipeData,
-  setPicFile,
 } = require('../models/recipeModel');
 const { ApiError } = require('../utils/ApiError');
 const {
@@ -24,8 +23,32 @@ const getAllRecipes = async () => {
   return allRecipes;
 };
 
+const getRecipeById = async (id) => {
+  await validateId(id);
+  const recipe = await getRecipeData(id);
+  if (!recipe) throw new ApiError('recipe not found', null, 404);
+  return recipe;
+};
+
+const updateRecipe = async (body, idUser, idRecipe, role) => {
+  await checkRecipe(body);
+  await checkIfRecipeExists(idRecipe, idUser, role);
+  const recipe = await updateRec(idRecipe, body, idUser);
+  return recipe;
+};
+
+const removeRecipe = async (idUser, idRecipe, role) => {
+  await validateId(idRecipe);
+  await checkIfRecipeExists(idRecipe, idUser, role);
+  const res = await removeRecipeData(idRecipe);
+  return res;
+};
+
 module.exports = {
   createRecipe,
   getAllRecipes,
+  getRecipeById,
+  updateRecipe,
+  removeRecipe,
 
 };
