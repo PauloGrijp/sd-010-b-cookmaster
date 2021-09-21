@@ -1,5 +1,6 @@
 const ErrorRequest = require('../helpers/errorRequest');
 const usersModel = require('../models/usersModel');
+const tokenService = require('./tokenService');
 
 const validateEntries = (entries) => {
   const requestBodyValues = Object.values(entries);
