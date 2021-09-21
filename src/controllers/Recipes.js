@@ -31,8 +31,8 @@ recipes.post(
   recipeValidate,
   rescue(async (req, res) => {
     const { name, ingredients, preparation } = req.body;
-    const { id: userId } = req.user;
-    const recipe = await Recipes.create(name, ingredients, preparation, userId);
+    const { id } = req.user;
+    const recipe = await Recipes.create(name, ingredients, preparation, id);
     return res.status(CREATE).json({ recipe });
   }),
 );
