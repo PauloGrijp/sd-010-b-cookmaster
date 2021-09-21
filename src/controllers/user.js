@@ -34,12 +34,12 @@ const validateLoginRequired = (body) => {
 const create = rescue(async (req, res, next) => {
   const entriesError = validateCreate(req.body);
 
-  if (entriesError) return next({ invalidEntries: true });
+  if (entriesError) return next({ fromUser: true, invalidEntries: true });
 
   const user = { ...req.body, role: 'user' };
   const userCreate = await Services.user.create(user);
 
-  if (!userCreate) return next({ emailExists: true });
+  if (!userCreate) return next({ fromUser: true, emailExists: true });
 
   res.status(201).json({ user: userCreate });
 });
@@ -48,11 +48,11 @@ const login = rescue(async (req, res, next) => {
   const user = req.body;
   const fieldsRequiredError = validateLoginRequired(user);
 
-  if (fieldsRequiredError) return next({ fieldsRequired: true });
+  if (fieldsRequiredError) { return next({ fromUser: true, fieldsRequired: true }); }
 
   const userLogged = await Services.user.login(user);
 
-  if (!userLogged) return next({ incorrectUserInfo: true });
+  if (!userLogged) return next({ fromUser: true, incorrectUserInfo: true });
 
   const token = jwt.sign(userLogged, secret, jwtConfig);
 

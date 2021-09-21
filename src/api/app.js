@@ -20,7 +20,7 @@ app.get('/recipes', Controllers.recipe.listRecipes);
 app.get('/recipes/:id', Controllers.recipe.findRecipe);
 app.post('/recipes', validateJWT, Controllers.recipe.create);
 
-app.use(Middlewares.error);
+app.use(Middlewares.userError);
 
 module.exports = app;
 
