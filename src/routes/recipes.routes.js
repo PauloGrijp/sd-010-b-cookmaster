@@ -3,7 +3,6 @@ const { Router } = require('express');
 const { 
   validaToken,
   validaRecipe,  
-  getRecipeById,
  } = require('../middlewares/recipes.middlewares');
 const { 
   enableModifications,  
@@ -29,9 +28,8 @@ routes.put('/recipes/:id',
 
 routes.put('/recipes/:id/image/', 
   validaToken,
-    getRecipeById,
-      enableModifications,
-        uploadPicture);  
+    enableModifications,
+      uploadPicture);  
 
 routes.delete('/recipes/:id', 
   validaToken,
