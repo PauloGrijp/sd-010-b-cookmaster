@@ -22,7 +22,15 @@ const create = async ({ name, email, password }) => {
   };
 };
 
+const login = async ({ email, password }) => {
+  const db = await connection();
+  const userData = await db.collection('users').findOne({ email, password });
+
+  return userData;
+};
+
 module.exports = {
   emailExists,
   create,
+  login,
 };
