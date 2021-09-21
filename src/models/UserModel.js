@@ -11,7 +11,7 @@ const createUser = async ({ name, email, password, role }) => {
       password,
       role,
       id,
-  },
+    },
   };
 };
 
