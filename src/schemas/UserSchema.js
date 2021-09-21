@@ -3,12 +3,19 @@ const errors = {
   nameBlank: 'Invalid entries. Try again.',
 };
 
+const invalidEntries = { code: BAD_REQUEST, message: errors.nameBlank };
+
 const blank = (value) => (!value);
+const invalid = (email) => {
+  const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // source: https://stackoverflow.com/questions/46155/how-to-validate-an-email-address-in-javascript
+  return !regex.test(email);
+};
 
 const validate = ({ name, email }) => {
   switch (true) {
-    case blank(name): return { code: BAD_REQUEST, message: errors.nameBlank };
-    case blank(email): return { code: BAD_REQUEST, message: errors.nameBlank };
+    case blank(name): return invalidEntries;
+    case blank(email): return invalidEntries;
+    case invalid(email): return invalidEntries;
     default: return false;
   }
 };
