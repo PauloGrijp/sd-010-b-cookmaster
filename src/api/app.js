@@ -15,9 +15,13 @@ app.use('/images', express.static(path.join(__dirname, '..', 'uploads')));
 // ...
  */
 
+app.get('/users', (_req, res) => {
+  res.status(200).json({ message: 'Listagem de usuários' });
+});
+
 // Não remover esse end-point, ele é necessário para o avaliador
-app.get('/', (request, response) => {
-  response.send();
+app.get('/', (_req, res) => {
+  res.send();
 });
 // Não remover esse end-point, ele é necessário para o avaliador
 
