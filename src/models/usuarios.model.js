@@ -16,6 +16,13 @@ const login = async ({ email, password }) => {
   return user;
 };
 
+const newAdmin = async ({ email, name, password }) => {
+  const db = await connection();
+  const user = await db.collection('users').insertOne({ name, email, password, role: 'admin' });
+  const { insertedId } = JSON.parse(user);
+  return { user: { _id: insertedId, name, email, role: 'admin' } };
+};
+
 const requestLogin = async ({ email, password }) => {
   const usuario = await login({ email, password });
   if (!usuario) return { message: 'Incorrect username or password' };  
@@ -35,4 +42,4 @@ const requestLogin = async ({ email, password }) => {
   return { token: newToken };
 };
 
-module.exports = { newUser, requestLogin };
+module.exports = { newUser, requestLogin, newAdmin };

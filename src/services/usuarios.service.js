@@ -1,4 +1,4 @@
-const { newUser, requestLogin } = require('../models/usuarios.model');
+const { newUser, requestLogin, newAdmin } = require('../models/usuarios.model');
 
 const create = async ({ email, name, password }) => {
   const newProducts = await newUser({ email, name, password });
@@ -10,4 +10,11 @@ const login = async ({ email, password }) => {
   return user;
 };
 
-module.exports = { create, login };
+const createNewAdmin = async (props) => {
+  const newProducts = await newAdmin({ email: props.email,
+    name: props.name,
+    password: props.password });
+  return newProducts;
+};
+
+module.exports = { create, login, createNewAdmin };

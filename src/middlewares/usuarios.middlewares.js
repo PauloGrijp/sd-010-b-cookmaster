@@ -91,10 +91,26 @@ const verifyPasswordToLogin = (request, response, next) => {
   }
 };
 
+const isAdmin = async (request, response, next) => {
+  try {
+    const { userId } = request.user;
+    const db = await connection();
+    const { role } = await db.collection('users').findOne({ _id: ObjectId(userId) });  
+    
+    if (role !== 'admin') {
+      return response.status(403).json({ message: 'Only admins can register new admins' });
+    } 
+    next();
+  } catch (error) {
+    return response.status(403).json({ message: 'Only admins can register new admins' });
+  } 
+};
+
 module.exports = { userExists,
 verifyPassword,
 verifyName, 
 verifyEmail,
 verifyEmailToLogin,
 verifyPasswordToLogin,
-enableModifications };
+enableModifications,
+isAdmin };

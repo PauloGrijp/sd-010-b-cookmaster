@@ -3,9 +3,7 @@ const path = require('path');
 const { newRecipe, getRecipe, getRecipeById, 
   editarRecipe, deletarRecipe, uploadImage } = require('../services/recipes.service');
 
-const {
-    memoryUpload,
-  } = require('../middlewares/upload');
+const { memoryUpload } = require('../middlewares/upload');
 
 const addRecipes = async (req, res) => {
   const { name, ingredients, preparation } = req.body;

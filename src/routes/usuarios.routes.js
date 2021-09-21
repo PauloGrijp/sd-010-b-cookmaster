@@ -6,9 +6,12 @@ const {
   verifyEmail,
   verifyEmailToLogin,
   verifyPasswordToLogin,
+  isAdmin,
  } = require('../middlewares/usuarios.middlewares');
 
-const { createUser, requestLogin } = require('../controllers/usuarios.controller');
+const { validaToken } = require('../middlewares/recipes.middlewares');
+
+const { createUser, requestLogin, createAdmin } = require('../controllers/usuarios.controller');
 
 const routes = new Router();
 
@@ -27,5 +30,10 @@ routes.post('/login',
   verifyEmailToLogin,
     verifyPasswordToLogin,
       requestLogin);
+
+routes.post('/users/admin', 
+  validaToken,
+    isAdmin,
+      createAdmin);
 
 module.exports = routes;
