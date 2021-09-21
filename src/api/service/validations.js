@@ -47,7 +47,7 @@ const checkOwnerOrAdmin = (recipeId = '', idUser, role) => {
 };
 
 // const checkIfRecipeExists = async (idRecipe, idUser, role) => {
-//   // const recipe = await getRecipeData(idRecipe);
+//   const recipe = await getRecipeData(idRecipe);
 //   if (!recipe) throw new ApiError('There is no recipe with this id', null, 404);
 //   const checkCredentials = await checkOwnerOrAdmin(recipe.userId, idUser, role);
 //   if (!checkCredentials) {
