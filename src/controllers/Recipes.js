@@ -41,8 +41,8 @@ recipes.put(
   '/:id/image/',
   upload.single('image'),
   rescue(async (req, res) => {
-    const { id } = req.params;
-    const recipe = await Recipes.addImage(id);
+    const { id: idRecipe } = req.params;
+    const recipe = await Recipes.addImage(idRecipe);
     return res.status(SUCCESS).json(recipe);
   }),
 );
