@@ -4,6 +4,14 @@ const validEmail = (email) => {
   // console.log(emailRegex.test(email));
     return emailRegex.test(email);
 };
+const infosRecipe = (recipe) => {
+  const { name, ingredients, preparation } = recipe;
+  if (!name || !ingredients || !preparation) {
+    console.log('deu false');
+    return false;
+  }
+    return true; 
+};
 
 const validPassword = (passwd) => {
   console.log('tamanho passwd', passwd.length);
@@ -25,4 +33,4 @@ const loginValidations = (user) => {
       return true;  
 };
 
-module.exports = { validEmail, allInfos, loginValidations, validPassword };
+module.exports = { validEmail, allInfos, loginValidations, validPassword, infosRecipe };

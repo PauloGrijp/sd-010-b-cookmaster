@@ -4,7 +4,7 @@ const loginService = require('../Service/loginService');
 const secret = 'seusecretdetoken';
 
 const jwtConfig = {
-    expiresIn: '10m',
+    expiresIn: '10h',
     algorithm: 'HS256',
   };
 
