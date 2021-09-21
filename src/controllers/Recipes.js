@@ -17,8 +17,8 @@ recipes.get(
 recipes.get(
   '/:id',
   rescue(async (req, res, next) => {
-    const { id } = req.params;
-    const recipe = await Recipes.findById(id);
+    const { id: idRecipe } = req.params;
+    const recipe = await Recipes.findById(idRecipe);
     if (recipe.isError) return next(recipe);
     return res.status(SUCCESS).json(recipe);
   }),
