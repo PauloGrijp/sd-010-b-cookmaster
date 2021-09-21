@@ -46,7 +46,7 @@ const deleteRecipe = async (req, res) => {
 };
 
 const uploadPicture = [
-  memoryUpload.single('file'),
+  memoryUpload.single('image'),
   async (req, res) => {
     const { id } = req.params;
     console.log(id);
