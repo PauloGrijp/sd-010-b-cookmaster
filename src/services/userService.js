@@ -1,16 +1,21 @@
-const userSchema = require('../schemas/userSchema');
 const userModel = require('../models/userModel');
+
+const userSchema = require('../schemas/userSchema');
+const loginSchema = require('../schemas/loginSchema');
 
 const errorMessage = (code, message) => ({ err: { code, message } });
 
 const codesHttpErrors = {
   HTTP_BAD_REQUEST: 400,
   HTTP_CONFLICT: 409,
+  HTTP_UNAUTHORIZED: 401,
 };
 
 const messages = {
   invalidEntries: 'Invalid entries. Try again.',
   emailRegistered: 'Email already registered',
+  allFieldsFilled: 'All fields must be filled',
+  incorrectDataFields: 'Incorrect username or password',
 };
 
 const validateUserInfo = (data) => {
@@ -40,8 +45,35 @@ const created = async (data) => {
   return result;
 };
 
+// -------------------------- REQUISITO 2 ---------------------------
+
+const validateLogin = (email, password) => {
+  const { error } = loginSchema.validate({ email, password });
+
+  if (error) { return false; }
+  return true;
+};
+
+const login = async (email, password) => {
+  if (!validateLogin(email, password)) {
+    return Promise.reject(
+      errorMessage(codesHttpErrors.HTTP_UNAUTHORIZED, messages.allFieldsFilled),
+    );
+  }
+  const user = await userModel.getByEmail(email);
+  if (!user || user.password !== password) {
+    return Promise.reject(
+      errorMessage(codesHttpErrors.HTTP_UNAUTHORIZED, messages.incorrectDataFields),
+    );
+  }
+  
+  return user;
+};
+
 module.exports = {
   validateUserInfo,
   validateEmail,
   created,
+  validateLogin,
+  login,
 };
