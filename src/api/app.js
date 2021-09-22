@@ -8,6 +8,7 @@ app.use(bodyparser.json());
 // Rota de criação do usuário
 app.post('/users', userController.createUser);
 // Rota de login do usuário
+app.post('/login', userController.loginUser);
 
 // Não remover esse end-point, ele é necessário para o avaliador
 app.get('/', (request, response) => {

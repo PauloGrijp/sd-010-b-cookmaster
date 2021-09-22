@@ -1,4 +1,12 @@
+const jwt = require('jsonwebtoken');
 const userValidations = require('../services/userValidations');
+
+const secret = 'rafaelCamufla';
+
+const jwtConfig = {
+  expiresIn: '15d',
+  algorithm: 'HS256',
+};
 
 const createUser = async (req, res) => {
   const { name, email, password, role } = req.body;
@@ -17,7 +25,9 @@ const createUser = async (req, res) => {
 const loginUser = async (req, res) => {
   const { email, password } = req.body;
   const login = await userValidations.findLogin({ email, password });
-  res.status(200).json(login);
+  console.log(login);
+  const token = jwt.sign({ login }, secret, jwtConfig);
+  res.status(200).json({ token });
 };
 
 module.exports = {
