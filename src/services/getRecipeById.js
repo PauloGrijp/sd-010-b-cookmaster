@@ -1,5 +1,3 @@
-const { get } = require("../api/app");
-
 const models = require('../models');
 
 const getRecipeById = async (id) => {
