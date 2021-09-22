@@ -17,7 +17,14 @@ const createUser = async (name, email, password) => {
     role: 'user',
   });
 
-  return newUser.ops[0];
+  return { 
+    user: {
+      _id: newUser.insertedId,
+      name,
+      email,
+      role: 'user',
+    },
+  };
 };
 
 module.exports = {
