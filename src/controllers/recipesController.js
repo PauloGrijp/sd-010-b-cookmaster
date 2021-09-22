@@ -1,4 +1,5 @@
-const { registerRecipe, getAll, findById, update, deleteRecp } = require('../models/recipeModel');
+const { registerRecipe, getAll, findById, 
+  update, deleteRecp, addImagePath } = require('../models/recipeModel');
 
 const createRecipe = async (req, res) => {
   const { user } = req.user;
@@ -41,10 +42,22 @@ const deleteRecipe = async (req, res) => {
   return res.status(204).json(recipe);
 };
 
+const addImage = async (req, res) => {
+  const { id } = req.params;
+ 
+  const { recipe } = await addImagePath({ id });
+
+  return res.status(200).json(recipe);
+};
+
+const errorImage = (error, req, res, _next) => res.status(400).send({ error: error.message });
+
 module.exports = {
   createRecipe,
   getAllRecipes,
   findRecipe,
   updateRecipe,
   deleteRecipe,
+  errorImage,
+  addImage,
 };
