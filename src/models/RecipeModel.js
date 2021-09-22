@@ -18,7 +18,15 @@ const getAllRecipes = async () => {
   return recipe;
 };
 
+const getRecipeById = async (id) => {
+  const recipeCollection = await connection()
+  .then((db) => db.collection('recipes'));
+  const recipe = await recipeCollection.findOne({ _id: id });
+  return recipe;
+};
+
 module.exports = {
   createRecipe,
   getAllRecipes,
+  getRecipeById,
 };
