@@ -9,7 +9,7 @@ const validateLogin = (req, res, next) => {
     return res.status(code.HTTP_UNAUTHORIZED).json({ message: error.unfilledFields });
   }
 
-  if (!checkEmail.test(email) || password.toString().length < 8) {
+  if (!checkEmail.test(email) || password.toString().length < 5) {
     return res.status(code.HTTP_UNAUTHORIZED).json({ message: error.incorrectField });
   }
 
