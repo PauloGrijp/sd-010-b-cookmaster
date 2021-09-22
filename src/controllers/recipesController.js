@@ -33,7 +33,7 @@ const updateRecipe = async (req, res) => {
   if (result.err) {
     return res.status(result.status).json(result.err);
   }
-  res.status(200).json({ result });
+  res.status(200).json(result);
 };
 
 module.exports = {
