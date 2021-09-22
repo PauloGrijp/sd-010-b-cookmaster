@@ -37,9 +37,22 @@ const updateRecipe = async (id, body, token) => {
   return updatedRecipe;
 };
 
+const deleteRecipe = async (id, token) => {
+  const validateToken = await schema.validateToken(token);
+  if (validateToken.err) return validateToken;
+  const { _id, role } = validateToken;
+  const recipeToBeDeleted = await model.getRecipeById(_id);
+  if (recipeToBeDeleted.userId !== _id && role !== 'admin') {
+    return { status: 401, err: { message: 'this recipe is not yours' } };
+  }
+  const modelReturn = await model.deleteRecipe(id);
+  return modelReturn;
+};
+
 module.exports = {
   createNewRecipe,
   getAllRecipes,
   getRecipeById,
   updateRecipe,
+  deleteRecipe,
 };
