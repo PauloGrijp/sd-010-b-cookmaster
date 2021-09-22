@@ -22,7 +22,6 @@ const getAll = async () => {
 };
 
 const getById = async (id) => {
-  if (!ObjectId.isValid(id)) return null;
   const recipesCollection = await mongoConnection.getConnection()
     .then((db) => db.collection('recipes'));
   const recipeListId = await recipesCollection.findOne({ _id: ObjectId(id) });

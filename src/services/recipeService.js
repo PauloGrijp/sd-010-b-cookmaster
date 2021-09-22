@@ -1,3 +1,4 @@
+const { ObjectId } = require('mongodb');
 const recipesModel = require('../models/recipesModel');
 
 const existField = (name, ingredients, preparation) => {
@@ -16,4 +17,11 @@ const create = async ({ name, ingredients, preparation }) => {
     return { id, name, ingredients, preparation, _id };
 };
 
-module.exports = { create };
+const getById = async (id) => {
+  if (!ObjectId.isValid(id)) {
+    return { message: 'recipe not found' };
+  }
+  await recipesModel.getById(id); 
+};
+
+module.exports = { create, getById };
