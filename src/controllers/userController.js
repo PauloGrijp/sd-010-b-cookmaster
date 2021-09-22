@@ -7,6 +7,8 @@ const jwtConfig = {
 };
 const secret = 'minhaSenha';
 
+const getUser = async (email) => userService.findUser(email);
+
 const signUp = async (req, res) => {
   const { name, password, email } = req.body;
   const uniqueEmail = await userService.uniqueEmail(email);
@@ -36,4 +38,5 @@ const login = async (req, res) => {
 module.exports = {
   signUp,
   login,
+  getUser,
 };

@@ -1,11 +1,12 @@
 const jwt = require('jsonwebtoken');
 const recipesService = require('../services/recipesService');
+const userController = require('./userController');
 
 const status200 = 200;
 const status401 = 401;
 const secret = 'minhaSenha';
 
-const getRecipe = async (id) => recipesService.getRecipe(id);
+const getRecipe = async (id) => recipesService.getRecipeById(id);
 
 const create = async (req, res) => {
   const token = req.headers.authorization;
@@ -39,16 +40,21 @@ const getRecipeById = async (req, res) => {
 };
 
 const edit = async (req, res) => {
-  const token = req.headers.authorization;
   const recipeId = req.params.id;
-  const { userId } = await getRecipe(recipeId);
   const { name, ingredients, preparation } = req.body;
+  const token = req.headers.authorization; 
+  if (!token) {
+    return res.status(status401).json({ message: 'missing auth token' });
+  }
   try {
-    const { email } = jwt.verify(token, secret);
-    if (!token) {
-      return res.status(status401).json({ message: 'missing auth token' });
-    }
-    return res.status(200).json(email);
+    jwt.verify(token, secret);
+    // const { _id } = await userController.getUser(email);
+    const { userId } = await getRecipe(recipeId);
+    // if (userId !== _id && role !== 'admin') {
+    //   return res.status(status401).json({ message: 'Unauthorized' });
+    // }
+    const result = await recipesService.edit({ name, ingredients, preparation, recipeId });
+    return res.status(status200).json({ ...result, userId });
   } catch (err) {
     return res.status(status401).json({ message: 'jwt malformed' });
   }
