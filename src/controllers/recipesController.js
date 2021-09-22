@@ -5,6 +5,8 @@ const status200 = 200;
 const status401 = 401;
 const secret = 'minhaSenha';
 
+const getRecipe = async (id) => recipesService.getRecipe(id);
+
 const create = async (req, res) => {
   const token = req.headers.authorization;
   const { name, ingredients, preparation } = req.body;
@@ -35,8 +37,26 @@ const getRecipeById = async (req, res) => {
     return res.status(404).json({ message: 'recipe not found' });
   }
 };
+
+const edit = async (req, res) => {
+  const token = req.headers.authorization;
+  const recipeId = req.params.id;
+  const { userId } = await getRecipe(recipeId);
+  const { name, ingredients, preparation } = req.body;
+  try {
+    const { email } = jwt.verify(token, secret);
+    if (!token) {
+      return res.status(status401).json({ message: 'missing auth token' });
+    }
+    return res.status(200).json(email);
+  } catch (err) {
+    return res.status(status401).json({ message: 'jwt malformed' });
+  }
+};
+
 module.exports = {
   create,
   getRecipes,
   getRecipeById,
+  edit,
 };

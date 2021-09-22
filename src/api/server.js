@@ -27,5 +27,7 @@ app.get('/recipes/:id', recipesController.getRecipeById);
 app.get('/recipes', recipesController.getRecipes);
 
 app.post('/recipes',
-recipesMiddlewares.validateCreateFields,
+recipesMiddlewares.validateRecipeFields,
 recipesController.create);
+
+app.put('/recipes/:id', recipesController.edit);
