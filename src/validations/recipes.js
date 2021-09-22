@@ -10,6 +10,15 @@ const validateRecipeBody = (name, ingredients, preparation) => {
   if (error) throw error;
 };
 
+const isRecipe = (recipe) => {
+  if (!recipe) {
+    const error = new Error('recipe not found');
+    error.code = 404;
+    throw error;
+  }  
+};
+
 module.exports = {
   validateRecipeBody,
+  isRecipe,
 };

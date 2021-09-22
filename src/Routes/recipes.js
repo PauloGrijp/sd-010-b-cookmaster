@@ -1,10 +1,13 @@
 const rescue = require('express-rescue');
 const controller = require('../Controllers/Recipes');
-const token = require('../utils/token');
+const utils = require('../utils/token');
 
 const recipes = (app) => {
   app.route('/recipes')
-    .post(rescue(token.validateToken), rescue(controller.newRecipe));
+    .get(rescue(controller.getAll))
+    .post(rescue(utils.validateToken), rescue(controller.newRecipe));
+  app.route('/recipes/:id')
+    .get(rescue(controller.getById));
 };
 
 module.exports = recipes;
