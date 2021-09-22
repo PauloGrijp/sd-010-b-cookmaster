@@ -27,7 +27,7 @@ const validationEntries = (name, email, password) => {
 
 const validationEmailPassword = (email, password) => {
   if (!email || !password) {
-    return 'All fields must be filed';
+    return 'All fields must be filled';
   }
 
   if (validePassword(password) || valideEmail(email)) {
