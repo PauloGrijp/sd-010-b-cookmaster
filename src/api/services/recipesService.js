@@ -42,7 +42,16 @@ const createRecipe = async (newRecipe, authorization) => {
   };
 };
 
+const getAllRecipes = async () => {
+  const recipes = await recipesModel.getAllRecipes();
+  return {
+    status: 200,
+    recipes,
+  };
+};
+
 module.exports = {
   validateToken,
   createRecipe,
+  getAllRecipes,
 };
