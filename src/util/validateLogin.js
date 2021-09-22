@@ -2,17 +2,19 @@ const userModel = require('../models/user');
 const codes = require('../httpcodes');
 const validateEmail = require('./emailRegex');
 
-const missingFields = { message: 'All fields must be filled' };
-const incorrectFields = { message: 'Incorrect username or password' };
+const missingFields = 'All fields must be filled';
+const incorrectFields = 'Incorrect username or password';
 
-module.exports = async (req, res, next) => {
-  const { email, password } = req.body;
+module.exports = async (email, password) => {
+  if (!email || !password) return { error: { code: codes.unhautorized, message: missingFields } };
+  if (!validateEmail(email)) {
+    return { error: { code: codes.unhautorized, message: incorrectFields } };
+  }
 
-  if (!email || !password) return res.status(codes.unhautorized).json(missingFields);
-  if (!validateEmail(email)) return res.status(codes.unhautorized).json(incorrectFields);
+  const users = await userModel.getAllUsers();
+  if (!users.some((user) => user.email === email)) {
+    return { error: { code: codes.unhautorized, message: incorrectFields } };
+  }
 
-  const registeredEmail = await userModel.checkEmail(email);
-  if (!registeredEmail) return res.status(codes.unhautorized).json(incorrectFields);
-
-  next();
+  return false;
 };

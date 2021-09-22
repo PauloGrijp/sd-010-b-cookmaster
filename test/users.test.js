@@ -255,6 +255,7 @@ describe('2 - Crie um endpoint para o login de usuários', () => {
           .expect('status', 200)
           .then((responseLogin) => {
             const { json } = responseLogin;
+            console.log(json);
             expect(json.token).not.toBeNull();
           });
       });
