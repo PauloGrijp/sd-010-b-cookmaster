@@ -5,7 +5,7 @@ const validateUserName = async (name) => {
     if (name) {
       return true;
     }
-    throw new Error('Invalid entries. Try again');
+    throw new Error('Invalid entries. Try again.');
   } catch (err) {
     return { message: err.message };
   }
@@ -22,7 +22,7 @@ const validateEmail = async (email) => {
     if (email && regexvalidation) {
       return true;
     }
-    throw new Error('Invalid entries. Try again');
+    throw new Error('Invalid entries. Try again.');
   } catch (err) {
     return { message: err.message };
   }
@@ -33,7 +33,7 @@ const validatePassword = async (password) => {
     if (password) {
       return true;
     }
-    throw new Error('Invalid entries. Try again');
+    throw new Error('Invalid entries. Try again.');
   } catch (err) {
     return { message: err.message };
   }

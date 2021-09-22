@@ -13,7 +13,11 @@ const validateEmail = async (req, res, next) => {
   const { email } = req.body;
   const response = await service.validateEmail(email);
   if (response !== true) {
-    return res.status(400).json(response);
+    if (response.message.includes('Invalid')) {
+      return res.status(400).json(response);
+    } if (response.message.includes('Email')) {
+      return res.status(409).json(response);
+    }
   }
 next();
 };
