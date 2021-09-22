@@ -17,9 +17,18 @@ const create = async (req, res) => {
         { name, ingredients, preparation, userId: id, _id } });
 };
 
-const getAll = async (req, res) => {
+const getAll = async (_req, res) => {
 	const recipeList = await recipesModel.getAll();
 	return res.status(statusCode.OK).json(recipeList);
 };
 
-module.exports = { create, getAll };
+const getById = async (req, res) => {
+	const { id } = req.params;
+	const recipe = await recipeService.getById(id);
+	if (recipe.message) {
+		return res.status(statusCode.NOT_FOUND).json({ message: recipe.message });
+	}
+	return res.status(statusCode.OK).json(recipe);
+};
+
+module.exports = { create, getAll, getById };
