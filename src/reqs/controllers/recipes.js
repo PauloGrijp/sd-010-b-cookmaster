@@ -1,5 +1,5 @@
 const { insertRecipe, getRecipes, 
-  getOneRecipes, updRecipeModel, delRecipe } = require('../models/recipeModel');
+  getOneRecipes, updRecipeModel, delRecipe, insertImageModel } = require('../models/recipeModel');
 
 const createRecipe = async (req, res) => {
   const { name, ingredients, preparation } = req.body;
@@ -35,4 +35,13 @@ const excludeRecipe = async (req, res) => {
   return res.status(204).send();
 };
 
-module.exports = { createRecipe, recipeList, oneRecipe, updateRecipe, excludeRecipe };
+const newImage = async (req, res) => {
+  const { path } = req.file;
+  const { id } = req.params;
+  const result = await insertImageModel(id, path);
+  return res.status(200).json(result);
+};
+
+// https://ricardo-reis.medium.com/string-replace-para-substituir-substrings-no-javascript-6db625e5fbc5
+
+module.exports = { createRecipe, recipeList, oneRecipe, updateRecipe, excludeRecipe, newImage };

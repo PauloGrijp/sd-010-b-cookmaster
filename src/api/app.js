@@ -1,5 +1,6 @@
 const bodyParser = require('body-parser');
 const express = require('express');
+// const path = require('path');
 const routeUser = require('../reqs/routes/routeUser');
 const routeLogin = require('../reqs/routes/routeLogin');
 const routeReceitas = require('../reqs/routes/routeReceitas');
@@ -14,6 +15,7 @@ app.get('/', (request, response) => {
 
 app.use(bodyParser.json());
 
+// app.use('/', express.static(path.resolve('uploads')));
 app.use('/users', routeUser);
 app.use('/login', routeLogin);
 app.use('/recipes', routeReceitas);

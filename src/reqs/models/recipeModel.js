@@ -43,4 +43,15 @@ const delRecipe = async (id) => {
   await db.collection('recipes').deleteOne({ _id: ObjectID(id) });
 };
 
-module.exports = { insertRecipe, getRecipes, getOneRecipes, updRecipeModel, delRecipe };
+const insertImageModel = async (id, pat) => {
+  const newPat = pat.replace(/\\/g, '/');
+  const db = await getConnection();
+  await db.collection('recipes').updateOne(
+    { _id: ObjectID(id) }, { $set: { image: `localhost:3000/${newPat}` } },
+    );
+  const result = await db.collection('recipes').findOne(ObjectID(id));
+  return result;
+};
+
+module.exports = { 
+  insertRecipe, getRecipes, getOneRecipes, updRecipeModel, delRecipe, insertImageModel };
