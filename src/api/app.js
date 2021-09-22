@@ -24,7 +24,8 @@ app
 app
   .route('/recipes/:id')
   .get(recipesController.getById)
-  .put(validateToken, recipesController.updateRecipe);
+  .put(validateToken, recipesController.updateRecipe)
+  .delete(validateToken, recipesController.deleteRecipe);
 
 app
   .route('/recipes')

@@ -7,10 +7,13 @@ const findId = async (id) => {
   return product;
 };
 
-// const updateRecipe = async (id, name, ingredients, preparation) => {
-
-// }
+const updateRecipe = async (id, name, ingredients, preparation) => {
+  await recipesModel.updateRecipe(id, name, ingredients, preparation);
+  const findRecipe = await recipesModel.findById(id);
+  return findRecipe;
+};
 
 module.exports = {
   findId,
+  updateRecipe,
 };

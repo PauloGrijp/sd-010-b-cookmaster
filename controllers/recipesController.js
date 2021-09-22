@@ -20,23 +20,30 @@ const getRecipes = async (req, res) => {
 const getById = async (req, res) => {
   const { id } = req.params;
 
-  const product = await recipesServices.findId(id);
+  const recipe = await recipesServices.findId(id);
 
-  if (product.error) return res.status(404).json({ message: product.message });
-  return res.status(200).json(product);
+  if (recipe.error) return res.status(404).json({ message: recipe.message });
+  return res.status(200).json(recipe);
 };
 
 const updateRecipe = async (req, res) => {
   const { name, ingredients, preparation } = req.body;
   const { id } = req.params;
-  await recipesModel.updateRecipe(id, name, ingredients, preparation);
-  const findRecipe = await recipesModel.findById(id);
-  return res.status(200).json(findRecipe);
+  
+  const recipe = await recipesServices.updateRecipe(id, name, ingredients, preparation);
+  return res.status(200).json(recipe);
+};
+
+const deleteRecipe = async (req, res) => {
+  const { id } = req.params;
+  await recipesModel.deleteRecipe(id);
+  return res.status(204).json();
 };
 
 module.exports = {
   createRecipe,
   getRecipes,
-  getById,
   updateRecipe,
+  deleteRecipe,
+  getById,
 };
