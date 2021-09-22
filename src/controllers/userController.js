@@ -57,12 +57,13 @@ const validateEmailPassword = async (req, res, next) => {
 const getUser = async (req, res) => {
   const { email, password } = req.body;
 
-  const user = await userModel.add(email, password);
+  const user = await userModel.getUser(email, password);
 
   if (!user) {
     return res.status(status.NOT_FOUND).json({ message: 'Not found' });
   }
   const { _id } = user;
+  console.log(user, _id);
   const userData = {
     id: _id,
     email: user.email,
