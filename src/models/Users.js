@@ -1,4 +1,3 @@
-
 const connection = require('./connection');
 
 const response = (user, code) => ({ result: { user }, code });
