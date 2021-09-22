@@ -62,6 +62,5 @@ const updateRecipe = async ({ name, ingredients, preparation, id }) => {
 module.exports = {
   createRecipe,
   getRecipeById,
-  updateRecipe,
-  
+  updateRecipe,  
 };

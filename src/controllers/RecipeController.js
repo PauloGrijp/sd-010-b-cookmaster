@@ -6,7 +6,7 @@ const RecipeModel = require('../models/RecipeModel');
 const createRecipe = async (req, res) => {
   const { name, ingredients, preparation } = req.body;
   const { _id: userId } = req.user;
-  console.log(req.user, 'requisição de user');
+  
   const { message, id } = await RecipeService.createRecipe({ 
     name, ingredients, preparation,
   });
@@ -40,8 +40,28 @@ const getRecipeById = async (req, res) => {
   return res.status(code.OK).json(recipe);
 };
 
+// atualiza receita
+
+const updateRecipe = async (req, res) => {
+  const { name, ingredients, preparation } = req.body;
+  const { _id: userId } = req.user;
+  
+  const { message, id } = await RecipeService.createRecipe({ 
+    name, ingredients, preparation,
+  });
+  
+  if (message) {
+    return res.status(code.BAD_REQUEST).json({ message });
+  }
+
+  return res.status(code.CREATED).json(
+    { recipe: { name, ingredients, preparation, userId, _id: id } },
+    );
+};
+
 module.exports = {
   createRecipe,
   getAllRecipes,
   getRecipeById,
+  updateRecipe,
 };

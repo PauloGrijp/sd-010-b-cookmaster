@@ -7,7 +7,7 @@ const secret = 'seusecretdetoken';
 const validationJWT = async (req, res, next) => {
   const token = req.headers.authorization;
   if (!token) {
-     return res.status(code.UNAUTHORIZED).json({ message: 'jwt malformed' });
+     return res.status(code.UNAUTHORIZED).json({ message: 'missing auth token' });
   }
 
   try {
