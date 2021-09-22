@@ -51,9 +51,21 @@ const updateByIdRecipes = async (recipeId, userId, body) => {
   return result;
 };
 
+const deleteByIdRecipes = async (recipeId) => {
+  const Cookmaster = await connection();
+  const recipes = await Cookmaster.collection('recipes');
+
+  const query = { _id: ObjectId(recipeId) };
+
+  const result = await recipes.deleteOne(query);
+
+  return result;
+};
+
 module.exports = {
   createRecipes,
   getAllRecipes,
   getByIdRecipes,
   updateByIdRecipes,
+  deleteByIdRecipes,
 };
