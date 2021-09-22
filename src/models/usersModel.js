@@ -21,7 +21,6 @@ const create = async ({ name, email, password }) => {
 const findByEmail = async (email) => {
   const db = await connection();
   const emailFound = await db.collection(USERS).findOne({ email });
-  // console.log('line 24: ', emailFound);
 
   if (!emailFound) return null;
 
