@@ -13,7 +13,7 @@ FOLLOWING CRUD
 // CREATE
 const add = async (name, ingredients, preparation, id) => {
   const db = await connectionDB.connect();
-  const recipe = await db.collection('users')
+  const recipe = await db.collection('recipes')
   .insertOne({ name, ingredients, preparation, userId: id });
   return { recipe: {
     name,
@@ -25,4 +25,11 @@ const add = async (name, ingredients, preparation, id) => {
   };
 };
 
-module.exports = { add };
+// GET
+const getAll = async () => {
+  const db = await connectionDB.connect();
+  const recipe = await db.collection('recipes').find().toArray();
+  return recipe;
+};
+
+module.exports = { add, getAll };

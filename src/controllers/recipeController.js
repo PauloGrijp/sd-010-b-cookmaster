@@ -10,6 +10,12 @@ const createRecipe = async (req, res) => {
   return res.status(status.CREATED).json(recipe);
 };
 
+const getAllRecipe = async (_req, res) => {
+  const recipe = await recipeModel.getAll();
+
+  return res.status(status.OK).json(recipe);
+};
+
 const validateEntries = async (req, res, next) => {
   const { name, ingredients, preparation } = req.body;
 
@@ -22,4 +28,4 @@ const validateEntries = async (req, res, next) => {
   return res.status(status.BAD_REQUEST).json({ message: valid });
 };
 
-module.exports = { createRecipe, validateEntries };
+module.exports = { createRecipe, validateEntries, getAllRecipe };
