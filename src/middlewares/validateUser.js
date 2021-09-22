@@ -1,13 +1,17 @@
 let err;
 const statusError = 400;
 
-const validateInput = (req, res, next) => {
-    const { name, email, password } = req.body;
-    if (!name || !email || !password ) {
-        err = { message: 'Invalid entries. Try again.' }
+function validateEmail(email) {
+    const re = /\S+@\S+\.\S+/;
+    return re.test(email);
+  }
+
+const validateInput = (email, name, password, res) => {
+    const verifyEmail = validateEmail(email);
+    if (!name || !email || !password || !verifyEmail) {
+        err = { message: 'Invalid entries. Try again.' };
       return res.status(statusError).json(err);
     }
-    next()
   };
 
-module.exports = { validateInput }
+module.exports = { validateInput };

@@ -1,9 +1,8 @@
 const { MongoClient } = require('mongodb');
 
-// github
-// const MONGO_DB_URL = 'mongodb://mongodb:27017/StoreManager';
-// local
- const MONGO_DB_URL = 'mongodb://localhost:27017/StoreManager';
+require('dotenv').config();
+
+const MONGO_DB_URL = 'mongodb://localhost:27017/Cookmaster';
 const DB_NAME = 'Cookmaster';
 
 const connection = () => MongoClient
@@ -17,6 +16,4 @@ const connection = () => MongoClient
       process.exit();
     });
 
-module.exports = {
-  connection,
-};
+module.exports = connection;

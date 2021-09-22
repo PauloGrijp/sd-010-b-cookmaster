@@ -2,8 +2,7 @@ const bodyParser = require('body-parser');
 const express = require('express');
 
 const app = express();
-const { validateInput } = require('../middlewares/validateUser');
-const { validateEmailExist } = require('../model/verifyUser');
+const { createNewUser } = require('../controller/controllerUser');
 
 // Não remover esse end-point, ele é necessário para o avaliador
 app.get('/', (request, response) => {
@@ -13,6 +12,6 @@ app.get('/', (request, response) => {
 
 app.use(bodyParser.json());
 
-app.post('/users/', [validateInput, validateEmailExist]);
+app.post('/users', [createNewUser]);
 
 module.exports = app;
