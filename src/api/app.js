@@ -31,6 +31,6 @@ app.get('/', (_req, res) => {
 app.post('/users', UserController.createUser);
 app.post('/login', LoginController.findUser);
 app.post('/recipes', validationJWT, RecipeController.createRecipe);
-app.get('/recipes', () => console.log('alterar app do getAll'));
+app.get('/recipes', RecipeController.getAllRecipes);
 
 module.exports = app;

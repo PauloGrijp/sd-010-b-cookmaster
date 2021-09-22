@@ -1,5 +1,6 @@
 const code = require('http-status-codes');
 const RecipeService = require('../services/RecipeService');
+const RecipeModel = require('../models/RecipeModel');
 
 const createRecipe = async (req, res) => {
   const { name, ingredients, preparation } = req.body;
@@ -17,7 +18,15 @@ const createRecipe = async (req, res) => {
     { recipe: { name, ingredients, preparation, userId, _id: id } },
     );
 };
+const getAllRecipes = async (req, res) => {
+  const allRecipes = await RecipeModel.getAllRecipes();
+  if (!allRecipes) {
+    return res.status(code.NOT_FOUND).json({ message: 'Nenhuma receita encontrada' });
+  }
+  return res.status(code.OK).json(allRecipes);
+};
 
 module.exports = {
   createRecipe,
+  getAllRecipes,
 };
