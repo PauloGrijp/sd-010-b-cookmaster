@@ -33,8 +33,11 @@ const getRecipeById = async (id) => {
   return recipe;
 };
 
+const updateRecipe = async (id, body, userId) => recipesModel.updateRecipe(id, body, userId);
+
 module.exports = {
   createRecipe,
   getAllRecipes,
   getRecipeById,
+  updateRecipe,
 };
