@@ -49,16 +49,19 @@ const updateRecipe = async (req, res) => {
 
 const removeRecipe = async (req, res) => {
   const { id } = req.params;
-  const recipeId = await model.remove(id);
-  console.log(recipeId);
+  await model.remove(id);
   return res.status(204).json();
 };
 
 const updateRecipeImage = async (req, res) => {
   const { filename } = req.file;
   const { id } = req.params;
-  const response = await model.updateImage(id, filename);
-  res.status(201).json(response);
+  try {
+    const response = await model.updateImage(id, filename);
+    res.status(200).json(response);
+  } catch (error) {
+    return res.status(401).json({ message: 'missing auth token' });
+  }
 };
 
 module.exports = { 
