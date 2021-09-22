@@ -21,7 +21,8 @@ const getById = async (id) => {
   if (!ObjectId.isValid(id)) {
     return { message: 'recipe not found' };
   }
-  await recipesModel.getById(id); 
+  const recipe = await recipesModel.getById(id); 
+  return recipe;
 };
 
 module.exports = { create, getById };
