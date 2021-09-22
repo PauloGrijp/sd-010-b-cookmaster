@@ -188,7 +188,7 @@ describe('3 - Crie um endpoint para o cadastro de receitas', () => {
   });
 });
 
-describe.only('4 - Crie um endpoint para a listagem de receitas', () => {
+describe('4 - Crie um endpoint para a listagem de receitas', () => {
   let connection;
   let db;
 
@@ -291,7 +291,6 @@ describe.only('4 - Crie um endpoint para a listagem de receitas', () => {
           .expect('status', 200)
           .then((responseRecipes) => {
             const { json } = responseRecipes;
-            console.log(json);
             expect(json[0].name).toBe('banana caramelizada');
             expect(json[0].ingredients).toBe('banana, açúcar');
             expect(json[0].preparation).toBe(
@@ -376,7 +375,6 @@ describe('5 - Crie um endpoint para visualizar uma receita específica', () => {
             resultRecipe = JSON.parse(body);
           });
       });
-
     await frisby
       .get(`${url}/recipes/${resultRecipe.recipe._id}`)
       .expect('status', 200)

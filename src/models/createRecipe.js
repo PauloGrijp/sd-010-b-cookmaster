@@ -3,7 +3,7 @@ const { getConnection } = require('./connection');
 const createRecipe = async (recipe) => {
 const { insertedId } = await getConnection()
 .then((db) => db.collection('recipes').insertOne({ ...recipe }));
-return { recipe: { ...recipe, insertedId } };
+return { recipe: { _id: insertedId, ...recipe } };
 };
 
 module.exports = createRecipe;

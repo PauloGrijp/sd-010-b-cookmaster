@@ -5,9 +5,9 @@ const createRecipe = async (req, res, next) => {
   const recipeData = req.body;
   const token = req.headers.authorization;
   const { _id } = jwt.decode(token);
-  const NewRecipe = await services.createRecipe({ _id, ...recipeData });
-  if (NewRecipe.message) return next(NewRecipe);
-  res.status(201).json(NewRecipe);
+  const newRecipe = await services.createRecipe({ ...recipeData, userId: _id });
+  if (newRecipe.message) return next(newRecipe);
+  res.status(201).json(newRecipe);
 };
 
 module.exports = createRecipe;

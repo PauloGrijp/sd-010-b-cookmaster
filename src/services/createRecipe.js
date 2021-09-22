@@ -6,7 +6,7 @@ const createRecipe = async (newRecipe) => {
     name: Joi.string().required(),
     ingredients: Joi.string().required(),
     preparation: Joi.string().required(),
-    _id: Joi.not().required(),
+    userId: Joi.string().required(),
   }).validate(newRecipe);
   if (validation.error) return { message: 'Invalid entries. Try again.' };
   const createdRecipe = await models.createRecipe(newRecipe);
