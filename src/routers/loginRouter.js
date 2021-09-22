@@ -2,15 +2,15 @@ const express = require('express');
 
 const router = express.Router();
 
-// const userController = require('../controllers/usersControllers');
+const loginController = require('../controllers/loginControllers');
 
-// const { 
-//  ifNamePasswordOrEmailNotExists,
-//  ifEmailExists,
+const { 
+    emailAndPasswordExist,
+    checkEmailAndPassword,
 
-//   } = require('../services/usersService');
+  } = require('../services/loginService');
 
-// router.post('/', ifNamePasswordOrEmailNotExists, ifEmailExists, userController.addUser); 
+router.post('/', emailAndPasswordExist, checkEmailAndPassword, loginController.loginUser); 
 
 // app.use((err, req, res, _next) => 
 // res.status(500).send(`Algo deu errado! Mensagem: ${err.message}`));

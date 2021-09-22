@@ -16,7 +16,6 @@ const message = {
 
 const ifNamePasswordOrEmailNotExists = (req, res, next) => {
     const { name, email, password } = req.body;
-    console.log('service?');
     if (!name || (!email || !validEmail.test(email)) || !password) {
         return res.status(erroCode.BAD_REQUEST).json({ message: message.BAD_REQUEST });
     }
@@ -27,7 +26,6 @@ const ifNamePasswordOrEmailNotExists = (req, res, next) => {
 const ifEmailExists = async (req, res, next) => {
     const { email } = req.body;
     // try {
-        console.log('Email Existe?');
     const emailExists = await userModel.findUserByEmail(email);
     if (emailExists) {
         console.log(emailExists);

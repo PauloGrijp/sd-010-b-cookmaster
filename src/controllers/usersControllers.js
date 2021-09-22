@@ -6,8 +6,9 @@ const STATUS_OK = {
 
 const addUser = async (req, res) => {
     // abaixo é a função que vai adicionar um produto!
-    const { name, email } = req.body;
-   const newUser = await userModel.createNewUser(name, email);
+    const { name, email, password } = req.body;
+   const newUser = await userModel.createNewUser(name, email, password);
+   delete newUser.password;
    return res.status(STATUS_OK.Created).json({ user: newUser });
 };
 
