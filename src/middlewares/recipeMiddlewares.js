@@ -1,7 +1,7 @@
 const JWT = require('jsonwebtoken');
 const Joi = require('joi');
 
-const SECRET = 'senhasupersegura123';
+const SECRET = 'senhasupersecreta123';
 
 const validToken = async (req, res, next) => {
   const token = req.headers.authorization;

@@ -3,7 +3,7 @@ require('dotenv').config();
 
 // const MONGO_DB_URL = 'mongodb://localhost:27017/Cookmaster';
 const MONGO_DB_URL = process.env.MONGO_DB_URL || 'mongodb://mongodb:27017/Cookmaster';
-console.log(process.env.MONGO_DB_URL);
+// console.log(process.env.MONGO_DB_URL);
 
 const DB_NAME = 'Cookmaster';
 
