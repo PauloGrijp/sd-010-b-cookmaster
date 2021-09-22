@@ -1,9 +1,5 @@
-const { getEmail } = require('../service/usersService');
-
-const httpStatus = {
-  badRequest: 400,
-  conflict: 409,
-};
+const { getEmail, checkLoginUser } = require('../service/usersService');
+const httpStatus = require('../controller/httpStatus');
 
 const verifyUniqueEmail = async (email) => {
   const findedEmail = await getEmail(email);
@@ -40,8 +36,28 @@ const verifyPasswordSignUp = async (req, res, next) => {
   next();
 };
 
+const checkBodyLogin = (req, res, next) => {
+  if (req.body.email && req.body.password) {
+    next();
+    return;
+  }
+  return res.status(httpStatus.unauthorized).json({ message: 'All fields must be filled' });
+};
+
+const checkAssertionLogin = async (req, res, next) => {
+  const { email, password } = req.body;
+  const succesfulLogin = await checkLoginUser(email, password);
+  if (succesfulLogin) {
+    next();
+    return;
+  }
+  return res.status(httpStatus.unauthorized).json({ message: 'Incorrect username or password' });
+};
+
 module.exports = {
   verifyEmailSignUp,
   verifyNameSignUp,
   verifyPasswordSignUp,
+  checkBodyLogin,
+  checkAssertionLogin,
 };

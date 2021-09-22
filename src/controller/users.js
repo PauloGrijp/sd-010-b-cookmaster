@@ -10,6 +10,8 @@ const {
   createUser,
 } = require('../service/usersService');
 
+const httpStatus = require('./httpStatus');
+
 const route = express.Router();
 
 route.post('/',
@@ -25,7 +27,7 @@ route.post('/',
       role: 'user',
     };
   const userCreated = await createUser(user);
-  res.status(201).json({ user: userCreated });
+  res.status(httpStatus.created).json({ user: userCreated });
 });
 
 module.exports = route;

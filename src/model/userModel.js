@@ -21,8 +21,15 @@ const getById = async (id) => {
   return user;
 };
 
+const getByEmailAndPassword = async (email, password) => {
+  const db = await connection();
+  const user = await db.collection('users').findOne({ email, password });
+  return user;
+};
+
 module.exports = {
   getByEmail,
   createUser,
   getById,
+  getByEmailAndPassword,
 };

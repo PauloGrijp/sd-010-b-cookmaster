@@ -16,11 +16,16 @@ const createUser = async (user) => {
   if (role) {
     userCreated.role = role;
   }
-  console.log(userCreated);
   return userCreated;
+};
+
+const checkLoginUser = async (email, password) => {
+  const checkedUser = await userModel.getByEmailAndPassword(email, password);
+  return checkedUser;
 };
 
 module.exports = {
   getEmail,
   createUser,
+  checkLoginUser,
 };
