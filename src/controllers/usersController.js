@@ -1,5 +1,12 @@
 const { StatusCodes } = require('http-status-codes');
+const JWT = require('jsonwebtoken');
 const service = require('../services/usersService');
+
+const secret = 'super-senha-que-ninguem-sabe';
+const jwtConfiguration = {
+  expiresIn: '15m',
+  algorithm: 'HS256',
+};
 
 const createUser = async (req, res) => {
   try {
@@ -18,4 +25,25 @@ const createUser = async (req, res) => {
   }
 };
 
-module.exports = { createUser };
+const userLogin = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    const login = await service.userLogin({ email, password });
+    // if(!login) {
+    //   console.log('Deu ruim')
+    // }
+    if (!login || login.error) {
+      console.log('aquiiiiiiiiiiiii', login);
+      return res.status(StatusCodes.UNAUTHORIZED).json({ message: login.message });
+    }
+    const token = JWT.sign({ data: login }, secret, jwtConfiguration);
+    return res.status(StatusCodes.OK).json({ token });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+module.exports = { 
+  createUser,
+  userLogin,
+};

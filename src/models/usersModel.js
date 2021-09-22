@@ -28,7 +28,20 @@ const emailExists = async (email) => {
   return user;
 };
 
+/**
+ * 
+ * @param {string} email email do usuário
+ * @param {string} password senha do usuário
+ * @returns {promise}
+ */
+const login = async (email, password) => {
+  const db = await connection();
+  const userLogin = await db.collection('users').findOne({ email, password });
+  return userLogin;
+};
+
 module.exports = { 
   createUser,
   emailExists,
+  login,
 };
