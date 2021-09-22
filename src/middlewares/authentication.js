@@ -1,5 +1,5 @@
-const models = require('../models');
 const Joi = require('joi');
+const models = require('../models');
 
 const login = async (req, _res, next) => {
   const userData = req.body;

@@ -5,6 +5,7 @@ const statusCode = {
   'Email already registered': 409,
   'Incorrect username or password': 401,
   'All fields must be filled': 401,
+  'jwt malformed': 401,
 };
 if (statusCode[message]) return res.status(statusCode[message]).json(err);
 return res.status(500).end();

@@ -3,6 +3,7 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const controllers = require('../controllers');
 const authentication = require('../middlewares/authentication');
+const authorization = require('../middlewares/authorization');
 
 const app = express();
 app.use('/images', express.static(path.join(__dirname, '..', 'uploads')));
@@ -17,5 +18,7 @@ app.get('/', (request, response) => {
 app.post('/users', controllers.createUser);
 
 app.post('/login', authentication.login, controllers.login);
+
+app.post('/recipes', authorization.verifyToken, controllers.createRecipe);
 
 module.exports = app;

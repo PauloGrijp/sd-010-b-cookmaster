@@ -6,7 +6,7 @@ const createUser = async (newUser) => {
   .then((db) => db.collection('users'));
   const duplicatedData = await dbConnection.findOne({ email });
   if (duplicatedData) return false;
-  const { insertedId } = dbConnection.insertOne({...newUser, role: 'user'});
+  const { insertedId } = dbConnection.insertOne({ ...newUser, role: 'user' });
   const treatedUser = { name, email, role: 'user' };
   return { user: { insertedId, ...treatedUser } };
 };
