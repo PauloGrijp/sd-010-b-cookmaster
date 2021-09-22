@@ -1,6 +1,7 @@
 const Users = require('../models/Users');
 
 const validations = require('../schemas/usersValidation');
+const { generateToken } = require('../schemas/generateToken');
 
 const validatingIfDataIsValid = (name, email, password) => {
   const ifNameEmailPasswordExists = validations.ifNameEmailPasswordExists(name, email, password);
@@ -45,6 +46,30 @@ const registerNewUser = async (name, email, password) => {
   return { user: addedUser };
 };
 
+const loginUser = async (email, password) => {
+  const ifEmailPasswordExists = validations.ifEmailPasswordExists(email, password);
+  if (ifEmailPasswordExists.isErrorMessage) {
+    return {
+      codeError: ifEmailPasswordExists.codeError,
+      isErrorMessage: ifEmailPasswordExists.isErrorMessage,
+    };
+  }
+
+  const ifEmailPasswordValid = await validations.ifEmailPasswordValid(email, password);
+  if (ifEmailPasswordValid.isErrorMessage) {
+    return {
+      codeError: ifEmailPasswordValid.codeError,
+      isErrorMessage: ifEmailPasswordValid.isErrorMessage,
+    };
+  }
+
+  const { _id, email: emailUser, role } = ifEmailPasswordValid;
+  const token = generateToken({ _id, emailUser, role });
+
+  return { token };
+};
+
 module.exports = {
   registerNewUser,
+  loginUser,
 };

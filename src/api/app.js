@@ -13,6 +13,7 @@ app.get('/', (request, response) => {
 });
 
 app.post('/users', Users.registerNewUser);
+app.post('/login', Users.loginUser);
 
 app.use(errorMiddleware);
 

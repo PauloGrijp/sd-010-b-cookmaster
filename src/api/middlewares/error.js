@@ -1,24 +1,20 @@
 const { StatusCodes } = require('http-status-codes');
 
-module.exports = (err, req, res, _next) => {  
-  if (!err.codeError) {
-    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ message: err.isErrorMessage });
-  }
-  
-  let status = 500;
+module.exports = (err, req, res, _next) => {
+  let status = StatusCodes.INTERNAL_SERVER_ERROR;
 
   switch (err.codeError) {
     case 'not_found':
-      status = 404;
+      status = StatusCodes.NOT_FOUND;
       break;
-    // case 'invalid_data':
-    //   status = 422;
-    //   break;
+    case 'unauthorized':
+      status = StatusCodes.UNAUTHORIZED;
+      break;
     case 'bad_request':
-      status = 400;
+      status = StatusCodes.BAD_REQUEST;
       break;
     case 'conflict':
-      status = 409;
+      status = StatusCodes.CONFLICT;
       break;
     default:
       break;
