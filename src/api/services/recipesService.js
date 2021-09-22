@@ -69,9 +69,20 @@ const getRecipeById = async (id) => {
   };
 };
 
+const updateRecipe = async (id, recipe, authorization) => {
+  await validateToken(authorization);
+  const updatedRecipe = await recipesModel.updateRecipe(id, recipe);
+
+  return {
+    status: 200,
+    updatedRecipe,
+  };
+};
+
 module.exports = {
   validateToken,
   createRecipe,
   getAllRecipes,
   getRecipeById,
+  updateRecipe,
 };
