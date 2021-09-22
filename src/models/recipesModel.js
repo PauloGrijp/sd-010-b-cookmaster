@@ -46,10 +46,20 @@ const deleteRecipe = async (id) => {
   }
 };
 
+const insertImageIntoRecipe = async (id, path) => {
+  const comparisonId = new mongo.ObjectId(id);
+  await connection().then((db) => 
+    db.collection(COLLECTION_NAME).updateOne({ _id: comparisonId }, { $set: { image: path } }));
+  const updatedRecipe = await connection().then((db) =>
+   db.collection(COLLECTION_NAME).findOne({ _id: comparisonId }));
+  return updatedRecipe;
+};
+
 module.exports = {
   createNewRecipe,
   getAllRecipes,
   getRecipeById,
   updateRecipe,
   deleteRecipe,
+  insertImageIntoRecipe,
 };

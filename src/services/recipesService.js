@@ -29,7 +29,7 @@ const updateRecipe = async (id, body, token) => {
   const validateToken = await schema.validateToken(token);
   if (validateToken.err) return validateToken;
   const { _id, role } = validateToken;
-  const recipeToBeUpdated = await model.getRecipeById(_id);
+  const recipeToBeUpdated = await model.getRecipeById(id);
   if (recipeToBeUpdated.userId !== _id && role !== 'admin') {
     return { status: 401, err: { message: 'this recipe is not yours' } };
   }
@@ -41,12 +41,23 @@ const deleteRecipe = async (id, token) => {
   const validateToken = await schema.validateToken(token);
   if (validateToken.err) return validateToken;
   const { _id, role } = validateToken;
-  const recipeToBeDeleted = await model.getRecipeById(_id);
+  const recipeToBeDeleted = await model.getRecipeById(id);
   if (recipeToBeDeleted.userId !== _id && role !== 'admin') {
     return { status: 401, err: { message: 'this recipe is not yours' } };
   }
   const modelReturn = await model.deleteRecipe(id);
   return modelReturn;
+};
+
+const uploadImage = async (id, token) => {
+  const validateToken = await schema.validateToken(token);
+  if (validateToken.err) return validateToken;
+  return {};
+};
+
+const insertImageIntoRecipe = async (id, path) => {
+  const modelResponse = await model.insertImageIntoRecipe(id, path);
+  return modelResponse;
 };
 
 module.exports = {
@@ -55,4 +66,6 @@ module.exports = {
   getRecipeById,
   updateRecipe,
   deleteRecipe,
+  uploadImage,
+  insertImageIntoRecipe,
 };

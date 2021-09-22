@@ -46,10 +46,23 @@ const deleteRecipe = async (req, res) => {
   return res.status(204).json();
 };
 
+const uploadImage = async (req, res) => {
+  const { id } = req.params;
+  const { authorization: token } = req.headers;
+  const response = await service.uploadImage(id, token);
+  if (response.err) {
+    return res.status(response.status).json(response.err);
+  }
+  const imagePath = `localhost:3000/src/uploads/${id}.jpeg`;
+  const result = await service.insertImageIntoRecipe(id, imagePath);
+  res.status(200).json(result);
+};
+
 module.exports = {
   createNewRecipe,
   getAllRecipes,
   getRecipeById,
   updateRecipe,
   deleteRecipe,
+  uploadImage,
 };
