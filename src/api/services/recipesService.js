@@ -90,6 +90,18 @@ const deleteRecipe = async (id, authorization) => {
   }
 };
 
+const addRecipeImage = async (id, authorization) => {
+  await validateToken(authorization);
+  const image = `localhost:3000/src/uploads/${id}.jpeg`;
+
+  const addedRecipeImage = await recipesModel.addRecipeImage(id, image);
+
+    return {
+      status: 200,
+      addedRecipeImage,
+    };
+};
+
 module.exports = {
   validateToken,
   createRecipe,
@@ -97,4 +109,5 @@ module.exports = {
   getRecipeById,
   updateRecipe,
   deleteRecipe,
+  addRecipeImage,
 };
