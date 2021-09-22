@@ -145,6 +145,7 @@ describe('POST /users', () => {
 describe('POST, /login', () => {
   describe('Quando email ou passowrd não são informados', () => {
     let response;
+
     before(async () => {
       response = await chai.request(app).post('/login').send({});
     });
