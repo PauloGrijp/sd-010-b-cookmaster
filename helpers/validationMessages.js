@@ -8,10 +8,13 @@ const MUST_BE_FILLED = { message: 'All fields must be filled' };
 
 const INCORRECT_DATA = { message: 'Incorrect username or password' };
 
+const INVALID_TOKEN = { message: 'jwt malformed' };
+
 module.exports = {
   ERROR,
   INVALID_ENTRY,
   EMAIL_ALREADY_EXISTS,
   MUST_BE_FILLED,
   INCORRECT_DATA,
+  INVALID_TOKEN,
 };

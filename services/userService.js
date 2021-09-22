@@ -1,10 +1,10 @@
 const jwt = require('jsonwebtoken');
 const UsersModel = require('../models/userModel');
 
-const secret = 'seusecretdetoken';
+const secret = 'senhaMaisDoQueSecreta';
 
 const jwtConfig = {
-  expiresIn: '1d',
+  expiresIn: '4d',
   algorithm: 'HS256',
 };
 
@@ -21,12 +21,6 @@ const validateFieldsLogin = (email, password) => {
   return true;
 };
 
-const formatEmailLogin = (email) => {
-  if (!(/^[^\s@]+@[^\s@]+\.[^\s@]+$/).test(email)) return false;
-
-  return true;
-};
-
 const createUser = async ({ name, email, password }) => {
   const emailExists = await UsersModel.emailExists(email);
   const validation = validateFieldsCreate(name, email, password);
@@ -34,12 +28,12 @@ const createUser = async ({ name, email, password }) => {
   if (emailExists) return null;
   if (!validation) return false;
 
-  return UsersModel.create({ name, email, password });
+  return UsersModel.createUser({ name, email, password });
 };
 
-const loginUser = async ({ email, password }) => {
+const loginUser = async (email, password) => {
   const validation = validateFieldsLogin(email, password);
-  const userSearch = await UsersModel.login({ email, password });
+  const userSearch = await UsersModel.loginUser(email);
 
   if (!validation) return false;
 
@@ -59,6 +53,5 @@ const loginUser = async ({ email, password }) => {
 
 module.exports = {
   createUser,
-  formatEmailLogin,
   loginUser,
 };

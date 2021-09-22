@@ -1,4 +1,3 @@
-// const { ObjectId } = require('mongodb');
 const connection = require('./connection');
 
 const emailExists = async (email) => {
@@ -8,7 +7,7 @@ const emailExists = async (email) => {
   return user !== null;
 };
 
-const create = async ({ name, email, password }) => {
+const createUser = async ({ name, email, password }) => {
   const db = await connection();
   const userRegistry = await db.collection('users').insertOne({ name, email, password });
 
@@ -22,15 +21,15 @@ const create = async ({ name, email, password }) => {
   };
 };
 
-const login = async ({ email, password }) => {
+const loginUser = async (email) => {
   const db = await connection();
-  const userData = await db.collection('users').findOne({ email, password });
+  const userData = await db.collection('users').findOne({ email });
 
   return userData;
 };
 
 module.exports = {
   emailExists,
-  create,
-  login,
+  createUser,
+  loginUser,
 };

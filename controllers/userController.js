@@ -19,7 +19,7 @@ const createUser = async (req, res) => {
 const loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
-    const result = await service.loginUser({ email, password });
+    const result = await service.loginUser(email, password);
     const token = result;
 
     if (result === false) return res.status(401).json(messages.MUST_BE_FILLED);
