@@ -49,6 +49,8 @@ app.delete('/recipes/:id', auth, RecipesController.deleteOne);
 app.put('/recipes/:id/image', auth, RecipesController.addImage,
   upload.single('image'), (_req, res, _next) => res.status(200).json(res.response));
 
+app.get('/recipes/:id/image', RecipesController.getImage);
+
 app.post('/users', UserController.create);
 
 app.post('/users/admin', auth, UserController.createAdmin);
