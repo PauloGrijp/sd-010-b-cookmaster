@@ -16,7 +16,7 @@ const create = async ({ name, ingredients, preparation }) => {
 const getAll = async () => {
   const recipesCollection = await mongoConnection.getConnection()
     .then((db) => db.collection('recipes'));
-  const recipeList = await recipesCollection.find();
+  const recipeList = await recipesCollection.find().toArray();
   return recipeList;
 };
 
