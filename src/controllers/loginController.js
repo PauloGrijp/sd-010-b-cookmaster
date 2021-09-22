@@ -13,7 +13,6 @@ const login = async (req, res) => {
 			{ message: loginUser.message },
 		);
 	} 
-
     const jwtConfig = {
         expiresIn: '7d',
         algorithm: 'HS256',
