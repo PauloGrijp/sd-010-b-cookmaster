@@ -220,5 +220,33 @@ describe('POST, /login', () => {
     it('A propriedade "token" não pode ser vazia', () => {
       expect(response.body.token).to.be.empty;
     });
-  })
+  });
+
+  describe('Verifica se é possivel logar o usuario admin com sucesso', () => {
+    let response;
+
+    before(async () => {
+      response = await chai.request(app).post('/login')
+        .send({
+          email: 'root@email.com',
+          password: 'admin',
+        });
+    });
+
+    it('Retorna status HTTP 200', () => {
+      expect(response).to.have.status(200);
+    });
+
+    it('Retorna um objeto no body', () => {
+      expect(response.body).to.be.an('object');
+    });
+
+    it('O objeto de resposta possui uma propriedade "token"', () => {
+      expect(response.body).to.have.a.property('token');
+    });
+
+    it('A propriedade "token" não pode ser vazia', () => {
+      expect(response.body.token).to.be.empty;
+    });
+  });
 });
