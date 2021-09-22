@@ -8,7 +8,7 @@ const statusCode = {
   'jwt malformed': 401,
 };
 if (statusCode[message]) return res.status(statusCode[message]).json(err);
-return res.status(500).end();
+return res.status(500).send('..something is wrong');
 };
 
 module.exports = error;

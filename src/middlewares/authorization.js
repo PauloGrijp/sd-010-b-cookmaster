@@ -1,10 +1,13 @@
 const jwt = require('jsonwebtoken');
 
-const verifyToken = (req, res, next) => {
-  const token = req.headers.Authorization;
-  const verified = jwt.verify(token);
-  if (!verified) next({ message: 'jwt malformed' });
-  next();
+const verifyToken = (req, _res, next) => {
+  const token = req.headers.authorization;
+  try {
+    jwt.verify(token, 'secret');
+    next();
+  } catch (err) {
+    next({ message: 'jwt malformed' });
+  }
 };
 
 module.exports = { verifyToken };
