@@ -1011,7 +1011,7 @@ describe('9 - Crie um endpoint para a adição de uma imagem a uma receita', () 
   it('Será validado que é possível enviar foto com usuário autenticado', async () => {
     const photoFile = path.resolve(__dirname, '..', 'src', 'uploads', 'ratinho.jpg');
     const content = fs.createReadStream(photoFile);
-    const formData = frisby.formData();
+    const formData = frisby.formData(); 
 
     formData.append('image', content);
 
@@ -1059,6 +1059,7 @@ describe('9 - Crie um endpoint para a adição de uma imagem a uma receita', () 
       })
       .put(`${url}/recipes/${resultRecipes.recipe._id}/image`, { body: formData })
       .expect('status', 200);
+      console.log(formData)
   });
 
   it('Será validado que ao enviar foto, o nome da imagem é alterada para o id da receita', async () => {
@@ -1115,6 +1116,7 @@ describe('9 - Crie um endpoint para a adição de uma imagem a uma receita', () 
       .then((response) => {
         const { body } = response;
         result = JSON.parse(body);
+      console.log(result)
         expect(result.image).toBe(`localhost:3000/src/uploads/${resultRecipes.recipe._id}.jpeg`);
         expect(result).toHaveProperty('_id');
         expect(result).toHaveProperty('userId');

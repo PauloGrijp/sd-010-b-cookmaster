@@ -29,7 +29,7 @@ const updateRecipe = async (id, recipe, role) => {
 
 const deleteRecipe = async (id, userId, role) => {
     const recipeItem = await findRecipe(id);
-    console.log('delete recipe service', id, userId, role, recipeItem);
+    // console.log('delete recipe service', id, userId, role, recipeItem);
 
     if (recipeItem.userId !== userId && role !== 'admin') {
         return {
@@ -40,4 +40,17 @@ const deleteRecipe = async (id, userId, role) => {
        return 'ok';
 };
 
-module.exports = { createRecipes, getAll, findRecipe, updateRecipe, deleteRecipe };
+const insertImage = async (id, userId, role, url) => {
+    const recipeItem = await findRecipe(id);
+    console.log('insertImage  service', id, userId, role, recipeItem);
+
+    if (recipeItem.userId !== userId && role !== 'admin') {
+        return {
+            message: 'jwt malformed',
+        };
+       } 
+       const response = await recipes.insertImage(recipeItem, url);
+       return response;
+};
+
+module.exports = { createRecipes, getAll, findRecipe, updateRecipe, deleteRecipe, insertImage };

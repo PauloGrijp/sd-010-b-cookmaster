@@ -31,7 +31,7 @@ const updateRecipe = async (req, res) => {
 
     if (recipe.message) return res.status(401).json(recipe);
 
-    console.log('recipe on controller', recipe, req.user);
+    // console.log('recipe on controller', recipe, req.user);
     return res.status(200).json(recipe.recipe);
 };
 
@@ -41,11 +41,26 @@ const deleteRecipe = async (req, res) => {
     
     const recipe = await recipes
     .deleteRecipe(id, userId, role);
-    console.log('delete recipe controller', id, userId, role, 'recipe', recipe.message);
+    // console.log('delete recipe controller', id, userId, role, 'recipe', recipe.message);
     
     if (recipe.message) return res.status(401).json(recipe);
 
     return res.status(204).json();
 };
 
-module.exports = { createRecipes, getAll, findRecipe, updateRecipe, deleteRecipe };
+const insertImage = async (req, res) => {
+    const { id } = req.params;
+    const { userId, role } = req.user;  
+    const url = `localhost:3000/src/uploads/${req.params.id}.jpeg`;
+    console.log(req.file, 'insert image controller');
+    if (req.file.mimetype !== 'image/jpeg') {
+    return res.status(400).json({
+            error: { message: 'Extension must be `jpg`' },
+    });
+} 
+    const recipe = await recipes.insertImage(id, userId, role, url);
+
+    return res.status(200).json(recipe.recipe);
+  };
+
+module.exports = { createRecipes, getAll, findRecipe, updateRecipe, deleteRecipe, insertImage };
