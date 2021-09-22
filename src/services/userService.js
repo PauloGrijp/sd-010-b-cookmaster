@@ -22,7 +22,7 @@ const validationEntries = (name, email, password) => {
 };
 
 const validationEmailPassword = (email, password) => {
-  if (!!email || !password) {
+  if (!email || !password) {
     return 'All fields must be filed';
   }
 

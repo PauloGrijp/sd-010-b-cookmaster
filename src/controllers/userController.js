@@ -4,7 +4,6 @@ const userModel = require('../models/userModel');
 const userService = require('../services/userService');
 
 // JWT //
-const secretKey = process.env.SECRET_KEY;
 const jwtConfig = {
   expiresIn: '1d',
   algorithm: 'HS256',
@@ -70,9 +69,11 @@ const getUser = async (req, res) => {
     role: user.role,
   };
 
+  const secretKey = 'senha-secreta';
+  
   const token = jwt.sign({ data: userData }, secretKey, jwtConfig);
   console.log(user);
-  return res.status(status.OK).json(token);
+  return res.status(status.OK).json({ token });
 };
 
 module.exports = { entryValidated, getUser, validateEmailPassword, emailValidated, createUser };
