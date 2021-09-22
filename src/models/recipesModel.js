@@ -51,10 +51,25 @@ const deleteById = async ({ id, userId, role }) => {
   await db.collection(recipes).findOneAndDelete(filterQuery);
 };
 
+const putImage = async ({ id, userId, role, image }) => {
+  const db = await connection();
+  
+  const filterQuery = buildFilterQueriesByRole({ id, userId, role });
+  
+  const { value } = await db.collection(recipes).findOneAndUpdate(
+    filterQuery,
+    { $set: { image } },
+    { returnOriginal: false },
+  );
+
+  return value;
+};
+
 module.exports = {
   create,
   getAll,
   getById,
   update,
   deleteById,
+  putImage,
 };

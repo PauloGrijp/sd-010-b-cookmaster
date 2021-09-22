@@ -29,8 +29,11 @@ const update = async (reqData) => {
   return updatedRecipe;
 };
 
+const putImage = async (reqData) => recipesModel.putImage(reqData);
+
 module.exports = {
   create,
   getById,
   update,
+  putImage,
 };
