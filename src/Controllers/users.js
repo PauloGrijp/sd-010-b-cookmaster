@@ -5,6 +5,10 @@ const requestNewUser = async (req, res) => {
 
   const newUser = await addUser(email, password, name);
 
+  if (newUser.message) {
+    return res.status(409).json({ message: 'Email already registered' });
+  }
+
   return res.status(201).json(newUser);
 };
 
