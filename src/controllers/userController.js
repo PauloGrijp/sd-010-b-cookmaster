@@ -1,6 +1,6 @@
 const Joi = require('joi');
 const userServices = require('../services/userServices');
-const { CODE, MESSAGE } = require('../helpers/responses');
+const { CODE_HTTP, MESSAGE } = require('../helpers/responses');
 
 const createUser = async (req, res) => {
   const { error } = Joi.object({
@@ -8,12 +8,21 @@ const createUser = async (req, res) => {
     email: Joi.string().required(),
     password: Joi.string().required(),
   }).validate(req.body);
-
-  if (error) res.status(CODE.BAD_REQUEST).json(MESSAGE.ENTRIES_INVALID);
+  if (error) return res.status(CODE_HTTP.BAD_REQUEST).json(MESSAGE.ENTRIES_INVALID); 
 
   const { name, email, password } = req.body;
+  const resultServices = await userServices.createUser({ name, email, password });
 
- const resultServece = await userServices.createUser();
+  if (resultServices === 400) { 
+    return res.status(CODE_HTTP.BAD_REQUEST).json(MESSAGE.ENTRIES_INVALID); 
+  }
+
+  if (resultServices === 409) { 
+    return res.status(CODE_HTTP.CONFLICT).json(MESSAGE.EMAIL_ALREADY_EXISTS); 
+  }
+
+  // console.log(resultServices);
+  return res.status(CODE_HTTP.CREATE_SUCCESS).json(resultServices);
 };
 
 module.exports = {

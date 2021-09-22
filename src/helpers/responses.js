@@ -9,7 +9,7 @@ const MESSAGE = {
   DENIAL_NEW_ADMIN: { message: 'Only admins can register new admins' },
 };
 
-const CODE = {
+const CODE_HTTP = {
   SUCCESS: 200,
   CREATE_SUCCESS: 201,
   NO_CONTENT: 204,
@@ -17,9 +17,10 @@ const CODE = {
   UNAUTHORIZED: 401,
   FORBIDDEN: 403, 
   NOT_FOUND: 404,
+  CONFLICT: 409,
 };
 
 module.exports = {
   MESSAGE,
-  CODE,
+  CODE_HTTP,
 };
