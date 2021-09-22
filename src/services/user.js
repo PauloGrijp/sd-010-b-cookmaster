@@ -25,7 +25,7 @@ const createUser = async (name, email, password) => {
 };
 
 const login = async (email, password) => {
-  const validation = validateLoginInput(email, password);
+  const validation = await validateLoginInput(email, password);
   if (validation) return validation;
 
   const user = await userModel.getUserByEmail(email);
