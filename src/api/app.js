@@ -10,6 +10,10 @@ const app = express();
 //TODO: multer here
 
 app.use(bodyParser.json());
+
+app.use('/users', UsersRouter);
+app.use('/login', LoginRouter);
+app.use('/recipes', RecipesRouter);
 app.use('/images', express.static(path.join(__dirname, '..', 'uploads')));
 
 app.use(UsersRouter);
