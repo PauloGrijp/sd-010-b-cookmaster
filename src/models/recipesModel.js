@@ -35,9 +35,21 @@ const updateRecipe = async (id, name, ingredients, preparation) => {
   return updatedRecipe;
 };
 
+const deleteRecipe = async (id) => {
+  const comparisonId = new mongo.ObjectId(id);
+  try {
+    await connection().then((db) => 
+      db.collection(COLLECTION_NAME).deleteOne({ _id: comparisonId }));
+    return Promise.resolve;
+  } catch (error) {
+    return error;
+  }
+};
+
 module.exports = {
   createNewRecipe,
   getAllRecipes,
   getRecipeById,
   updateRecipe,
+  deleteRecipe,
 };
