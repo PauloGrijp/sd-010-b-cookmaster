@@ -3,14 +3,15 @@ const connectionMongo = require('./connection');
 
 const create = async (name, ingredients, preparation, userId) => {
   const db = await connectionMongo();
-  const recipe = await db.collection('recipes').insertOne({ name, ingredients, preparation });
-  return { id: recipe.insertedId, name, ingredients, preparation, userId };
+  const recipe = await db.collection('recipes')
+    .insertOne({ name, ingredients, preparation, userId });
+  return { name, ingredients, preparation, userId, _id: recipe.insertedId };
 };
  
 const getAll = async () => {
   const db = await connectionMongo();
   const recipes = await db.collection('recipes').find().toArray();
-  return { recipes }; 
+  return recipes; 
 };
 
 const getById = async (id) => {

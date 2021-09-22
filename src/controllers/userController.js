@@ -46,14 +46,16 @@ const validateUserLogin = async (req, res, next) => {
   next();
 };
 
-const checkUserExists = async (req, res) => {
+const checkUserExists = async (req, res, next) => {
   const { email, password } = req.body;
   const response = await service.checkUserExists(email, password);
   if (response === 'incorrect') {
     return res.status(401).json({ message: 'Incorrect username or password' });
   }
-  return res.status(200).json(req.token);
+  next();
 };
+
+const userLogin = async (req, res) => res.status(200).json(req.token);
 
 module.exports = { 
   validateUserName,
@@ -62,4 +64,5 @@ module.exports = {
   createUser,
   validateUserLogin,
   checkUserExists,
+  userLogin,
 };
