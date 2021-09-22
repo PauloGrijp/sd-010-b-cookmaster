@@ -29,21 +29,20 @@ const login = async (req, res) => {
   const { email, password } = req.body;
   const user = await userService.login({ email, password });
   const { _id, role } = user;
-  const payload = { _id, role, email };
 
-  console.log(user);
+  const payload = { _id, role, email };
 
   if (user === 'emailOrPassWrong') {
     return res.status(401).json({ message: 'All fields must be filled' });
   }
 
-  if (user) {
+  if (user === null) {
     return res.status(401).json({ message: 'Incorrect username or password' });
   }
 
   const token = jwt.sign(payload, secret, jwtConfig);
 
-  return res.status(200).json(token);
+  return res.status(200).json({ token });
 };
 
 module.exports = {

@@ -29,8 +29,6 @@ const login = async ({ email, password }) => {
 
   if (error) return 'emailOrPassWrong';
 
-  console.log(user);
-
   return user;
 };
 

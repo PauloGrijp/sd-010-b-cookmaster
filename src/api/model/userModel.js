@@ -31,7 +31,7 @@ const login = async ({ email, password }) => {
 
   const query = { email, password };
   const result = await user.findOne(query);
-  return result === null;
+  return result;
 };
 
 module.exports = {
