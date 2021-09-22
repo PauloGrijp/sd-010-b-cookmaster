@@ -9,6 +9,7 @@ router.route('/:id')
   .get(rescue(getById));
 
 router.route('/')
-  .post(rescue(validateJWT), rescue(create));
+  .post(rescue(validateJWT), rescue(create))
+  .get(rescue(getAll));
 
 module.exports = router;
