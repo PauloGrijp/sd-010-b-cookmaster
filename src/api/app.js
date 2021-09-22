@@ -3,7 +3,7 @@ const express = require('express');
 const app = express();
 
 const userRoutes = require('../routes/userRoutes');
-const recipeRotes = require('../routes/recipeRoutes');
+const recipeRoutes = require('../routes/recipeRoutes');
 
 // Não remover esse end-point, ele é necessário para o avaliador
 app.get('/', (request, response) => {
@@ -13,6 +13,6 @@ app.get('/', (request, response) => {
 app.use(express.json());
 
 app.use(userRoutes);
-app.use(recipeRotes);
+app.use(recipeRoutes);
 
 module.exports = app;

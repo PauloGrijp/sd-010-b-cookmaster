@@ -17,7 +17,7 @@ const validToken = async (req, res, next) => {
   }
 };
 
-const validRecipe = async (req, res, next) => {
+const validRecipe = (req, res, next) => {
   const { name, ingredients, preparation } = req.body;
   const { error } = Joi.object({
     name: Joi.string().required(),
