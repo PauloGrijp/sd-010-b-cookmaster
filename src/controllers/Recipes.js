@@ -9,7 +9,7 @@ const createRecipe = rescue(async (req, res) => {
     name,
     ingredients,
     preparation,
-    userId
+    userId,
   );
 
   res.status(code).json(result);
@@ -55,7 +55,7 @@ const insertImage = [
       id,
       userId,
       req.file.path,
-      role
+      role,
     );
     res.status(code).json(result);
   }),

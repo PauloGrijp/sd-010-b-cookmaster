@@ -7,8 +7,6 @@ const RecipesRouter = require('../rotes/Recipes');
 
 const app = express();
 
-//TODO: multer here
-
 app.use(bodyParser.json());
 
 app.use('/users', UsersRouter);

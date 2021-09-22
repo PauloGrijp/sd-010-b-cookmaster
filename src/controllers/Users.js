@@ -14,7 +14,7 @@ const createAdmin = rescue(async (req, res) => {
     name,
     email,
     password,
-    role
+    role,
   );
   res.status(code).json(result);
 });
