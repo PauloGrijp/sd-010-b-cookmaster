@@ -9,6 +9,16 @@ const userExists = async (email) => {
     return false;
 };
 
+const getPasswdByEmail = async (email) => {
+    const db = await connection();
+    const findUser = await db.collection('users').findOne({ email });
+    console.log(findUser);
+    if (findUser === null) {
+        return false;
+    }
+    return findUser.password;
+};
+
 const getAll = async () => {
     const db = await connection();
     const users = await db.collection('users').find().toArray();
@@ -31,4 +41,5 @@ module.exports = {
     getAll,
     create,
     userExists,
+    getPasswdByEmail,
 };

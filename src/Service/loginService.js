@@ -2,15 +2,18 @@ const loginModel = require('../Model/loginModel');
 const validations = require('../validations/validations');
 
 const login = async (user) => {
-    console.log(user);
+    // console.log(user);
     if (!validations.loginValidations(user)) return false;
     const email = validations.validEmail(user.email);
+    
+    console.log('email', email);
     if (email === false) {
+        console.log('entrei');
         return 'invalid_email_passwd';
     }
-    const passwd = validations.validPassword(user.password);
+    const passwd = await validations.validPassword(user);
     console.log('passwd', passwd);
-    if (passwd === false) {
+    if (!passwd) {
         return 'invalid_email_passwd';
     }
     const users = await loginModel.getByEmail(user);

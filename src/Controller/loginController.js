@@ -12,9 +12,9 @@ const login = async (req, res) => {
     const user = req.body;
 
     try {
+       //  console.log(user);
         const users = await loginService.login(user);
-        // console.log('login');
-        // console.log(users);
+        console.log(users);
         if (!users) {
             return res.status(401).json({ message: 'All fields must be filled' });
         }
