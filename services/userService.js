@@ -21,14 +21,14 @@ const validateFieldsLogin = (email, password) => {
   return true;
 };
 
-const createUser = async ({ name, email, password }) => {
+const createUser = async ({ name, email, password, role }) => {
   const emailExists = await UsersModel.emailExists(email);
   const validation = validateFieldsCreate(name, email, password);
 
   if (emailExists) return null;
   if (!validation) return false;
 
-  return UsersModel.createUser({ name, email, password });
+  return UsersModel.createUser({ name, email, password, role });
 };
 
 const loginUser = async (email, password) => {

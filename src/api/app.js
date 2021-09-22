@@ -22,4 +22,6 @@ app.post('/recipes', validateJWT, recipeController.createRecipe);
 
 app.get('/recipes', recipeController.getAllRecipes);
 
+app.get('/recipes/:id', recipeController.getRecipeById);
+
 module.exports = app;

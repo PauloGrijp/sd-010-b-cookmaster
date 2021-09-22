@@ -7,15 +7,16 @@ const emailExists = async (email) => {
   return user !== null;
 };
 
-const createUser = async ({ name, email, password }) => {
+const createUser = async ({ name, email, password, role }) => {
   const db = await connection();
-  const userRegistry = await db.collection('users').insertOne({ name, email, password });
+  const userRegistry = await db.collection('users')
+    .insertOne({ name, email, password, role });
 
   return {
     user: {
       name,
       email,
-      role: 'user',
+      role,
       _id: userRegistry.insertedId,
     },
   };

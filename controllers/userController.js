@@ -4,7 +4,7 @@ const messages = require('../helpers/validationMessages');
 const createUser = async (req, res) => {
   try {
     const { name, email, password } = req.body;
-    const result = await service.createUser({ name, email, password });
+    const result = await service.createUser({ name, email, password, role: 'user' });
 
     if (result === false) return res.status(400).json(messages.INVALID_ENTRY);
 
