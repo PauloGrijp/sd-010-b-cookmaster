@@ -9,8 +9,8 @@ const generateToken = async (req, _res, next) => {
         expiresIn: '15h',
         algorithm: 'HS256',
     };
-    const { _id, name } = await getByEmail(email);
-    const token = jwt.sign({ _id, name, email }, secret, jwtConfiguration);
+    const { _id, name, role } = await getByEmail(email);
+    const token = jwt.sign({ _id, name, email, role }, secret, jwtConfiguration);
     req.token = { token };
     next();
 };

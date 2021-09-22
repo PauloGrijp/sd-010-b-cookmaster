@@ -29,4 +29,37 @@ const getRecipe = async (req, res) => {
     return res.status(200).json(response);
 };
 
-module.exports = { validateFields, createRecipe, getAllRecipes, getRecipe };
+const authUser = async (req, res, next) => {
+  const { id } = req.params;
+  const { _id, role } = req.user;
+  const authentication = await service.authUser(id, _id, role);
+  if (!authentication) {
+    return res.status(401).json({ message: 'missing auth token' });
+  }
+  next();
+};
+
+const updateRecipe = async (req, res) => {
+  const { id } = req.params;
+  const { name, ingredients, preparation } = req.body;
+  const { _id } = req.user;
+  const response = await model.update(id, name, ingredients, preparation, _id);
+  return res.status(200).json(response);
+};
+
+const removeRecipe = async (req, res) => {
+  const { id } = req.params;
+  const recipeId = await model.remove(id);
+  console.log(recipeId);
+  return res.status(204).json();
+};
+
+module.exports = { 
+  validateFields,
+  createRecipe,
+  getAllRecipes,
+  getRecipe,
+  updateRecipe,
+  authUser, 
+  removeRecipe,
+};

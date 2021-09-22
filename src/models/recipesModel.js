@@ -21,20 +21,20 @@ const getById = async (id) => {
   return recipe;
 };
 
-// const update = async (id, name, quantity) => {
-//   if (!ObjectId.isValid(id)) return null;
-//   const db = await connectionMongo();
-//   await db.collection('recipes')
-//     .updateOne({ _id: ObjectId(id) }, { $set: { name, quantity } });
-//   return { id, name, quantity };
-// };
+const update = async (id, name, ingredients, preparation) => {
+  if (!ObjectId.isValid(id)) return null;
+  const { userId } = await getById(id);
+  const db = await connectionMongo();
+  await db.collection('recipes')
+    .updateOne({ _id: ObjectId(id) }, { $set: { name, ingredients, preparation } });
+  return { _id: ObjectId(id), name, ingredients, preparation, userId };
+};
 
-// const remove = async (id) => {
-//   if (!ObjectId.isValid(id)) return null;
-//   const db = await connectionMongo();
-//   const product = await db.collection('recipes').findOne({ _id: ObjectId(id) });
-//   await db.collection('recipes').deleteOne({ _id: ObjectId(id) });
-//   return product;
-// };
+const remove = async (id) => {
+  if (!ObjectId.isValid(id)) return null;
+  const db = await connectionMongo();
+  await db.collection('recipes').deleteOne({ _id: ObjectId(id) });
+  return id;
+};
 
-module.exports = { create, getAll, getById };
+module.exports = { create, getAll, getById, update, remove };
