@@ -43,7 +43,7 @@ const deleteRecipe = async (req, res) => {
   if (response.err) {
     return res.status(response.status).json(response.err);
   }
-  return res.status(204);
+  return res.status(204).json();
 };
 
 module.exports = {
