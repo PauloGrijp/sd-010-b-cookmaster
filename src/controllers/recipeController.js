@@ -31,4 +31,15 @@ const getById = async (req, res) => {
 	return res.status(statusCode.OK).json(recipe);
 };
 
-module.exports = { create, getAll, getById };
+const update = async (req, res) => {
+	const { name, ingredients, preparation } = req.body;
+	const { id } = req.params;
+	const { _id } = await recipesModel.getById(id);
+	/* console.log(userId); */
+/* 	const { userId } = req.user;
+	console.log(req.user); */
+	await recipesModel.update({ id, name, ingredients, preparation });
+	return res.status(statusCode.OK).json({ _id: id, name, ingredients, preparation, userId: _id });
+};
+
+module.exports = { create, getAll, getById, update };

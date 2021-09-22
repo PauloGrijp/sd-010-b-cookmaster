@@ -5,7 +5,7 @@ const segredo = 'seusecretdetoken';
 
 const validateJWT = async (req, res, next) => {
   const token = req.headers.authorization;
-  if (!token) { return res.status(401).json({ message: 'malformed' }); }
+  if (!token) { return res.status(401).json({ message: 'missing auth token' }); }
   try {
     const decoded = jwt.verify(token, segredo);
     const user = await findUser({ email: decoded.data.email, password: decoded.data.password });
