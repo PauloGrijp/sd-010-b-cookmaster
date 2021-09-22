@@ -1,5 +1,18 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const multer = require('multer');
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'src/uploads/');
+  },
+  filename: (req, file, cb) => {
+    const { id } = req.params;
+    cb(null, `${id}.jpeg`);
+  },
+});
+
+const upload = multer({ storage });
 
 const userController = require('./controller/userController');
 const recipesController = require('./controller/recipesController');
@@ -19,6 +32,7 @@ app.post('/login', userController.login);
 app.get('/recipes/:id', recipesController.getByIdRecipes);
 app.get('/recipes', recipesController.getAllRecipes);
 app.put('/recipes/:id', recipesController.updateByIdRecipes);
+app.put('/recipes/:id/image', upload.single('image'), recipesController.createImageRecipe);
 app.post('/recipes', recipesController.createRecipes);
 app.delete('/recipes/:id', recipesController.deleteByIdRecipes);
 

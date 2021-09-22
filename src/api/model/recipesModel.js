@@ -62,10 +62,23 @@ const deleteByIdRecipes = async (recipeId) => {
   return result;
 };
 
+const createImageRecipe = async (recipeId, path) => {
+  const Cookmaster = await connection();
+  const recipes = await Cookmaster.collection('recipes');
+
+  const findQuery = { _id: ObjectId(recipeId) };
+  const updateQuery = { $set: { image: `localhost:3000/${path}` } };
+
+  const result = await recipes.findOneAndUpdate(findQuery, updateQuery, { returnOriginal: false });
+
+  return result.value;
+};
+
 module.exports = {
   createRecipes,
   getAllRecipes,
   getByIdRecipes,
   updateByIdRecipes,
   deleteByIdRecipes,
+  createImageRecipe,
 };
