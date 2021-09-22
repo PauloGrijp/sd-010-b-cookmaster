@@ -1,11 +1,12 @@
 const connection = require('../models/mongoConnection');
 
 const message = 'Invalid entries. Try again.';
+const messageLoginWrong = 'All fields must be filled';
 
 const validEmail = (request, response, next) => {
   try {
     const { email } = request.body;
-    if (!email 
+    if (!email
       || !email.includes('@') || !email.includes('.com')) {
       return response.status(400).json({ message });
     }
@@ -41,10 +42,42 @@ const validPassword = (request, response, next) => {
 
 const validUser = async (request, response, next) => {
   const { email } = request.body;
-  const db = await connection();   
+  const db = await connection();
   const user = await db.collection('users').findOne({ email });
-  if (user) { return response.status(409).json({ message: 'Email already registered' }); }    
+  if (user) { return response.status(409).json({ message: 'Email already registered' }); }
   next();
 };
 
-module.exports = { validEmail, validName, validPassword, validUser };
+const validEmailLogin = (request, response, next) => {
+  try {
+    const { email } = request.body;
+    if (!email
+      || !email.includes('@') || !email.includes('.com')) {
+      return response.status(401).json({ message: messageLoginWrong });
+    }
+    next();
+  } catch (error) {
+    return response.status(401).json({ message: messageLoginWrong });
+  }
+};
+
+const validPasswordLogin = (request, response, next) => {
+  try {
+    const { password } = request.body;
+    if (!password) {
+      return response.status(401).json({ message: messageLoginWrong });
+    }
+    next();
+  } catch (error) {
+    return response.status(401).json({ message: messageLoginWrong });
+  }
+};
+
+module.exports = {
+  validEmail,
+  validName, 
+  validPassword,
+  validUser, 
+  validEmailLogin, 
+  validPasswordLogin,
+};
