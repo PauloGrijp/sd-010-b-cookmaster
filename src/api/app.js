@@ -19,5 +19,6 @@ app.post('/login', loginController.login);
 app.post('/recipes', validateJWT, recipesController.create);
 app.get('/recipes', recipesController.getAll);
 app.get('/recipes/:id', recipesController.getById);
+app.put('/recipes/:id', recipesController.update);
 
 module.exports = app;
