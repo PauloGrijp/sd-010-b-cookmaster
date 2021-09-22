@@ -4,7 +4,6 @@ const recipeService = require('../services/recipeService');
 const create = async (req, res) => {
 	const { name, ingredients, preparation } = req.body;
 	const { _id: id } = req.user;
-	console.log(id);
 	const recipe = await recipeService.create({ name, ingredients, preparation });
 	const { _id } = recipe;
 
