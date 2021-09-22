@@ -20,8 +20,8 @@ const createRecipes = async ({ body, token }) => {
   }
 
   const { _id } = validateJwt;
-
-  const recipes = await recipesModel.createRecipes({ body, _id });
+  
+  const recipes = await recipesModel.createRecipes({ body, userId: _id });
   
   return recipes;
 };
@@ -59,9 +59,30 @@ const updateByIdRecipes = async (recId, body, token) => {
   return recipes;
 };
 
+const deleteByIdRecipes = async (recId, token) => {
+  if (!ObjectId.isValid(recId)) return null;
+  const validateJwt = jwtvalid(token);
+
+  const recipeId = await getByIdRecipes(recId);
+
+  if (validateJwt === 'jwt malformed') {
+    return validateJwt;
+  }
+
+  if (validateJwt === 'missing auth token') {
+    return validateJwt;
+  }
+
+  if (recipeId === null) return null;
+
+  const recipes = await recipesModel.deleteByIdRecipes(recId);
+  return recipes;
+};
+
 module.exports = {
   createRecipes,
   getAllRecipes,
   getByIdRecipes,
   updateByIdRecipes,
+  deleteByIdRecipes,
 };

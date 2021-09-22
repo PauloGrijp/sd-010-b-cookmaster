@@ -56,9 +56,31 @@ const updateByIdRecipes = async (req, res) => {
   res.status(200).json(recipes);
 };
 
+const deleteByIdRecipes = async (req, res) => {
+  const token = req.headers.authorization;
+  const { id } = req.params;
+  
+  const recipes = await recipesService
+  .deleteByIdRecipes(id, token);
+
+  if (recipes === 'jwt malformed') {
+    return res.status(401).json({ message: recipes });
+  }
+  if (recipes === 'missing auth token') {
+    return res.status(401).json({ message: recipes });
+  }
+  
+  if (!recipes) {
+    return res.status(404).json({ message: 'recipe not found' });
+  }
+  
+  res.status(204).json(recipes);
+};
+
 module.exports = {
   createRecipes,
   getAllRecipes,
   getByIdRecipes,
   updateByIdRecipes,
+  deleteByIdRecipes,
 };

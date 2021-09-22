@@ -17,8 +17,9 @@ app.post('/users', userController.createUser);
 app.post('/login', userController.login);
 
 app.get('/recipes/:id', recipesController.getByIdRecipes);
+app.get('/recipes', recipesController.getAllRecipes);
 app.put('/recipes/:id', recipesController.updateByIdRecipes);
 app.post('/recipes', recipesController.createRecipes);
-app.get('/recipes', recipesController.getAllRecipes);
+app.delete('/recipes/:id', recipesController.deleteByIdRecipes);
 
 module.exports = app;
