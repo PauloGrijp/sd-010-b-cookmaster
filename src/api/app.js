@@ -1,6 +1,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const usersController = require('../controllers/usersControllers');
+const recipesController = require('../controllers/recipesController');
+const AppError = require('../utils/appError');
 
 const app = express();
 app.use(bodyParser.json());
@@ -11,9 +13,16 @@ app.get('/', (request, response) => {
 });
 
 app.post('/users', usersController.create);
-
 app.post('/login', usersController.login);
 
-app.use((err, _req, res, _next) => res.status(err.status).json({ message: err.message }));
+app.post('/recipes', recipesController.create);
+
+app.use((err, _req, res, _next) => {
+  const { code, message } = err;
+  if (err instanceof AppError) {
+    return res.status(code).json({ message });
+  }
+  return res.status(err.status).json({ message: err.message });
+});
 
 module.exports = app;
