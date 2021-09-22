@@ -1,11 +1,17 @@
 const express = require('express');
 
+const users = require('../routes/Users');
+
 const app = express();
 
 // Não remover esse end-point, ele é necessário para o avaliador
-app.get('/', (request, response) => {
+app.get('/', (_request, response) => {
   response.send();
 });
-// Não remover esse end-point, ele é necessário para o avaliador
+// -------------------------------------------------------------
+
+app.use(express.json());
+
+app.use(users);
 
 module.exports = app;
