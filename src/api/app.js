@@ -23,7 +23,8 @@ app
 
 app
   .route('/recipes/:id')
-  .get(recipesController.getById);
+  .get(recipesController.getById)
+  .put(validateToken, recipesController.updateRecipe);
 
 app
   .route('/recipes')

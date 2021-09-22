@@ -7,6 +7,10 @@ const findId = async (id) => {
   return product;
 };
 
+// const updateRecipe = async (id, name, ingredients, preparation) => {
+
+// }
+
 module.exports = {
   findId,
 };
