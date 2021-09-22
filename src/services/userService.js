@@ -1,8 +1,14 @@
 const userModel = require('../models/userModel');
 
 const valideEmail = (email) => {
-  console.log(email);
   if (!email.includes('@') || !email.includes('.com')) {
+    return true;
+  }
+  return false;
+};
+
+const validePassword = (password) => {
+  if (password.length < 8) {
     return true;
   }
   return false;
@@ -15,6 +21,16 @@ const validationEntries = (name, email, password) => {
   }
 };
 
+const validationEmailPassword = (email, password) => {
+  if (!!email || !password) {
+    return 'All fields must be filed';
+  }
+
+  if (validePassword(password) || valideEmail(email)) {
+    return 'Incorrect username or password';
+  }
+};
+
 const validationEmail = async (email) => {
   const existEmail = await userModel.existEmail(email);
   
@@ -23,4 +39,4 @@ const validationEmail = async (email) => {
   }
 };
 
-module.exports = { validationEntries, validationEmail };
+module.exports = { validationEntries, validationEmail, validationEmailPassword };

@@ -5,10 +5,14 @@ const app = express();
 app.use(bodyParser.json());
 
 // POST USER
-
 const userRouter = require('../routers/userRouter');
 
 app.use('/users', userRouter);
+
+// POST LOGIN
+const loginRouter = require('../routers/loginRouter');
+
+app.use('/login', loginRouter);
 
 // Não remover esse end-point, ele é necessário para o avaliador
 app.get('/', (request, response) => {

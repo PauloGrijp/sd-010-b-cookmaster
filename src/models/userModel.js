@@ -29,6 +29,12 @@ const existEmail = async (email) => {
   return emailFound;
 };
 
+const getUser = async (email, password) => {
+  const db = await connectionDB.connect();
+  const userFound = await db.collection('users').findOne({ email, password });
+  return userFound;
+};
+
 module.exports = {
-    add, existEmail,
+    add, existEmail, getUser,
 };
