@@ -1,4 +1,4 @@
-const { registerRecipe, getAll, findById } = require('../models/recipeModel');
+const { registerRecipe, getAll, findById, update } = require('../models/recipeModel');
 
 const createRecipe = async (req, res) => {
   const { user } = req.user;
@@ -24,8 +24,18 @@ const findRecipe = async (req, res) => {
   return res.status(200).json(recipe);
 };
 
+const updateRecipe = async (req, res) => {
+  const { id } = req.params;
+  const { name, ingredients, preparation } = req.body;
+
+  const { recipe } = await update({ id, name, ingredients, preparation });
+
+  return res.status(200).json(recipe);
+};
+
 module.exports = {
   createRecipe,
   getAllRecipes,
   findRecipe,
+  updateRecipe,
 };
