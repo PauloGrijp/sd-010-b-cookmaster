@@ -11,7 +11,13 @@ const findByEmail = async (email) => {
   return find;
 };
 
+const findByName = async (name) => { 
+  const find = await connection().then((db) => db.collection('users').findOne({ name }));
+  return name && find;
+};
+
 module.exports = {
   addUsers,
   findByEmail,
+  findByName,
 };
