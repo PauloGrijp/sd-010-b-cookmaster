@@ -2,6 +2,7 @@ const code = require('http-status-codes');
 const RecipeService = require('../services/RecipeService');
 const RecipeModel = require('../models/RecipeModel');
 
+// cria a receita
 const createRecipe = async (req, res) => {
   const { name, ingredients, preparation } = req.body;
   const { _id: userId } = req.user;
@@ -18,6 +19,8 @@ const createRecipe = async (req, res) => {
     { recipe: { name, ingredients, preparation, userId, _id: id } },
     );
 };
+
+// visualiza receitas
 const getAllRecipes = async (req, res) => {
   const allRecipes = await RecipeModel.getAllRecipes();
   if (!allRecipes) {
@@ -26,9 +29,11 @@ const getAllRecipes = async (req, res) => {
   return res.status(code.OK).json(allRecipes);
 };
 
+// visualiza receita pelo ID
 const getRecipeById = async (req, res) => {
   const { id } = req.params;
   const recipe = await RecipeService.getRecipeById(id);
+  
   if (recipe.message) {
     return res.status(code.NOT_FOUND).json({ message: 'recipe not found' });
   }

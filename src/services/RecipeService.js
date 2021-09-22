@@ -1,3 +1,4 @@
+const { ObjectId } = require('mongodb');
 const recipeModel = require('../models/RecipeModel');
 
 const isValidRecipes = (name, ingredients, preparation) => {
@@ -21,13 +22,22 @@ const createRecipe = async ({ name, ingredients, preparation }) => {
 };
 
 const getRecipeById = async (id) => {
+  const checkId = await ObjectId.isValid(id);
+  if (!checkId) {
+    return {
+      status: 404,
+      message: 'recipe not found',
+    };
+  }
+  
   const recipe = await recipeModel.getRecipeById(id);
   if (!recipe) {
     return {
       status: 404,
       message: 'recipe not found',
     };
-  }
+  } 
+
   return recipe;
 };
 
