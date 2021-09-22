@@ -14,6 +14,7 @@ app.post('/login', userController.login);
 
 app.post('/recipes', recipesController.createNewRecipe);
 app.get('/recipes', recipesController.getAllRecipes);
+app.get('/recipes/:id', recipesController.getRecipeById);
 
 // Não remover esse end-point, ele é necessário para o avaliador
 app.get('/', (request, response) => {
