@@ -15,13 +15,12 @@ const getNewRecipe = async (recipe, insertedId) => {
     });
 };
 const createRecipes = async (recipe) => {
-    const { name, ingredients, preparation, authorization } = recipe;
-
+    const { name, ingredients, preparation, userId } = recipe;
+console.log(recipe, 'create recipes');
     const db = await mongoConnection();
     
     const response = await db
-    .collection('recipes').insertOne({ name, ingredients, preparation, userId: authorization });
-    console.log(response.insertedId, response, 'bah');
+    .collection('recipes').insertOne({ name, ingredients, preparation, userId });
 
     return getNewRecipe(response.ops[0], response.insertedId);
 };
@@ -38,8 +37,28 @@ const findRecipe = async (id) => {
 
     const db = await mongoConnection();
     const response = await db.collection('recipes').findOne({ _id: ObjectId(id) });
-    console.log(response, 'findRecipe response');
+    // console.log(response, 'findRecipe response');
     return response;
 };
 
-module.exports = { createRecipes, getAll, findRecipe }; 
+const updateRecipe = async (id, recipe) => {
+    const { name, ingredients, preparation } = recipe;
+    console.log('updateProduct', recipe, id, 'id');
+
+    const db = await mongoConnection();
+     await db.collection('recipes').updateOne({
+        _id: ObjectId(id),  
+    }, {
+        $set: {
+            name, 
+            ingredients, 
+            preparation,
+        },
+    });
+
+    const recipeItem = await findRecipe(id);
+    console.log('recipe item', recipeItem);
+    return getNewRecipe(recipeItem, id);
+};
+
+module.exports = { createRecipes, getAll, findRecipe, updateRecipe }; 

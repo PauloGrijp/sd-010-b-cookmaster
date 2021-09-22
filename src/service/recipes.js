@@ -1,11 +1,6 @@
 const recipes = require('../models/recipes');
 
-const createRecipes = (name, ingredients, preparation, authorization) => {
-    const recipe = {
-        name, ingredients, preparation, authorization,
-    };
-    return recipes.createRecipes(recipe);
-};
+const createRecipes = (recipe) => recipes.createRecipes(recipe);
 
 const getAll = () => recipes.getAll();
 
@@ -20,4 +15,19 @@ const findRecipe = async (id) => {
       return recipe;
 };
 
-module.exports = { createRecipes, getAll, findRecipe };
+// canEdit =  
+
+const updateRecipe = async (id, recipe, role) => {
+    const recipeItem = await findRecipe(id);
+    console.log('service', recipeItem, recipeItem.role !== 'admin');
+    if (recipeItem.userId !== recipe.userId && role !== 'admin') {
+        return {
+            message: 'jwt malformed',
+        };
+       } 
+
+        const response = await recipes.updateRecipe(id, recipe);
+        return response;
+};
+
+module.exports = { createRecipes, getAll, findRecipe, updateRecipe };

@@ -14,17 +14,17 @@ next();
 
 const validateToken = async (req, res, next) => {
     const token = req.headers.authorization;
-    console.log(req.headers, 'aqui');
     const segredo = 'seusecretdetoken';
 
     if (!token) {
-        return res.status(401).json({ message: TOKEN_ERROR_MSG });
+        return res.status(401).json({ message: 'missing auth token' });
       }
-
       try {
         const decoded = jwt.verify(token, segredo);
         const userWithoutPassword = {
             username: decoded.payload.email,
+            role: decoded.payload.role,
+            userId: decoded.payload.userId,
         };
  
           req.user = userWithoutPassword;

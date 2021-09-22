@@ -20,11 +20,13 @@ const createUser = async (req, res) => {
 const loginUser = async (req, res) => {
     const { email, password } = req.body;
     const login = await users.loginUser(email, password);
+    console.log('login user', login); 
+    const { _id, role } = login; 
 
     if (login.message) return res.status(401).json(login);
 
       const token = jwt.sign({ 
-        payload: { email, password } }, secret, jwtConfig);
+        payload: { email, password, userId: _id, role } }, secret, jwtConfig);
 
         res.status(200).json({ token });
 };
