@@ -1,4 +1,5 @@
 const express = require('express');
+const path = require('path');
 const appRoutes = require('./routes');
 const handleErrors = require('../middlewares/errors');
 
@@ -16,6 +17,7 @@ app.get('/', (request, response) => {
 app.use('/users', appRoutes.users);
 app.use('/login', appRoutes.login);
 app.use('/recipes', appRoutes.recipes);
+app.use('/images', express.static(path.join(__dirname, '..', 'uploads')));
 app.use(handleErrors);
 
 module.exports = app;
