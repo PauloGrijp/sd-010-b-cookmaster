@@ -9,6 +9,16 @@ const create = async (req, res, next) => {
   return res.status(201).json(newUser);
 };
 
+const login = async (req, res, next) => {
+  const { body } = req;
+  const data = await usersService.login(body);
+  if (data.message) {
+    return next(data);
+  }
+  return res.status(200).send({ token: data });
+};
+
 module.exports = {
   create,
+  login,
 };
