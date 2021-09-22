@@ -3,7 +3,9 @@ const userService = require('../services/userService');
 
 const create = async (req, res) => {
   const result = await userService.create(req.body);
-  return res.status(StatusCodes.CREATED).json(result);
+  if (result.message) { return res.status(result.code).json({ message: result.message }); }
+  // console.log(result, 'ola');
+  return res.status(StatusCodes.CREATED).json({ user: result });
 }; 
 
 module.exports = {
