@@ -14,7 +14,7 @@ const validateJWT = async (req, res, next) => {
     const user = await findUser(decoded.email);
     if (!user) {
       return res.status(401).json(
-        { message: 'Erro ao procurar usuario do token.' },
+        { message: 'missing auth token' },
       );
     }
     req.user = user;

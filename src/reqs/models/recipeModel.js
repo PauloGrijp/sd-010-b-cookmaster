@@ -44,10 +44,10 @@ const delRecipe = async (id) => {
 };
 
 const insertImageModel = async (id, pat) => {
-  const newPat = pat.replace(/\\/g, '/');
+  // const newPat = pat.replace(/\\/g, '/');
   const db = await getConnection();
   await db.collection('recipes').updateOne(
-    { _id: ObjectID(id) }, { $set: { image: `localhost:3000/${newPat}` } },
+    { _id: ObjectID(id) }, { $set: { image: `localhost:3000/${pat}` } },
     );
   const result = await db.collection('recipes').findOne(ObjectID(id));
   return result;
