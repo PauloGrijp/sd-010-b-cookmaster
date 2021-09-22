@@ -21,4 +21,8 @@ router.put('/:recipeId',
 validateJWT,
 recipesController.updateRecipe);
 
+router.delete('/:recipeId',
+validateJWT,
+recipesController.deleteRecipe);
+
 module.exports = router;

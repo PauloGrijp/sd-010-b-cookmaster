@@ -25,9 +25,21 @@ const updateRecipe = async ({ recipeId, name, ingredients, preparation, id, role
     return recipe;
 };
 
+const deleteRecipe = async ({ recipeId, id, role }) => {
+  const recipeToVerifyOwner = await recipesModel.getById(recipeId);
+  console.log(recipeToVerifyOwner);
+    const { userId } = recipeToVerifyOwner;
+    if (id !== userId && role !== 'admin') {
+      return null;
+    }
+    const recipe = await recipesModel.deleteRecipe(recipeId);
+    return recipe;
+};
+
 module.exports = {
   createRecipe,
   getAll,
   getById,
   updateRecipe,
+  deleteRecipe,
 };
