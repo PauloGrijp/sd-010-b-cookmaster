@@ -15,14 +15,6 @@ const validateEmail = (email) => {
   return true;
 };
 
-// const validateFormatEmail = async (email) => {
-//   const findByEmail = await userModels.findByEmail(email);
-//   if (findByEmail) {
-//     return true;
-//   }
-//   return false;
-// };
-
 const createUserValidations = async ({ name, email, password, role }) => {
   const validName = validateName(name);
   const validEmail = validateEmail(email);
@@ -38,6 +30,12 @@ const createUserValidations = async ({ name, email, password, role }) => {
   return create;
 };
 
+const findLogin = async ({ email, password }) => {
+  const login = await userModels.findLogin({ email, password });
+  return login;
+};
+
 module.exports = {
   createUserValidations,
+  findLogin,
 };
