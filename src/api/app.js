@@ -54,6 +54,10 @@ app.post('/login', Controllers.user.login);
 
 app.use(Middlewares.userError);
 
+app.post('/users/admin', validateJWT, Controllers.admin.create);
+
+app.use(Middlewares.adminError);
+
 app.get('/recipes', Controllers.recipe.listRecipes);
 app.post('/recipes', validateJWT, Controllers.recipe.create);
 app.get('/recipes/:id', Controllers.recipe.findRecipe);
@@ -64,11 +68,11 @@ app.put(
   validateJWT,
   upload.single('image'),
   Controllers.recipe.addImage,
-);
-
-app.use(Middlewares.recipeError);
-
-app.get('/images/:id.jpeg', Controllers.image.find);
+  );
+  
+  app.use(Middlewares.recipeError);
+  
+  app.get('/images/:id.jpeg', Controllers.image.find);
 
 module.exports = app;
 

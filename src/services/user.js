@@ -17,7 +17,7 @@ const create = async (user) => {
 
   if (search) return false;
 
-  const userCreate = await Models.user.create({ ...user, role: 'user' });
+  const userCreate = await Models.user.create({ ...user });
 
   return returnUserCreated(userCreate);
 };
