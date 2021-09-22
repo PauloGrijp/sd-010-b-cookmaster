@@ -1,10 +1,13 @@
 const Joi = require('joi');
 const jwt = require('jsonwebtoken');
+const { ObjectId } = require('mongodb');
 const { secret } = require('./loginService');
 const usersModel = require('../models/usersModel');
 const recipesModel = require('../models/recipesModel');
 
-const { ERROR_INVALID_ENTRIES, ERROR_JWT_MALFORMED, ERROR_MISSING_TOKEN } = require('./msgErrors');
+const {
+  ERROR_INVALID_ENTRIES, ERROR_JWT_MALFORMED, ERROR_MISSING_TOKEN, ERROR_NOT_FOUND_RECIPE,
+} = require('./msgErrors');
 
 const checkRecipe = Joi.object().keys({
   name: Joi.string().not().empty().required(),
@@ -24,6 +27,10 @@ const validateToken = async (token) => {
     throw ERROR_JWT_MALFORMED;
   }
 };
+
+const validateId = (id) => (ObjectId.isValid(id));
+
+// ------------------------------------------------------------------------------------------------------------------------
 
 const createRecipe = async (newRecipe, authorization) => {
   const validatedTtoken = await validateToken(authorization);
@@ -50,8 +57,21 @@ const getAllRecipes = async () => {
   };
 };
 
+const getRecipeById = async (id) => {
+  if (!validateId(id)) { throw ERROR_NOT_FOUND_RECIPE; }
+
+  const recipe = await recipesModel.getRecipeById(id);
+  if (!recipe) { throw ERROR_NOT_FOUND_RECIPE; }
+
+  return {
+    status: 200,
+    recipe,
+  };
+};
+
 module.exports = {
   validateToken,
   createRecipe,
   getAllRecipes,
+  getRecipeById,
 };
