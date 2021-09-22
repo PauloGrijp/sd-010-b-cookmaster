@@ -5,7 +5,7 @@ const valideEmail = (email) => {
     return true;
   } 
   
-  if (!email.includes('@') || !email.includes('.com')) {
+  if (!email.includes('@') || !email.includes('gmail.com')) {
     return true;
   }
   return false;
