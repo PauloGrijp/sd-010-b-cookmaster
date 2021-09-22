@@ -1,6 +1,3 @@
-// const INVALID_DATA_CODE = 422;
-// const INTERNAL_SERVER_ERROR_CODE = 500;
-
 const checkErrorType = (err) => {
   switch (true) {
     case err.invalidEntries:

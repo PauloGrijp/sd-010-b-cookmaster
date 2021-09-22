@@ -1,13 +1,13 @@
 const Models = require('../models');
 
 const returnUserCreated = (user) => {
-  const { password, ...newUser } = user; // https://stackoverflow.com/questions/208105/how-do-i-remove-a-property-from-a-javascript-object
+  const { password, ...newUser } = user;
 
   return newUser;
 };
 
 const returnUserLogin = (user) => {
-  const { password, name, ...newUser } = user; // https://stackoverflow.com/questions/208105/how-do-i-remove-a-property-from-a-javascript-object
+  const { password, name, ...newUser } = user;
 
   return newUser;
 };

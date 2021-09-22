@@ -15,15 +15,17 @@ module.exports = async (req, res, next) => {
         .status(401)
         .json({ message: 'Erro ao procurar usuário do token.' });
     }
-    
+
     const { _id } = user;
 
     req.userId = _id;
 
     next();
   } catch (err) {
-    if (err.message === 'jwt must be provided') { err.message = 'missing auth token'; }
-    
+    if (err.message === 'jwt must be provided') {
+      err.message = 'missing auth token';
+    }
+
     return res.status(401).json({ message: err.message });
   }
 };

@@ -1,7 +1,6 @@
 const rescue = require('express-rescue');
 const Joi = require('joi');
 const jwt = require('jsonwebtoken');
-
 const Services = require('../services');
 
 const secret = 'cookmaster';
@@ -32,11 +31,11 @@ const validateLoginRequired = (body) => {
 };
 
 const create = rescue(async (req, res, next) => {
+  const user = { ...req.body, role: 'user' };
   const entriesError = validateCreate(req.body);
 
   if (entriesError) return next({ invalidEntries: true });
 
-  const user = { ...req.body, role: 'user' };
   const userCreate = await Services.user.create(user);
 
   if (!userCreate) return next({ emailExists: true });
@@ -48,9 +47,7 @@ const login = rescue(async (req, res, next) => {
   const user = req.body;
   const fieldsRequiredError = validateLoginRequired(user);
 
-  if (fieldsRequiredError) {
-    return next({ fieldsRequired: true });
-  }
+  if (fieldsRequiredError) return next({ fieldsRequired: true });
 
   const userLogged = await Services.user.login(user);
 

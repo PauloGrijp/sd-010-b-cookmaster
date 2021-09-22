@@ -26,8 +26,8 @@ const edit = async (id, recipe) => {
   const { name, ingredients, preparation } = recipe;
   const db = await connection();
   await db
-  .collection('recipes')
-  .updateOne({ _id: ObjectId(id) }, { $set: { name, ingredients, preparation } });
+    .collection('recipes')
+    .updateOne({ _id: ObjectId(id) }, { $set: { name, ingredients, preparation } });
   const recipeEdited = await findRecipe(id);
   
   return recipeEdited;
