@@ -1,4 +1,4 @@
-const { add, checkEmailUniquity } = require('../models/users');
+const { add, checkEmailUniquity, login } = require('../models/users');
 
 const addUser = async (email, senha, nome) => {  
   const emailUniquity = await checkEmailUniquity(email);
@@ -9,6 +9,13 @@ const addUser = async (email, senha, nome) => {
   return newUser;
 };
 
+const userLogin = async (email, password) => {
+  const checkUser = await login(email, password);
+
+  return checkUser;
+};
+
 module.exports = {
   addUser,
+  userLogin,
 };

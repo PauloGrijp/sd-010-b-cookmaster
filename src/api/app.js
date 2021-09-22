@@ -1,7 +1,16 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const { requestNewUser } = require('../Controllers/users');
-const { isValidName, isValidEmail } = require('../middlewares/users');
+const {
+  requestNewUser,
+  requestLogin,
+} = require('../Controllers/users');
+
+const {
+  isValidName,
+  isValidEmail,
+  fieldEmail,
+  fieldPassword,
+} = require('../middlewares/users');
 
 const app = express();
 
@@ -14,5 +23,7 @@ app.get('/', (request, response) => {
 app.use(bodyParser.json());
 
 app.post('/users', isValidName, isValidEmail, requestNewUser);
+
+app.post('/login', fieldEmail, fieldPassword, requestLogin);
 
 module.exports = app;
