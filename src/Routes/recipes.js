@@ -8,7 +8,8 @@ const recipes = (app) => {
     .post(rescue(utils.validateToken), rescue(controller.newRecipe));
   app.route('/recipes/:id')
     .get(rescue(controller.getById))
-    .put(rescue(utils.validateToken), rescue(controller.updateRecipe));
+    .put(rescue(utils.validateToken), rescue(controller.updateRecipe))
+    .delete(rescue(utils.validateToken), rescue(controller.deleteRecipe));
 };
 
 module.exports = recipes;
