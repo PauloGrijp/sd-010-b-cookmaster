@@ -6,14 +6,21 @@ const validateFieldsRecipe = (name, ingredients, preparation) => {
   return true;
 };
 
-const createRecipe = async ({ name, ingredients, preparation }) => {
+const getAllRecipes = async () => {
+  const recipes = await RecipesModel.getAllRecipes();
+
+  return recipes;
+};
+
+const createRecipe = async ({ name, ingredients, preparation, userId }) => {
   const validation = validateFieldsRecipe(name, ingredients, preparation);
 
   if (!validation) return false;
 
-  return RecipesModel.createRecipe({ name, ingredients, preparation });
+  return RecipesModel.createRecipe({ name, ingredients, preparation, userId });
 };
 
 module.exports = {
   createRecipe,
+  getAllRecipes,
 };
