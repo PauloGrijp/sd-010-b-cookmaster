@@ -1,17 +1,16 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 
-const userController = require('../controllers/user');
-const validateUserCreation = require('../middlewares/validateUserCreation');
+const errorMiddleware = require('../middlewares/errorMiddleware');
+
+const userRouter = require('./userRouter');
 
 const app = express();
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-const apiRoutes = express.Router();
-
-apiRoutes.post('/users', validateUserCreation, userController.createUser);
+app.use(userRouter);
 
 // Não remover esse end-point, ele é necessário para o avaliador
 app.get('/', (request, response) => {
@@ -19,6 +18,6 @@ app.get('/', (request, response) => {
 });
 // Não remover esse end-point, ele é necessário para o avaliador
 
-app.use(apiRoutes);
+app.use(errorMiddleware);
 
 module.exports = app;

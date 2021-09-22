@@ -1,14 +1,13 @@
-const codes = require('../../httpcodes');
-const userModel = require('../models/user');
-
-const userWithoutPassword = require('../util/userWithoutPassword');
+const codes = require('../httpcodes');
+const userService = require('../services/user');
 
 const createUser = async (req, res) => {
   const { name, email, password } = req.body;
 
-  const user = await userModel.createUser(name, email, password);
+  const { user, error } = await userService.createUser(name, email, password);
+  if (error) return res.status(error.code).json({ message: error.message });
 
-  return res.status(codes.created).json({ user: userWithoutPassword(user) });
+  return res.status(codes.created).json({ user });
 };
 
 module.exports = {

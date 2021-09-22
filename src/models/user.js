@@ -1,10 +1,10 @@
 const { getConnection } = require('./connection');
 
-const checkEmail = async (email) => {
+const getAllUsers = async () => {
   const users = await getConnection()
     .then((db) => db.collection('users').find().toArray());
 
-  return users.some((user) => user.email === email);
+  return users;
 };
 
 const createUser = async (name, email, password) => {
@@ -21,6 +21,6 @@ const createUser = async (name, email, password) => {
 };
 
 module.exports = {
-  checkEmail,
+  getAllUsers,
   createUser,
 };
