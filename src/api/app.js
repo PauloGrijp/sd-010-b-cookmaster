@@ -22,6 +22,10 @@ app
   .post(usersController.login);
 
 app
+  .route('/recipes/:id')
+  .get(recipesController.getById);
+
+app
   .route('/recipes')
   .get(recipesController.getRecipes)
   .post(validateToken, recipesController.createRecipe);

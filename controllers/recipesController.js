@@ -1,4 +1,5 @@
 const recipesModel = require('../model/recipesModel');
+const recipesServices = require('../services/recipesService');
 
 const createRecipe = async (req, res) => {
   const message = 'Invalid entries. Try again.';
@@ -16,7 +17,17 @@ const getRecipes = async (req, res) => {
   return res.status(200).json(recipes);
 };
 
+const getById = async (req, res) => {
+  const { id } = req.params;
+
+  const product = await recipesServices.findId(id);
+
+  if (product.error) return res.status(404).json({ message: product.message });
+  return res.status(200).json(product);
+};
+
 module.exports = {
   createRecipe,
   getRecipes,
+  getById,
 };
