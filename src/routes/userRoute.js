@@ -1,5 +1,6 @@
 const express = require('express');
-const { validateUserName,
+const { 
+  validateUserName,
   validateEmail,
   validatePassword,
   createUser,

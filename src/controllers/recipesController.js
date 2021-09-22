@@ -20,4 +20,13 @@ const getAllRecipes = async (_req, res) => {
   return res.status(200).json(response);
 };
 
-module.exports = { validateFields, createRecipe, getAllRecipes };
+const getRecipe = async (req, res) => {
+  const { id } = req.params;
+  const response = await model.getById(id);
+  if (!response) { 
+    return res.status(404).json({ message: 'recipe not found' }); 
+  }
+    return res.status(200).json(response);
+};
+
+module.exports = { validateFields, createRecipe, getAllRecipes, getRecipe };
