@@ -3,6 +3,7 @@ module.exports = {
   invalidEntries: 'Invalid entries. Try again.',
   incorrectField: 'Incorrect username or password',
   invalidToken: 'jwt malformed',
+  notFound: 'recipe not found',
   unfilledFields: 'All fields must be filled',
   unexpectedError: 'unexpected error',
 };
