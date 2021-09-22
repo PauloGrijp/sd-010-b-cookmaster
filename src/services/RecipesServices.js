@@ -31,29 +31,23 @@ const findById = async (id) => {
 };
 
 const update = async (id, name, ingredients, preparation) => {
-  // const productNameValid = nameIsValid(name);
-  // const productQuantValid = quantityIsValid(quantity);
-
-  // if (!productNameValid) {
-  //   return nameInvalidErr;
-  // }
-
-  // if (typeof quantity !== 'number') {
-  //   return quantNotNumberErr;
-  // }
-
-  // if (!productQuantValid) {
-  //   return quantInvalidErr;
-  // }
-
   const updateRecipe = await RecipesModel.update(id, name, ingredients, preparation);
 
   return updateRecipe;
+};
+
+const exclude = async (id) => {
+  const deletedProduct = await RecipesModel.exclude(id);
+
+  // if (!deletedProduct) return idNotExistsErr;
+
+  return deletedProduct;
 };
 
 module.exports = {
   create,
   getAll,
   findById,
-  update,
+  update, 
+  exclude,
 };

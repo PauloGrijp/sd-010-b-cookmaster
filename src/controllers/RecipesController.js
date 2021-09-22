@@ -40,11 +40,15 @@ const updateRecipe = async (req, res) => {
 
  recipeUpdate.userId = _id;
  
-  // if (productUpdate.err) {
-  //   return res.status(422).json({ err: productUpdate.err });
-  // }
-
   res.status(200).json(recipeUpdate);
+};
+
+const excludeRecipe = async (req, res) => {
+  const { id } = req.params;
+
+  await RecipesService.exclude(id);
+
+  res.status(204).json({ message: 'excluded product' });
 };
 
 module.exports = {
@@ -52,4 +56,5 @@ module.exports = {
   recipesList,
   findRecipeById,
   updateRecipe,
+  excludeRecipe,
 };
