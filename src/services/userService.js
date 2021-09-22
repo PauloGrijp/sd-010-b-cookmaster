@@ -1,5 +1,7 @@
 const model = require('../models/userModel');
 
+// create user
+
 const validateUserName = async (name) => {
   try {
     if (name) {
@@ -40,8 +42,33 @@ const validatePassword = async (password) => {
 };
 
 const createUser = async (name, email, password) => {
-const user = await model.create(name, email, password, 'user');
-return user;
+  const user = await model.create(name, email, password, 'user');
+  return user;
 };
 
-module.exports = { validateUserName, validateEmail, validatePassword, createUser };
+// user login
+
+const validateLogin = async (email, password) => {
+  if (!email || !password) {
+    return { message: 'All fields must be filled' };
+  }
+};
+
+const checkUserExists = async (email, password) => {
+  const verifyRegistredEmail = await model.getByEmail(email);
+  if (!verifyRegistredEmail) {
+    return 'incorrect';
+  } 
+  if (verifyRegistredEmail.password !== password) {
+     return 'incorrect'; 
+  }
+};
+
+module.exports = { 
+  validateUserName,
+  validateEmail,
+  validatePassword,
+  createUser,
+  validateLogin,
+  checkUserExists,
+};
