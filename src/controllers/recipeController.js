@@ -39,4 +39,10 @@ const update = async (req, res) => {
 	return res.status(statusCode.OK).json({ _id: id, name, ingredients, preparation, userId: _id });
 };
 
-module.exports = { create, getAll, getById, update };
+const exclude = async (req, res) => {
+	const { id } = req.params;
+	await recipesModel.exclude(id);
+	return res.status(statusCode.NO_CONTENT).json();
+};
+
+module.exports = { create, getAll, getById, update, exclude };

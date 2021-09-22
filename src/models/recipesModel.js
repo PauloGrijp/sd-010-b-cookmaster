@@ -37,4 +37,11 @@ const update = async ({ id, name, ingredients, preparation }) => {
   return recipeAtt;
 };
 
-module.exports = { create, getAll, getById, update };
+const exclude = async (id) => {
+  if (!ObjectId.isValid(id)) return null;
+  const recipesCollection = await mongoConnection.getConnection();
+  const recipeDel = await recipesCollection.collection('recipes').deleteOne({ _id: ObjectId(id) });
+  return recipeDel;
+};
+
+module.exports = { create, getAll, getById, update, exclude };
