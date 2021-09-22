@@ -1,8 +1,15 @@
 const express = require('express');
+const path = require('path');
+const bodyParser = require('body-parser').json();
+const usersController = require('../controller/userController');
 
 const app = express();
+app.use(express.json());
+app.use(bodyParser);
+require('dotenv').config();
 
-// Não remover esse end-point, ele é necessário para o avaliador
+// Controller Create 
+app.use('/users', usersController);
 app.get('/', (request, response) => {
   response.send();
 });
