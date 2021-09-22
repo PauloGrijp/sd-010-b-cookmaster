@@ -1,16 +1,27 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const { getPosts, createUsers, login } = require('./routes');
-const { userValidation, validateEmail, userLogin, validatePwd } = require('../midlewares/index');
+const path = require('path');
+const { getPosts, createUsers, login, createRecipes } = require('./routes');
+const { 
+  userValidation, 
+  validateEmail,
+  userLogin, 
+  validatePwd, 
+  dataValidation, 
+} = require('../services/index');
+const validateJWT = require('./auth/validateJWT');
 
 const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use('/images', express.static(path.join(__dirname, '..', 'uploads')));
 
 const apiRoutes = express.Router();
-apiRoutes.get('/posts', getPosts);
-apiRoutes.post('/users', userValidation, validateEmail, createUsers);
-apiRoutes.post('/login', userLogin, validatePwd, login);
+
+apiRoutes.get('/posts', getPosts)
+          .post('/users', userValidation, validateEmail, createUsers)
+          .post('/login', userLogin, validatePwd, login)
+          .post('/recipes', dataValidation, validateJWT, createRecipes);
 
 app.use(apiRoutes);
 // Não remover esse end-point, ele é necessário para o avaliador
