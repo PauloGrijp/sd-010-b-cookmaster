@@ -45,19 +45,22 @@ async function getRecipeById(req, res) {
   return res.status(200).json(recipe);
 }
 
-// async function editRecipe(req, res) {
-//   const recipe = await recipesService.editRecipe(req.params, req.body, req.user);
+async function editRecipe(req, res) {
+  const recipe = await recipesService.editRecipe(req.params, req.body, req.user);
 
-//   // if(!recipe) {
-//   //   return status()
-//   // }
+  if (!recipe) {
+    return res.status(404).json({
+      message: 'recipe not found',
+    });
+  }
 
-//   res.status(200).json(recipe);
-// }
+  res.status(200).json(recipe);
+}
 
 module.exports = {
   validateFields,
   createRecipe,
   getAllRecipes,
   getRecipeById,
+  editRecipe,
 };

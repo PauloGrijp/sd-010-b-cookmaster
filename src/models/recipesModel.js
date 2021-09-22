@@ -27,8 +27,8 @@ async function getRecipeById(id) {
   return recipe;
 }
 
-async function editRecipe(_id, { id, name, ingredients, preparation }, userId) {
-  if (!ObjectId.isValid(id)) return null;
+async function editRecipe(_id, { name, ingredients, preparation }, userId) {
+  if (!ObjectId.isValid(_id)) return null;
 
   const db = await connection();
 
