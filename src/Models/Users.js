@@ -5,11 +5,13 @@ const newUser = async (name, email, password, role) =>
     .then((db) => db.collection('users').insertOne({ name, email, password, role }))
     .then((result) => result.ops[0]);
 
-const findByEmail = async (email) => 
-  connection()
-    .then((db) => db.collection('users').findOne({ email }));
-
+const findUser = async (email, password) => {
+  const query = password ? { email, password } : { email };
+  return connection()
+  .then((db) => db.collection('users').findOne(query));
+};
+  
 module.exports = {
   newUser,
-  findByEmail,
+  findUser,
 };

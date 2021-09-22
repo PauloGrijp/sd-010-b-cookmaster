@@ -14,9 +14,6 @@ async function connection() {
     .then((dbSchema) => {
       schema = dbSchema;
       return schema;
-    })
-    .catch((err) => {
-      console.error(err);
     });
 }
 

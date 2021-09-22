@@ -6,8 +6,8 @@ const server = require('../api/server');
 
 const { MongoClient } = require('mongodb');
 const { getConnection } = require('./mockConnection');
-const { expect } = require('chai');
 
+const { expect } = chai;
 chai.use(chaiHttp);
 
 describe('Testa a criação de um novo usuário', () => {

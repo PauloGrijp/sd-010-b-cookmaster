@@ -1,32 +1,23 @@
-const Joi = require('joi');
+const { createToken } = require('../utils/token');
 const model = require('../Models/Users');
-
-const newUserValidation = (name, email, password) => {
-  const { error } = Joi.object({
-    name: Joi.string().required(),
-    email: Joi.string().email().required(),
-    password: Joi.string().required(),
-  }).validate({ name, email, password });
-  
-  if (error) throw error;
-};
-
-const alreadyExists = async (email) => {
-  const user = await model.findByEmail(email);
-  if (user) {
-    const error = new Error('Email already registered');
-    error.status = 409;
-    throw error;
-  }
-};
+const utils = require('../validations/users');
 
 const newUser = async (name, email, password, role) => {
-  newUserValidation(name, email, password);
-  await alreadyExists(email);
+  utils.newUserBodyValidation(name, email, password);
+  await utils.alreadyExists(email, model);
   const { password: _, ...result } = await model.newUser(name, email, password, role);
   return result;
 };
 
+const login = async (email, password) => {
+  utils.validateLoginBody(email, password);
+  const user = await model.findUser(email, password);
+  utils.checkUserLogin(user);
+  const token = createToken(user);
+  return token;
+};
+
 module.exports = {
   newUser,
+  login,
 };
