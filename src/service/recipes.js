@@ -9,4 +9,15 @@ const createRecipes = (name, ingredients, preparation, authorization) => {
 
 const getAll = () => recipes.getAll();
 
-module.exports = { createRecipes, getAll };
+const findRecipe = async (id) => {
+    const recipe = await recipes.findRecipe(id);
+
+    if (!recipe) {
+        return {
+            message: 'recipe not found',
+        };
+      }
+      return recipe;
+};
+
+module.exports = { createRecipes, getAll, findRecipe };
