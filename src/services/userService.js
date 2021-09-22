@@ -1,10 +1,13 @@
 const UserModel = require('../models/usersModel');
-const UserSchema = require('../schemas/UserSchema');
+
+const repeatedEmail = { code: 409, message: 'Email already registered' };
+
+const alreadyExists = async (email) => UserModel.findByEmail(email);
 
 const create = async (user) => {
-  const validations = await UserSchema.validate(user);
+  const emailExists = await alreadyExists(user.email);
 
-  if (validations.code) return validations;
+  if (emailExists) return repeatedEmail;
 
   const newUser = await UserModel.create(user);
   return newUser;
