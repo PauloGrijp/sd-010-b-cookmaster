@@ -31,12 +31,12 @@ async function validToken(token) {
 
 async function returnObjRecipe(token, body) {
   const { _id } = await userModel.getByEmail(token.data.email);
-  const { insertedId: id } = await recipesModel.create(body);
-  return { recipe: {
+  const newRecipe = {
     ...body,
     userId: _id,
-    _id: id,
-  } };
+  };
+  const { insertedId: id } = await recipesModel.create(newRecipe);
+  return { recipe: { ...newRecipe, _id: id } };
 }
 
 const create = async (body, token) => {
