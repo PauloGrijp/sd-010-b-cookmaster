@@ -4,7 +4,6 @@ const { connection } = require('./conncection');
 const findByEmail = async (email) => {
   const db = await connection();
   const user = await db.collection('users').findOne({ email });
-  
   if (!user) return null;
   return user;
 };
