@@ -15,6 +15,7 @@ app.get('/', (request, response) => {
 
 app.use('/users', appRoutes.users);
 app.use('/login', appRoutes.login);
+app.use('/recipes', appRoutes.recipes);
 app.use(handleErrors);
 
 module.exports = app;
