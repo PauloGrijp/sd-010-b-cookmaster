@@ -1,8 +1,9 @@
 const connection = require('./connection');
 
-async function findUser(email) {
+async function findUser(email, password) {
+  const query = password ? { email, password } : { email };
   const db = await connection();
-  const result = await db.collection('users').findOne({ email });
+  const result = await db.collection('users').findOne(query);
   return result;
 }
 
