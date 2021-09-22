@@ -5,6 +5,9 @@ const recipesController = require('../controllers/recipes');
 
 router.get('/recipes', recipesController.getRecipes);
 router.get('/recipes/:id', recipesController.getRecipeById);
+
+router.put('/recipes/:id', validateToken, recipesController.editRecipe);
+
 router.post('/recipes', validateToken, recipesController.createRecipe);
 
 module.exports = router;
