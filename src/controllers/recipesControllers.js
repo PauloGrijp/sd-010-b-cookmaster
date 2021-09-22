@@ -14,6 +14,20 @@ const registerRecipes = rescue(async (req, res) => {
 return res.status(201).json(Obj);
 });
 
+const getAllRecipes = rescue(async (req, res) => {
+  const result = await RecipesService.getAllRecipes();
+  res.status(200).json(result);
+});
+
+const getOneRecipes = rescue(async (req, res) => {
+  const { id } = req.params;
+  const result = await RecipesService.getOneRecipes(id);
+  if (result.message) return res.status(result.status).json({ message: result.message });
+  return res.status(200).json(result);
+});
+
 module.exports = {
   registerRecipes,
+  getAllRecipes,
+  getOneRecipes,
 };

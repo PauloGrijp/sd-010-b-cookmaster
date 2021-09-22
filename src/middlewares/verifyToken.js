@@ -13,7 +13,6 @@ try {
   const validate = jwt.verify(token, secret);
   return validate;
 } catch (error) {
-  console.log(error);
   return {
    status: 401,
     message: 'jwt malformed',
