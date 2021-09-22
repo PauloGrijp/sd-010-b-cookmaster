@@ -3,6 +3,7 @@ const { UserController } = require('../controllers');
 const { UserService } = require('../services');
 const { User } = require('../models');
 const { userRoute } = require('../routes');
+const { UserSerializer } = require('../models/serializers');
 
 class Configure {
   constructor() {
@@ -11,7 +12,7 @@ class Configure {
   }
 
   injection(db) {
-    const userModel = new User(db, ObjectID);
+    const userModel = new User(db, ObjectID, UserSerializer);
     const userService = new UserService(userModel);
     const userController = new UserController(userService);
 

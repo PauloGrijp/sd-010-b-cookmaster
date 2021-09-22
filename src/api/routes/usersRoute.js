@@ -1,13 +1,10 @@
 const express = require('express');
+const { validateUser } = require('../middlewares');
 
 const userRoute = (controller) => {
   const route = express.Router();
 
-  route.get('/', (_req, res) => {
-    res.send('ok');
-  });
-
-  route.post('/', controller.insertData);
+  route.post('/', validateUser, controller.insertData);
 
   return route;
 };

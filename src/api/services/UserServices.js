@@ -6,7 +6,9 @@ class UserService {
   }
 
   async insert(data) {
-    const res = await this.model.insert(data);
+    const values = data;
+    values.role = 'user';
+    const res = await this.model.insert(values);
     return res;
   }
 }

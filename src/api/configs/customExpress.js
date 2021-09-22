@@ -1,4 +1,5 @@
 const express = require('express');
+const { errorMiddleware } = require('../middlewares/error');
 const Mongo = require('../utils/database/Mongo');
 const Configure = require('./Configure');
 
@@ -18,6 +19,8 @@ const customExpress = async () => {
   app.get('/', (_request, response) => {
     response.send();
   });
+
+  app.use(errorMiddleware);
 
   return app;
 };
