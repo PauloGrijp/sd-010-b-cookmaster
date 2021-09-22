@@ -14,6 +14,13 @@ const createUser = async (req, res) => {
   return res.status(201).json({ user: { name, email, role: 'user', _id: user.id } });
 };
 
+const loginUser = async (req, res) => {
+  const { email, password } = req.body;
+  const login = await userValidations.findLogin({ email, password });
+  res.status(200).json(login);
+};
+
 module.exports = {
   createUser,
+  loginUser,
 };
