@@ -1,3 +1,5 @@
+// ARQUIVO DE CONEXAO
+
 const mongoClient = require('mongodb').MongoClient;
 
 // Url para conexão local 
