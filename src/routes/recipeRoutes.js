@@ -4,6 +4,6 @@ const { createRecipe } = require('../controllers/recipeController');
 
 const routes = new Router();
 
-routes.post('recipes', validToken, validRecipe, createRecipe);
+routes.post('/recipes', validToken, validRecipe, createRecipe);
 
 module.exports = routes;
