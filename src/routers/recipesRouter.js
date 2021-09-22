@@ -17,4 +17,8 @@ recipesController.getAll);
 router.get('/:id', 
 recipesController.getById);
 
+router.put('/:recipeId', 
+validateJWT,
+recipesController.updateRecipe);
+
 module.exports = router;

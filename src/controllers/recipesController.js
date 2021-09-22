@@ -9,10 +9,10 @@ const verifyRecipe = (req, res, next) => {
 };
 
 const createRecipe = async (req, res) => {
-  const { _id } = req.user;
+  const id = req.user;
   const { name, ingredients, preparation } = req.body;
   const recipeCreated = await recipesService.createRecipe({
-     userId: _id, name, ingredients, preparation, 
+     userId: id, name, ingredients, preparation, 
     });
   return res.status(201).json({ recipe: recipeCreated });
 };
@@ -29,9 +29,21 @@ const getById = async (req, res) => {
   return res.status(200).json(recipe);
 };
 
+const updateRecipe = async (req, res) => {
+  const { recipeId } = req.params;
+  const id = req.user;
+  const { role } = req;
+  const { name, ingredients, preparation } = req.body;
+  const recipe = await recipesService
+  .updateRecipe({ recipeId, name, ingredients, preparation, id, role });
+  if (!recipe) { return res.status(401).json({ message: 'Recipe owner incorrect' }); }
+  return res.status(200).json(recipe);
+};
+
 module.exports = {
   verifyRecipe,
   createRecipe,
   getAll,
   getById,
+  updateRecipe,
 };
