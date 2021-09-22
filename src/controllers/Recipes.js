@@ -8,10 +8,15 @@ const createRecipe = rescue(async (req, res) => {
     name,
     ingredients,
     preparation,
-    userId,
+    userId
   );
 
   res.status(code).json(result);
 });
 
-module.exports = { createRecipe };
+const getAllRecipes = rescue(async (req, res) => {
+  const { result, code } = await RecipesService.getAllRecipes();
+  res.status(code).json(result.recipe);
+});
+
+module.exports = { createRecipe, getAllRecipes };
