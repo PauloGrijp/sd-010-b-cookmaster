@@ -24,8 +24,22 @@ const getRecipeById = async (id) => {
   return recipe;
 };
 
+const updateRecipe = async (id, body, token) => {
+  const { name, ingredients, preparation } = body;
+  const validateToken = await schema.validateToken(token);
+  if (validateToken.err) return validateToken;
+  const { _id } = validateToken;
+  const recipeToBeUpdated = await model.getRecipeById(_id);
+  if (recipeToBeUpdated.userId !== _id) {
+    return { status: 401, err: { message: 'this recipe is not yours' } };
+  }
+  const updatedRecipe = await model.updateRecipe(id, name, ingredients, preparation);
+  return updatedRecipe;
+};
+
 module.exports = {
   createNewRecipe,
   getAllRecipes,
   getRecipeById,
+  updateRecipe,
 };

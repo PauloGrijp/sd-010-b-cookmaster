@@ -6,7 +6,7 @@ const recipesController = require('../controllers/recipesController');
 const app = express();
 app.use(bodyParser.json());
 
-// User endpoints:
+// Users endpoints:
 app.post('/users', userController.createNewUser);
 app.post('/login', userController.login);
 
