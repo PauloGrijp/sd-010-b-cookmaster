@@ -2,7 +2,7 @@ const bodyParser = require('body-parser');
 const app = require('./app');
 const { createUser } = require('../controllers/userController');
 const { createRecipe, getAllRecipes, getRecipe, 
-  updateRecipe } = require('../controllers/recipeCrontroller');
+  updateRecipe, deleteRecipe } = require('../controllers/recipeCrontroller');
 const { login } = require('../controllers/login');
 const { validateToken } = require('../middlewares/validateToken');
 
@@ -18,3 +18,4 @@ app.post('/recipes', validateToken, createRecipe);
 app.get('/recipes', getAllRecipes);
 app.get('/recipes/:id', getRecipe);
 app.put('/recipes/:id', validateToken, updateRecipe);
+app.delete('/recipes/:id', validateToken, deleteRecipe);
