@@ -4,6 +4,7 @@ const usersModel = require('../models/usersModel');
 const { ERROR_EMPTY_FIELDS, ERROR_INVALID_DATA } = require('./msgErrors');
 
 const secret = 'minhaSenhaCookmaster';
+
 const jwtConfig = {
   expiresIn: '1h',
   algorithm: 'HS256',
@@ -38,4 +39,5 @@ const login = async (email, password) => {
 
 module.exports = {
   login,
+  secret,
 };
