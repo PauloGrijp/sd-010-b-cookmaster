@@ -20,7 +20,7 @@ const isValidPassword = (sendLogin, sendPassword) => {
     return false;
   }
   const { password } = sendLogin;
-  console.log(password, sendPassword);
+  
   if (password !== sendPassword) {
     return false;
   }
@@ -29,20 +29,19 @@ const isValidPassword = (sendLogin, sendPassword) => {
 
 const findUser = async ({ email, password }) => {
   const fieldValid = requiredFields(email, password);
-  // console.log(fieldValid, 'validação do campo');  
+  
   if (!fieldValid) {
     return { code: 401, message: 'All fields must be filled' };
   }
   
   const emailValid = isValidEmail(email);
-  // console.log(emailValid, 'validação do email');  
+  
   if (!emailValid) {
     return { code: 401, message: 'Incorrect username or password' };
   }
 
   const login = await LoginModel.findUser({ email, password });  
   const passwordIsValid = isValidPassword(login, password);
-  // console.log(passwordIsValid, 'validação da senha');
 
   if (!passwordIsValid) {
     return { code: 401, message: 'Incorrect username or password',
