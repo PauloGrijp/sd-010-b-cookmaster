@@ -16,8 +16,19 @@ const newRecipe = async (name, ingredients, preparation, userId) =>
     .then((db) => db.collection('recipes').insertOne({ name, ingredients, preparation, userId }))
     .then((result) => result.ops[0]);
 
+const updateRecipe = async (id, name, ingredients, preparation) => 
+  connection()
+    .then((db) => db.collection('recipes')
+      .findOneAndUpdate(
+        { _id: ObjectId(id) },
+        { $set: { name, ingredients, preparation } },
+        { returnOriginal: false },
+      ))
+    .then((result) => result.value);
+
 module.exports = {
   getAll,
   getById,
   newRecipe,
+  updateRecipe,
 };

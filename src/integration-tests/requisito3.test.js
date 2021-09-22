@@ -236,7 +236,7 @@ describe('Testa endpoint para cadastro de receitas', () => {
           mockConnection = await getConnection();
           sinon.stub(MongoClient, 'connect').resolves(mockConnection);
           response = await chai
-            .request(server).post('/recipes').send({}).set({ authorization: '' });
+            .request(server).post('/recipes').send({}).set({ authorization: 'invalidToken' });
         });
   
         after(async () => {
@@ -257,6 +257,39 @@ describe('Testa endpoint para cadastro de receitas', () => {
 
         it('"message" possui o valor "jwt malformed', () => {
           expect(response.body.message).to.be.equal('jwt malformed');
+        });
+      });
+    });
+
+    describe('quando o "token" não é informado', () => {
+      describe('a resposta', () => {
+        let response;
+        let mockConnection;
+  
+        before(async () =>  {
+          mockConnection = await getConnection();
+          sinon.stub(MongoClient, 'connect').resolves(mockConnection);
+          response = await chai
+            .request(server).post('/recipes').send({});
+        });
+  
+        after(async () => {
+          MongoClient.connect.restore();
+        });
+        it('retorna o status 401', () => {
+          expect(response).to.have.status(401);
+        });
+
+        it('retorna um objeto', () => {
+          expect(response.body).to.be.an('object');
+        });
+
+        it('objeto contém a chave "message"', () => {
+          expect(response.body).to.have.property('message')
+        });
+
+        it('"message" possui o valor "missing auth token"', () => {
+          expect(response.body.message).to.be.equal('missing auth token');
         });
       });
     });
