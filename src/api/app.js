@@ -17,6 +17,7 @@ app.post('/login', UsersController.loginUser);
 
 // RECEITAS
 app.get('/recipes/:id', RecipesController.getOneRecipes);
+app.put('/recipes/:id', RecipesController.updateRecipes);
 app.get('/recipes', RecipesController.getAllRecipes);
 app.post('/recipes', RecipesController.registerRecipes);
 

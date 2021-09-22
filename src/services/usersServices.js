@@ -53,7 +53,7 @@ const loginUser = async (email, password) => {
   const validate = await fieldObrigatory(email, password);
   if (validate) return validate;
   const checkLogin = await UsersModel.checkLogin(email, password);
-  if (checkLogin) {
+  if (!checkLogin) {
     return { 
       status: 401,  
       message: 'Incorrect username or password',

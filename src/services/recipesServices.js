@@ -27,7 +27,6 @@ const getAllRecipes = async () => RecipesModel.getAllRecipes();
 
 const getOneRecipes = async (id) => {
   const oneRecipe = await RecipesModel.getOneRecipes(id);
-  console.log(oneRecipe);
   if (!oneRecipe) {
  return {
     status: 404,
@@ -37,8 +36,14 @@ const getOneRecipes = async (id) => {
 return oneRecipe;
 }; 
 
+const updateRecipes = async (body, id, _userId) => {
+  const update = await RecipesModel.updateRecipes(body, id, _userId);
+  return update;
+};
+
 module.exports = { 
   registerRecipes,
   getAllRecipes,
   getOneRecipes,
+  updateRecipes,
  };

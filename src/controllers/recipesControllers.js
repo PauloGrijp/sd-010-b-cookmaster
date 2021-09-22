@@ -10,8 +10,7 @@ const registerRecipes = rescue(async (req, res) => {
   const { _id } = validate;
   const result = await RecipesService.registerRecipes(name, ingredients, preparation, _id);
   if (result.message) return res.status(result.status).json({ message: result.message });
-  const Obj = { ...result, userId: _id };
-return res.status(201).json(Obj);
+return res.status(201).json(result);
 });
 
 const getAllRecipes = rescue(async (req, res) => {
@@ -26,8 +25,20 @@ const getOneRecipes = rescue(async (req, res) => {
   return res.status(200).json(result);
 });
 
+const updateRecipes = rescue(async (req, res) => {
+  const token = req.headers.authorization;
+  const validate = await verifyToken(token);
+  if (validate.message) return res.status(validate.status).json({ message: validate.message });
+  const { id } = req.params;
+  const { _id } = validate;
+  const { body } = req;
+  const result = await RecipesService.updateRecipes(body, id, _id);
+  return res.status(200).json(result);
+});
+
 module.exports = {
   registerRecipes,
   getAllRecipes,
   getOneRecipes,
+  updateRecipes,
 };
