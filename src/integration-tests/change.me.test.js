@@ -21,7 +21,7 @@ describe('Testa rota GET /recipes', () => {
     },
   ];
 
-  describe('Testa listRecipes', () => {
+	describe('Testa listRecipes', () => {
     let response;
     const DBServer = new MongoMemoryServer();
 
@@ -96,8 +96,8 @@ describe('Testa rota GET /recipes', () => {
     	expect(response.body).to.be.an('object')
     })
 
-    it('a receita possui o seguinte nome', () => {
+    it('o retorno possui os seguintes campos', () => {
       expect(response.body).to.have.keys('_id', 'newRecipe');
     });		
-  });
+  });	
 })
