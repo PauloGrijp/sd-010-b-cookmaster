@@ -2,7 +2,7 @@ const code = require('http-status-codes');
 const jwt = require('jsonwebtoken');
 const UserModel = require('../models/LoginModel');
 
-const secret = 'nenhumsegredo';
+const secret = 'seusecretdetoken';
 
 const validationJWT = async (req, res, next) => {
   const token = req.headers.authorization;
@@ -12,9 +12,10 @@ const validationJWT = async (req, res, next) => {
 
   try {
     const decoded = jwt.verify(token, secret);
-    console.log(decoded);
-    const user = await UserModel.findUser(decoded.email, decoded.password);
-
+    const user = await UserModel.findUser({ 
+      email: decoded.data.email, password: decoded.data.password, 
+    });
+    
     if (!user) {
       return res.status(code.NOT_FOUND).json({ message: 'user not found' });
     }
@@ -22,7 +23,7 @@ const validationJWT = async (req, res, next) => {
     req.user = user;
     next();
   } catch (err) {
-    return res.status(code.UNAUTHORIZED).json({ message: err.message });
+    return res.status(code.UNAUTHORIZED).json({ message: 'jwt malformed' });
   }
 };
 
