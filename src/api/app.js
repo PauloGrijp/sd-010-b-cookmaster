@@ -51,6 +51,8 @@ app.put('/recipes/:id/image', auth, RecipesController.addImage,
 
 app.post('/users', UserController.create);
 
+app.post('/users/admin', auth, UserController.createAdmin);
+
 app.post('/login', UserController.login);
 
 app.use(errorMiddleware);
