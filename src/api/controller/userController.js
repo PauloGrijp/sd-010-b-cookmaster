@@ -28,18 +28,18 @@ const createUser = async (req, res) => {
 const login = async (req, res) => {
   const { email, password } = req.body;
   const user = await userService.login({ email, password });
-  const { _id, role } = user;
-
-  const payload = { _id, role, email };
-
+  
   if (user === 'emailOrPassWrong') {
     return res.status(401).json({ message: 'All fields must be filled' });
   }
-
+  
   if (user === null) {
     return res.status(401).json({ message: 'Incorrect username or password' });
   }
-
+  
+  const { _id, role } = user;
+  const payload = { _id, role, email };
+  
   const token = jwt.sign(payload, secret, jwtConfig);
 
   return res.status(200).json({ token });

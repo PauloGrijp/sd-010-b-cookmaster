@@ -31,6 +31,9 @@ const login = async ({ email, password }) => {
 
   const query = { email, password };
   const result = await user.findOne(query);
+
+  console.log('result', result);
+
   return result;
 };
 
