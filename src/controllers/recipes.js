@@ -14,13 +14,13 @@ const createRecipe = async (req, res) => {
   return res.status(codes.created).json({ recipe });
 };
 
-// const getRecipes = async (req, res) => {
-//   const recipes = await recipesService.getRecipes();
+const getRecipes = async (req, res) => {
+  const recipes = await recipesService.getRecipes();
 
-//   return res.status(codes.ok).json(recipes);
-// };
+  return res.status(codes.ok).json(recipes);
+};
 
 module.exports = {
   createRecipe,
-  // getRecipes,
+  getRecipes,
 };
