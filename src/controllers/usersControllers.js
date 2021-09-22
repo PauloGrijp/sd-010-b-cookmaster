@@ -23,7 +23,7 @@ const loginUser = rescue(async (req, res) => {
   const { _id, role } = result;
   const payload = { _id, role, email };
   const token = jwt.sign(payload, secret, jwtConfig);
-  return res.status(200).json(token);
+  return res.status(200).json({ token });
 });
 
 module.exports = {
