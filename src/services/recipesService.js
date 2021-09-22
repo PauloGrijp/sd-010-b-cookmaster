@@ -15,6 +15,16 @@ const create = (reqBodyEntries) => {
   return recipesModel.create(reqBodyEntries);
 };
 
+const getById = async (id) => {
+  try {
+    const recipeFound = await recipesModel.getById(id);  
+    return recipeFound;
+  } catch (error) {
+    throw new ErrorRequest('notFound', 'recipe not found');
+  }
+};
+
 module.exports = {
   create,
+  getById,
 };
