@@ -1,18 +1,19 @@
 const usersModel = require('../models/usersModel');
 
-function valid(body) {
-  if (!body) {
-    return { status: 400, message: 'Invalid entries. Try again' };
-  }
-  const { name, email, password } = body;
+const message = 'Invalid entries. Try again.';
+function valid({ name, email, password }) {
   if (!name) {
-    return { status: 400, message: 'Invalid entries. Try again' };
+    return { status: 400, message };
   }
   if (!email) {
-    return { status: 400, message: 'Invalid entries. Try again' };
+    return { status: 400, message };
+  }
+
+  if (!/^[a-z0-9._-]+@[a-z0-9]+\.([a-z.]+)?$/i.test(email)) {
+    return { status: 400, message };
   }
   if (!password) {
-    return { status: 400, message: 'Invalid entries. Try again' };
+    return { status: 400, message };
   }
   return true;
 }
@@ -23,14 +24,14 @@ const create = async (body) => {
     return validate;
   }
   const findEmail = await usersModel.getByEmail(body.email);
-  if (findEmail.length < 1) {
+  if (findEmail) {
     return { status: 409, message: 'Email already registered' };
   }
   const { insertedId: _id } = await usersModel.create(body);
   return { user: {
     name: body.name,
     email: body.email,
-    role: body.role,
+    role: 'user',
     _id,
   } };
 };

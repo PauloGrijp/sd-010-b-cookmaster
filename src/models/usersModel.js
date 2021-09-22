@@ -8,7 +8,7 @@ const create = async (body) => {
 
 const getByEmail = async (email) => {
   const data = await connection()
-  .then((db) => db.collection('users').find({ email }));
+  .then((db) => db.collection('users').findOne({ email }));
   return data;
 };
 
