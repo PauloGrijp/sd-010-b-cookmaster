@@ -10,7 +10,6 @@ const validate = async (req, res, next) => {
   try {
     /* Através o método verify, podemos validar e decodificar o nosso JWT. */
     const decoded = jwt.verify(token, secretKey); // payload
-    console.log(decoded.data.id);
     req.user = { id: decoded.data.id };
 
     next();

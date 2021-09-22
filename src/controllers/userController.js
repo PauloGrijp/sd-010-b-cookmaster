@@ -63,7 +63,6 @@ const getUser = async (req, res) => {
     return res.status(status.NOT_FOUND).json({ message: 'Not found' });
   }
   const { _id } = user;
-  console.log(user, _id);
   const userData = {
     id: _id,
     email: user.email,
@@ -73,7 +72,6 @@ const getUser = async (req, res) => {
   const secretKey = 'senha-secreta';
   
   const token = jwt.sign({ data: userData }, secretKey, jwtConfig);
-  console.log(user);
   return res.status(status.OK).json({ token });
 };
 

@@ -5,7 +5,6 @@ const recipeService = require('../services/recipeService');
 const createRecipe = async (req, res) => {
   const { name, ingredients, preparation } = req.body;
   const { id } = req.user;
-  console.log(id);
   const recipe = await recipeModel.add(name, ingredients, preparation, id);
 
   return res.status(status.CREATED).json(recipe);

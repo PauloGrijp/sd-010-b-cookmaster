@@ -1,6 +1,10 @@
 const userModel = require('../models/userModel');
 
 const valideEmail = (email) => {
+  if (!email) {
+    return true;
+  } 
+  
   if (!email.includes('@') || !email.includes('.com')) {
     return true;
   }
