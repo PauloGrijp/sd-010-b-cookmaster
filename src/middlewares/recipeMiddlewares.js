@@ -3,10 +3,10 @@ const Joi = require('joi');
 
 const SECRET = 'senhasupersegura123';
 
-const validToken = (req, res, next) => {
+const validToken = async (req, res, next) => {
   const token = req.headers.authorization;
   if (!token) {
-    return res.status(401).json({ message: 'not authorized' });
+    return res.status(401).json({ message: 'missing auth token' });
   }
   try {
     const decryption = JWT.verify(token, SECRET);
