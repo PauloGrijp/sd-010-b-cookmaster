@@ -5,6 +5,7 @@ const secret = 'segredoSuperSecreto';
 const errors = {
   invalidEntries: 'Invalid entries. Try again.',
   malformedJwt: 'jwt malformed',
+  missingToken: 'missing auth token',
 };
 
 const invalidEntryStatus = 400;
@@ -26,6 +27,9 @@ const validateNewRecipeInput = (name, ingredients, preparation) => {
 };
 
 const validateToken = (token) => {
+  if (!isString(token)) {
+    return { status: badTokenStatus, err: { message: errors.missingToken } };
+  }
   try {
     const payload = jwt.verify(token, secret, [jwtConfig]);
     return payload;
