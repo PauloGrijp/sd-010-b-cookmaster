@@ -1,4 +1,4 @@
-const validName = (email) => {
+const validEmail = (email) => {
   const REGEX_EMAIL = /^[\w-.]+@([\w-]+.)+[\w-]{2,4}$/;
 
   if (!REGEX_EMAIL.test(email)) return false;
@@ -6,5 +6,5 @@ const validName = (email) => {
 };
 
 module.exports = {
-  validName,
+  validEmail,
 };
