@@ -45,9 +45,16 @@ const update = async ({ id, name, ingredients, preparation, userId, role }) => {
   return value;
 };
 
+const deleteById = async ({ id, userId, role }) => {
+  const db = await connection();
+  const filterQuery = buildFilterQueriesByRole({ id, userId, role });
+  await db.collection(recipes).findOneAndDelete(filterQuery);
+};
+
 module.exports = {
   create,
   getAll,
   getById,
   update,
+  deleteById,
 };

@@ -30,9 +30,18 @@ const update = async (req, res) => {
   res.status(200).json(recipe);
 };
 
+const deleteById = async (req, res) => {
+  const { id } = req.params;
+  const { userId, role } = req;
+  const reqData = { id, userId, role };
+  await recipesModel.deleteById(reqData);
+  res.status(204).send();
+};
+
 module.exports = {
   create,
   getAll,
   getById,
   update,
+  deleteById,
 };
