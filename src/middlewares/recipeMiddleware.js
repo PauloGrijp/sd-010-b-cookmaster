@@ -22,7 +22,6 @@ const verifyToken = (req, res, next) => {
     }
     const { authorization } = req.headers;
     const data = jwt.verify(authorization, secret);
-    console.log(data)
     req.loggedUser = data;
     next();
   } catch (e) {

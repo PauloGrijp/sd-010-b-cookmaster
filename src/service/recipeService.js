@@ -1,9 +1,13 @@
+const { ObjectId } = require('mongodb');
+
 const recipeModel = require('../model/recipeModel');
 const userModel = require('../model/userModel');
 
 const createRecipe = async (recipe, email) => {
   const { _id } = await userModel.getByEmail(email);
-  const idRecipe = await recipeModel.createRecipe(recipe);
+  const recipeWithUser = recipe;
+  recipeWithUser.userId = _id;
+  const idRecipe = await recipeModel.createRecipe(recipeWithUser);
   return {
     userId: _id,
     _id: idRecipe,
@@ -31,8 +35,14 @@ const editRecipe = async (edition, id) => {
 
 const getIdByEmail = async (email) => {
   const { _id } = await userModel.getByEmail(email);
-
   return _id;
+};
+
+const deleteRecipe = async (userId, recipeId) => {
+  const { userId: recipeUserId } = await recipeModel.getById(recipeId);
+  if (userId === recipeUserId && ObjectId.isValid(recipeId)) {
+    await recipeModel.deleteRecipe(recipeId);
+  }
 };
 
 module.exports = {
@@ -41,4 +51,5 @@ module.exports = {
   getById,
   editRecipe,
   getIdByEmail,
+  deleteRecipe,
 };

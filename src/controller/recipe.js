@@ -12,11 +12,22 @@ const {
   getById,
   editRecipe,
   getIdByEmail,
+  deleteRecipe,
 } = require('../service/recipeService');
 
 const httpStatus = require('./httpStatus');
 
 const route = express.Router();
+
+route.delete('/:id',
+  verifyToken,
+  async (req, res) => {
+    const { id } = req.params;
+    const { email } = req.loggedUser.data;
+    const userId = await getIdByEmail(email);
+    await deleteRecipe(userId, id);
+    return res.status(httpStatus.NoContent).send();
+  });
 
 route.put('/:id',
   verifyRecipeBody,
