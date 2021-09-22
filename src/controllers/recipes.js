@@ -20,7 +20,6 @@ const getRecipes = async (req, res) => {
 
 const getRecipeById = async (req, res) => {
   const { id } = req.params;
-  console.log(id);
 
   const { recipe, error } = await recipesService.getRecipeById(id);
   if (error) return res.status(error.code).json({ message: error.message });
