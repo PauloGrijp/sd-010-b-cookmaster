@@ -9,5 +9,8 @@ router.get('/:id', recipesController.getById);
 router.post('/', 
 validateToken,
 recipesController.createRecipe);
+router.put('/:id', 
+validateToken,
+recipesController.updateRecipe);
 
 module.exports = router;

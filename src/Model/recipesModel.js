@@ -23,8 +23,27 @@ const create = async (recipe, id) => {
     };
 };
 
+const update = async (recipe, id, idRecipe) => {
+    const testeID = ObjectId.isValid(idRecipe);
+    if (!testeID) {
+        return null;
+    }
+    const newRecipe = { ...recipe, userId: id };
+    const db = await connection();
+    const recipeUpdated = await db.collection('recipes')
+        .updateOne({ _id: ObjectId(idRecipe) }, { $set: newRecipe });
+    if (recipeUpdated.modifiedCount === 0) {
+        return false;
+    }
+    return {
+        _id: idRecipe,
+        ...newRecipe,
+    };
+};
+
 module.exports = {
     create,
     getAll,
     getById,
+    update,
 };

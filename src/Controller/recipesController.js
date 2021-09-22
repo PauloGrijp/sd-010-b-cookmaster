@@ -36,4 +36,21 @@ const createRecipe = async (req, res) => {
         return res.status(500).json({ message: 'Ops, algo de errado :( ' });
     }
 };
-module.exports = { createRecipe, getAll, getById };
+
+const updateRecipe = async (req, res) => {
+    try {
+        const { users: { _id } } = req.user;
+       const idRecipe = req.params.id;
+      // console.log(req.user);
+        // name, email, role tem disponivel no req.user
+        const result = await recipesService.updateRecipe(req.body, _id, idRecipe);
+         //  console.log(result);
+        if (result === false) {
+            return res.status(400).json({ message: 'Invalid entries. Try again.' });
+        }
+        return res.status(200).json(result);
+    } catch (error) {
+        return res.status(500).json({ message: 'Ops, algo de errado :( ' });
+    }
+};
+module.exports = { createRecipe, getAll, getById, updateRecipe };
