@@ -8,4 +8,10 @@ const insertRecipe = async (name, ingredients, preparation, userId) => {
   return recipeOk;
 };
 
-module.exports = { insertRecipe };
+const getRecipes = async () => {
+  const db = await getConnection();
+  const result = await db.collection('recipes').find().toArray();
+  return result;
+};
+
+module.exports = { insertRecipe, getRecipes };
