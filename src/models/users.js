@@ -52,4 +52,5 @@ module.exports = {
   add,
   checkEmailUniquity,
   login,
+  SECRET,
 };

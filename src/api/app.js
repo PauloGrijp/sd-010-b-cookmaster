@@ -1,16 +1,30 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+
 const {
   requestNewUser,
   requestLogin,
 } = require('../Controllers/users');
 
 const {
+  requestNewRecipe,
+} = require('../Controllers/recipes');
+
+const {
   isValidName,
-  isValidEmail,
+  isValidEmail,  
   fieldEmail,
   fieldPassword,
 } = require('../middlewares/users');
+
+const {
+  isValidIngredients,
+  isValidPreparation,
+} = require('../middlewares/recipes');
+
+const {
+  verifyToken,
+} = require('../middlewares/tokenValidation');
 
 const app = express();
 
@@ -25,5 +39,12 @@ app.use(bodyParser.json());
 app.post('/users', isValidName, isValidEmail, requestNewUser);
 
 app.post('/login', fieldEmail, fieldPassword, requestLogin);
+
+app.post('/recipes',
+  isValidName,
+  isValidPreparation,
+  isValidIngredients,
+  verifyToken,
+  requestNewRecipe);
 
 module.exports = app;

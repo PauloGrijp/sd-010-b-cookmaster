@@ -7,7 +7,7 @@ const isValidEmail = (req, res, next) => {
   const { email } = req.body;
   const emailTester = /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/i;
 
-  if (!email) {
+  if (!email || typeof email !== 'string') {
     return res.status(BAD_REQUEST).json(invalidEntries);
   }
 
@@ -20,7 +20,7 @@ const isValidEmail = (req, res, next) => {
 
 const isValidName = (req, res, next) => {
   const { name } = req.body;
-  if (!name) {
+  if (!name || typeof name !== 'string') {
     return res.status(BAD_REQUEST).json(invalidEntries);
   }
 
