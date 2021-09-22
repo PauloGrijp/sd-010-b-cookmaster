@@ -25,4 +25,6 @@ app.get('/recipes', controllers.getRecipes);
 
 app.get('/recipes/:id', controllers.getRecipeById);
 
+app.put('/recipes/:id', authorization.verifyToken, controllers.editRecipe);
+
 module.exports = app;
