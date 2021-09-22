@@ -1,19 +1,9 @@
-// const jwt = require('jsonwebtoken');
 const recipesService = require('../service/recipesService');
 const jwtvalid = require('../middlewares/jwtvalid');
-
-// const secret = 'minhaSenha';
-
-// const jwtConfig = {
-//   expiresIn: '7d',
-//   algorithm: 'HS256',
-// };
 
 const createRecipes = async (req, res) => {
   const token = req.headers.authorization;
   const { name, ingredients, preparation } = req.body;
-
-  // console.log('token', token);
 
   const validate = jwtvalid(token);
 
@@ -33,6 +23,12 @@ const createRecipes = async (req, res) => {
   return res.status(201).json({ recipe });
 };
 
+const getAllRecipes = async (req, res) => {
+  const recipes = await recipesService.getAllRecipes();
+  res.status(200).json(recipes);
+};
+
 module.exports = {
   createRecipes,
+  getAllRecipes,
 };
