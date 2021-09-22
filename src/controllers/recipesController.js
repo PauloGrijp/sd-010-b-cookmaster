@@ -25,7 +25,7 @@ async function createRecipe(req, res) {
   });
 }
 
-async function getAllRecipes(req, res) {
+async function getAllRecipes(_req, res) {
   const recipes = await recipesService.getAllRecipes();
 
   return res.status(200).json(recipes);
@@ -43,6 +43,16 @@ async function getRecipeById(req, res) {
   }
 
   return res.status(200).json(recipe);
+}
+
+async function editRecipe(req, res) {
+  const recipe = await recipesService.editRecipe(req.params, req.body, req.user);
+
+  // if(!recipe) {
+  //   return status()
+  // }
+
+  res.status(200).json(recipe);
 }
 
 module.exports = {

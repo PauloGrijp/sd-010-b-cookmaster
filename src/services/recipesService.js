@@ -24,9 +24,14 @@ async function getRecipeById(id) {
   return recipe;
 }
 
+async function editRecipe(_id, { id, name, ingredients, preparation }, userId) {
+return null;
+}
+
 module.exports = {
   validateFields,
   createRecipe,
   getAllRecipes,
   getRecipeById,
+  editRecipe,
 };

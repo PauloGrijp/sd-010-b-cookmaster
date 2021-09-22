@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 
-const secret = 'super-senha';
+const secret = 'senha-super';
 
 async function validateJWT(req, res, next) {
   const token = req.headers.authorization;
@@ -15,6 +15,7 @@ async function validateJWT(req, res, next) {
     
     next();
   } catch (error) {
+    // console.log(error.message);
     return res.status(401).json({ message: 'jwt malformed' });
   }
 }
