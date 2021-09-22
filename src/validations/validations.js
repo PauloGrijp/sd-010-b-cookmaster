@@ -17,12 +17,9 @@ const infosRecipe = (recipe) => {
 const validPassword = async (user) => {
   const { email, password } = user;
   const senha = await userModel.getPasswdByEmail(email);
-  console.log('validations validPasswd');
-  console.log(senha);
   if (senha === false) {
     return false;
   }
-  console.log('passwd', password);
   if (senha !== password) {
     return false;
   }

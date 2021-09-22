@@ -1,3 +1,4 @@
+const path = require('path');
 const recipesService = require('../Service/recipesService');
 
 const getAll = async (req, res) => {
@@ -18,7 +19,7 @@ const getById = async (req, res) => {
         const recipe = await recipesService.getById(id);
         return res.status(200).json(recipe);
     } catch (error) {
-        return res.status(500).json({ message: 'Ops, algo de errado :( ' });
+        return res.status(500).json({ message: 'bugou ' });
     }
 };
 
@@ -74,4 +75,21 @@ const deleteRecipe = async (req, res) => {
         return res.status(500).json({ message: 'Ops, algo de errado :( ' });
     }
 };
-module.exports = { createRecipe, getAll, getById, updateRecipe, deleteRecipe };
+
+const uploadPicture = async (req, res) => {
+    const { id } = req.params;
+
+    const picture = path.join('localhost:3000', 'src', 'uploads', `${id}.jpeg`);
+    try {
+        const result = await recipesService.uploadPicture(id, picture);
+         console.log('result', result);
+        if (result) {
+            return res.status(200).json(result);
+        }
+        return res.status(200).json({ result: 'ok' });
+    } catch (error) {
+        return res.status(500).json({ message: 'Ops, algo de errado :( ' });
+    }
+};
+
+module.exports = { createRecipe, getAll, getById, updateRecipe, deleteRecipe, uploadPicture };

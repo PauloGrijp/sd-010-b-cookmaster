@@ -35,4 +35,10 @@ const deleteRecipe = async (idRecipe, _users) => {
     return false;
 };
 
-module.exports = { createRecipe, getAll, getById, updateRecipe, deleteRecipe };
+const uploadPicture = async (id, picture) => {
+    const pictureUploaded = await recipesModel.uploadPicture(id, picture);
+    console.log('\n\n\n', pictureUploaded, '\n\n\n');
+    return pictureUploaded;
+};
+
+module.exports = { createRecipe, getAll, getById, updateRecipe, deleteRecipe, uploadPicture };

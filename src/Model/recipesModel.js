@@ -52,6 +52,22 @@ const exclude = async (id) => {
 
     return false;
 };
+const uploadPicture = async (id, image) => {
+    console.log('Aqui', id);
+    // console.log(picture);
+    if (!ObjectId.isValid(id)) return null;
+    const db = await connection();
+    const pictureUploaded = await db.collection('recipes').findOneAndUpdate(
+        { _id: ObjectId(id) },
+        { $set: { image } },
+        // https://stackoverflow.com/questions/35626040/how-to-get-updated-document-back-from-the-findoneandupdate-method
+        { returnOriginal: false },
+      );
+      
+      if (pictureUploaded.value.image === image) return pictureUploaded.value;
+    
+      return false;
+};
 
 module.exports = {
     create,
@@ -59,4 +75,5 @@ module.exports = {
     getById,
     update,
     exclude,
+    uploadPicture,
 };
