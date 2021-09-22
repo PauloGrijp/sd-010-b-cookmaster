@@ -23,4 +23,8 @@ loginMiddleware.checkEmailPassword,
 loginMiddleware.validateEmailPassword,
 userController.login);
 
-app.post('/recipes', recipesMiddlewares.validateCreateFields, recipesController.create);
+app.get('/recipes', recipesController.getRecipes);
+
+app.post('/recipes',
+recipesMiddlewares.validateCreateFields,
+recipesController.create);

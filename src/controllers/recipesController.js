@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 const recipesService = require('../services/recipesService');
 
+const status200 = 200;
 const status401 = 401;
 const secret = 'minhaSenha';
 
@@ -16,6 +17,16 @@ const create = async (req, res) => {
   }
 };
 
+const getRecipes = async (req, res) => {
+  try {
+    const result = await recipesService.getRecipes();
+    return res.status(status200).json(result);
+  } catch (err) {
+    return res.status(500).json({ message: 'Erro interno', error: err.message });
+  }
+};
+
 module.exports = {
   create,
+  getRecipes,
 };
