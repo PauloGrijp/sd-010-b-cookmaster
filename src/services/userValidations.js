@@ -15,14 +15,24 @@ const validateEmail = (email) => {
   return true;
 };
 
+// const validateFormatEmail = async (email) => {
+//   const findByEmail = await userModels.findByEmail(email);
+//   if (findByEmail) {
+//     return true;
+//   }
+//   return false;
+// };
+
 const createUserValidations = async ({ name, email, password, role }) => {
   const validName = validateName(name);
   const validEmail = validateEmail(email);
-  if (!validName) {
+  const validFormatEmail = await userModels.findByEmail(email);
+  console.log(validFormatEmail);
+  if (!validName || !validEmail) {
     return { message: 'Invalid entries. Try again.' };
   }
-  if (!validEmail) {
-    return { message: 'Invalid entries. Try again.' };
+  if (validFormatEmail) {
+    return { message: 'Email already registered' };
   }
   const create = await userModels.creatUser({ name, email, password, role });
   return create;
