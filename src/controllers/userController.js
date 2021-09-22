@@ -51,7 +51,7 @@ const validateEmailPassword = async (req, res, next) => {
     return next();
   }
 
-  return res.status(status.BAD_REQUEST).json({ message: valid });
+  return res.status(status.UNAUTHORIZED).json({ message: valid });
 };
 
 const getUser = async (req, res) => {
