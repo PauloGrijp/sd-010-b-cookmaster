@@ -18,8 +18,15 @@ async function getAllRecipes() {
   return recipes;
 }
 
+async function getRecipeById(id) {
+  const recipe = recipesModel.getRecipeById(id);
+
+  return recipe;
+}
+
 module.exports = {
   validateFields,
   createRecipe,
   getAllRecipes,
+  getRecipeById,
 };

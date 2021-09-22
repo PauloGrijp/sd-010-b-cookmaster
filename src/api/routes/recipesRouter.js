@@ -6,6 +6,7 @@ const {
   validateFields,
   createRecipe,
   getAllRecipes,
+  getRecipeById,
 } = require('../../controllers/recipesController');
 
 // const validateJWT = require('../../middlewares/validateJWT');
@@ -16,5 +17,7 @@ router.post('/',
   createRecipe);
 
 router.get('/', getAllRecipes);
+
+router.get('/:id', getRecipeById);
 
 module.exports = router;
