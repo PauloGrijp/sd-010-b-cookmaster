@@ -2,7 +2,7 @@ const connection = require('./connection');
 
 const USERS = 'users';
 
-const create = async ({ name, email, password }) => {
+const create = async (name, email, password) => {
   const role = 'user';
 
   const db = await connection();
