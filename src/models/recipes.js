@@ -26,4 +26,11 @@ const createRecipes = async (recipe) => {
     return getNewRecipe(response.ops[0], response.insertedId);
 };
 
-module.exports = { createRecipes }; 
+const getAll = async () => {
+    const db = await mongoConnection();
+    
+    const response = await db.collection('recipes').find({}).toArray();
+    return response;
+};
+
+module.exports = { createRecipes, getAll }; 

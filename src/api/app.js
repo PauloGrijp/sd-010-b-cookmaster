@@ -27,5 +27,6 @@ app.get('/', (request, response) => {
 app.post('/users', UserMiddleweres.validateUser, users.createUser);
 app.post('/login', UserMiddleweres.validateLogin, users.loginUser);
 app.post('/recipes', validateRecipe, validateToken, recipes.createRecipes);
+app.get('/recipes', recipes.getAll);
 
 module.exports = app;

@@ -7,4 +7,6 @@ const createRecipes = (name, ingredients, preparation, authorization) => {
     return recipes.createRecipes(recipe);
 };
 
-module.exports = { createRecipes };
+const getAll = () => recipes.getAll();
+
+module.exports = { createRecipes, getAll };
