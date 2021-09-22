@@ -16,6 +16,16 @@ const getAllRecipe = async (_req, res) => {
   return res.status(status.OK).json(recipe);
 };
 
+const getId = async (req, res) => {
+  const { id } = req.params;
+  const recipe = await recipeModel.getId(id);
+  
+  if (recipe === null) {
+    return res.status(status.NOT_FOUND).json({ message: 'recipe not found' });
+  }
+  return res.status(status.OK).json(recipe);
+};
+
 const validateEntries = async (req, res, next) => {
   const { name, ingredients, preparation } = req.body;
 
@@ -28,4 +38,4 @@ const validateEntries = async (req, res, next) => {
   return res.status(status.BAD_REQUEST).json({ message: valid });
 };
 
-module.exports = { createRecipe, validateEntries, getAllRecipe };
+module.exports = { createRecipe, validateEntries, getAllRecipe, getId };

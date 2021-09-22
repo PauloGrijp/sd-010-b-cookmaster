@@ -4,9 +4,13 @@ const validateToken = require('../controllers/validateToken');
 
 const router = express.Router();
 
-// ADD
+// READ ALL
 router.get('/', 
  recipeController.getAllRecipe);
+
+ // READ ONE
+router.get('/:id', 
+recipeController.getId);
 
 // ADD
 router.post('/', 

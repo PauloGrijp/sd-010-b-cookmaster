@@ -1,4 +1,5 @@
 // const { ObjectId } = require('mongodb');
+const { ObjectId } = require('mongodb');
 const connectionDB = require('./connection');
 
 /* 
@@ -25,6 +26,13 @@ const add = async (name, ingredients, preparation, id) => {
   };
 };
 
+// READ
+const getId = async (id) => {
+  const db = await connectionDB.connect();
+  const productOne = await db.collection('recipes').findOne({ _id: ObjectId(id) });
+  return productOne;
+};
+
 // GET
 const getAll = async () => {
   const db = await connectionDB.connect();
@@ -32,4 +40,4 @@ const getAll = async () => {
   return recipe;
 };
 
-module.exports = { add, getAll };
+module.exports = { add, getAll, getId };
