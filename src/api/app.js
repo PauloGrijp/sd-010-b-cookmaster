@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
-const { getPosts, createUsers, login, createRecipes } = require('./routes');
+const { getPosts, createUsers, login, createRecipes, allRecipes } = require('./routes');
 const { 
   userValidation, 
   validateEmail,
@@ -21,7 +21,8 @@ const apiRoutes = express.Router();
 apiRoutes.get('/posts', getPosts)
           .post('/users', userValidation, validateEmail, createUsers)
           .post('/login', userLogin, validatePwd, login)
-          .post('/recipes', dataValidation, validateJWT, createRecipes);
+          .post('/recipes', dataValidation, validateJWT, createRecipes)
+          .get('/recipes', allRecipes);
 
 app.use(apiRoutes);
 // Não remover esse end-point, ele é necessário para o avaliador
