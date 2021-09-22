@@ -10,9 +10,12 @@ const getRecipeById = async (id) => recipesModel.getRecipeById(id);
 
 const edit = async (data) => recipesModel.edit(data);
 
+const exclude = async (recipeId) => recipesModel.exclude(recipeId);
+
 module.exports = {
   create,
   getRecipes,
   getRecipeById,
   edit,
+  exclude,
 };

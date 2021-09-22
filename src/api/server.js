@@ -31,3 +31,5 @@ recipesMiddlewares.validateRecipeFields,
 recipesController.create);
 
 app.put('/recipes/:id', recipesController.edit);
+
+app.delete('/recipes/:id', recipesController.exclude);

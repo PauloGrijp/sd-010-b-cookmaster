@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 const recipesService = require('../services/recipesService');
+const userController = require('./userController');
 
 const status200 = 200;
 const status401 = 401;
@@ -59,9 +60,25 @@ const edit = async (req, res) => {
   }
 };
 
+const exclude = async (req, res) => {
+  const token = req.headers.authorization;
+  const { id: recipeId } = req.params;
+  if (!token) {
+    return res.status(status401).json({ message: 'missing auth token' });
+  }
+  const { email, role } = jwt.verify(token, secret);
+  const user = await userController.getUser(email);
+  if (email === user.email || role === 'admin') {
+    const result = await recipesService.exclude(recipeId);
+    return res.status(204).json(result);
+  }
+  return res.status(status401).json({ message: 'Unauthorized' });
+};
+
 module.exports = {
   create,
   getRecipes,
   getRecipeById,
   edit,
+  exclude,
 };
