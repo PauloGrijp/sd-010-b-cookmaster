@@ -17,6 +17,7 @@ app.post('/users', userController.createUser);
 app.post('/login', userController.login);
 
 app.get('/recipes/:id', recipesController.getByIdRecipes);
+app.put('/recipes/:id', recipesController.updateByIdRecipes);
 app.post('/recipes', recipesController.createRecipes);
 app.get('/recipes', recipesController.getAllRecipes);
 

@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 const secret = 'minhaSenha';
 
 const validateJwt = (token) => {
-  if (!token) return 'token não existe';
+  if (!token) return 'missing auth token';
 
   try {
     const validToken = jwt.verify(token, secret);
