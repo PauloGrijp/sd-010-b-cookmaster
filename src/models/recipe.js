@@ -9,6 +9,14 @@ const createRecipe = async (newRecipe) => {
   return create.ops[0];
 };
 
+const getRecipes = async () => {
+  const connect = await getConnection();
+  const recipes = await connect.collection(RECIPES_DOCUMENTS).find({}).toArray();
+
+  return recipes;
+};
+
 module.exports = {
   createRecipe,
+  getRecipes,
 };

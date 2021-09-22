@@ -23,6 +23,18 @@ const createRecipe = async (recipe, payload) => {
   return result;
 };
 
+const getRecipes = async () => {
+  const allRecipes = await recipeModal.getRecipes();
+
+  const result = {
+    status: code.HTTP_OK_STATUS,
+    notification: allRecipes,
+  };
+
+  return result;
+};
+
 module.exports = {
   createRecipe,
+  getRecipes,
 };
