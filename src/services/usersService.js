@@ -1,10 +1,13 @@
 const usersModel = require('../models/usersModel');
 
 const message = 'Invalid entries. Try again.';
-function valid({ name, email, password }) {
+function validName({ name }) {
   if (!name) {
     return { status: 400, message };
   }
+  return true;
+}
+function validLogin({ email, password }) {
   if (!email) {
     return { status: 400, message };
   }
@@ -19,8 +22,9 @@ function valid({ name, email, password }) {
 }
 
 const create = async (body) => {
-  const validate = valid(body);
-  if (validate.message) {
+  const validateName = validName(body);
+  const validate = validLogin(body);
+  if (validate.message || validateName.message) {
     return validate;
   }
   const findEmail = await usersModel.getByEmail(body.email);
@@ -36,6 +40,14 @@ const create = async (body) => {
   } };
 };
 
+const login = async (email, password) => {
+  const validate = validLogin({ email, password });
+  if (validate.message) {
+    return validate;
+  }
+};
+
 module.exports = {
   create,
+  login,
 };
