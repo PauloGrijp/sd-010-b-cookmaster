@@ -9,7 +9,7 @@ const missingToken = 'missing auth token';
 module.exports = (req, res, next) => {
   const token = req.headers.authorization;
   if (!token) return res.status(codes.unhautorized).json({ message: missingToken });
-  console.log('token');
+
   try {
     const decoded = jwt.verify(token, secret);
 

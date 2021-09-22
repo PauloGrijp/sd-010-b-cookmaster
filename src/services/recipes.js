@@ -36,9 +36,22 @@ const editRecipe = async (name, ingredients, preparation, ids) => {
   return recipe;
 };
 
+const deleteRecipe = async (recipeId, userId) => {
+  const recipe = await recipesModel.getRecipeById(recipeId);
+
+  const { userId: ownerId } = recipe;
+
+  if (userId === ownerId) {
+    await recipesModel.deleteRecipe(recipeId);
+  }
+
+  return null;
+};
+
 module.exports = {
   createRecipe,
   getRecipes,
   getRecipeById,
   editRecipe,
+  deleteRecipe,
 };

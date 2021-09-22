@@ -10,4 +10,6 @@ router.put('/recipes/:id', validateToken, recipesController.editRecipe);
 
 router.post('/recipes', validateToken, recipesController.createRecipe);
 
+router.delete('/recipes/:id', validateToken, recipesController.deleteRecipe);
+
 module.exports = router;
