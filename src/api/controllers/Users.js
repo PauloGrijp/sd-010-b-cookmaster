@@ -16,7 +16,6 @@ const createUser = async (req, res) => {
       password,
     } = req.body;
     const newUser = await Users.createUser(name, email, password);
-    console.log(newUser);
 
     if (newUser.conflict) return res.status(CONFLICT).json({ message: newUser.message });
     if (newUser.message) return res.status(BAD_REQUEST).json(newUser);
