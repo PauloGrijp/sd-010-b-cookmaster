@@ -28,11 +28,6 @@ const updateRecipe = async (id, body, token) => {
   const { name, ingredients, preparation } = body;
   const validateToken = await schema.validateToken(token);
   if (validateToken.err) return validateToken;
-  const { _id, role } = validateToken;
-  const recipeToBeUpdated = await model.getRecipeById(id);
-  if (recipeToBeUpdated.userId !== _id && role !== 'admin') {
-    return { status: 401, err: { message: 'this recipe is not yours' } };
-  }
   const updatedRecipe = await model.updateRecipe(id, name, ingredients, preparation);
   return updatedRecipe;
 };
@@ -40,11 +35,6 @@ const updateRecipe = async (id, body, token) => {
 const deleteRecipe = async (id, token) => {
   const validateToken = await schema.validateToken(token);
   if (validateToken.err) return validateToken;
-  const { _id, role } = validateToken;
-  const recipeToBeDeleted = await model.getRecipeById(id);
-  if (recipeToBeDeleted.userId !== _id && role !== 'admin') {
-    return { status: 401, err: { message: 'this recipe is not yours' } };
-  }
   const modelReturn = await model.deleteRecipe(id);
   return modelReturn;
 };
