@@ -30,6 +30,9 @@ const updateRecipe = async (id, name, ingredients, preparation) => {
     db.collection(COLLECTION_NAME).updateOne({ _id: comparisonId }, {
       $set: { name, ingredients, preparation },
     }));
+  const updatedRecipe = connection().then((db) =>
+    db.collection(COLLECTION_NAME).findOne({ _id: comparisonId }));
+  return updatedRecipe;
 };
 
 module.exports = {
