@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 
 const UserController = require('../controllers/UserController');
 const LoginController = require('../controllers/LoginController');
+const RecipeController = require('../controllers/RecipeController');
 
 const app = express();
 
@@ -23,7 +24,7 @@ app.use('/images', express.static(path.join(__dirname, '..', 'uploads')));
 
 app.post('/users', UserController.createUser);
 app.post('/login', LoginController.findUser);
-app.get('/recipes', () => console.log('mudar a rota recipes'));
+app.get('/recipes', RecipeController.createRecipe);
 
 // Não remover esse end-point, ele é necessário para o avaliador
 app.get('/', (_req, res) => {

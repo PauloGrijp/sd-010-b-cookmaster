@@ -1,14 +1,15 @@
 const { connection } = require('./connection');
 
 const createRecipe = async (name, ingredients, preparation, userId) => {
-  const recipeCollection = await connection()
-  .then((db) => db.collection('recipes').insertOne({
+  const recipeCollection = await connection();
+  const recipe = await recipeCollection.collection('recipes').insertOne({
     name,
     ingredients,
     preparation,
-  }));
-  console.log(recipeCollection);
-  return { recipeCollection, userId }; // verificar o retorno da função
+    userId,
+  });
+  console.log({ ...recipe.ops[0] });
+  return { ...recipe.ops[0], userId }; // verificar o retorno da função
 };
 
 module.exports = {
