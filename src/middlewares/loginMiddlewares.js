@@ -17,7 +17,7 @@ const checkEmailPassword = (req, res, next) => {
 const validateEmailPassword = (req, res, next) => {
   const { email, password } = req.body;
   const re = /\S+@\S+\.\S+/;
-  if (!re.test(email) || password.length < 6) {
+  if (!re.test(email) || password.length < 4) {
     return res.status(status401).json(incorrectEntries);
   }
   next();
