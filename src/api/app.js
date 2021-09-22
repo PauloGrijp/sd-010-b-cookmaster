@@ -1,6 +1,6 @@
 const express = require('express');
 const patch = require('path');
-const { users, login } = require('../routers');
+const { users, login, recipes } = require('../routers');
 
 const app = express();
 
@@ -13,7 +13,8 @@ app.get('/', (request, response) => {
 });
 // Não remover esse end-point, ele é necessário para o avaliador
 
-app.use('/users', users);
 app.use('/login', login);
+app.use('/recipes', recipes);
+app.use('/users', users);
 
 module.exports = app;

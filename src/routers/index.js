@@ -1,7 +1,9 @@
-const users = require('./userRouter');
 const login = require('./loginRouter');
+const recipes = require('./recipeRouter');
+const users = require('./userRouter');
 
 module.exports = {
-  users,
   login,
+  recipes,
+  users,
 };
