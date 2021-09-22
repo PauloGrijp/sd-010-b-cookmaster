@@ -1,6 +1,5 @@
 const jwt = require('jsonwebtoken');
 const recipesService = require('../services/recipesService');
-const userController = require('./userController');
 
 const status200 = 200;
 const status401 = 401;
