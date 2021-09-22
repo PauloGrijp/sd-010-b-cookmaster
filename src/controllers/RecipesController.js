@@ -31,8 +31,25 @@ const findRecipeById = async (req, res) => {
   res.status(200).json(recipeById);
 };
 
+const updateRecipe = async (req, res) => {
+  const { id } = req.params;
+  const { name, ingredients, preparation } = req.body;
+  const { _id } = req.user;
+
+  const recipeUpdate = await RecipesService.update(id, name, ingredients, preparation, _id);
+
+ recipeUpdate.userId = _id;
+ 
+  // if (productUpdate.err) {
+  //   return res.status(422).json({ err: productUpdate.err });
+  // }
+
+  res.status(200).json(recipeUpdate);
+};
+
 module.exports = {
   createRecipe,
   recipesList,
   findRecipeById,
+  updateRecipe,
 };
