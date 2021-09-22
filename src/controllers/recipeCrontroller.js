@@ -35,8 +35,19 @@ const getRecipe = async (req, res) => {
   }
 };
 
+const updateRecipe = async (req, res) => {
+  const recipeId = req.params.id;
+  const { name, ingredients, preparation } = req.body;
+  const { _id } = req.user;
+  const user = _id;
+  const updatedRecipe = await model.update({ recipeId, name, ingredients, preparation, user });
+
+  return res.status(200).json(updatedRecipe);
+};
+
 module.exports = {
   createRecipe,
   getAllRecipes,
   getRecipe,
+  updateRecipe,
 };
