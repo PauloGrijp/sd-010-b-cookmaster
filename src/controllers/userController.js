@@ -52,7 +52,7 @@ const checkUserExists = async (req, res) => {
   if (response === 'incorrect') {
     return res.status(401).json({ message: 'Incorrect username or password' });
   }
-  return res.status(200).json({ token: 'token' });
+  return res.status(200).json(req.token);
 };
 
 module.exports = { 
