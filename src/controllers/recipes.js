@@ -9,8 +9,6 @@ const createRecipe = async (req, res) => {
     .createRecipe(name, ingredients, preparation, userId);
   if (error) return res.status(error.code).json({ message: error.message });
 
-  console.log('controller', recipe);
-
   return res.status(codes.created).json({ recipe });
 };
 
@@ -20,7 +18,18 @@ const getRecipes = async (req, res) => {
   return res.status(codes.ok).json(recipes);
 };
 
+const getRecipeById = async (req, res) => {
+  const { id } = req.params;
+  console.log(id);
+
+  const { recipe, error } = await recipesService.getRecipeById(id);
+  if (error) return res.status(error.code).json({ message: error.message });
+
+  return res.status(codes.ok).json(recipe);
+};
+
 module.exports = {
   createRecipe,
   getRecipes,
+  getRecipeById,
 };
