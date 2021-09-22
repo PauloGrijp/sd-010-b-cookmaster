@@ -9,7 +9,7 @@ const createRecipe = async (name, ingredients, preparation, userId) => {
     name,
     ingredients,
     preparation,
-    userId
+    userId,
   );
   return created;
 };
