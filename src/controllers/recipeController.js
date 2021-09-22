@@ -1,4 +1,4 @@
-const { addNewRecipe } = require('../services/recipeService');
+const { addNewRecipe, getRecipe } = require('../services/recipeService');
 
 const createRecipe = async (req, res) => {
   const { name, ingredients, preparation } = req.body;
@@ -7,4 +7,9 @@ const createRecipe = async (req, res) => {
   return res.status(201).json({ recipe: result });
 };
 
-module.exports = { createRecipe };
+const allRecipes = async (req, res) => {  
+  const result = await getRecipe();
+  return res.status(200).json(result);
+};
+
+module.exports = { createRecipe, allRecipes };
