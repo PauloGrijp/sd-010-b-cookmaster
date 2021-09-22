@@ -13,7 +13,14 @@ const updateRecipe = async (id, name, ingredients, preparation) => {
   return findRecipe;
 };
 
+const updateImgRecipe = async (id, image) => {
+  await recipesModel.updateImgRecipe(id, image);
+  const findRecipe = await recipesModel.findById(id);
+  return findRecipe;
+};
+
 module.exports = {
   findId,
   updateRecipe,
+  updateImgRecipe,
 };
