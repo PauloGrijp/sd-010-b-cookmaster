@@ -29,17 +29,12 @@ const getRecipeById = async (req, res) => {
 };
 
 const updateRecipe = async (req, res) => {
-  // try {
     const { id } = req.params;
     const { body } = req;
     const { _id: userId } = req.user;
     const updatedRecipe = await recipesService
     .updateRecipe(id, body, userId);
     return res.status(200).json(updatedRecipe);
-  // } catch (error) {
-  //   const { err: { code, message } } = error;
-  //   return res.status(code).json({ message });
-  // }
 };
 
 const deleteRecipe = async (req, res) => {
@@ -48,10 +43,18 @@ const deleteRecipe = async (req, res) => {
     return res.status(204).send();
 };
 
+const uploadImage = async (req, res) => {
+  const { path } = req.file;
+  const { id: recipeId } = req.params;
+  const recipe = await recipesService.uploadImage(path, recipeId);
+  return res.status(200).json(recipe);
+};
+
 module.exports = {
   createRecipe,
   getAllRecipes,
   getRecipeById,
   updateRecipe,
   deleteRecipe,
+  uploadImage,
 };
