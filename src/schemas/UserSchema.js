@@ -1,4 +1,3 @@
-/* eslint-disable complexity */
 const UserModel = require('../models/usersModel');
 
 const codes = {
@@ -14,7 +13,7 @@ const errors = {
 const invalidEntries = { code: codes.BAD_REQUEST, message: errors.FIELD_BLANK };
 const repeatedEmail = { code: codes.CONFLICT, message: errors.ALREADY_REGISTERED };
 
-const blank = (value) => (!value);
+const blank = ({ name, email, password }) => (!name || !email || !password);
 
 const invalid = (email) => {
   const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // source: https://stackoverflow.com/questions/46155/how-to-validate-an-email-address-in-javascript
@@ -25,10 +24,8 @@ const alreadyExists = async (email) => UserModel.findByEmail(email);
 
 const validate = async ({ name, email, password }) => {
   switch (true) {
-    case blank(name): return invalidEntries;
-    case blank(email): return invalidEntries;
+    case blank({ name, email, password }): return invalidEntries;
     case invalid(email): return invalidEntries;
-    case blank(password): return invalidEntries;
     case await alreadyExists(email): return repeatedEmail;
     default: return false;
   }
