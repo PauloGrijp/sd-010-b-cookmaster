@@ -2,7 +2,7 @@ const { connection } = require('./connection');
 
 const createRecipe = async (recipe) => {
   const db = await connection();
-  const { insertedId } = await db.collection('recipes').insertMany([recipe]);
+  const { insertedId } = await db.collection('recipes').insertOne(recipe);
   return insertedId;
 };
 
