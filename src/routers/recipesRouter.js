@@ -21,6 +21,10 @@ router.put('/:recipeId',
 validateJWT,
 recipesController.updateRecipe);
 
+router.put('/:recipeId/image', 
+validateJWT,
+recipesController.uploadImage);
+
 router.delete('/:recipeId',
 validateJWT,
 recipesController.deleteRecipe);

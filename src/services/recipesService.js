@@ -27,7 +27,6 @@ const updateRecipe = async ({ recipeId, name, ingredients, preparation, id, role
 
 const deleteRecipe = async ({ recipeId, id, role }) => {
   const recipeToVerifyOwner = await recipesModel.getById(recipeId);
-  console.log(recipeToVerifyOwner);
     const { userId } = recipeToVerifyOwner;
     if (id !== userId && role !== 'admin') {
       return null;
@@ -36,10 +35,21 @@ const deleteRecipe = async ({ recipeId, id, role }) => {
     return recipe;
 };
 
+const uploadImage = async ({ recipeId, id, role }, image) => {
+  const recipeToVerifyOwner = await recipesModel.getById(recipeId);
+    const { userId } = recipeToVerifyOwner;
+    if (id !== userId && role !== 'admin') {
+      return null;
+    }
+  const result = await recipesModel.uploadImage(recipeId, image);
+  return result;
+};
+
 module.exports = {
   createRecipe,
   getAll,
   getById,
   updateRecipe,
   deleteRecipe,
+  uploadImage,
 };
