@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 const UserModel = require('../models/usersModel');
 
 const codes = {
@@ -22,7 +23,6 @@ const invalid = (email) => {
 
 const alreadyExists = async (email) => UserModel.findByEmail(email);
 
-// eslint-disable-next-line complexity
 const validate = async ({ name, email, password }) => {
   switch (true) {
     case blank(name): return invalidEntries;
