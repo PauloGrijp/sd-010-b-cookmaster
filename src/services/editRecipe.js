@@ -10,7 +10,6 @@ const editRecipe = async (recipeData) => {
     role: Joi.string().required(),
     userId: Joi.string().required(),
   }).validate(recipeData);
-  console.log(validate);
   if (validate.error) return { message: 'Invalid entries. Try again.' };
   const { role } = recipeData;
   if (role !== 'admin') return models.editRecipe(recipeData);
