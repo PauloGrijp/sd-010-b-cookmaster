@@ -24,7 +24,13 @@ const getById = async (id) => {
   }
 };
 
+const update = async (reqData) => {
+  const updatedRecipe = await recipesModel.update(reqData);
+  return updatedRecipe;
+};
+
 module.exports = {
   create,
   getById,
+  update,
 };
