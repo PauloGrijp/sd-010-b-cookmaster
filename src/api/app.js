@@ -4,6 +4,7 @@ const app = express();
 const bodyParser = require('body-parser');
 
 app.use(bodyParser.json());
+app.use('/images', express.static(`${__dirname}/../uploads`)); // obrigado Alessandra Rezende
 
 // Não remover esse end-point, ele é necessário para o avaliador
 app.get('/', (request, response) => {
