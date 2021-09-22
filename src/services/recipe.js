@@ -7,7 +7,7 @@ const validateUser = async (recipe, user) => {
   const { userId } = await Models.recipe.findRecipe(recipe);
 
   return (
-    ObjectId(_id).toString() !== ObjectId(userId).toString() && role !== 'admin'
+    ObjectId(_id).toString() === ObjectId(userId).toString() || role === 'admin'
   );
 };
 
@@ -47,10 +47,10 @@ const edit = async (id, recipe) => {
 const exclude = async (recipeId, userId) => {
   const validRecipeId = ObjectId.isValid(recipeId);
   const validUserId = ObjectId.isValid(userId);
-
+  
   if (!validRecipeId || !validUserId) return false;
-
-  const validUser = validateUser(recipeId, userId);
+  
+  const validUser = await validateUser(recipeId, userId);
   if (!validUser) return false;
 
   const recipeDeleted = await Models.recipe.exclude(recipeId);
@@ -64,10 +64,11 @@ const addImage = async (recipeId, userId, filename) => {
   
   if (!validRecipeId || !validUserId) return false;
   
-  const validUser = validateUser(recipeId, userId);
-  if (!validUser) return false;
-  const path = `localhost:3000/src/uploads/${filename}`;
+  const validUser = await validateUser(recipeId, userId);
 
+  if (!validUser) return false;
+  
+  const path = `localhost:3000/src/uploads/${filename}`;
   const recipeUpdate = await Models.recipe.addImage(recipeId, path);
 
   return recipeUpdate;

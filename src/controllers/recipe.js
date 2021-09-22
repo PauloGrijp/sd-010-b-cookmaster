@@ -71,7 +71,6 @@ const addImage = rescue(async (req, res, _next) => {
   const { filename } = req.file;
   const { id } = req.params;
   const { userId } = req;
-console.log(req.file);
   const recipeUpdate = await Services.recipe.addImage(id, userId, filename);
 
   res.status(200).json(recipeUpdate);
