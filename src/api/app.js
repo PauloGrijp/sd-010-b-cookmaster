@@ -21,14 +21,6 @@ const storage = multer.diskStorage({
   filename: (req, file, call) => call(null, `${req.params.id}.jpeg`),
 });
 
-// const fileFilter = (req, file, call) => {
-//   if (!file.originalname.match(/\.(jpeg)$/)) {
-//     call(new Error('Please upload an image JPEG.'), false);
-//   } else {
-//     call(undefined, true);
-//   }
-// };
-
 const upload = multer({ storage });
 
 // Não remover esse end-point, ele é necessário para o avaliador
@@ -36,6 +28,8 @@ app.get('/', (request, response) => {
   response.send();
 });
 // Não remover esse end-point, ele é necessário para o avaliador
+
+app.use('/images', express.static(path.resolve(__dirname, '..', 'uploads')));
 
 app.post('/users', isValidUser, createUser);
 
