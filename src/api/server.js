@@ -3,6 +3,8 @@ const app = require('./app');
 const signUpMiddleware = require('../middlewares/signUpMiddleware');
 const loginMiddleware = require('../middlewares/loginMiddlewares');
 const userController = require('../controllers/userController');
+const recipesController = require('../controllers/recipesController');
+const recipesMiddlewares = require('../middlewares/recipesMiddlewares');
 
 app.use(bodyParser.json());
 
@@ -20,3 +22,5 @@ app.post('/login',
 loginMiddleware.checkEmailPassword,
 loginMiddleware.validateEmailPassword,
 userController.login);
+
+app.post('/recipes', recipesMiddlewares.validateCreateFields, recipesController.create);
