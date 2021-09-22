@@ -15,6 +15,7 @@ const customExpress = async () => {
   app.use(express.urlencoded({ extended: true }));
 
   app.use('/users', routes.user);
+  app.use('/login', routes.login);
 
   app.get('/', (_request, response) => {
     response.send();

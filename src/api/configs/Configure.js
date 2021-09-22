@@ -1,8 +1,8 @@
 const { ObjectID } = require('mongodb');
-const { UserController } = require('../controllers');
-const { UserService } = require('../services');
+const { UserController, LoginController } = require('../controllers');
+const { UserService, LoginService } = require('../services');
 const { User } = require('../models');
-const { userRoute } = require('../routes');
+const { userRoute, loginRoute } = require('../routes');
 const { UserSerializer } = require('../models/serializers');
 
 class Configure {
@@ -16,15 +16,19 @@ class Configure {
     const userService = new UserService(userModel);
     const userController = new UserController(userService);
 
+    const loginService = new LoginService(userModel);
+    const loginController = new LoginController(loginService);
+
     console.log(this.successInjection);
-    return { userController };
+    return { userController, loginController };
   }
 
   routes(controller) {
     const user = userRoute(controller.userController);
+    const login = loginRoute(controller.loginController);
 
     console.log(this.successRoutes);
-    return { user };
+    return { user, login };
   }
 }
 

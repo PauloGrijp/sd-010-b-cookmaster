@@ -17,8 +17,20 @@ class UserSerializer {
   }
 
   default(user) {
+    if (!user) return null;
     this.serialize(user);
     return { name: this.name, email: this.email, role: this.role, _id: this.id };
+  }
+
+  all(user) {
+    if (!user) return null;
+    this.serialize(user);
+    return { 
+        name: this.name,
+        email: this.email,
+        role: this.role,
+        _id: this.id,
+        password: this.password };
   }
 }
 

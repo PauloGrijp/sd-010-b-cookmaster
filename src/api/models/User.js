@@ -24,7 +24,7 @@ class User {
       query = { [searchParam]: searchValue };
     }
     const user = await this.collection.findOne(query);
-    return user;
+    return this.serializer.all(user);
   }
 
   async insert(data) {

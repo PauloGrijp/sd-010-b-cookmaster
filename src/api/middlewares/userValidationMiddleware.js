@@ -9,7 +9,7 @@ const userSchema = Joi.object({
   email: Joi.string().regex(/^[A-Z0-9+_.-]+@[A-Z0-9.-]+$/i).required(),
 });
 
-const validateUser = (req, res, next) => {
+const validateUser = (req, _res, next) => {
   try {
     const { body } = req;
     const result = userSchema.validate(body);
