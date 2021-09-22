@@ -23,6 +23,7 @@ loginMiddleware.checkEmailPassword,
 loginMiddleware.validateEmailPassword,
 userController.login);
 
+app.get('/recipes/:id', recipesController.getRecipeById);
 app.get('/recipes', recipesController.getRecipes);
 
 app.post('/recipes',
