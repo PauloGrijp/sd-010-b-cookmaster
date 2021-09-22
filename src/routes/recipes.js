@@ -5,6 +5,9 @@ const { create, getAll, getById } = require('../controllers/recipesController');
 
 const router = express.Router();
 
+router.route('/:id')
+  .get(rescue(getById));
+
 router.route('/')
   .post(rescue(validateJWT), rescue(create));
 
