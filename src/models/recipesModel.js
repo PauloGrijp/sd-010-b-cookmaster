@@ -37,4 +37,21 @@ const remove = async (id) => {
   return id;
 };
 
-module.exports = { create, getAll, getById, update, remove };
+const updateImage = async (id, image) => {
+  if (!ObjectId.isValid(id)) return null;
+  const recipe = await getById(id);
+  const db = await connectionMongo();
+  const imageUrl = `localhost:3000/src/uploads/${image}`;
+  await db.collection('recipes')
+    .updateOne({ _id: ObjectId(id) }, { $set: { imageUrl } });
+    return { 
+      _id: ObjectId(id),
+      name: recipe.name,
+      ingredients: recipe.ingredients,
+      preparation: recipe.preparation,
+      userId: recipe.userId,
+      image: imageUrl,
+    };
+};
+
+module.exports = { create, getAll, getById, update, remove, updateImage };

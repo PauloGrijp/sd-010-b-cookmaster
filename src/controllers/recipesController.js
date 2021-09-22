@@ -54,6 +54,13 @@ const removeRecipe = async (req, res) => {
   return res.status(204).json();
 };
 
+const updateRecipeImage = async (req, res) => {
+  const { filename } = req.file;
+  const { id } = req.params;
+  const response = await model.updateImage(id, filename);
+  res.status(201).json(response);
+};
+
 module.exports = { 
   validateFields,
   createRecipe,
@@ -62,4 +69,5 @@ module.exports = {
   updateRecipe,
   authUser, 
   removeRecipe,
+  updateRecipeImage,
 };
