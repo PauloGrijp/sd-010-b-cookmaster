@@ -12,8 +12,9 @@ module.exports = async (req, res, next) => {
 
   jwt.verify(token, secret, (err, decoded) => {
     if (decoded) {
-      const { _id } = decoded;
+      const { _id, role } = decoded;
       req.userId = _id;
+      req.role = role;
     }
 
     if (err) throw new ErrorRequest('unauthorized', err.message);
