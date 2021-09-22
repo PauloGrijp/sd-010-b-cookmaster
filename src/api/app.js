@@ -2,7 +2,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
 const usersRoutes = require('./routes/usersRoutes');
-const loginRoutes = require('./routes/loginRouter');
+const loginRoutes = require('./routes/loginRoutes');
+const recipesRoutes = require('./routes/recipesRouter');
 
 const app = express();
 app.use(bodyParser.json());
@@ -17,5 +18,6 @@ app.get('/', (_request, response) => {
 
 app.use('/users', usersRoutes);
 app.use('/login', loginRoutes);
+app.use('/recipes', recipesRoutes);
 
 module.exports = app;

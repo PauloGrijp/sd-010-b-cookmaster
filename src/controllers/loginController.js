@@ -50,7 +50,6 @@ async function login(req, res) {
   };
 
   const token = jwt.sign({ data: payload }, secret, jwtConfiguration);
-
   return res.status(200).json({ token });
 }
 
