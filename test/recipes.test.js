@@ -188,7 +188,7 @@ describe('3 - Crie um endpoint para o cadastro de receitas', () => {
   });
 });
 
-describe('4 - Crie um endpoint para a listagem de receitas', () => {
+describe.only('4 - Crie um endpoint para a listagem de receitas', () => {
   let connection;
   let db;
 
@@ -291,6 +291,7 @@ describe('4 - Crie um endpoint para a listagem de receitas', () => {
           .expect('status', 200)
           .then((responseRecipes) => {
             const { json } = responseRecipes;
+            console.log(json);
             expect(json[0].name).toBe('banana caramelizada');
             expect(json[0].ingredients).toBe('banana, açúcar');
             expect(json[0].preparation).toBe(

@@ -23,4 +23,6 @@ app.post('/recipes', authorization.verifyToken, controllers.createRecipe);
 
 app.get('/recipes', controllers.getRecipes);
 
+app.get('/recipes/:id', controllers.getRecipeById);
+
 module.exports = app;
