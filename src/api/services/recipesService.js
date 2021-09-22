@@ -79,10 +79,22 @@ const updateRecipe = async (id, recipe, authorization) => {
   };
 };
 
+const deleteRecipe = async (id, authorization) => {
+  await validateToken(authorization);
+  const deletedRecipe = await recipesModel.deleteRecipe(id);
+
+  if (!deletedRecipe) {
+    return {
+      status: 204,
+    };
+  }
+};
+
 module.exports = {
   validateToken,
   createRecipe,
   getAllRecipes,
   getRecipeById,
   updateRecipe,
+  deleteRecipe,
 };
