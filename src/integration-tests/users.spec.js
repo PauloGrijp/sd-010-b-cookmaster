@@ -9,7 +9,7 @@ chai.use(chaiHttp);
 
 const { expect } = chai;
 
-const app = require('../api/app')
+const app = require('../api/app');
 // EXEMPLO DE CONECÇÃO BANCO
 
 // let connectionMock;
@@ -70,6 +70,7 @@ describe('POST /users', () => {
   describe('Verifica se o campo email é único', () => {
     let connectionMock;
     let response;
+
     before(async () => {
       connectionMock = await getConnection();
       sinon.stub(MongoClient, 'connect').resolves(connectionMock);
@@ -90,7 +91,7 @@ describe('POST /users', () => {
 
     });
 
-    after(() => {
+    after(async () => {
       MongoClient.connect.restore();
       await connectionMock.db('Cookmaster').collection('users')
         .deleteOne({ email: 'email@email.com' })
@@ -115,14 +116,25 @@ describe('POST /users', () => {
   });
 
   describe('Verifica se foi possivel cadastrar com sucesso', () => {
+    let connectionMock;
     let response;
+
     before(async () => {
+      connectionMock = await getConnection();
+      sinon.stub(MongoClient, 'connect').resolves(connectionMock);
+
       response = await chai.request(app).post('/users').send({
         name: 'name-ok',
         email: 'email@email.com',
         password: '12345678',
       });
     });
+
+    after(async () => {
+      MongoClient.connect.restore();
+      await connectionMock.db('Cookmaster').collection('users')
+        .deleteOne({ email: 'email@email.com' })
+    })
 
     it('Retorna status HTTP 201', () => {
       expect(response).to.have.status(201);
@@ -195,7 +207,7 @@ describe('POST, /login', () => {
     });
   });
 
-  describe('Verifica se o login é realizado com sucesso', () => {
+  describe('Quando não existe usuário cadastrado', () => {
     let response;
 
     before(async () => {
@@ -205,6 +217,51 @@ describe('POST, /login', () => {
           password: '12345678',
         });
     });
+    it('Retorna status HTTP 200', () => {
+      expect(response).to.have.status(401);
+    });
+
+    it('Retorna um objeto no body', () => {
+      expect(response.body).to.be.an('object');
+    });
+
+    it('O objeto de resposta possui uma propriedade "token"', () => {
+      expect(response.body).to.have.a.property('message');
+    });
+
+    it('A propriedade "token" não pode ser vazia', () => {
+      expect(response.body.message).to.be.equal('Incorrect username or password');
+    });
+  })
+
+  describe('Verifica se o login é realizado com sucesso', () => {
+    let connectionMock;
+    let response;
+
+    before(async () => {
+      connectionMock = await getConnection();
+      sinon.stub(MongoClient, 'connect').resolves(connectionMock);
+
+      await connectionMock.db('Cookmaster').collection('users')
+        .insertOne({
+          name: 'name-fake',
+          email: 'email@email.com',
+          password: '12345678',
+          role: 'user',
+        });
+
+      response = await chai.request(app).post('/login')
+        .send({
+          email: 'email@email.com',
+          password: '12345678',
+        });
+    });
+
+    after(async () => {
+      MongoClient.connect.restore();
+      await connectionMock.db('Cookmaster').collection('users')
+        .deleteOne({ email: 'email@email.com' })
+    })
 
     it('Retorna status HTTP 200', () => {
       expect(response).to.have.status(200);
@@ -219,14 +276,26 @@ describe('POST, /login', () => {
     });
 
     it('A propriedade "token" não pode ser vazia', () => {
-      expect(response.body.token).to.be.empty;
+      expect(response.body.token).not.to.be.empty;
     });
   });
 
   describe('Verifica se é possivel logar o usuario admin com sucesso', () => {
+    let connectionMock;
     let response;
 
     before(async () => {
+      connectionMock = await getConnection();
+      sinon.stub(MongoClient, 'connect').resolves(connectionMock);
+
+      await connectionMock.db('Cookmaster').collection('users')
+        .insertOne({
+          name: "admin",
+          email: "root@email.com",
+          password: "admin",
+          role: "admin"
+        });
+
       response = await chai.request(app).post('/login')
         .send({
           email: 'root@email.com',
@@ -234,6 +303,12 @@ describe('POST, /login', () => {
         });
     });
 
+    after(async () => {
+      MongoClient.connect.restore();
+      await connectionMock.db('Cookmaster').collection('users')
+        .deleteOne({ email: 'root@email.com' })
+    })
+
     it('Retorna status HTTP 200', () => {
       expect(response).to.have.status(200);
     });
@@ -247,7 +322,7 @@ describe('POST, /login', () => {
     });
 
     it('A propriedade "token" não pode ser vazia', () => {
-      expect(response.body.token).to.be.empty;
+      expect(response.body.token).not.to.be.empty;
     });
   });
 });
