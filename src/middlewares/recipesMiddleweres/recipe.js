@@ -29,6 +29,7 @@ const validateToken = async (req, res, next) => {
  
           req.user = userWithoutPassword;
           console.log(req.user, 'decoded', decoded);
+
           next();
   } catch (err) {
     return res.status(401).json({ message: TOKEN_ERROR_MSG });

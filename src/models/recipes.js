@@ -1,9 +1,9 @@
 // const { ObjectId } = require('mongodb');
 const mongoConnection = require('./connection');
 
-const getNewRecipe = async (recipe) => {
-    // console.log(id, name);
-    const { name, ingredients, preparation, userId, insertedId } = recipe;
+const getNewRecipe = async (recipe, insertedId) => {
+    console.log(recipe, 'eu aqui');
+    const { name, ingredients, preparation, userId } = recipe;
       return ({ 
         recipe: {
             name, 
@@ -21,8 +21,9 @@ const createRecipes = async (recipe) => {
     
     const response = await db
     .collection('recipes').insertOne({ name, ingredients, preparation, userId: authorization });
+    console.log(response.insertedId, response, 'bah');
 
-    return getNewRecipe(response);
+    return getNewRecipe(response.ops[0], response.insertedId);
 };
 
-module.exports = { createRecipes };
+module.exports = { createRecipes }; 
