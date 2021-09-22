@@ -23,9 +23,8 @@ app.get('/', (request, response) => {
 });
 // Não remover esse end-point, ele é necessário para o avaliador
 
-app.put('/recipes/:id', 
-validateRecipe, validateToken, 
-recipes.updateRecipe);
+app.delete('/recipes/:id', validateToken, recipes.deleteRecipe);
+app.put('/recipes/:id', validateRecipe, validateToken, recipes.updateRecipe);
 app.post('/users', UserMiddleweres.validateUser, users.createUser);
 app.post('/login', UserMiddleweres.validateLogin, users.loginUser);
 app.post('/recipes', validateRecipe, validateToken, recipes.createRecipes);

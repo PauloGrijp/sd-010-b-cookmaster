@@ -2,7 +2,7 @@ const { ObjectId } = require('mongodb');
 const mongoConnection = require('./connection');
 
 const getNewRecipe = async (recipe, insertedId) => {
-    console.log(recipe, 'eu aqui');
+    // console.log(recipe, 'eu aqui');
     const { name, ingredients, preparation, userId } = recipe;
       return ({ 
         recipe: {
@@ -16,13 +16,12 @@ const getNewRecipe = async (recipe, insertedId) => {
 };
 const createRecipes = async (recipe) => {
     const { name, ingredients, preparation, userId } = recipe;
-console.log(recipe, 'create recipes');
     const db = await mongoConnection();
     
     const response = await db
     .collection('recipes').insertOne({ name, ingredients, preparation, userId });
 
-    return getNewRecipe(response.ops[0], response.insertedId);
+    return getNewRecipe(recipe, response.insertedId);
 };
 
 const getAll = async () => {
@@ -43,7 +42,6 @@ const findRecipe = async (id) => {
 
 const updateRecipe = async (id, recipe) => {
     const { name, ingredients, preparation } = recipe;
-    console.log('updateProduct', recipe, id, 'id');
 
     const db = await mongoConnection();
      await db.collection('recipes').updateOne({
@@ -57,8 +55,13 @@ const updateRecipe = async (id, recipe) => {
     });
 
     const recipeItem = await findRecipe(id);
-    console.log('recipe item', recipeItem);
     return getNewRecipe(recipeItem, id);
 };
 
-module.exports = { createRecipes, getAll, findRecipe, updateRecipe }; 
+const deleteRecipe = async (id) => {
+    const db = await mongoConnection();
+    return db.collection('recipes').deleteOne({
+        _id: ObjectId(id),
+    });
+};
+module.exports = { createRecipes, getAll, findRecipe, updateRecipe, deleteRecipe }; 

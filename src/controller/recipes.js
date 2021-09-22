@@ -29,9 +29,23 @@ const updateRecipe = async (req, res) => {
     const recipe = await recipes
     .updateRecipe(id, renderRecipesObject(name, ingredients, preparation, userId), role);
 
-    if (recipe.message) return res.status(200).json(recipe);
+    if (recipe.message) return res.status(401).json(recipe);
+
     console.log('recipe on controller', recipe, req.user);
     return res.status(200).json(recipe.recipe);
 };
 
-module.exports = { createRecipes, getAll, findRecipe, updateRecipe };
+const deleteRecipe = async (req, res) => {
+    const { id } = req.params;
+    const { userId, role } = req.user;  
+    
+    const recipe = await recipes
+    .deleteRecipe(id, userId, role);
+    console.log('delete recipe controller', id, userId, role, 'recipe', recipe.message);
+    
+    if (recipe.message) return res.status(401).json(recipe);
+
+    return res.status(204).json();
+};
+
+module.exports = { createRecipes, getAll, findRecipe, updateRecipe, deleteRecipe };
