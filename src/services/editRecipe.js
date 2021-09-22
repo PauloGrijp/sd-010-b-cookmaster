@@ -4,16 +4,17 @@ const models = require('../models');
 const editRecipe = async (recipeData) => {
   const validate = Joi.object({
     name: Joi.string().required(),
-    ingredients: Joi.string().email().required(),
+    ingredients: Joi.string().required(),
     preparation: Joi.string().required(),
     id: Joi.string().required(),
     role: Joi.string().required(),
     userId: Joi.string().required(),
   }).validate(recipeData);
+  console.log(validate);
   if (validate.error) return { message: 'Invalid entries. Try again.' };
-  const editedRecipe = await models.editRecipe(recipeData);
-  if (!editedRecipe) return { message: 'recipe not found' };
-  return editedRecipe;
+  const { role } = recipeData;
+  if (role !== 'admin') return models.editRecipe(recipeData);
+  return models.editRecipeAdmin(recipeData);
 };
 
 module.exports = editRecipe;
