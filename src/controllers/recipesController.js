@@ -15,7 +15,7 @@ const createRecipe = async (req, res) => {
   return res.status(201).json({ recipe: response });
 };
 
-const getAllRecipes = async (req, res) => {
+const getAllRecipes = async (_req, res) => {
   const response = await model.getAll();
   return res.status(200).json(response);
 };
