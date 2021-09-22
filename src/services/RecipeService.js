@@ -25,7 +25,7 @@ const getRecipeById = async (id) => {
   if (!recipe) {
     return {
       status: 404,
-      message: 'Recipe not found.',
+      message: 'recipe not found',
     };
   }
   return recipe;
@@ -33,5 +33,6 @@ const getRecipeById = async (id) => {
 
 module.exports = {
   createRecipe,
+  getRecipeById,
   
 };
