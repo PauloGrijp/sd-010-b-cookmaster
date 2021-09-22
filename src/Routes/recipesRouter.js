@@ -12,5 +12,8 @@ recipesController.createRecipe);
 router.put('/:id', 
 validateToken,
 recipesController.updateRecipe);
+router.delete('/:id', 
+validateToken,
+recipesController.deleteRecipe);
 
 module.exports = router;

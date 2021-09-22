@@ -5,7 +5,7 @@ const getAll = async (req, res) => {
         const users = await recipesService.getAll();
         return res.status(200).json(users);
     } catch (error) {
-        return res.status(500).json({ message: 'Ops, algo de errado :( ' });
+        return res.status(500).json({ message: ' catch ' });
     }
 };
 
@@ -40,11 +40,11 @@ const createRecipe = async (req, res) => {
 const updateRecipe = async (req, res) => {
     try {
         const { users: { _id } } = req.user;
-       const idRecipe = req.params.id;
-      // console.log(req.user);
+        const idRecipe = req.params.id;
+        // console.log(req.user);
         // name, email, role tem disponivel no req.user
         const result = await recipesService.updateRecipe(req.body, _id, idRecipe);
-         //  console.log(result);
+        //  console.log(result);
         if (result === false) {
             return res.status(400).json({ message: 'Invalid entries. Try again.' });
         }
@@ -53,4 +53,25 @@ const updateRecipe = async (req, res) => {
         return res.status(500).json({ message: 'Ops, algo de errado :( ' });
     }
 };
-module.exports = { createRecipe, getAll, getById, updateRecipe };
+
+const deleteRecipe = async (req, res) => {
+    const idRecipe = req.params.id;
+    const { users } = req.user;
+    if (idRecipe.length < 24) {
+        return res.status(422).json({
+            err: { code: 'invalid_data', message: 'Wrong sale ID format' },
+        });
+    }
+    try {
+        const result = await recipesService.deleteRecipe(idRecipe, users);
+        if (!result) {
+            return res.status(422).json({
+                err: { code: 'invalid_data', message: 'Wrong sale ID format' },
+            });
+        }
+        return res.status(204).json(result);
+    } catch (error) {
+        return res.status(500).json({ message: 'Ops, algo de errado :( ' });
+    }
+};
+module.exports = { createRecipe, getAll, getById, updateRecipe, deleteRecipe };
