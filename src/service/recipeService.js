@@ -15,7 +15,30 @@ const getAllRecipes = async () => {
   return recipes.toArray();
 };
 
+const getById = async (id) => {
+  const recipe = await recipeModel.getById(id);
+  return recipe;
+};
+
+const editRecipe = async (edition, id) => {
+  const { value: { _id } } = await recipeModel.editRecipe(edition, id);
+  const result = {
+    _id,
+    ...edition,
+  };
+  return result;
+};
+
+const getIdByEmail = async (email) => {
+  const { _id } = await userModel.getByEmail(email);
+
+  return _id;
+};
+
 module.exports = {
   createRecipe,
   getAllRecipes,
+  getById,
+  editRecipe,
+  getIdByEmail,
 };

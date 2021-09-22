@@ -15,8 +15,14 @@ const verifyRecipeBody = (req, res, next) => {
 
 const verifyToken = (req, res, next) => {
   try {
+    if (!req.headers.authorization) {
+      return res.status(httpStatus.unauthorized).json({
+        message: 'missing auth token',
+      });
+    }
     const { authorization } = req.headers;
     const data = jwt.verify(authorization, secret);
+    console.log(data)
     req.loggedUser = data;
     next();
   } catch (e) {

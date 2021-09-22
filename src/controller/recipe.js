@@ -1,4 +1,5 @@
 const express = require('express');
+const { ObjectId } = require('mongodb');
 
 const {
   verifyRecipeBody,
@@ -8,11 +9,48 @@ const {
 const {
   createRecipe,
   getAllRecipes,
+  getById,
+  editRecipe,
+  getIdByEmail,
 } = require('../service/recipeService');
 
 const httpStatus = require('./httpStatus');
 
 const route = express.Router();
+
+route.put('/:id',
+  verifyRecipeBody,
+  verifyToken,
+  async (req, res) => {
+    const { id } = req.params;
+    const { name, ingredients, preparation } = req.body;
+    const edition = { name, ingredients, preparation };
+    
+    if (ObjectId.isValid(id)) {
+      const recipe = await editRecipe(edition, id);
+      if (req.loggedUser.data.email) {
+        const { email } = req.loggedUser.data;
+        const userId = await getIdByEmail(email);
+        recipe.userId = userId;
+      }
+      return res.status(httpStatus.ok).json(recipe);
+    }
+    return res.status(httpStatus.notFound).json({
+      message: 'recipe not found',
+    });
+  });
+
+route.get('/:id',
+async (req, res) => {
+  const { id } = req.params;
+  if (ObjectId.isValid(id)) {
+    const recipe = await getById(id);
+    return res.status(httpStatus.ok).json(recipe);
+  }
+  return res.status(httpStatus.notFound).json({
+    message: 'recipe not found',
+  });
+});
 
 route.post('/',
   verifyRecipeBody,
