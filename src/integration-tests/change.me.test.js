@@ -7,6 +7,43 @@ const { MongoMemoryServer } = require('mongodb-memory-server');
 const { expect } = chai;
 chai.use(chaiHttp);
 
+describe('Testa rota POST /users', () => {
+  const user = {
+    name: 'Alessandra',
+    email: 'alessandra@alessandra.com.br',
+    password: '123456789',
+  };
+  
+	describe('Testa createUser', () => {
+    let response;
+    const DBServer = new MongoMemoryServer();
+
+		let connectionMock;
+
+    before(async () => {
+      const URLMock = await DBServer.getUri();
+      connectionMock = await MongoClient.connect(URLMock, { useNewUrlParser: true, useUnifiedTopology: true });
+      sinon.stub(MongoClient, 'connect').resolves(connectionMock);
+
+      await connectionMock.db('Cookmaster').collection('users').insertOne({ user });
+      response = await chai.request(server).post('/users').send(user);
+    });
+
+    after(async () => {
+      await connectionMock.db('Cookmaster').collection('users').deleteMany({});
+			MongoClient.connect.restore();
+    });
+        
+		it('retorna código status "201"', () => {
+      expect(response).to.have.status(201);
+    })
+
+    it('retorna um objeto', () => {
+      expect(response.body).to.be.an('object')
+    })
+  })
+});  	
+
 describe('Testa rota GET /recipes', () => {
   const newRecipes = [
     {
