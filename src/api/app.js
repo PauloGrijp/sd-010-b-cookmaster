@@ -5,9 +5,6 @@ const {
   validateEmail,
   validateFields,
   emailExists,
-  // validatePassword,
-  // validateLogin,
-  // validEmail,
 } = require('../middlewares/validations');
 
 const app = express();
@@ -19,11 +16,7 @@ app.post('/users',
   validateEmail,
   emailExists,
   controller.createUser);
-app.post('/login',
-  // validEmail,
-  // validatePassword,
-  // validateLogin,
-  controller.userLogin);
+app.post('/login', controller.userLogin);
 
 // Não remover esse end-point, ele é necessário para o avaliador
 app.get('/', (request, response) => {

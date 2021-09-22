@@ -29,11 +29,7 @@ const userLogin = async (req, res) => {
   try {
     const { email, password } = req.body;
     const login = await service.userLogin({ email, password });
-    // if(!login) {
-    //   console.log('Deu ruim')
-    // }
     if (!login || login.error) {
-      console.log('aquiiiiiiiiiiiii', login);
       return res.status(StatusCodes.UNAUTHORIZED).json({ message: login.message });
     }
     const token = JWT.sign({ data: login }, secret, jwtConfiguration);

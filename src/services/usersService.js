@@ -31,12 +31,10 @@ const userPassword = ({ password }) => {
 
 const userLogin = async ({ email, password }) => {
   const invalidEmail = userEmail({ email });
-  console.log('aaaaaa', invalidEmail);
   if (invalidEmail) {
     return invalidEmail;
   }
   const invalidPassword = userPassword({ password });
-  console.log('bbbbbbbb', invalidPassword);
   if (invalidPassword) {
     return invalidPassword;
   }
