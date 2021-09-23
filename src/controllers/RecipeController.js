@@ -41,7 +41,6 @@ const getRecipeById = async (req, res) => {
 };
 
 // atualiza receita
-
 const updateRecipe = async (req, res) => {
   const { name, ingredients, preparation } = req.body;
   const { _id: userId } = req.user;
@@ -52,7 +51,6 @@ const updateRecipe = async (req, res) => {
   }, id);
   
   if (message) {
-    console.log('aqui');
     return res.status(code.BAD_REQUEST).json({ message });
   }
 
@@ -61,9 +59,22 @@ const updateRecipe = async (req, res) => {
     );
 };
 
+// deleta receita
+const deleteRecipe = async (req, res) => {
+  const { id } = req.params;
+
+  const { message } = await RecipeService.deleteRecipe(id);
+  if (message) {
+    return res.status(code.BAD_REQUEST).json({ message });
+  }
+
+  return res.status(code.NO_CONTENT).json(id);
+};
+
 module.exports = {
   createRecipe,
   getAllRecipes,
   getRecipeById,
   updateRecipe,
+  deleteRecipe,
 };
