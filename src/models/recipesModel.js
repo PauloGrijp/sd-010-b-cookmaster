@@ -21,24 +21,12 @@ const getById = async (id) => {
   return result;
 };
 
-const buildFilterQueriesByRole = (filterData) => {
-  const { id, userId, role } = filterData;
-  switch (role) {
-    case 'admin':
-      return { _id: ObjectID(id) };
-    default:
-      return { $and: [{ _id: ObjectID(id) }, { userId }] };
-  }
-};
-
-const update = async ({ id, name, ingredients, preparation, userId, role }) => {
+const update = async (newData, filterQuery) => {
   const db = await connection();
-  
-  const filterQuery = buildFilterQueriesByRole({ id, userId, role });
   
   const { value } = await db.collection(recipes).findOneAndUpdate(
     filterQuery,
-    { $set: { name, ingredients, preparation } },
+    { $set: { ...newData } },
     { returnOriginal: false },
   );
 
