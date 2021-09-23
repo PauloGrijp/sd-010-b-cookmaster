@@ -10,7 +10,7 @@ const recipeService = require('../services/recipeService');
 const recipesModel = require('../models/recipesModel');
 const validateJWT = require('../middlewares/validateJWT');
 
-/* const create =  */router.put('/recipes', validateJWT, async (req, res) => {
+router.post('/', validateJWT, async (req, res) => {
 	const { name, ingredients, preparation } = req.body;
 	const { _id: id } = req.user;
 	const recipe = await recipeService.create({ name, ingredients, preparation });
@@ -25,12 +25,12 @@ const validateJWT = require('../middlewares/validateJWT');
         { name, ingredients, preparation, userId: id, _id } });
 }); 
 
-/* const getAll =  */router.get('/recipes', async (_req, res) => {
+router.get('/', async (_req, res) => {
 	const recipeList = await recipesModel.getAll();
 	return res.status(statusCode.OK).json(recipeList);
 });
 
-/* const getById =  */ router.get('/recipes/:id', async (req, res) => {
+router.get('/:id', async (req, res) => {
 	const { id } = req.params;
 	const recipe = await recipeService.getById(id);
 	if (recipe.message) {
@@ -39,7 +39,7 @@ const validateJWT = require('../middlewares/validateJWT');
 	return res.status(statusCode.OK).json(recipe);
 });
 
-/* const update =  */router.put('/recipes/:id', validateJWT, async (req, res) => {
+router.put('/:id', validateJWT, async (req, res) => {
 	const { name, ingredients, preparation } = req.body;
 	const { id } = req.params;
 	const { _id } = await recipesModel.getById(id);
@@ -47,7 +47,7 @@ const validateJWT = require('../middlewares/validateJWT');
 	return res.status(statusCode.OK).json({ _id: id, name, ingredients, preparation, userId: _id });
 }); 
 
-/* const exclude =  */router.delete('/recipes/:id', validateJWT, async (req, res) => {
+router.delete('/:id', validateJWT, async (req, res) => {
 	const { id } = req.params;
 	await recipesModel.exclude(id);
 	return res.status(statusCode.NO_CONTENT).json();
