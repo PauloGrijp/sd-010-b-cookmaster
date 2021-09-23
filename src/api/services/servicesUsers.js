@@ -9,7 +9,7 @@ const create = async ({ name, email, password, role }) => {
   await validations.userEmailAlreadyExist(email);
 
   return models.create(name, email, password, role)
-      .then((data) => ({ status: 201, data: data.ops[0] }));
+      .then((data) => ({ status: 201, user: data.ops[0] }));
 };
 
 module.exports = { create };

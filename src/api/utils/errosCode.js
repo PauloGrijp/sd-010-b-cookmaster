@@ -1,7 +1,7 @@
 module.exports = {
   invalidEntries: {
     status: 400,
-    message: 'Invalid entries. Try again',
+    message: 'Invalid entries. Try again.',
   },
 
   emailRegistred: {
