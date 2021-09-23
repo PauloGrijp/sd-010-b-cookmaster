@@ -4,11 +4,22 @@ const Users = require('../models/usersModel');
 const checkLogin = async (req, res, next) => {
   const { email, password } = req.body;
   const userEmail = await Users.findEmail(email);
+
+  if (!userEmail || userEmail.password !== password) {
+    unauthorized(res);
+  }
+  next();
+};
+
+const validEmailPassword = (req, res, next) => {
+  const { email, password } = req.body;
   const regex = /\S+@\S+\.\S+/;
-  if (!regex.test(email) || !password) {
+
+  if (!email || !password) {
     unauthorizedEmailPassword(res);
   }
-  if (!userEmail || userEmail.password !== password) {
+
+  if (!regex.test(email)) {
     unauthorized(res);
   }
   next();
@@ -16,4 +27,5 @@ const checkLogin = async (req, res, next) => {
 
 module.exports = {
   checkLogin,
+  validEmailPassword,
 };
