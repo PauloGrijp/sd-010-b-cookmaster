@@ -8,4 +8,6 @@ router.post('/', validateJWT, controller.cadastrarReceitas);
 
 router.get('/', controller.buscarReceitas);
 
+router.get('/:id', controller.buscarReceitasID);
+
 module.exports = router;

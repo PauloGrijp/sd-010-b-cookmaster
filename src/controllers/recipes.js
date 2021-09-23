@@ -26,7 +26,22 @@ const buscarReceitas = rescue(async (_req, res) => {
   return res.status(200).json(result);
 });
 
+const buscarReceitasID = rescue(async (req, res, next) => {
+  const { id } = req.params;
+  const result = await model.buscarReceitasID(id);
+
+  if (!result || result.length === 0) {
+    return next({
+      message: 'recipe not found',
+      code: 404,
+    });
+  }
+
+  return res.status(200).json(result);
+});
+
 module.exports = { 
   cadastrarReceitas,
   buscarReceitas,
+  buscarReceitasID,
 };
