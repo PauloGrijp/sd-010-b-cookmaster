@@ -27,8 +27,17 @@ const getById = async (id) => {
   }
 };
 
-const update = async (reqData) => {
-  const updatedRecipe = await recipesModel.update(reqData);
+const buildFilterQueryByRole = (filterData) => {
+  const { id, userId, role } = filterData;
+  switch (role) {
+    case 'admin': return { _id: ObjectID(id) };
+    default: return { $and: [{ _id: ObjectID(id) }, { userId }] };
+  }
+};
+
+const update = async ({ id, userId, role }, newData = {}) => {
+  const filterQuery = buildFilterQueryByRole({ id, userId, role });
+  const updatedRecipe = await recipesModel.update(newData, filterQuery);
   return updatedRecipe;
 };
 
