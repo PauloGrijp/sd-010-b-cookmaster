@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const { ObjectId } = require('mongodb');
 const { secret } = require('../services/userService');
 const connection = require('./connection');
 
@@ -25,7 +26,15 @@ const ModelAllRecipes = async () => {
   return { code: 200, allRecipes };
 };
 
+const modelListById = async (id) => {
+  if (!ObjectId.isValid(id)) return null;
+  const db = await connection();
+  const recipe = await db.collection('recipes').findOne(ObjectId(id));
+  return { code: 200, recipe };
+};
+
 module.exports = {
   modelRecipes,
   ModelAllRecipes,
+  modelListById,
 };

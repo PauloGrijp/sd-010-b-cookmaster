@@ -2,6 +2,17 @@ const jwt = require('jsonwebtoken');
 const { modelEmailVerifier } = require('../models/users');
 const { secret } = require('../services/userService');
 
+const idValidator = async (id) => {
+  if (id.length !== 24 || typeof id !== 'string') {
+    return { 
+      err: {
+      message: 'recipe not found',
+     },
+     code: 404 };
+  }
+    return false;
+};
+
 const tokenValidator = async (token) => {
   if (!token) {
     return { err: { message: 'jwt malformed' }, code: 401 };
@@ -29,6 +40,7 @@ const fieldValidator = (name, ingredients, preparation) => {
   };
 
  module.exports = {
+  idValidator,
   fieldValidator,
   tokenValidator,
  };
