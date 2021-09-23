@@ -5,6 +5,7 @@ const recipesController = require('../controllers/recipesController');
 const validadeJWT = require('../auth/validateJWT');
 
 router.get('/:id', recipesController.getById);
+router.put('/:id', validadeJWT, recipesController.update);
 router.post('/', validadeJWT, recipesController.createRecipes);
 router.get('/', recipesController.getAll);
 

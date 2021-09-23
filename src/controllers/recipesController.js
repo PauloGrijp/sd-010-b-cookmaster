@@ -35,8 +35,26 @@ const getById = async (req, res) => {
   return res.status(CODE_HTTP.SUCCESS).json(resultService);
 };
 
+const update = async (req, res) => {
+  // const { error } = Joi.object({
+  //   name: Joi.string().required().not().empty(),
+  //   ingredients: Joi.string().required().not().empty(),
+  //   preparation: Joi.string().required().not().empty(),
+  // }).validate(req.body);
+  const { id } = req.params;
+  const { name, ingredients, preparation } = req.body;
+  const { _id: userId } = req.user;
+
+  if (!userId) return res.status(CODE_HTTP.UNAUTHORIZED).json(MESSAGE.MISSING_AUTH_TOKEN);
+
+  const resultService = await recipesServices
+    .update({ id, name, ingredients, preparation, userId });
+  return res.status(CODE_HTTP.SUCCESS).json(resultService);
+};
+
 module.exports = {
   createRecipes,
   getAll,
   getById,
+  update,
 };
