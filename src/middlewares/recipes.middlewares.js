@@ -9,7 +9,7 @@ const TokenValidation = async (req, res, next) => {
     const token = req.headers.authorization;
 
     if (!token) {
-        return res.status(401).json({ message: 'Deu ruim no token' });
+        return res.status(401).json({ message: 'Falta um token valido' });
     }
 
     try {
