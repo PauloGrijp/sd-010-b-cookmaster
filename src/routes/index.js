@@ -1,11 +1,14 @@
 const express = require('express');
+const validateToken = require('../middlewares/token');
 
 const User = require('../controllers/Users');
 const Login = require('../controllers/Login');
+const Recipes = require('../controllers/Recipes');
 
-const users = express.Router();
+const router = express.Router();
 
-users.post('/users', User.createUser);
-users.post('/login', Login.login);
+router.post('/users', User.createUser);
+router.post('/login', Login.login);
+router.post('/recipes', validateToken, Recipes.createRecipe);
 
-module.exports = users; 
+module.exports = router; 
