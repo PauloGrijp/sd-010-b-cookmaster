@@ -32,8 +32,9 @@ const listRecipes = rescue(async (_req, res, _next) => {
 
 const edit = rescue(async (req, res, next) => {
   const { id } = req.params;
+  const { userId } = req;
   const recipe = req.body;
-  const recipeEdited = await Services.recipe.edit(id, recipe);
+  const recipeEdited = await Services.recipe.edit(id, userId, recipe);
 
   if (!recipeEdited) return next({ notFound: true });
 
