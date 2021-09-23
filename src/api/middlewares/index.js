@@ -1,3 +1,4 @@
+const jwt = require('jsonwebtoken');
 const { findEmail } = require('../services/users');
 
 const verifyEntries = async (req, res, next) => {
@@ -36,4 +37,31 @@ const validateLogin = async (req, res, next) => {
     next();
 };
 
-module.exports = { verifyEntries, verifyEmail, verifyLoginEntries, validateLogin };
+const secret = '12345';
+const validateJWT = async (req, res, next) => {
+    const token = req.headers.authorization;
+    console.log(token);
+    try {
+        jwt.verify(token, secret);
+        next();
+    } catch (err) {
+        res.status(401).json({ message: 'jwt malformed' });
+    }
+};
+
+const verifyEntriesRecipes = async (req, res, next) => {
+    const { name, ingredients, preparation } = req.body;
+    if (!(name && ingredients && preparation)) {
+        return res.status(400).json({ message: 'Invalid entries. Try again.' });
+    }
+    next();
+};
+
+module.exports = {
+    verifyEntries,
+    verifyEmail,
+    verifyLoginEntries,
+    validateLogin,
+    validateJWT,
+    verifyEntriesRecipes,
+};
