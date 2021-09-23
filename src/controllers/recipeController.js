@@ -1,4 +1,5 @@
 const status = require('http-status');
+
 const recipeModel = require('../models/recipeModel');
 const recipeService = require('../services/recipeService');
 
@@ -54,10 +55,27 @@ const updateRecipe = async (req, res) => {
   return res.status(status.OK).json(recipe);
 };
 
+const addImage = async (req, res) => {
+  const { originalname } = req.file;
+  const { id } = req.params;
+  const imageType = originalname.split('.');
+  console.log(imageType);
+  const recipe = await recipeModel.addImageRecipe(id, imageType[1]);
+
+  return res.status(200).json(recipe);
+};
+
 const deleteOne = async (req, res) => {
   const { id } = req.params;
   const deleteo = await recipeModel.exclude(id);
   return res.status(status.NO_CONTENT).json(deleteo);
 };
 
-module.exports = { createRecipe, validateEntries, getAllRecipe, getId, deleteOne, updateRecipe };
+module.exports = { 
+  createRecipe, 
+  validateEntries,
+getAllRecipe,
+getId,
+deleteOne,
+updateRecipe,
+addImage };

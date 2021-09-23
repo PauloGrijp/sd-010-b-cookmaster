@@ -14,7 +14,8 @@ const loginRouter = require('../routers/loginRouter');
 
 app.use('/login', loginRouter);
 
-// POST RECIPE
+// RECIPE AND IMAGE
+app.use(express.static(`${__dirname}/uploads`));
 const recipeRouter = require('../routers/recipeRouter');
 
 app.use('/recipes', recipeRouter);

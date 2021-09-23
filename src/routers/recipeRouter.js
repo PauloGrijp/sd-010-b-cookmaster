@@ -1,8 +1,15 @@
 const express = require('express');
+const multer = require('multer');
 const recipeController = require('../controllers/recipeController');
 const validateToken = require('../controllers/validateToken');
 
+const upload = multer({ dest: 'src/uploads' });
+
 const router = express.Router();
+
+// UPLOAD ONE
+router.post('/:id/image', 
+upload.single('file'), recipeController.addImage);
 
 // READ ONE
 router.get('/:id', 
