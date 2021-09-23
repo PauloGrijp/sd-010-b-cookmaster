@@ -1,6 +1,5 @@
 const jwt = require('jsonwebtoken');
-
-const secret = 'mysupersecret';
+const secret = require('../configs/secret');
 
 class AuthenticateService {
   static sign(payload) {
