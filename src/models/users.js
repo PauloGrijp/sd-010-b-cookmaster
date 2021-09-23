@@ -7,12 +7,10 @@ const add = async (email, password, nome) => {
   const role = 'user';
   const db = await connection();
   const { insertedId } = await db.collection('users').insertOne({
-    user: {
-      email,
-      password,
-      nome,
-      role,
-    },
+    email,
+    password,
+    nome,
+    role,
   });
 
   return { user: { name: nome, email, role, _id: insertedId } };
@@ -23,7 +21,7 @@ const checkEmailUniquity = async (email) => {
 
   let checkEmail = null;
 
-  checkEmail = await db.collection('users').findOne({ 'user.email': email });
+  checkEmail = await db.collection('users').findOne({ email });
 
   if (checkEmail) return true;
 };
@@ -32,18 +30,23 @@ const login = async (email, password) => {
   const db = await connection();
 
   const user = await db.collection('users').findOne({
-    'user.email': email,
-    'user.password': password,
+    email,
+    password,
   });
 
   if (!user) return null;
 
-  const { _id } = user;
+  console.log(user);
+
+  const { _id, role } = user;
+
+  console.log(email, password);
 
   const newToken = jwt.sign(
     {
       email,
       userId: _id,
+      role,
     },
     SECRET,
   );

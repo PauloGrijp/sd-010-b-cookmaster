@@ -4,16 +4,17 @@ const SECRET = 'secret';
 
 const verifyToken = (req, res, next) => {
   const { authorization } = req.headers;
-
-  console.log(authorization);
+  if (!authorization) {
+    return res.status(401).json({ message: 'missing authorization' });
+  }
   
   try {
     const decode = jwt.verify(authorization, SECRET);
     req.user = decode;
-    console.log(decode);
+    console.log(decode, 'validation');
     next();
   } catch (err) {
-    console.log(err.message);
+    console.log(err.message, 'jwt-malformed');
     return res.status(401).json({ message: 'jwt malformed' });
   }
 };

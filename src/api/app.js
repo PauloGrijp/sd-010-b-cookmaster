@@ -40,8 +40,6 @@ app.post('/login', fieldEmail, fieldPassword, requestLogin);
 
 app.get('/recipes', requestListRecipes);
 
-app.get('/recipes', verifyToken, requestListRecipes);
-
 app.post('/recipes',
   verifyToken,
   isValidName,

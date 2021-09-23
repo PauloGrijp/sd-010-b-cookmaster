@@ -2,13 +2,11 @@ const { addRecipe, allRecipes } = require('../services/recipes');
 
 const requestNewRecipe = async (req, res) => {
   const { name, ingredients, preparation } = req.body;
-  const { authorization } = req.headers;
+  const { user: { userId } } = req;
 
-  console.log(name, preparation, ingredients, authorization, 'controller');
+  console.log(userId, 'controller');
 
-  const recipe = await addRecipe(name, ingredients, preparation, authorization);
-
-  console.log(recipe, 'aqui');
+  const recipe = await addRecipe(name, ingredients, preparation, userId);
 
   return res.status(201).json(recipe);
 };
