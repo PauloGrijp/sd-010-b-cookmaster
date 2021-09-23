@@ -24,7 +24,19 @@ const getAll = async (req, res) => {
   return res.status(CODE_HTTP.SUCCESS).json(resultServices);
 };
 
+const getById = async (req, res) => {
+  const { id } = req.params;
+  // const { error } = Joi.string().validade(req.params);
+  const resultService = await recipesServices.getById({ id });
+  
+  if (resultService === 404) { 
+    return res.status(CODE_HTTP.NOT_FOUND).json(MESSAGE.RECIPE_NOT_FOUND); 
+  }
+  return res.status(CODE_HTTP.SUCCESS).json(resultService);
+};
+
 module.exports = {
   createRecipes,
   getAll,
+  getById,
 };
