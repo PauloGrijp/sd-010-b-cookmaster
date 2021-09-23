@@ -1,8 +1,9 @@
 const express = require('express');
-const multer = require('multer');
+const path = require('path');
 
 const app = express();
 const bodyParser = require('body-parser');
+const { upload } = require('../../middlewares/multer');
 
 const userController = require('../../controllers/userController');
 const recipeController = require('../../controllers/recipeController');
@@ -10,9 +11,7 @@ const validateJWT = require('../../middlewares/validateJWT');
 
 app.use(bodyParser.json());
 
-const { storage } = require('../../controllers/recipeController');
-
-const upload = multer({ storage });
+app.use('/images', express.static(path.resolve('src/uploads')));
 
 // Não remover esse end-point, ele é necessário para o avaliador
 app.get('/', (request, response) => {
@@ -20,15 +19,15 @@ app.get('/', (request, response) => {
 });
 // Não remover esse end-point, ele é necessário para o avaliador
 
+app.get('/recipes/:id', recipeController.getRecipeById);
+
+app.get('/recipes', recipeController.getAllRecipes);
+
 app.post('/users', userController.createUser);
 
 app.post('/login', userController.loginUser);
 
 app.post('/recipes', validateJWT, recipeController.createRecipe);
-
-app.get('/recipes', recipeController.getAllRecipes);
-
-app.get('/recipes/:id', recipeController.getRecipeById);
 
 app.put('/recipes/:id/image', validateJWT, upload.single('image'),
   recipeController.updateRecipeImage);

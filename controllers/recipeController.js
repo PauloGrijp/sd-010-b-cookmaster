@@ -1,16 +1,5 @@
-const multer = require('multer');
 const service = require('../services/recipeService');
 const messages = require('../helpers/validationMessages');
-
-const storage = multer.diskStorage({
-  destination: (req, file, callback) => {
-    callback(null, 'src/uploads/');
-  },
-  filename: (req, file, callback) => {
-    const { id } = req.params;
-    callback(null, `${id}.jpeg`);
-  },
-});
 
 const getAllRecipes = async (_req, res) => {
   try {
@@ -111,5 +100,4 @@ module.exports = {
   updateRecipe,
   excludeRecipe,
   updateRecipeImage,
-  storage,
 };
