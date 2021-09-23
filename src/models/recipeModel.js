@@ -28,6 +28,7 @@ const add = async (name, ingredients, preparation, id) => {
 
 // READ
 const getId = async (id) => {
+  console.log(id);
   const db = await connectionDB.connect();
   const productOne = await db.collection('recipes').findOne({ _id: ObjectId(id) });
   return productOne;
