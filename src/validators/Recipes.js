@@ -10,4 +10,13 @@ const recipeValidator = (data) => {
   return recipe.validate(data);
 };
 
-module.exports = recipeValidator; 
+const recipeIdValidator = (id) => {
+  const recipe = Joi.object({ id: Joi.string().min(24).required() });
+
+  return recipe.validate(id);
+};
+
+module.exports = {
+  recipeValidator,
+  recipeIdValidator,
+}; 
