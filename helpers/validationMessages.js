@@ -10,6 +10,8 @@ const INCORRECT_DATA = { message: 'Incorrect username or password' };
 
 const INVALID_TOKEN = { message: 'jwt malformed' };
 
+const MISSING_TOKEN = { message: 'missing auth token' };
+
 const RECIPE_NOT_FOUND = { message: 'recipe not found' };
 
 module.exports = {
@@ -20,4 +22,5 @@ module.exports = {
   INCORRECT_DATA,
   INVALID_TOKEN,
   RECIPE_NOT_FOUND,
+  MISSING_TOKEN,
 };

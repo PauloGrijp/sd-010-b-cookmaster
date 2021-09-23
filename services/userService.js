@@ -39,11 +39,11 @@ const loginUser = async (email, password) => {
 
   if (!userSearch || userSearch.password !== password) return null;
 
-  const { _id: id } = userSearch;
+  const { _id: id, role } = userSearch;
   const userWithoutPassword = {
     id,
     email,
-    role: 'user',
+    role,
   };
 
   const token = jwt.sign({ data: userWithoutPassword }, secret, jwtConfig);

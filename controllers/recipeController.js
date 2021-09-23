@@ -1,4 +1,3 @@
-// const { ObjectId } = require('mongodb');
 const service = require('../services/recipeService');
 const messages = require('../helpers/validationMessages');
 
@@ -46,8 +45,32 @@ const createRecipe = async (req, res) => {
   }
 };
 
+const updateRecipe = async (req, res) => {
+  try {
+    const { name, ingredients, preparation } = req.body;
+    const { id } = req.params;
+    const { _id } = req.user;
+    const getId = _id.toString();
+    
+    const result = await service.updateRecipe({ id, name, ingredients, preparation });
+    
+    if (result === false) res.status(400).json(messages.INVALID_ENTRY);
+
+    return res.status(200).json({
+      _id: id,
+      name,
+      ingredients,
+      preparation,
+      userId: getId,
+    });
+  } catch (error) {
+    return res.status(500).json(messages.ERROR);
+  }
+};
+
 module.exports = {
-  createRecipe,
   getAllRecipes,
   getRecipeById,
+  createRecipe,
+  updateRecipe,
 };

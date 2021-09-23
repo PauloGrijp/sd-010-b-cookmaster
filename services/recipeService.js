@@ -28,8 +28,17 @@ const createRecipe = async ({ name, ingredients, preparation, userId }) => {
   return RecipesModel.createRecipe({ name, ingredients, preparation, userId });
 };
 
+const updateRecipe = async ({ id, name, ingredients, preparation }) => {
+  const validation = validateFieldsRecipe(name, ingredients, preparation);
+
+  if (!validation) return false;
+
+  return RecipesModel.updateRecipe({ id, name, ingredients, preparation });
+};
+
 module.exports = {
-  createRecipe,
   getAllRecipes,
   getRecipeById,
+  createRecipe,
+  updateRecipe,
 };
