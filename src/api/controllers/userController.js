@@ -3,13 +3,12 @@ const {
     BAD_REQUEST,
     CREATED,
     CONFLICT,
-    
+
 } } = require('http-status-codes');
 
 const usersService = require('../services/usersService');
 
 const createUser = async (req, res) => {
-
   const { name, email, password } = req.body;
   const result = await usersService.createUser(name, email, password);
 
