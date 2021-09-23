@@ -18,6 +18,7 @@ app.post('/users', Users.registerNewUser);
 app.post('/login', Users.loginUser);
 
 app.get('/recipes', Recipes.getAllRecipes);
+app.get('/recipes/:id', Recipes.getRecipeById);
 app.post('/recipes', validateToken, Recipes.registerNewRecipe);
 
 app.use(errorMiddleware);
