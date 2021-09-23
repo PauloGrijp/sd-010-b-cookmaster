@@ -7,6 +7,13 @@ const create = rescue(async (req, res) => {
   res.status(201).json({ user });
 });
 
+const createAdmin = rescue(async (req, res) => {
+  const { name, email, password } = req.body;
+  const { role } = req;
+  const user = await usersService.createAdmin({ name, email, password }, role);
+  res.status(201).json({ user });
+});
+
 const authenticate = rescue(async (req, res) => {
   const { email, password } = req.body;
   const token = await usersService.authenticate({ email, password });
@@ -15,5 +22,6 @@ const authenticate = rescue(async (req, res) => {
 
 module.exports = {
   create,
+  createAdmin,
   authenticate,
 };

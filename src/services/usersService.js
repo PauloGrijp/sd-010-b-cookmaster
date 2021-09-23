@@ -40,7 +40,13 @@ const authenticate = async (reqBodyEntries) => {
   return tokenCreated;
 };
 
+const createAdmin = async ({ name, email, password }, role) => {
+  if (role !== 'admin') throw new ErrorRequest('forbidden', 'Only admins can register new admins');
+  return usersModel.create({ name, email, password, role });
+};
+
 module.exports = {
   create,
+  createAdmin,
   authenticate,
 };
