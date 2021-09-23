@@ -1,12 +1,17 @@
 const {
   servUserReg,
-
  } = require('../services/userService');
 
 const contUserReg = async (req, res) => {
-    const { name, email, password } = req.body;
-    const result = await servUserReg({ name, email, password });
- return res.status(result.code).json(result.users);
+    const userRecive = req.body;
+    const result = await servUserReg(userRecive);
+    if (result.err) {
+      const { code, err } = result;
+      return res.status(code).json(err);
+    }
+    const { code, user } = result;
+    console.log(user, 'control');
+ return res.status(code).json({ user });
 };
 
 module.exports = {

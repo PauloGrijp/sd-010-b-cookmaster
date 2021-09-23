@@ -1,6 +1,6 @@
 const express = require('express');
 const { 
-contUserReg,
+  contUserReg,
  } = require('../controller/usersController');
 
 const router = express.Router();

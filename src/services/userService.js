@@ -1,12 +1,26 @@
+const { formsValidator } = require('../middleware/users');
 const {
-  modelUserReg,
+  modelUserReg, modelEmailVerifier,
 } = require('../models/users');
 
-const servUserReg = async (itens) => {
-  console.log(itens, 'itens');
-  return modelUserReg(itens);
+const servUserReg = async (user) => { 
+  const { name, email, password } = user;
+  const invalidator = await formsValidator(name, email, password);
+  if (invalidator) {
+    return invalidator;
+  }
+  const validEmail = await modelEmailVerifier(email);
+  
+  if (validEmail !== null) {
+    return { 
+      err: {
+      message: 'Email already registered',
+     },
+     code: 409 };
+  }
+   return modelUserReg(user);
 };
 
-module.exports = {
+     module.exports = {
   servUserReg,
 };
