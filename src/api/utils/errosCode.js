@@ -11,11 +11,21 @@ module.exports = {
 
   loginNotFilled: {
     status: 401,
-    message: 'Invalid entries. Try again.',
+    message: 'All fields must be filled',
   },
 
   loginIncorrect: {
     status: 401,
     message: 'Incorrect username or passowrd',
+  },
+
+  missingToken: {
+    status: 401,
+    message: 'missing auth token',
+  },
+
+  jwtMalformed: {
+    status: 401,
+    message: 'jwt malformed',
   },
 };
