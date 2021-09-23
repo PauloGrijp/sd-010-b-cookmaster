@@ -6,7 +6,7 @@ const loginRouter = require('./routes/loginRouter');
 const recipesRouter = require('./routes/recipesRouter');
 
 const app = express();
-app.use(bodyParser());
+app.use(bodyParser.json());
 
 app.use('/users', usersRouter);
 app.use('/login', loginRouter);

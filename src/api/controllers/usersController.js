@@ -3,7 +3,6 @@ const userservices = require('../services/usersServices.');
 const addUser = async (req, res, _next) => {
   const { name, email, password } = req.body;
   const result = await userservices.addUser(name, email, password);
-  console.log(result);
   return res.status(201).json(result);
 };
 

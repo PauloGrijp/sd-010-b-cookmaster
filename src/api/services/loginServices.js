@@ -3,7 +3,7 @@ const userModel = require('../models/usersModel');
 
 const privateKey = 'passsecret';
 const jwtConfig = {
-  expiresIn: '7d',
+  expiresIn: '3d',
   algorithm: 'HS256',
 };
 
@@ -32,9 +32,9 @@ const loginUser = async (email, password) => {
   const user = await userModel.userByEmail(email);
   validCredentialExists(user, password);
   delete user.password;
-  console.log(user);
-  const token = jwt.sign({ data: user }, privateKey, jwtConfig);
-  return token;
+  delete user.name;
+  const token = jwt.sign(user, privateKey, jwtConfig);
+  return { token };
 };
 
 module.exports = {
