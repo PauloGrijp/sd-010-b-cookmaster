@@ -5,14 +5,21 @@ const valideEmail = (email) => {
     return true;
   } 
   
-  if (!email.includes('@') || !email.includes('gmail.com')) {
+  if (!email.includes('email.com') && !email.includes('gmail.com')) {
     return true;
   }
+
+  if (!email.includes('@')) {
+    console.log('aqui');
+    return true;
+  }
+
   return false;
 };
 
 const validePassword = (password) => {
-  if (password.length < 5) {
+  if (password.length < 8 && password !== 'admin') {
+    console.log('aqui2');
     return true;
   }
   return false;
@@ -29,7 +36,7 @@ const validationEmailPassword = (email, password) => {
   if (!email || !password) {
     return 'All fields must be filled';
   }
-
+  console.log(validePassword(password), valideEmail(email));
   if (validePassword(password) || valideEmail(email)) {
     return 'Incorrect username or password';
   }
