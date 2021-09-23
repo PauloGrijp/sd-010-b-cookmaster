@@ -48,18 +48,16 @@ class RecipeService {
     return res;
   }
 
-  async update({ id, recipe, token }) {
+  async update({ id, value, token }) {
     await this.checkIfUserIsAuthorized(id, token);
 
-    await this.model.update({ id, recipe });
-
+    await this.model.update({ id, value });
     const updateResult = await this.model.findBy({ _id: id });
     return updateResult;
   }
 
   async delete({ id, token }) {
     await this.checkIfUserIsAuthorized(id, token);
-
     await this.model.delete(id);
   }
 }

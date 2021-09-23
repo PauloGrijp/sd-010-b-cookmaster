@@ -1,4 +1,6 @@
 const express = require('express');
+const path = require('path');
+
 const { errorMiddleware } = require('../middlewares/error');
 const Mongo = require('../utils/database/Mongo');
 const Configure = require('./Configure');
@@ -17,6 +19,7 @@ const customExpress = async () => {
   app.use('/users', routes.user);
   app.use('/login', routes.login);
   app.use('/recipes', routes.recipe);
+  app.use('/images', express.static(path.join(__dirname, '..', '..', 'uploads')));
 
   app.get('/', (_request, response) => {
     response.send();

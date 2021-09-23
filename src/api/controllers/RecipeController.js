@@ -9,6 +9,7 @@ class RecipeController {
     this.findById = this.findById.bind(this);
     this.updateData = this.updateData.bind(this);
     this.delete = this.delete.bind(this);
+    this.uploadImage = this.uploadImage.bind(this);
   }
 
   async getAll(_req, res, next) {
@@ -42,10 +43,10 @@ class RecipeController {
 
   async updateData(req, res, next) {
     try {
-      const recipe = req.body;
+      const value = req.body;
       const { id } = req.params;
       const token = req.headers.authorization;
-      const result = await this.service.update({ id, recipe, token });
+      const result = await this.service.update({ id, value, token });
       res.status(statusCode.OK).json(result);
     } catch (e) {
       next(e);
@@ -58,6 +59,20 @@ class RecipeController {
       const token = req.headers.authorization;
       await this.service.delete({ id, token });
       return res.status(statusCode.NO_CONTENT).send();
+    } catch (e) {
+      next(e);
+    }
+  }
+
+  async uploadImage(req, res, next) {
+    try {
+      const { id } = req.params;
+      const token = req.headers.authorization;
+
+      const value = { image: `localhost:3000/src/uploads/${id}.jpeg` };
+
+      const result = await this.service.update({ id, value, token });
+      res.status(statusCode.OK).json(result);
     } catch (e) {
       next(e);
     }

@@ -35,9 +35,9 @@ class Recipe {
     return this.serializer.all(res.ops[0]);
   }
 
-  async update({ id, recipe }) {
+  async update({ id, value }) {
     const query = { _id: this.ObjectId(id) };
-    const newValues = { $set: recipe };
+    const newValues = { $set: value };
     await this.collection.updateOne(query, newValues);
   }
 

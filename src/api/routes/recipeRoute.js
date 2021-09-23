@@ -1,5 +1,9 @@
 const express = require('express');
-const { validateRecipeInsertion, authenticateMiddleware } = require('../middlewares');
+const { 
+  validateRecipeInsertion,
+   authenticateMiddleware,
+    UploadMiddleware, 
+} = require('../middlewares');
 
 const recipeRoute = (controller) => {
   const route = express.Router();
@@ -9,7 +13,7 @@ const recipeRoute = (controller) => {
   route.use(authenticateMiddleware);
 
   route.delete('/:id', controller.delete);
-
+  route.put('/:id/image', UploadMiddleware.uploadFile(), controller.uploadImage);
   route.use(validateRecipeInsertion);
   
   route.post('/', controller.insertData);
