@@ -3,12 +3,13 @@ const { getConnection } = require('./connection');
 
 const editRecipe = async (recipeData) => {
   const { name, ingredients, preparation, id, userId } = recipeData;
+  console.log(userId);
   await getConnection()
   .then((db) => db.collection('recipes')
   .updateOne(
     {
       _id: ObjectId(id),
-      userId: ObjectId(userId),
+      userId,
     },
     { 
       $set: { name, ingredients, preparation },

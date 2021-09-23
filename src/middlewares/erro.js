@@ -10,7 +10,7 @@ const statusCode = {
   'recipe not found': 404,
 };
 if (statusCode[message]) return res.status(statusCode[message]).json(err);
-return res.status(500).send('..something is wrong');
+return res.status(500).send(err);
 };
 
 module.exports = error;

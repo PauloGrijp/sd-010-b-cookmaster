@@ -1,6 +1,7 @@
 const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
+const multer = require('multer');
 const controllers = require('../controllers');
 const authentication = require('../middlewares/authentication');
 const authorization = require('../middlewares/authorization');
@@ -8,6 +9,18 @@ const authorization = require('../middlewares/authorization');
 const app = express();
 app.use('/images', express.static(path.join(__dirname, '..', 'uploads')));
 app.use(bodyParser.json());
+
+const storage = multer.diskStorage({
+  destination: (_req, _file, callback) => {
+    callback(null, 'src/uploads');
+  },
+  filename: (req, _file, callback) => {
+    const { id } = req.params;
+    callback(null, id);
+  },
+});
+
+const upload = multer({ storage });
 
 // Não remover esse end-point, ele é necessário para o avaliador
 app.get('/', (request, response) => {
@@ -28,5 +41,8 @@ app.get('/recipes/:id', controllers.getRecipeById);
 app.put('/recipes/:id', authorization.verifyToken, controllers.editRecipe);
 
 app.delete('/recipes/:id', authorization.verifyToken, controllers.deleteRecipe);
+
+app.post('/recipes/:id/images',
+  upload.array('image'), authorization.verifyToken, controllers.upload);
 
 module.exports = app;
