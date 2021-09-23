@@ -6,6 +6,13 @@ const newUser = async (req, res) => {
   return res.status(201).json({ user: result });
 };
 
+const newAdmin = async (req, res) => {
+  const { name, email, password } = req.body;
+  const { role } = req.user;
+  const result = await service.newAdmin(name, email, password, role);
+  return res.status(201).json({ user: result });
+};
+
 const login = async (req, res) => {
   const { email, password } = req.body;
   const token = await service.login(email, password);
@@ -15,4 +22,5 @@ const login = async (req, res) => {
 module.exports = {
   newUser,
   login,
+  newAdmin,
 };

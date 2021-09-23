@@ -9,6 +9,12 @@ const newUser = async (name, email, password, role) => {
   return result;
 };
 
+const newAdmin = async (name, email, password, role) => {
+  valid.isAdmin(role);
+  const { password: _, ...result } = await model.newUser(name, email, password, role);
+  return result;
+};
+
 const login = async (email, password) => {
   valid.validateLoginBody(email, password);
   const user = await model.findUser(email, password);
@@ -19,5 +25,6 @@ const login = async (email, password) => {
 
 module.exports = {
   newUser,
+  newAdmin,
   login,
 };
