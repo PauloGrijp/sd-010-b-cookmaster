@@ -15,7 +15,7 @@ FOLLOWING CRUD
 const add = async (name, ingredients, preparation, id) => {
   const db = await connectionDB.connect();
   const recipe = await db.collection('recipes')
-  .insertOne({ name, ingredients, preparation, userId: id });
+  .insertOne({ name, ingredients, preparation, userId: ObjectId(id) });
   return { recipe: {
     name,
     ingredients, 
@@ -44,7 +44,7 @@ const getAll = async () => {
 const update = async ({ name, ingredients, preparation, id, userId }) => {
   const db = await connectionDB.connect();
   await db.collection('products')
-  .updateOne({ _id: ObjectId(id) }, { $set: { name, ingredients, preparation, userId } });
+  .updateOne({ _id: ObjectId(id) }, { $set: { name, ingredients, preparation, userId: ObjectId(userId) } });
   return { _id: id, ingredients, preparation, userId };
 };
 
