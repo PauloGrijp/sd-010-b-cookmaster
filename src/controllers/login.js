@@ -4,6 +4,11 @@ const UserModels = require('../models/users');
 
 const secret = 'superSenha';
 
+const jwtConfig = {
+  expiresIn: '7d',
+  algorithm: 'HS256',
+};
+
 const checkLogin = async (email, password) => {
   if (!email || !password) {
     return { message: 'All fields must be filled' };
@@ -22,18 +27,13 @@ const login = async (req, res) => {
 
   const user = await checkLogin(email, password);
   if (user.message) return res.status(401).json(user);
-  
-  const jwtConfig = {
-    expiresIn: '7d',
-    algorithm: 'HS256',
-  };
-  const payload = delete user.name;
+  delete user.name;
 
-  const token = jwt.sign({ data: payload }, secret, jwtConfig);
-
-  return res.status(200).json({ token });
+  const newToken = jwt.sign({ data: user }, secret, jwtConfig);
+  return res.status(200).json({ token: newToken });
 };
 
 module.exports = {
   login,
+  secret,
 };
