@@ -12,7 +12,7 @@ const valideEmail = (email) => {
 };
 
 const validePassword = (password) => {
-  if (password.length < 8) {
+  if (password.length < 5) {
     return true;
   }
   return false;
