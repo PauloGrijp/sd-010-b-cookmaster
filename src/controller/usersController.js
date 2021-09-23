@@ -21,7 +21,6 @@ const contLogin = async (req, res) => {
       return res.status(code).json(err);
     }
     const { code, token } = result;
-    console.log(token, 'control');
  return res.status(code).json({ token });
 };
 

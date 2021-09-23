@@ -12,7 +12,7 @@ const formsValidator = (name, email, password) => {
   };
 
 const loginValidator = (email, password) => {
-  const emailRegEx = RegExp(/^[a-z0-9.]+@[a-z0-9]+\.[a-z]+(\.[a-z]+)?$/i );
+  const emailRegEx = RegExp(/^[a-z0-9.]+@[a-z0-9]+\.[a-z]+(\.[a-z]+)?$/i);
   if (!email || !emailRegEx.test(email) || !password) {
     return { 
       err: {
