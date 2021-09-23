@@ -22,4 +22,10 @@ const create = async (name, email, password) => {
   };
 };
 
-module.exports = { create, getUserByEmail };
+const getPassword = async (email) => {
+  const user = await getUserByEmail(email);
+  const { password } = user;
+  return password;
+};
+
+module.exports = { create, getUserByEmail, getPassword };
