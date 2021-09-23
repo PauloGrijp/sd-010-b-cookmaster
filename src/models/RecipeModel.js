@@ -26,7 +26,8 @@ const getRecipeById = async (id) => {
   return recipe;
 };
 
-const updateRecipe = async ({ name, ingredients, preparation }, id, userId) => {
+const updateRecipe = async ({ name, ingredients, preparation }, id) => {
+  if (!ObjectId(id)) return null;
   const recipeCollection = await connection()
   .then((db) => db.collection('recipes'));
 
@@ -39,8 +40,7 @@ const updateRecipe = async ({ name, ingredients, preparation }, id, userId) => {
     name,
     ingredients,
     preparation,
-    id,
-    userId,
+    id,    
   };
 };
 
