@@ -1,14 +1,6 @@
 const { StatusCodes } = require('http-status-codes');
-const jwt = require('jsonwebtoken');
-
+const { jwt, jwtConfiguration, secret } = require('../middlewares/jwtMiddlewares');
 const loginService = require('../services/loginServices');
-
-const secret = 'It is secret ok?!';
-
-const jwtConfiguration = {
-  expiresIn: '30m',
-  algorithm: 'HS256',
-};
 
 const userLogin = async (req, res) => {
   try {
