@@ -1,8 +1,8 @@
 const errosCode = require('../utils/errosCode');
 
 module.exports = (err, _req, res, _next) => {
-  if (err.code) {
-    const { status, message } = errosCode[err.code];
+  if (err.statusCode) {
+    const { status, message } = errosCode[err.statusCode];
     return res.status(status).json({ message });
   }
   console.log(err);
