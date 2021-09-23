@@ -48,6 +48,7 @@ const deleteById = async ({ id, userId, role }) => {
 
 module.exports = {
   create,
+  getAll,
   getById,
   update,
   putImage,
