@@ -1,11 +1,10 @@
 const jwt = require('jsonwebtoken');
 const rescue = require('express-rescue');
-// const { findUser } = require('../models/user');
+// const { createRecipes } = require('../models/recipes');
 
 const secret = 'secretdetoken';
 
 const recipesFillersCheck = rescue(async (req, res, next) => {
-    console.log('recipesFillers');
     const { name, ingredients, preparation } = req.body;
     if (!name || !ingredients || !preparation) {
     return res
@@ -23,15 +22,14 @@ const isJWTvalid = rescue(async (req, res, next) => {
         .json({ message: 'jwt malformed' });
     }
     try {
-        const { data: { _id } } = jwt.verify(token, secret);
-        console.log(_id);
-        res.status(201).json({ recipe: { ...req.body, userId: _id, _id } });
-        console.log(req.body);
+        const verify = jwt.verify(token, secret);
+        // quando eu faço req.user ou req.qualquerCoisa eu consigo exportar o verify ou qualquer outro nome;
+        req.user = verify;
+        next();
     } catch (err) {
         return res
         .status(401)
         .json({ message: 'jwt malformed' });
     }
-    next();
 });
 module.exports = { isJWTvalid, recipesFillersCheck };
