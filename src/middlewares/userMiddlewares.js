@@ -1,4 +1,3 @@
-const { ObjectId } = require('bson');
 const jwt = require('jsonwebtoken');
 const { getUserById } = require('../controllers/userController');
 const { getRecipe } = require('./recipesMiddlewares');
