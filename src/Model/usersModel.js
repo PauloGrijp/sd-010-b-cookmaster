@@ -18,6 +18,14 @@ const getPasswdByEmail = async (email) => {
     }
     return findUser.password;
 };
+const getRoleByEmail = async (email) => {
+    const db = await connection();
+    const findUser = await db.collection('users').findOne({ email });
+    if (findUser === null) {
+        return false;
+    }
+    return findUser.role;
+};
 
 const getAll = async () => {
     const db = await connection();
@@ -36,10 +44,24 @@ const create = async (user) => {
         role: 'user',
     };
 };
+const createNewAdmin = async (user) => {
+    console.log(user);
+    const newUser = { ...user, role: 'admin' };
+    const db = await connection();
+    const userCreated = await db.collection('users').insertOne(newUser);
+    return {
+        _id: userCreated.insertedId,
+        name: user.name,
+        email: user.email,
+        role: 'admin',
+    };
+};
 
 module.exports = {
     getAll,
     create,
     userExists,
     getPasswdByEmail,
+    getRoleByEmail,
+    createNewAdmin,
 };

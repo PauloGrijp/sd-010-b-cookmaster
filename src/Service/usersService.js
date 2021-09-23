@@ -13,5 +13,13 @@ const createUser = async (user) => {
     const response = await usersModel.create(user);
     return response;
 };
+const createUserAdmin = async (users, newUser) => {
+    const { email } = users;
 
-module.exports = { createUser, getAll };
+    if (await usersModel.getRoleByEmail(email) !== 'admin') return 'is_not_admin';
+
+    const response = await usersModel.createNewAdmin(newUser);
+     return response;
+};
+
+module.exports = { createUser, getAll, createUserAdmin };

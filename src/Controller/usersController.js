@@ -28,4 +28,21 @@ const createUser = async (req, res) => {
         return res.status(500).json({ message: 'Ops, algo de errado :( ' });
     }
 };
-module.exports = { getAll, createUser };
+
+const createUserAdmin = async (req, res) => {
+    const { users } = req.user;
+    try {
+        const result = await usersService.createUserAdmin(users, req.body);
+        if (result === 'is_not_admin') {
+            return res.status(403).json({
+                message: 'Only admins can register new admins',
+             });
+        }
+        
+        return res.status(201).json({ user: result });
+    } catch (error) {
+        return res.status(500).json({ message: 'Ops, algo de errado :( ' });
+    }
+};
+
+module.exports = { getAll, createUser, createUserAdmin };
