@@ -35,5 +35,6 @@ app.put('/recipes/:id', validationJWT, RecipeController.updateRecipe);
 app.post('/recipes', validationJWT, RecipeController.createRecipe);
 app.get('/recipes', RecipeController.getAllRecipes);
 app.delete('/recipes/:id', validationJWT, RecipeController.deleteRecipe);
+app.post('/recipes/:id/image/', () => console.log('atualizar post image no app'));
 
 module.exports = app;
