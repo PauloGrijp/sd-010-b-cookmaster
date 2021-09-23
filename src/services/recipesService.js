@@ -1,3 +1,4 @@
+const { ObjectId } = require('mongodb');
 const recipesModel = require('../models/recipesModel');
 const recipeSchema = require('../schemas/recipeSchema');
 
@@ -7,10 +8,12 @@ const codesHttpErrors = {
   HTTP_BAD_REQUEST: 400,
   HTTP_CONFLICT: 409,
   HTTP_UNAUTHORIZED: 401,
+  HTTP_NOT_FOUND: 404,
 };
 
 const messages = {
   invalidEntries: 'Invalid entries. Try again.',
+  recipeNotFound: 'recipe not found',
 };
 
 const validateEntries = (name, ingredients, preparation) => {
@@ -36,7 +39,24 @@ const getRecipes = async () => {
   return recipes;
 };
 
+const validateId = async (id) => {
+  if (!ObjectId.isValid(id)) {
+    return Promise.reject(
+      errorMessage(codesHttpErrors.HTTP_NOT_FOUND, messages.recipeNotFound),
+      );
+    }
+    
+  const recipe = await recipesModel.getById(id);
+  if (!recipe) {
+    return Promise.reject(
+      errorMessage(codesHttpErrors.HTTP_NOT_FOUND, messages.recipeNotFound),
+    );
+  }
+  return recipe;
+};
+
 module.exports = {
   created,
   getRecipes,
+  validateId,
 };
