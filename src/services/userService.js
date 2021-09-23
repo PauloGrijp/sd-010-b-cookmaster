@@ -9,7 +9,6 @@ const createUser = async ({ name, email, password }) => {
   if (userExist) return { erro: { code: 409, message: 'Email already registered' } };
 
   const ifExists = ifExist([name, email, password]);
-  console.log(ifExists);
   if (!ifExists) return { erro: { code: 400, message: 'Invalid entries. Try again.' } };
 
   const validateEmail = isValid(email);
