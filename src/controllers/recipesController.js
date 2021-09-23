@@ -24,9 +24,9 @@ const update = rescue(async (req, res) => {
   const { id } = req.params;
   const { userId, role } = req;
   
-  const reqData = { id, name, ingredients, preparation, userId, role };
+  const newData = { name, ingredients, preparation };
   
-  const recipe = await recipesService.update(reqData);
+  const recipe = await recipesService.update({ id, userId, role }, newData);
   res.status(200).json(recipe);
 });
 
