@@ -7,5 +7,6 @@ const recipesController = require('../../controllers/recipesController');
 const router = express.Router();
 
 router.post('/', validateJWT, checkValues, recipesController.addRecipe);
+router.get('/', recipesController.getAllRecipes);
 
 module.exports = router;
