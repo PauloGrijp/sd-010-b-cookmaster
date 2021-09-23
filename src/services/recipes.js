@@ -1,19 +1,18 @@
 const validacoes = require('../validations');
 const model = require('../models/recipes');
 
-const receitas = async (param) => {
-  console.log(param);
-  const verificacao = validacoes.validacaoCampoReceita(param);
+const cadastrarReceitas = async (receita) => {
+  const verificacao = validacoes.validacaoCampoReceita(receita);
   
   if (verificacao) {
     return verificacao;
   }
   
-  const result = await model.receitas(param);
+  const result = await model.cadastrarReceitas(receita);
 
   return result;
 };
 
 module.exports = { 
-  receitas,
+  cadastrarReceitas,
 };

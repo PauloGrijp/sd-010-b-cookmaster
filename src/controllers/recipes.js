@@ -1,7 +1,8 @@
 const rescue = require('express-rescue');
 const service = require('../services/recipes');
+const model = require('../models/recipes');
 
-const receitas = rescue(async (req, res, next) => {
+const cadastrarReceitas = rescue(async (req, res, next) => {
   const { body } = req;
   const idUsuario = req.idUser;
 
@@ -10,7 +11,7 @@ const receitas = rescue(async (req, res, next) => {
     ...body,
   };
 
-  const result = await service.receitas(receita);
+  const result = await service.cadastrarReceitas(receita);
 
   if ('code' in result) {
     return next(result);
@@ -19,6 +20,13 @@ const receitas = rescue(async (req, res, next) => {
   return res.status(201).json(result);
 });
 
+const buscarReceitas = rescue(async (_req, res) => {
+  const result = await model.buscarReceitas();
+
+  return res.status(200).json(result);
+});
+
 module.exports = { 
-  receitas,
+  cadastrarReceitas,
+  buscarReceitas,
 };

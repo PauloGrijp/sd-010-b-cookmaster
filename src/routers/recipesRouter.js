@@ -4,6 +4,8 @@ const { validateJWT } = require('../middlewares');
 
 const router = express.Router();
 
-router.post('/', validateJWT, controller.receitas);
+router.post('/', validateJWT, controller.cadastrarReceitas);
+
+router.get('/', controller.buscarReceitas);
 
 module.exports = router;
