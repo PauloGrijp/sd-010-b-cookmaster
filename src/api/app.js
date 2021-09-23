@@ -7,7 +7,7 @@ const authentication = require('../middlewares/authentication');
 const authorization = require('../middlewares/authorization');
 
 const app = express();
-app.use('/image', express.static(path.join(__dirname, '..', 'uploads')));
+app.use('/images', express.static(path.join(__dirname, '..', 'uploads')));
 app.use(bodyParser.json());
 
 const storage = multer.diskStorage({
@@ -16,7 +16,7 @@ const storage = multer.diskStorage({
   },
   filename: (req, _file, callback) => {
     const { id } = req.params;
-    callback(null, id);
+    callback(null, `${id}.jpeg`);
   },
 });
 
@@ -43,6 +43,6 @@ app.put('/recipes/:id', authorization.verifyToken, controllers.editRecipe);
 app.delete('/recipes/:id', authorization.verifyToken, controllers.deleteRecipe);
 
 app.put('/recipes/:id/image',
-  upload.array('image'), authorization.verifyToken, controllers.upload);
-
+  authorization.verifyToken, upload.single('image'), controllers.upload);
+  
 module.exports = app;
