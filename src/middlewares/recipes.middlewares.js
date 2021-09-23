@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const { ObjectId } = require('mongodb');
 
-// const connection = require('../models/connection');
+const connection = require('../models/connection');
 
 const SECRETKEY = '123456789';
 
@@ -11,7 +11,7 @@ const TokenValidation = async (req, res, next) => {
     const token = req.headers.authorization;
 
     if (!token) {
-        return res.status(401).json({ message: 'Falta um token valido' });
+        return res.status(401).json({ message: 'missing auth token' });
     }
 
     try {
@@ -47,8 +47,25 @@ const IdValidation = async (req, res, next) => {
     next();
 };
 
+const RoleValidation = async (req, res, next) => {
+    const { id } = req.params;
+    const { userId } = req.user;
+    const db = await connection();
+
+    const { role } = await await db.collection('users').findOne({ _id: ObjectId(userId) });
+
+    const recipe = await await db.collection('recipes').findOne({ _id: ObjectId(id) });
+
+    if (role === 'user' && recipe.userId !== userId) {
+        return res.status(401).json({ message: 'missing auth token' });
+    }
+
+    next();
+};
+
 module.exports = {
     TokenValidation,
     RecipeValidation,
     IdValidation,
+    RoleValidation,
 };
