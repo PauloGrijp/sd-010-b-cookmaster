@@ -34,8 +34,25 @@ const buscarReceitasID = async (id) => {
   return receita;
 };
 
+const editarReceita = async (id, receitaEditada, usuario) => {
+  if (!ObjectId.isValid(id)) return false;
+
+  const db = await connection();
+
+  await db.collection('recipes').updateOne(
+    { _id: ObjectId(id) }, { $set: { 
+      name: receitaEditada.name,
+      ingredients: receitaEditada.ingredients,
+      preparation: receitaEditada.preparation,
+    } },
+  );
+
+  return { _id: id, userId: usuario.id, ...receitaEditada };
+};
+
 module.exports = { 
   cadastrarReceitas,
   buscarReceitas,
   buscarReceitasID,
+  editarReceita,
 };

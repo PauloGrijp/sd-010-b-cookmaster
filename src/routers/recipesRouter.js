@@ -10,4 +10,6 @@ router.get('/', controller.buscarReceitas);
 
 router.get('/:id', controller.buscarReceitasID);
 
+router.put('/:id', validateJWT, controller.editarReceita);
+
 module.exports = router;

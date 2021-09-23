@@ -4,13 +4,15 @@ const secret = 'naotemsenha';
 
 const validateJWT = async (req, res, next) => {
     const token = req.headers.authorization;
+    console.log(`token: ${token}`);
 
-    if (!token) return res.status(401).json({ message: 'jwt malformed' });
+    if (!token) return res.status(401).json({ message: 'missing auth token' });
 
     try {
         const payload = jwt.verify(token, secret);
+        console.log(`payload: ${payload.data.email}`);
         
-        req.idUser = payload.data.id;
+        req.user = payload.data;
         next();
     } catch (error) {
         return res.status(401).json({ message: 'jwt malformed' });
