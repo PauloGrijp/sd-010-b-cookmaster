@@ -15,7 +15,7 @@ const getRecipeById = async (req, res) => {
   return res.status(200).json(result);
 };
 
-const getRecipeByAll = async (req, res) => {
+const getRecipeByAll = async (_req, res) => {
   const result = await recipesServices.getRecipeByAll();
   return res.status(200).json(result);
 };

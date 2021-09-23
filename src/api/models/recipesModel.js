@@ -11,7 +11,7 @@ const addRecipes = async (user, name, ingredients, preparation) => {
 };
 
 const getRecipeById = async (id) => {
-  if (!ObjectId.isvalid(id)) return null;
+   if (!ObjectId.isValid(id)) return null;
   const db = await connection();
   const result = await db.collection('recipes').findOne({ _id: ObjectId(id) });
   return result;
