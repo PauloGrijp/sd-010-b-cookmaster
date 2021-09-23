@@ -17,7 +17,16 @@ const registerNewUser = async (info) => {
   return { user: { _id: registeredUser.insertedId, name, email, role } };
 };
 
+const getUserByEmail = async (email) => {
+  const db = await connection.getConnection();
+  const searchedEmail = await db.collection('users').findOne({ email });
+
+  if (searchedEmail) return searchedEmail;
+  return false;
+};
+
 module.exports = {
   registerNewUser,
   userExists,
+  getUserByEmail,
 };
