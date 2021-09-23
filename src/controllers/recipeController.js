@@ -1,5 +1,5 @@
 const express = require('express');
-// const path = require('path');
+const path = require('path');
 const multer = require('multer');
 const FormData = require('form-data');
 const fs = require('fs');
@@ -55,7 +55,7 @@ router.delete('/:id', validateJWT, async (req, res) => {
 
 const storage = multer.diskStorage({
 	destination: (_req, file, callback) => {
-		console.log(file);
+		/* console.log(file); */
 		callback(null, './src/uploads');
 	},
 	filename: (req, file, callback) => {
@@ -64,26 +64,26 @@ const storage = multer.diskStorage({
 		callback(null, `${id}.jpeg`);
 	},
 });
-  
+  const photoFile = path.resolve(__dirname, '..', '/uploads');
   const upload = multer({ storage });
-  const stream = fs.createReadStream('./padariana.jpeg'); 
+  const stream = fs.createReadStream(photoFile); 
   
   const formInfo = new FormData();
   formInfo.append('file', stream);
   const formHeader = formInfo.getHeaders(); 
-
-router.put('/recipes/:id/image/', validateJWT, upload.single('file'), async (req, res) => {
-	const { id } = req.params;
-	const { file } = req.file;
-	req.headers = formHeader;
-	await recipesModel.updateImage(id, file);
-	return res.status(200).json({ message: 'Arquivo' });
-});
-/* const updateImage = async (req, res) => {
   
-  // const recipeId = await recipesModel.getById(id);
-  await recipesModel.updateImage(id, file);
-
-}; */
+router.put('/:id/image/', validateJWT, upload.single('file'), async (req, res) => {
+	const { id } = req.params;
+	const { path: pathFile } = req.file;
+	req.headers = formHeader;
+	const { _id, name, ingredients, preparation } = await recipeService.getById(id);
+	console.log(req.file, 'req de files');
+	/* console.log(req.headers, 'req de headers'); */
+	const { _id: userid } = req.user;
+	await recipesModel.updateImage(id, `localhost:3000/${pathFile}`);
+	return res.status(200).json(
+		{ _id, name, ingredients, preparation, userid, image: `localhost:3000/${pathFile}` },
+	);
+});
 
 module.exports = router;
