@@ -38,7 +38,7 @@ const updateRecipe = async (req, res) => {
 
   const recipeUpdate = await RecipesService.update(id, name, ingredients, preparation, _id);
 
- recipeUpdate.userId = _id;
+  recipeUpdate.userId = _id;
  
   res.status(200).json(recipeUpdate);
 };

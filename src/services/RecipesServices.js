@@ -20,8 +20,6 @@ const getAll = async () => {
 const findById = async (id) => {
   const getRecipeId = await RecipesModel.findById(id);
 
-  console.log(getRecipeId);
-
   if (!getRecipeId) {
     const resp = { message: 'recipe not found' };
     return resp;
@@ -38,8 +36,6 @@ const update = async (id, name, ingredients, preparation) => {
 
 const exclude = async (id) => {
   const deletedProduct = await RecipesModel.exclude(id);
-
-  // if (!deletedProduct) return idNotExistsErr;
 
   return deletedProduct;
 };
