@@ -44,7 +44,8 @@ const getAll = async () => {
 const update = async ({ name, ingredients, preparation, id, userId }) => {
   const db = await connectionDB.connect();
   await db.collection('products')
-  .updateOne({ _id: ObjectId(id) }, { $set: { name, ingredients, preparation, userId: ObjectId(userId) } });
+  .updateOne({ _id: ObjectId(id) }, 
+  { $set: { name, ingredients, preparation, userId: ObjectId(userId) } });
   return { _id: id, ingredients, preparation, userId };
 };
 
