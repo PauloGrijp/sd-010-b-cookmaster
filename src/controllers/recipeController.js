@@ -49,7 +49,7 @@ const updateRecipe = async (req, res) => {
     id,
     userId,
   };
-
+  console.log(objectHelper);
   const recipe = await recipeModel.update(objectHelper);
   return res.status(status.OK).json(recipe);
 };

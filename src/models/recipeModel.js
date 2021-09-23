@@ -45,10 +45,10 @@ const getAll = async () => {
 const update = async ({ name, ingredients, preparation, id, userId }) => {
   if (!ObjectId.isValid(id)) { return null; }
   const db = await connectionDB.connect();
-  await db.collection('products')
+  await db.collection('recipes')
   .updateOne({ _id: ObjectId(id) }, 
   { $set: { name, ingredients, preparation, userId: ObjectId(userId) } });
-  return { _id: id, ingredients, preparation, userId };
+  return { _id: id, name, ingredients, preparation, userId };
 };
 
 module.exports = { add, getAll, getId, update };
