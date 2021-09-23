@@ -11,6 +11,7 @@ const {
   } = require('../services/recipesService');
 
 router.post('/', recipeFields, validateToken, recipesController.recipeRegistration); 
+router.get('/', recipesController.findAllRecipes); 
 
 // app.use((err, req, res, _next) => 
 // res.status(500).send(`Algo deu errado! Mensagem: ${err.message}`));

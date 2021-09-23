@@ -20,6 +20,14 @@ const recipeRegistration = async (req, res) => {
    return res.status(STATUS_OK.Created).json({ recipe: recipeCreated });
 };
 
+const findAllRecipes = async (req, res) => {
+    // Campos da Receita!
+    const allRecipes = await recipeModel.findAllRecipes();
+    
+   return res.status(STATUS_OK.OK).json(allRecipes);
+};
+
 module.exports = {
     recipeRegistration,
+    findAllRecipes,
 };
