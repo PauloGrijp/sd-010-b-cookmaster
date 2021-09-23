@@ -13,4 +13,13 @@ const create = async (req, res) => {
   }
 };
 
-module.exports = { create };
+const AllRecipes = async (req, res) => {
+  const getRecipes = await recipesService.getRecipes();
+
+  return res.status(200).json(getRecipes);
+};
+
+module.exports = {
+  create,
+  AllRecipes,
+};
