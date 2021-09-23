@@ -8,7 +8,7 @@ const upload = multer({ dest: 'src/uploads' });
 const router = express.Router();
 
 // UPLOAD ONE
-router.post('/:id/image', 
+router.put('/:id/image', 
 upload.single('file'), recipeController.addImage);
 
 // READ ONE
