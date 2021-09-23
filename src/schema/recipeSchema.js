@@ -12,6 +12,18 @@ const isRecipe = (searchResult) => {
   return {};
 };
 
+const validId = (idOfUser, userId, role) => {
+  if (role !== 'admin' && idOfUser !== userId) {
+    return {
+      status: code.HTTP_UNAUTHORIZED,
+      notification: { message: error.noAuthentication },
+    };
+  }
+
+  return {};
+};
+
 module.exports = {
   isRecipe,
+  validId,
 };

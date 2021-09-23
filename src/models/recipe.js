@@ -24,8 +24,19 @@ const getRecipeById = async (id) => {
   return recipe;
 };
 
+const updateRecipe = async (query, id) => {
+  const connect = await getConnection();
+  const update = await connect.collection(RECIPES_DOCUMENTS).findOneAndUpdate(
+    { _id: ObjectId(id) },
+    { $set: query },
+  );
+
+  return update;
+};
+
 module.exports = {
   createRecipe,
   getRecipes,
   getRecipeById,
+  updateRecipe,
 };

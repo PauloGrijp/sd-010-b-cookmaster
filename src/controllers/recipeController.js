@@ -36,8 +36,23 @@ const getRecipeById = async (req, res) => {
   }
 };
 
+const updateRecipe = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const query = req.body;
+    const { _id, role } = req.user;
+
+    const { status, notification } = await recipeService.updateRecipe(query, id, _id, role);
+  
+    return res.status(status).json(notification);
+  } catch (e) {
+    return res.status(code.HTTP_INTERNAL_SERVER_ERROR).json({ message: error.unexpectedError });
+  }
+};
+
 module.exports = {
   createRecipe,
   getRecipes,
   getRecipeById,
+  updateRecipe,
 };

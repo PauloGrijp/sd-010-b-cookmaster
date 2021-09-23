@@ -1,5 +1,5 @@
 const { ObjectId } = require('mongodb');
-const { recipeModal } = require('../models');
+const { recipeModel } = require('../models');
 const { code, verifyRecipe, error } = require('../schema');
 
 const createRecipe = async (recipe, payload) => {
@@ -13,7 +13,7 @@ const createRecipe = async (recipe, payload) => {
     userId: _id,
   };
 
-  const recipeCreated = await recipeModal.createRecipe(newRecipe);
+  const recipeCreated = await recipeModel.createRecipe(newRecipe);
   const result = {
     status: code.HTTP_CREATED,
     notification: {
@@ -25,7 +25,7 @@ const createRecipe = async (recipe, payload) => {
 };
 
 const getRecipes = async () => {
-  const allRecipes = await recipeModal.getRecipes();
+  const allRecipes = await recipeModel.getRecipes();
 
   const result = {
     status: code.HTTP_OK_STATUS,
@@ -43,7 +43,7 @@ const getRecipeById = async (id) => {
     };
   }
 
-  const recipe = await recipeModal.getRecipeById(id);
+  const recipe = await recipeModel.getRecipeById(id);
   const validation = verifyRecipe.isRecipe(recipe);
 
   if (validation.notification) return validation;
@@ -56,8 +56,32 @@ const getRecipeById = async (id) => {
   return result;
 };
 
+const updateRecipe = async (update, id, idOfUser, role) => {
+  if (!ObjectId.isValid(id)) {
+    return {
+      status: code.HTTP_NOT_FOUND,
+      notification: { message: error.notFound },
+    };
+  }
+
+  const { userId, _id } = await recipeModel.getRecipeById(id);
+  const validation = verifyRecipe.validId(idOfUser, userId, role);
+
+  if (validation.notification) return validation;
+
+  await recipeModel.updateRecipe(update, id);
+
+  const result = {
+    status: code.HTTP_OK_STATUS,
+    notification: { _id, ...update, userId },
+  };
+  
+  return result;
+};
+
 module.exports = {
   createRecipe,
   getRecipes,
   getRecipeById,
+  updateRecipe,
 };

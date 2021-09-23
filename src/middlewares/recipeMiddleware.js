@@ -10,6 +10,17 @@ const checkInformations = (req, res, next) => {
   next();
 };
 
+const checkAuthentication = (req, res, next) => {
+  const token = req.headers.authorization;
+
+  if (!token) {
+    return res.status(code.HTTP_UNAUTHORIZED).json({ message: error.noAuthentication });
+  }
+
+  next();
+};
+
 module.exports = {
   checkInformations,
+  checkAuthentication,
 };
