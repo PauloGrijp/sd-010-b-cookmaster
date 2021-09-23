@@ -9,7 +9,7 @@ const router = express.Router();
 
 // UPLOAD ONE
 router.put('/:id/image', 
-upload.single('file'), recipeController.addImage);
+upload.single('image'), recipeController.addImage);
 
 // READ ONE
 router.get('/:id', 
