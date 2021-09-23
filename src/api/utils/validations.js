@@ -36,8 +36,9 @@ const loginEmailPassword = (email, password) => {
 
 const loginConfirmUser = async (email, password) => {
   const response = await modelUser.getByEmail(email);
+  if (!response) throw err(LOGIN_INCORRECT);
   const confirm = response.password === password;
-  if (!response || !confirm) throw err(LOGIN_INCORRECT);
+  if (!confirm) throw err(LOGIN_INCORRECT);
 };
 
 module.exports = {
