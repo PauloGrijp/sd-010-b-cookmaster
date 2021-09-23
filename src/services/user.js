@@ -33,7 +33,14 @@ const login = async (email, password) => {
   return userWithoutPassword(user);
 };
 
+const createAdminUser = async (name, email, password, role) => {
+  const user = await userModel.createAdminUser(name, email, password, role);
+
+  return userWithoutPassword(user);
+};
+
 module.exports = {
   createUser,
   login,
+  createAdminUser,
 };

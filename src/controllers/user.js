@@ -29,7 +29,24 @@ const login = async (req, res) => {
   return res.status(codes.ok).json({ token });
 };
 
+const createAdminUser = async (req, res) => {
+  const { user: { role } } = req.body;
+
+  if (role !== 'admin') {
+    return res.status(codes.forbidden).json({
+      message: 'Only admins can register new admins',
+    });
+  }
+
+  const { name, email, password } = req.body;
+
+  const user = await userService.createAdminUser(name, email, password, role);
+  console.log(user);
+  return res.status(codes.created).json(user);
+};
+
 module.exports = {
   createUser,
   login,
+  createAdminUser,
 };
