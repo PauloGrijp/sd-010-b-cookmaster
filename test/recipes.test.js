@@ -779,7 +779,7 @@ describe('7 - Crie um endpoint para a edição de uma receita', () => {
   });
 });
 
-describe.only('8 - Crie um endpoint para a exclusão de uma receita', () => {
+describe('8 - Crie um endpoint para a exclusão de uma receita', () => {
   let connection;
   let db;
 
@@ -967,7 +967,7 @@ describe.only('8 - Crie um endpoint para a exclusão de uma receita', () => {
   });
 });
 
-describe('9 - Crie um endpoint para a adição de uma imagem a uma receita', () => {
+describe.only('9 - Crie um endpoint para a adição de uma imagem a uma receita', () => {
   let connection;
   let db;
 
@@ -1045,7 +1045,7 @@ describe('9 - Crie um endpoint para a adição de uma imagem a uma receita', () 
             resultRecipes = JSON.parse(body);
           });
       });
-
+    console.log(resultRecipes.recipe._id)
     await frisby
       .setup({
         request: {
