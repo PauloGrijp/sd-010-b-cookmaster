@@ -42,6 +42,7 @@ const getRecipeById = async (id) => {
 };
 
 const updateRecipe = async ({ name, ingredients, preparation, id }) => {
+  console.log(name, ingredients, preparation, id, 'parametros update');
   const checkId = await ObjectId.isValid(id);
   if (!checkId) {
     return {

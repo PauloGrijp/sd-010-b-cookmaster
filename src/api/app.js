@@ -28,11 +28,11 @@ app.get('/', (_req, res) => {
   res.send();
 });
 // Não remover esse end-point, ele é necessário para o avaliador
-app.post('/users', UserController.createUser);
 app.post('/login', LoginController.findUser);
-app.post('recipes/:id', () => {});
-app.post('/recipes', validationJWT, RecipeController.createRecipe);
+app.post('/users', UserController.createUser);
 app.get('/recipes/:id', RecipeController.getRecipeById);
+app.put('/recipes/:id', validationJWT, RecipeController.updateRecipe);
+app.post('/recipes', validationJWT, RecipeController.createRecipe);
 app.get('/recipes', RecipeController.getAllRecipes);
 
 module.exports = app;
