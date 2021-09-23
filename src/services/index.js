@@ -1,3 +1,4 @@
-const { postUsers } = require('./postUsersService');
+const { postUsers } = require('./users');
+const { checkEmailPassword } = require('./login');
 
-module.exports = { postUsers };
+module.exports = { postUsers, checkEmailPassword };
