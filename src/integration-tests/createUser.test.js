@@ -32,9 +32,9 @@ describe('POST/users', () => {
       });
     });
 
-    it('testa se resposta vem com o status correto', () => 
-      expect(response).to.have.status(201)
-    );
+    it('testa se resposta vem com o status correto', () => {
+      expect(response).to.have.status(201);
+    });
 
     it('testa se resposta vem como um objeto', () => {
       expect(response.body).to.be.an('object');
@@ -62,11 +62,11 @@ describe('POST/users', () => {
         email: "erickjaquino@gmail.com",
         password: "12345678",
       });
+      // console.log(response);
     });
-    console.log(response);
-    it('testa se resposta vem com o status correto', () => 
-      expect(response).to.have.status(400)
-    );
+    it('testa se resposta vem com status correto', () => {
+      expect(response).to.have.status(400);
+    });
 
     it('testa se resposta vem como um objeto', () => {
       expect(response.body).to.be.an('object');
