@@ -1,12 +1,16 @@
 const LoginModel = require('../models/loginModel');
 
+const invalidEmail = { code: 401, message: 'Incorrect username or password' };
+
 const findUser = async (login) => {
   const { email, password } = login;
-  const userFound = await LoginModel.findUser(email);
+  const emailFound = await LoginModel.findUser(email);
+  console.log(emailFound);
 
-  if (!userFound || userFound.password !== password) return null;
+  if (!emailFound) return invalidEmail;
+  // if (!userFound || userFound.password !== password) return null;
 
-  return userFound;
+  return emailFound;
 };
 
 module.exports = {

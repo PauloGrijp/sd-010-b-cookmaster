@@ -9,9 +9,11 @@ const jwtConfig = {
 
 const logUser = async (req, res) => {
   const { email, password } = req.body;
-  const userLogin = await LoginService.findUser({ email, password });
+  const { code, message } = await LoginService.findUser({ email, password });
 
-  const token = jwt.sign({ data: userLogin.email }, secret, jwtConfig);
+  if (code) return res.status(code).json({ message });
+
+  const token = jwt.sign({ data: email }, secret, jwtConfig);
   res.status(200).json({ token });
 };
 

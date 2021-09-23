@@ -6,7 +6,7 @@ const findUser = async (email) => {
   const db = await connection();
   const userFound = await db.collection(USERS).findOne({ email });
 
-  if (!userFound) return null;
+  if (!userFound) return false;
 
   return userFound;
 };
