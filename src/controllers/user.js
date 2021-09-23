@@ -1,8 +1,9 @@
 const express = require('express');
 const rescue = require('express-rescue');
-const { jwtSetup, jwtCheckEmailPassword } = require('../middlewares/jwtMIddleware');
-const { toLogItIn, checkEmailAddress } = require('../middlewares/validLogin');
+const { jwtSetup, jwtCheckEmailPassword } = require('../services/jwtServices');
+const { toLogItIn, checkEmailAddress } = require('../services/loginServices');
 const { createUser } = require('../models/user');
+const { isJWTvalid, recipesFillersCheck } = require('../middlewares/jwtValidate');
 
 const router = express.Router();
 
@@ -21,5 +22,9 @@ return res.status(201).json({ user: { name, email, role, _id } });
 router.post('/login',
 jwtCheckEmailPassword,
 jwtSetup);
+
+router.post('/recipes',
+recipesFillersCheck,
+isJWTvalid);
 
 module.exports = router;

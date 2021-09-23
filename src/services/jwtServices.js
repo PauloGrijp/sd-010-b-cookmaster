@@ -5,7 +5,7 @@ const { findUser } = require('../models/user');
 const secret = 'secretdetoken';
 
 const jwtConfig = {
-    expiresIn: '7d',
+    expiresIn: '1d',
     algorithm: 'HS256',
 };
 
