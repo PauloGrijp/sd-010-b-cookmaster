@@ -15,6 +15,7 @@ const getById = async (id) => {
     const recipe = await recipesById(id);
 
     if (!recipe) return { error: { message: 'recipe not found' } };
+    console.log('oi');
 
     return recipe;
 };
