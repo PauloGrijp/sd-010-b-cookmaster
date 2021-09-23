@@ -67,9 +67,21 @@ const deleteRecipe = async (id) => {
   return recipe;
 };
 
+const uploadImage = async (id, image) => {
+  const recipe = await recipeModel.uploadImage(id, image);
+  if (!recipe) {
+    return {
+      status: 404,
+      message: 'recipe not found',
+    };
+  }
+  return recipe;
+};
+
 module.exports = {
   createRecipe,
   getRecipeById,
   updateRecipe,
   deleteRecipe,
+  uploadImage,
 };
