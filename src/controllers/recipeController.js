@@ -35,13 +35,13 @@ const validateJWT = require('../middlewares/validateJWT');
 	return res.status(statusCode.OK).json(recipe);
 });
 
-const update = async (req, res) => {
+/* const update =  */router.put('/recipes/:id', validateJWT, async (req, res) => {
 	const { name, ingredients, preparation } = req.body;
 	const { id } = req.params;
 	const { _id } = await recipesModel.getById(id);
 	await recipesModel.update({ id, name, ingredients, preparation });
 	return res.status(statusCode.OK).json({ _id: id, name, ingredients, preparation, userId: _id });
-};
+}); 
 
 const exclude = async (req, res) => {
 	const { id } = req.params;
