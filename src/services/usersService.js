@@ -40,7 +40,7 @@ const registerNewUser = async (info) => {
   if (error) return invalidEntriesError;
   if (emailNotIsValid) return emailNotIsValid; 
   if (emailAlreadyExists) return emailAlreadyExists;
-  return usersModel.registerNewUser(info);  
+  return usersModel.registerNewUser(info); 
 };
 
 module.exports = {
