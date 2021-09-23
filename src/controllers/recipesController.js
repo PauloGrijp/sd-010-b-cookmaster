@@ -1,6 +1,5 @@
 const rescue = require('express-rescue');
 const recipesService = require('../services/recipesService');
-const recipesModel = require('../models/recipesModel');
 
 const create = async (req, res) => {
   const { name, ingredients, preparation } = req.body;
