@@ -29,6 +29,7 @@ app.get('/', (request, response) => {
 app.post('/users', userController.createUser);
 app.post('/login', userController.login);
 
+app.use('/images', express.static('src/uploads'));
 app.get('/recipes/:id', recipesController.getByIdRecipes);
 app.get('/recipes', recipesController.getAllRecipes);
 app.put('/recipes/:id', recipesController.updateByIdRecipes);

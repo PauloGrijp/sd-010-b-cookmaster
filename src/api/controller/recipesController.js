@@ -1,5 +1,7 @@
 const recipesService = require('../service/recipesService');
 
+const RECIPE_NOT_FOUND = 'recipe not found';
+
 const createRecipes = async (req, res) => {
   const token = req.headers.authorization;
   const { body } = req;
@@ -28,7 +30,7 @@ const getByIdRecipes = async (req, res) => {
   const recipes = await recipesService.getByIdRecipes(id);
 
   if (!recipes) {
-    return res.status(404).json({ message: 'recipe not found' });
+    return res.status(404).json({ message: RECIPE_NOT_FOUND });
   }
 
   res.status(200).json(recipes);
@@ -50,7 +52,7 @@ const updateByIdRecipes = async (req, res) => {
   }
   
   if (!recipes) {
-    return res.status(404).json({ message: 'recipe not found' });
+    return res.status(404).json({ message: RECIPE_NOT_FOUND });
   }
   
   res.status(200).json(recipes);
@@ -71,7 +73,7 @@ const deleteByIdRecipes = async (req, res) => {
   }
   
   if (!recipes) {
-    return res.status(404).json({ message: 'recipe not found' });
+    return res.status(404).json({ message: RECIPE_NOT_FOUND });
   }
   
   res.status(204).json(recipes);
@@ -93,7 +95,7 @@ const createImageRecipe = async (req, res) => {
   }
   
   if (!recipes) {
-    return res.status(404).json({ message: 'recipe not found' });
+    return res.status(404).json({ message: RECIPE_NOT_FOUND });
   }
   
   res.status(200).json(recipes);

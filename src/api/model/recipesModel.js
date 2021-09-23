@@ -33,6 +33,7 @@ const getByIdRecipes = async (id) => {
   const query = { _id: ObjectId(id) };
 
   const result = await recipes.findOne(query);
+
   return result;
 };
 
