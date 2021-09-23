@@ -1,6 +1,6 @@
 const express = require('express');
-const routers = require('../routers');
-const middlewares = require('../middlewares');
+const router = require('../router');
+const { errorMiddleware } = require('../middlewares');
 
 const app = express();
 
@@ -12,9 +12,8 @@ app.get('/', (request, response) => {
 });
 // Não remover esse end-point, ele é necessário para o avaliador
 
-app.use('/users', routers.users);
-// app.use('/users', routers.recipes);
+app.use('/', router);
 
-app.use(middlewares.errorMiddleware);
+app.use(errorMiddleware);
 
 module.exports = app;
