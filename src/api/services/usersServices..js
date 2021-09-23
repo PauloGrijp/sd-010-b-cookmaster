@@ -1,35 +1,26 @@
 const userModel = require('../models/usersModel');
 
+const BAD_REQUEST = {
+  status: 400,
+  message: 'Invalid entries. Try again.',
+};
+
+const BAD_CONFLICT = {
+  status: 409,
+  message: 'Email already registered',
+};
+
 const validUserName = (name) => {
-  const lengtnname = name.length;
-  if (!name || lengtnname < 2) {
-     const BAD_NAME = {
-      status: 400,
-      message: 'Invalid entries. Try again.',
-    };
-  throw BAD_NAME;
-  }
+  if (!name) throw BAD_REQUEST;
 };
 
 const validUserEmail = (email) => {
   const isEmailValid = new RegExp(/\w+@[a-zA-Z]+\.[a-zA-Z]{2,3}/).test(email);
-  if (!isEmailValid) {
-    const BAD_EMAIL = {
-      status: 400,
-      message: 'Invalid entries. Try again.',
-    };
-  throw BAD_EMAIL;
-  }
+  if (!isEmailValid) throw BAD_REQUEST;
 };
 
 const validUserPassWord = (password) => {
-  if (!password) {
-    const BAD_PASSWORD = {
-      status: 400,
-      message: 'Invalid entries. Try again.',
-    };
-  throw BAD_PASSWORD;
-  }
+  if (!password) throw BAD_REQUEST;
 };
 
 const emailExists = async (email) => {
@@ -42,17 +33,11 @@ const addUser = async (name, email, password) => {
   validUserEmail(email);
   validUserPassWord(password);
   const emailExist = await emailExists(email);
-    if (emailExist) {
-      const BAD_EMAIL = {
-        status: 409,
-        message: 'Email already registeres',
-      };
-    throw BAD_EMAIL;
-    }
+    if (emailExist) throw BAD_CONFLICT;
 
-   const result = await userModel.addUser(name, email, password);
-   delete result.user.password;
-   return result;
+  const result = await userModel.addUser(name, email, password);
+  delete result.user.password;
+    return result;
 };
 
 const userByAll = async () => {
