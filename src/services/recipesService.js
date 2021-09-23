@@ -30,4 +30,13 @@ const created = async (name, ingredients, preparation, userId) => {
   return recipesModel.create(name, ingredients, preparation, userId);
 };
 
-module.exports = { created };
+const getRecipes = async () => {
+  const recipes = await recipesModel.getAll();
+  if (!recipes) return null;
+  return recipes;
+};
+
+module.exports = {
+  created,
+  getRecipes,
+};
