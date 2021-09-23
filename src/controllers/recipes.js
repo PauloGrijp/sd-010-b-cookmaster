@@ -12,7 +12,7 @@ const createRecipe = async (req, res) => {
   return res.status(codes.created).json({ recipe });
 };
 
-const getRecipes = async (req, res) => {
+const getRecipes = async (_req, res) => {
   const recipes = await recipesService.getRecipes();
 
   return res.status(codes.ok).json(recipes);
@@ -51,10 +51,20 @@ const deleteRecipe = async (req, res) => {
   return res.status(codes.noContent).json();
 };
 
+const uploadImage = async (req, res) => {
+  const { filename, path } = req.file;
+  const id = filename.split('.')[0];
+
+  const recipe = await recipesService.uploadImage(id, path);
+
+  return res.status(200).json(recipe);
+};
+
 module.exports = {
   createRecipe,
   getRecipes,
   getRecipeById,
   editRecipe,
   deleteRecipe,
+  uploadImage,
 };

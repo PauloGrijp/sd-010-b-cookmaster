@@ -48,10 +48,18 @@ const deleteRecipe = async (recipeId, userId) => {
   return null;
 };
 
+const uploadImage = async (id, path) => {
+  const completePath = `localhost:3000/${path}`;
+  const recipe = await recipesModel.uploadImage(id, completePath);
+
+  return recipe;
+};
+
 module.exports = {
   createRecipe,
   getRecipes,
   getRecipeById,
   editRecipe,
   deleteRecipe,
+  uploadImage,
 };
