@@ -34,7 +34,7 @@ const deleteById = rescue(async (req, res) => {
   const { id } = req.params;
   const { userId, role } = req;
   const reqData = { id, userId, role };
-  await recipesModel.deleteById(reqData);
+  await recipesService.deleteById(reqData);
   res.status(204).send();
 });
 
