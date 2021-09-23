@@ -4,7 +4,7 @@ const sinon = require("sinon");
 const { MongoClient, ObjectId } = require("mongodb");
 const { MongoMemoryServer } = require("mongodb-memory-server");
 
-const server = require("../api/app.js");
+const server = require("../../api/app.js");
 
 chai.use(chaiHttp);
 

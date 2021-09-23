@@ -4,7 +4,7 @@ const sinon = require("sinon");
 const { MongoClient, ObjectId } = require("mongodb");
 const { MongoMemoryServer } = require("mongodb-memory-server");
 
-const server = require("../api/app.js");
+const server = require("../../api/app.js");
 
 chai.use(chaiHttp);
 
@@ -15,28 +15,26 @@ describe("2 - Logando usuário:", () => {
     let response = {};
     const DBServer = new MongoMemoryServer();
     const FIELDS_REQUIRED = "All fields must be filled";
-
+    
     before(async () => {
       const URLMock = await DBServer.getUri();
       const connectionMock = await MongoClient.connect(URLMock, {
         useNewUrlParser: true,
         useUnifiedTopology: true,
       });
-
+      
       sinon.stub(MongoClient, "connect").resolves(connectionMock);
-    });
 
-    after(async () => {
-      MongoClient.connect.restore();
-      await DBServer.stop();
-    });
-
-    beforeEach(async () => {
       await chai.request(server).post("/users").send({
         name: "Erick Jacquin",
         email: "erickjaquin@gmail.com",
         password: "12345678",
       });
+    });
+
+    after(async () => {
+      MongoClient.connect.restore();
+      await DBServer.stop();
     });
 
     it("sem email;", async () => {
@@ -76,7 +74,10 @@ describe("2 - Logando usuário:", () => {
       });
 
       expect(response).to.have.status(401);
-      expect(response.body).to.have.property("message", "Incorrect username or password");
+      expect(response.body).to.have.property(
+        "message",
+        "Incorrect username or password"
+      );
     });
 
     it("senha incorreta;", async () => {
@@ -86,14 +87,16 @@ describe("2 - Logando usuário:", () => {
       });
 
       expect(response).to.have.status(401);
-      expect(response.body).to.have.property("message", "Incorrect username or password");
+      expect(response.body).to.have.property(
+        "message",
+        "Incorrect username or password"
+      );
     });
   });
 
   describe("b - Quando é possível logar", () => {
     let response = {};
     const DBServer = new MongoMemoryServer();
-    const FIELDS_REQUIRED = "All fields must be filled";
 
     before(async () => {
       const URLMock = await DBServer.getUri();
@@ -103,20 +106,17 @@ describe("2 - Logando usuário:", () => {
       });
 
       sinon.stub(MongoClient, "connect").resolves(connectionMock);
-      
-    });
 
-    after(async () => {
-      MongoClient.connect.restore();
-      await DBServer.stop();
-    });
-
-    beforeEach(async () => {
       await chai.request(server).post("/users").send({
         name: "Erick Jacquin",
         email: "erickjaquin@gmail.com",
         password: "12345678",
       });
+    });
+
+    after(async () => {
+      MongoClient.connect.restore();
+      await DBServer.stop();
     });
 
     it("Verifica se retorna um token;", async () => {
