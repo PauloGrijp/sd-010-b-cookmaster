@@ -11,7 +11,7 @@ chai.use(chaiHttp);
 const { expect } = chai;
 
 describe("2 - Logando usuário:", () => {
-  describe("a - Quando não é possível logar", () => {
+  describe("a - Dados inválidos", () => {
     let response = {};
     const DBServer = new MongoMemoryServer();
     const FIELDS_REQUIRED = "All fields must be filled";
@@ -94,7 +94,7 @@ describe("2 - Logando usuário:", () => {
     });
   });
 
-  describe("b - Quando é possível logar", () => {
+  describe("b - Dados válidos", () => {
     let response = {};
     const DBServer = new MongoMemoryServer();
 

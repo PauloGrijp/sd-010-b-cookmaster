@@ -11,7 +11,7 @@ chai.use(chaiHttp);
 const { expect } = chai;
 
 describe("1 - Criando receita:", () => {
-  describe("a - Quando não é criado com sucesso", () => {
+  describe("a - Dados inválidos", () => {
     let token = "";
     let response = {};
     const DBServer = new MongoMemoryServer();
@@ -95,7 +95,7 @@ describe("1 - Criando receita:", () => {
     });
   });
 
-  describe("b - Quando é criado com sucesso:", () => {
+  describe("b - Dados válidos", () => {
     let token = "";
     let response = {};
     const DBServer = new MongoMemoryServer();
@@ -115,9 +115,7 @@ describe("1 - Criando receita:", () => {
         email: "erickjaquin@gmail.com",
         password: "123456",
       });
-    });
 
-    beforeEach(async () => {
       token = await chai
         .request(server)
         .post("/login")

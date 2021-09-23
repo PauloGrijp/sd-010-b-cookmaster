@@ -11,7 +11,7 @@ chai.use(chaiHttp);
 const { expect } = chai;
 
 describe("1 - Criando usuário:", () => {
-  describe("a - Quando não é criado com sucesso", () => {
+  describe("a - Dados inválidos", () => {
     let response = {};
     const DBServer = new MongoMemoryServer();
     const INVALID_ENTRIES = "Invalid entries. Try again.";
@@ -94,7 +94,7 @@ describe("1 - Criando usuário:", () => {
     });
   });
 
-  describe("b - Quando é criado com sucesso:", () => {
+  describe("b - Dados válidos", () => {
     let response = {};
     const DBServer = new MongoMemoryServer();
     const SEND_USER = {
