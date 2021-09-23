@@ -45,4 +45,12 @@ const exclude = async (req, res) => {
 	return res.status(statusCode.NO_CONTENT).json();
 };
 
-module.exports = { create, getAll, getById, update, exclude };
+/* const updateImage = async (req, res) => {
+  const { id } = req.params;
+  const { file } = req.file;
+  // const recipeId = await recipesModel.getById(id);
+  await recipesModel.updateImage(id, file);
+
+}; */
+
+module.exports = { create, getAll, getById, update, exclude/* , updateImage */ };
