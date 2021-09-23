@@ -8,6 +8,7 @@ const {
   allRecipes, 
   recipeById,
   editRecipe,
+  deleteRecipe,
 } = require('./routes');
 
 const { 
@@ -32,7 +33,8 @@ apiRoutes.post('/users', userValidation, validateEmail, createUsers)
           .post('/recipes', dataValidation, validateJWT, createRecipes)
           .get('/recipes', allRecipes)
           .get('/recipes/:id', isValidRecipe, recipeById)
-          .put('/recipes/:id', validateJWT, isValidRecipe, editRecipe);
+          .put('/recipes/:id', validateJWT, isValidRecipe, editRecipe)
+          .delete('/recipes/:id', validateJWT, deleteRecipe);
 
 app.use(apiRoutes);
 // Não remover esse end-point, ele é necessário para o avaliador
