@@ -38,4 +38,20 @@ const validateEntries = async (req, res, next) => {
   return res.status(status.BAD_REQUEST).json({ message: valid });
 };
 
-module.exports = { createRecipe, validateEntries, getAllRecipe, getId };
+const updateRecipe = async (req, res) => {
+  const userId = req.user.id;
+  const { id } = req.params;
+  const { name, ingredients, preparation } = req.body;
+  const objectHelper = {
+    name,
+    ingredients, 
+    preparation,
+    id,
+    userId,
+  };
+
+  const recipe = await recipeModel.update(objectHelper);
+  return res.status(status.OK).json(recipe);
+};
+
+module.exports = { createRecipe, validateEntries, getAllRecipe, getId, updateRecipe };
