@@ -19,7 +19,19 @@ const AllRecipes = async (req, res) => {
   return res.status(200).json(getRecipes);
 };
 
+const getRecipe = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const recipe = await recipesService.validateId(id);
+    return res.status(200).json(recipe);
+  } catch (error) {
+    const { err: { code, message } } = error;
+    return res.status(code).json({ message });
+  }
+};
+
 module.exports = {
   create,
   AllRecipes,
+  getRecipe,
 };
