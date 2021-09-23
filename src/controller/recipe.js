@@ -1,5 +1,16 @@
 const express = require('express');
 const { ObjectId } = require('mongodb');
+const multer = require('multer');
+
+const storage = multer.diskStorage({
+  destination: (req, file, callback) => {
+    callback(null, 'src/uploads');
+  },
+  filename: (req, file, callback) => {
+    callback(null, `${req.params.id}.jpeg`);
+  },
+});
+const upload = multer({ storage });
 
 const {
   verifyRecipeBody,
@@ -13,11 +24,22 @@ const {
   editRecipe,
   getIdByEmail,
   deleteRecipe,
+  insertImage,
 } = require('../service/recipeService');
 
 const httpStatus = require('./httpStatus');
 
 const route = express.Router();
+
+route.put('/:id/image/',
+  verifyToken,
+  upload.single('image'),
+  async (req, res) => {
+    const { id } = req.params;
+    const insertedImage = await insertImage(id);
+    console.log(insertedImage);
+    res.status(httpStatus.ok).json(insertedImage);
+});
 
 route.delete('/:id',
   verifyToken,
