@@ -1,4 +1,4 @@
-const { findEmail } = require('../services/users')
+const { findEmail } = require('../services/users');
 
 const verifyEntries = async (req, res, next) => {
     const { name, password, email } = req.body;
