@@ -42,8 +42,7 @@ const putImage = rescue(async (req, res) => {
   const { id } = req.params;
   const { userId, role } = req;
   const image = `localhost:3000/${req.file.path}`;
-  const reqData = { id, userId, role, image };
-  const recipeWithImage = await recipesService.putImage(reqData);
+  const recipeWithImage = await recipesService.update({ id, userId, role }, { image });
   res.status(200).json({ ...recipeWithImage });
 });
 
