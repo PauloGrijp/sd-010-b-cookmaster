@@ -1,8 +1,8 @@
 const express = require('express');
-const path = require('path');
+/* const path = require('path'); */
 const multer = require('multer');
-const FormData = require('form-data');
-const fs = require('fs');
+/* const FormData = require('form-data');
+const fs = require('fs'); */
 
 const router = express.Router();
 const statusCode = require('http-status-codes');
@@ -55,35 +55,36 @@ router.delete('/:id', validateJWT, async (req, res) => {
 
 const storage = multer.diskStorage({
 	destination: (_req, file, callback) => {
-		/* console.log(file); */
 		callback(null, './src/uploads');
 	},
 	filename: (req, file, callback) => {
 		// VALIDAÇÃO AQUI
 		const { id } = req.params;
+		console.log(id, 'id do params do filename');
 		callback(null, `${id}.jpeg`);
 	},
 });
-  const photoFile = path.resolve(__dirname, '..', '/uploads');
+  /* const photoFile = path.resolve(__dirname, '..', '/uploads'); */
   const upload = multer({ storage });
-  const stream = fs.createReadStream(photoFile); 
+ /*  const stream = fs.createReadStream(photoFile);  */
   
-  const formInfo = new FormData();
+  /* const formInfo = new FormData();
   formInfo.append('file', stream);
-  const formHeader = formInfo.getHeaders(); 
+  const formHeader = formInfo.getHeaders();  */
   
 router.put('/:id/image/', validateJWT, upload.single('file'), async (req, res) => {
-	const { id } = req.params;
+	try {
+		const { id } = req.params;
 	const { path: pathFile } = req.file;
-	req.headers = formHeader;
 	const { _id, name, ingredients, preparation } = await recipeService.getById(id);
-	console.log(req.file, 'req de files');
-	/* console.log(req.headers, 'req de headers'); */
-	const { _id: userid } = req.user;
+	const { _id: userId } = req.user;
 	await recipesModel.updateImage(id, `localhost:3000/${pathFile}`);
 	return res.status(200).json(
-		{ _id, name, ingredients, preparation, userid, image: `localhost:3000/${pathFile}` },
+		{ _id, name, ingredients, preparation, userId, image: `localhost:3000/${pathFile}` },
 	);
+	} catch (error) {
+		console.log('message', error.message);
+	}
 });
 
 module.exports = router;
