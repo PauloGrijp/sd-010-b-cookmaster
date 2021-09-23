@@ -8,10 +8,10 @@ const existsEmail = async (email) => {
   return !!(result);
 };
 
-const create = async ({ name, email, password }) => {
+const create = async ({ name, email, password, role = 'user' }) => {
   const db = await connection();
-  const result = await db.collection(users).insertOne({ name, email, password, role: 'user' });
-  const { _id, role } = result.ops[0];
+  const result = await db.collection(users).insertOne({ name, email, password, role });
+  const { _id } = result.ops[0];
   return { _id, email, name, role };
 };
 
