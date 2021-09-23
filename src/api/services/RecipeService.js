@@ -4,6 +4,12 @@ class RecipeService {
     this.authService = authService;
 
     this.insert = this.insert.bind(this);
+    this.getAll = this.getAll.bind(this);
+  }
+
+  async getAll() {
+    const recipeList = await this.model.getAll();
+    return recipeList;
   }
 
   async insert({ recipe, token }) {
@@ -11,7 +17,6 @@ class RecipeService {
     const { _id } = payload;
 
     const res = await this.model.insert(recipe);
-    console.log(res, _id);
     res.userId = _id;
     return res;
   }

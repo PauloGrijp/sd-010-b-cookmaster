@@ -4,6 +4,7 @@ const statusCode = {
   OK: '200',
   CREATED: '201',
   UNAUTHORIZED: '401',
+  UNKNOWN: '500',
 };
 
 module.exports = statusCode;

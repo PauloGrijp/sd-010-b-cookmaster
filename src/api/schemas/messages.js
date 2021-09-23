@@ -4,6 +4,7 @@ const messages = {
   EMAIL_PASSWORD_REQUIRED: 'All fields must be filled',
   INCORRECT_CREDENTIALS: 'Incorrect username or password', 
   JWT_MALFORMED: 'jwt malformed', 
+  DB_FAILURE: 'database failed to load resource',
 };
 
 module.exports = messages;
