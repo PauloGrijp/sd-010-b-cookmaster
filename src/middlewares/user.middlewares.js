@@ -54,7 +54,7 @@ const EmailValidationLogin = async (req, res, next) => {
 const PasswordValidationLogin = async (req, res, next) => {
     const { password } = req.body;
 
-    if (!password || password.length < 6) {
+    if (!password) {
         return res.status(401).json({ message: loginError });
     }
     next();

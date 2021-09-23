@@ -3,16 +3,15 @@ const connection = require('./connection');
 
 const SECRETKEY = '123456789';
 
-const newUsers = async (name, email, password) => {
+const newUsers = async (name, email, password, role = 'user') => {
     const db = await connection();
 
-    const user = await db.collection('users').insertOne({ name, email, password, role: 'user' });
-    // console.log(user);
-    const { _id, role } = user.ops[0];
+    const user = await db.collection('users').insertOne({ name, email, password, role });
+   
+     const { _id } = user.ops[0];
 
-    return { name, email, role, _id };
-
-    // return user.ops[0];
+     return { name, email, role, _id };
+    // return { _id: user.insertedId, name, email, role };
 };
 
 const login = async (email, password) => {
