@@ -1,4 +1,5 @@
-const { addNewRecipe, getRecipe, getRecipeById, deletedRecipe } = require('../services/recipeService');
+const { addNewRecipe, getRecipe, 
+  getRecipeById, deletedRecipe } = require('../services/recipeService');
 
 const createRecipe = async (req, res) => {
   const { name, ingredients, preparation } = req.body;
