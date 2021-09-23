@@ -1,4 +1,6 @@
 const jwt = require('jsonwebtoken');
+const { ObjectId } = require('mongodb');
+
 const RecipeModel = require('../models/recipes');
 const UserModel = require('../models/users');
 
@@ -6,6 +8,7 @@ const { secret } = require('../controllers/login');
 
 const err = {
   malformed: { err: { message: 'jwt malformed' } },
+  notFound: { err: { message: 'recipe not found' } },
 };
 
 const validateRecipe = ({ name, preparation, ingredients }) => {
@@ -30,6 +33,8 @@ const validateToken = async (token) => {
   }
 };
 
+const validateId = (id) => (ObjectId.isValid(id));
+
 // crud
 
 const create = async (recipe, authorization) => {
@@ -53,7 +58,17 @@ const getAllRecipes = async () => {
   return recipes;
 };
 
+const getRecipeById = async (id) => {
+  if (!validateId(id)) return err.notFound;
+
+  const recipe = await RecipeModel.getRecipeById(id);
+  if (!recipe) return err.notFound;
+  console.log(recipe, 'service');
+  return recipe;
+};
+
 module.exports = {
   create,
   getAllRecipes,
+  getRecipeById,
 };
