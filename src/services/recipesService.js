@@ -55,8 +55,15 @@ const validateId = async (id) => {
   return recipe;
 };
 
+const validateUpdate = async (id, body, userId) => {
+  const updateRecipe = await recipesModel.updateRecipe(id, body, userId);
+
+  return updateRecipe;
+};
+
 module.exports = {
   created,
   getRecipes,
   validateId,
+  validateUpdate,
 };

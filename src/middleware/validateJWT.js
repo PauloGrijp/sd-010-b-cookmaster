@@ -7,7 +7,7 @@ const validateJWT = async (req, res, next) => {
   const token = req.headers.authorization;
 
   if (!token) {
-    res.status(401).json({ message: 'jwt malformed' });
+    res.status(401).json({ message: 'missing auth token' });
   }
 
   try {
@@ -15,7 +15,7 @@ const validateJWT = async (req, res, next) => {
     const user = await getByEmail(payload.email);
 
     if (!user) {
-      return res.status(401).json({ message: 'Erro ao procurar token do usuário' });
+      return res.status(401).json({ message: 'jwt malformed' });
     }
     req.user = user;
 
