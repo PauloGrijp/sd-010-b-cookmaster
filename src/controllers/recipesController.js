@@ -8,10 +8,10 @@ const create = rescue(async (req, res) => {
   res.status(201).json({ recipe });
 });
 
-const getAll = async (req, res) => {
-  const recipes = await recipesModel.getAll();
+const getAll = rescue(async (req, res) => {
+  const recipes = await recipesService.getAll();
   res.status(200).json(recipes);
-};
+});
 
 const getById = rescue(async (req, res) => {
   const { id } = req.params;
