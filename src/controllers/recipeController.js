@@ -26,14 +26,14 @@ const validateJWT = require('../middlewares/validateJWT');
 	return res.status(statusCode.OK).json(recipeList);
 });
 
-/* const getById =  */async (req, res) => {
+/* const getById =  */ router.get('/recipes/:id', async (req, res) => {
 	const { id } = req.params;
 	const recipe = await recipeService.getById(id);
 	if (recipe.message) {
 		return res.status(statusCode.NOT_FOUND).json({ message: recipe.message });
 	}
 	return res.status(statusCode.OK).json(recipe);
-};
+});
 
 const update = async (req, res) => {
 	const { name, ingredients, preparation } = req.body;
