@@ -17,7 +17,7 @@ const ifFieldsExists = (recipe) => {
   return true;
 };
 
-const ifIdMongoIsValid = (id) => {
+const ifMongoIdIsValid = (id) => {
   if (!ObjectID.isValid(id)) {
     return {
       codeError: NOT_FOUND,
@@ -30,5 +30,5 @@ const ifIdMongoIsValid = (id) => {
 
 module.exports = {
   ifFieldsExists,
-  ifIdMongoIsValid,
+  ifMongoIdIsValid,
 };

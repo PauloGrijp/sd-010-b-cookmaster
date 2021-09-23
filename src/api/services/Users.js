@@ -23,7 +23,7 @@ const validatingIfDataIsValid = (name, email, password) => {
   return true;
 };
 
-const registerNewUser = async (name, email, password) => {
+const registerNewUser = async (name, email, password, role) => {
   const ifDataIsValid = validatingIfDataIsValid(name, email, password);
   if (ifDataIsValid.isErrorMessage) {
     return {
@@ -40,7 +40,9 @@ const registerNewUser = async (name, email, password) => {
     };
   }
   
-  const addedUser = await Users.registerNewUser(name, email, password);
+  const validRole = !role ? 'user' : role;
+  
+  const addedUser = await Users.registerNewUser(name, email, password, validRole);
   if (addedUser.isErrorMessage) return { isErrorMessage: addedUser.isErrorMessage };
 
   return { user: addedUser };

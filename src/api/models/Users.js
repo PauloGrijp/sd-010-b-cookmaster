@@ -33,15 +33,15 @@ const getUserById = async (id) => {
   }
 };
 
-const registerNewUser = async (name, email, password) => {
+const registerNewUser = async (name, email, password, role) => {
   try {
     const addedUser = await connection()
-      .then((db) => db.collection('users').insertOne({ name, email, password, role: 'user' }))
+      .then((db) => db.collection('users').insertOne({ name, email, password, role }))
       .then((result) => ({
           _id: result.insertedId,
           name,
           email,
-          role: 'user',
+          role,
       }));
     return addedUser;
   } catch (err) {

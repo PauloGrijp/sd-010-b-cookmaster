@@ -26,11 +26,11 @@ const getAllRecipes = async () => {
 };
 
 const getRecipeById = async (id) => {
-  const ifIdMongoIsValid = validations.ifIdMongoIsValid(id);
-  if (ifIdMongoIsValid.isErrorMessage) {
+  const ifMongoIdIsValid = validations.ifMongoIdIsValid(id);
+  if (ifMongoIdIsValid.isErrorMessage) {
     return {
-      codeError: ifIdMongoIsValid.codeError,
-      isErrorMessage: ifIdMongoIsValid.isErrorMessage,
+      codeError: ifMongoIdIsValid.codeError,
+      isErrorMessage: ifMongoIdIsValid.isErrorMessage,
     };
   }
 
