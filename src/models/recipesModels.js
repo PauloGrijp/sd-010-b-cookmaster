@@ -27,10 +27,16 @@ const update = async ({ id, name, ingredients, preparation, userId }) => {
   const db = await connection();
   await db.collection('recipes')
     .updateOne({ _id: ObjectId(id) }, { $set: { name, ingredients, preparation } });
-
   return {
     _id: id, name, ingredients, preparation, userId,
   };
+};
+
+const exclude = async ({ id }) => {
+  const db = await connection();
+  const result = await db.collection('recipes').deleteOne({ _id: ObjectId(id) });
+  if (!result) return { message: 'recipe not found' };
+  return true;
 };
 
 module.exports = {
@@ -38,4 +44,5 @@ module.exports = {
   getAll,
   getById,
   update,
+  exclude,
 };

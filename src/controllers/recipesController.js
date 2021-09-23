@@ -36,11 +36,6 @@ const getById = async (req, res) => {
 };
 
 const update = async (req, res) => {
-  // const { error } = Joi.object({
-  //   name: Joi.string().required().not().empty(),
-  //   ingredients: Joi.string().required().not().empty(),
-  //   preparation: Joi.string().required().not().empty(),
-  // }).validate(req.body);
   const { id } = req.params;
   const { name, ingredients, preparation } = req.body;
   const { _id: userId } = req.user;
@@ -52,9 +47,16 @@ const update = async (req, res) => {
   return res.status(CODE_HTTP.SUCCESS).json(resultService);
 };
 
+const exclude = async (req, res) => {
+  const { id } = req.params;
+  await recipesServices.exclude({ id });
+  return res.status(CODE_HTTP.NO_CONTENT).send();
+};
+
 module.exports = {
   createRecipes,
   getAll,
   getById,
   update,
+  exclude,
 };

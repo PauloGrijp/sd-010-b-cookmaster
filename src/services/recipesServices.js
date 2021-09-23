@@ -22,9 +22,12 @@ const update = async ({ id, name, ingredients, preparation, userId }) => {
   return resultModel;
 };
 
+const exclude = async ({ id }) => recipesModels.exclude({ id });
+
 module.exports = {
   createRecipes,
   getAll,
   getById,
   update,
+  exclude,
 };
