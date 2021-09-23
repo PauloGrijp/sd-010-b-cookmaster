@@ -44,5 +44,4 @@ module.exports = {
   getById,
   update,
   deleteById,
-  putImage,
 };
