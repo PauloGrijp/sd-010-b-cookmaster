@@ -24,7 +24,7 @@ const userEmailIsValid = (email) => {
 
 const userEmailAlreadyExist = async (email) => {
   const response = await modelUser.getByEmail(email);
-  if (response.email) throw err(EMAIL_REGISTRED);
+  if (response) throw err(EMAIL_REGISTRED);
 };
 
 module.exports = {

@@ -3,7 +3,7 @@ const validations = require('../utils/validations');
 
 const create = async ({ name, email, password, role }) => {
   validations.userName(name);
-  // validations.userPassword(password);
+  validations.userPassword(password);
   validations.userEmail(email);
   validations.userEmailIsValid(email);
   await validations.userEmailAlreadyExist(email);
