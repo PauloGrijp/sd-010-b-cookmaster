@@ -6,6 +6,7 @@ const registerUser = async (name, email, password) => {
   const user = userCreated.ops[0];
   delete user.password;
   user.role = 'user';
+  user.userId = userCreated.insertedId;
   return { user };
 };
 

@@ -2,12 +2,12 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
 const { 
-  getPosts, 
   createUsers, 
   login, 
   createRecipes, 
   allRecipes, 
-  recipeById, 
+  recipeById,
+  editRecipe,
 } = require('./routes');
 
 const { 
@@ -27,12 +27,12 @@ app.use('/images', express.static(path.join(__dirname, '..', 'uploads')));
 
 const apiRoutes = express.Router();
 
-apiRoutes.get('/posts', getPosts)
-          .post('/users', userValidation, validateEmail, createUsers)
+apiRoutes.post('/users', userValidation, validateEmail, createUsers)
           .post('/login', userLogin, validatePwd, login)
           .post('/recipes', dataValidation, validateJWT, createRecipes)
           .get('/recipes', allRecipes)
-          .get('/recipes/:id', isValidRecipe, recipeById);
+          .get('/recipes/:id', isValidRecipe, recipeById)
+          .put('/recipes/:id', validateJWT, isValidRecipe, editRecipe);
 
 app.use(apiRoutes);
 // Não remover esse end-point, ele é necessário para o avaliador

@@ -1,6 +1,13 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const { getPosts, createUsers, login, createRecipes, allRecipes, recipeById } = require('./routes');
+const { 
+  createUsers, 
+  login, 
+  createRecipes, 
+  allRecipes, 
+  recipeById, 
+  editRecipe, 
+} = require('./routes');
 
 const PORT = process.env.PORT || 3000;
 const app = require('./app');
@@ -12,12 +19,12 @@ app.use(bodyParser.json());
 
 const apiRoutes = express.Router();
 
-apiRoutes.get('/posts', getPosts)
-        .post('/users', createUsers)
+apiRoutes.post('/users', createUsers)
         .post('/login', login)
         .post('/recipes', createRecipes)
         .get('/recipes', allRecipes)
-        .get('/recipes/:id', recipeById);
+        .get('/recipes/:id', recipeById)
+        .put('/recipes/:id', editRecipe);
 
 // app.use(apiRoutes);
 

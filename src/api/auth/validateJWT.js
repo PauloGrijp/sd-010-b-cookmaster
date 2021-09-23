@@ -3,11 +3,12 @@ const model = require('../../models/user');
 
 const segredo = 'secretToken';
 const invalidEntries = { message: 'Invalid entries. Try again.' };
+const missingAuth = { message: 'missing auth token' };
 
 module.exports = async (req, res, next) => {
   const token = req.headers.authorization;
   if (!token) {
-    return res.status(401).json(invalidEntries);
+    return res.status(401).json(missingAuth);
   }
   try {
     const decoded = jwt.verify(token, segredo);
@@ -16,6 +17,7 @@ module.exports = async (req, res, next) => {
       return res.status(401).json(invalidEntries);
     }
     req.user = user;
+    // console.log(req.user);
     next();
   } catch (err) {
     return res.status(401).json({ message: 'jwt malformed' });
