@@ -1,5 +1,5 @@
 // const { ObjectId } = require('mongodb');
-const { connection } = require('./conncection');
+const { connection } = require('./connection');
 
 const findByEmail = async (email) => {
   const db = await connection();

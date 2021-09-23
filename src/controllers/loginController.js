@@ -15,7 +15,6 @@ const login = async (req, res) => {
   if (error) return res.status(CODE_HTTP.UNAUTHORIZED).json(MESSAGE.NO_ENTRY_FIELD);
 
   const jwtConfig = { expiresIn: '7d', algorithm: 'HS256' };
-  
   const resultController = await loginServices.login({ email, password });
   
   if (resultController === 401) {
