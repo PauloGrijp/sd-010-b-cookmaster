@@ -19,7 +19,7 @@ const servUserReg = async (user) => {
   }
   const validEmail = await modelEmailVerifier(email);
   
-  if (validEmail !== null) {
+  if (validEmail) {
     return { 
       err: {
       message: 'Email already registered',
@@ -50,6 +50,7 @@ const token = jwt.sign({ data: user }, secret, jwtConfig);
 };
 
      module.exports = {
+       secret,
   servUserReg,
   servlogin,
 };
