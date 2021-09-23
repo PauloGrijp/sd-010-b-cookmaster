@@ -54,4 +54,10 @@ const updateRecipe = async (req, res) => {
   return res.status(status.OK).json(recipe);
 };
 
-module.exports = { createRecipe, validateEntries, getAllRecipe, getId, updateRecipe };
+const deleteOne = async (req, res) => {
+  const { id } = req.params;
+  await recipeModel.exclude(id);
+  return res.status(status.NO_CONTENT);
+};
+
+module.exports = { createRecipe, validateEntries, getAllRecipe, getId, deleteOne, updateRecipe };

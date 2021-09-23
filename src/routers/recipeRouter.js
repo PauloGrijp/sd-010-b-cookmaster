@@ -12,6 +12,10 @@ recipeController.getId);
 router.put('/:id', validateToken.validate,
 recipeController.updateRecipe);
 
+// UPDATE ONE
+router.delete('/:id', validateToken.validate,
+recipeController.deleteOne);
+
 // READ ALL
 router.get('/', 
  recipeController.getAllRecipe);
