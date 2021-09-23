@@ -52,12 +52,12 @@ const update = async ({ name, ingredients, preparation, id, userId }) => {
 };
 
 // ADD IMAGE
-const addImageRecipe = async (id, imageType) => {
+const addImageRecipe = async (id) => {
   if (!ObjectId.isValid(id)) { return null; }
   const db = await connectionDB.connect();
   await db.collection('recipes')
   .updateOne({ _id: ObjectId(id) }, 
-  { $set: { image: `localhost:3000/src/uploads/${id}.${imageType}` } });
+  { $set: { image: `localhost:3000/src/uploads/${id}.jpeg` } });
   const recipe = await db.collection('recipes').findOne({ _id: ObjectId(id) });
   console.log(recipe);
   return recipe;

@@ -56,11 +56,11 @@ const updateRecipe = async (req, res) => {
 };
 
 const addImage = async (req, res) => {
-  const { originalname } = req.file;
+  // const { originalname } = req.file;
   const { id } = req.params;
-  const imageType = originalname.split('.');
-  console.log(imageType);
-  const recipe = await recipeModel.addImageRecipe(id, imageType[1]);
+  // const imageType = originalname.split('.');
+  // console.log(imageType);
+  const recipe = await recipeModel.addImageRecipe(id);
 
   return res.status(200).json(recipe);
 };
