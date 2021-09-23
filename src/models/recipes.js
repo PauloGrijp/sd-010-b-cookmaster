@@ -19,6 +19,13 @@ recipe: {
     } };
 };
 
+const ModelAllRecipes = async () => {
+  const db = await connection();
+  const allRecipes = await db.collection('recipes').find().toArray();
+  return { code: 200, allRecipes };
+};
+
 module.exports = {
   modelRecipes,
+  ModelAllRecipes,
 };

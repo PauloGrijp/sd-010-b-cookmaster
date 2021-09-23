@@ -1,3 +1,4 @@
+const { ModelAllRecipes } = require('../models/recipes');
 const { servRecipes } = require('../services/recipes');
 
 const contRecipes = async (req, res) => {
@@ -12,6 +13,13 @@ const contRecipes = async (req, res) => {
  return res.status(code).json({ recipe });
 };
 
+const contListRecipes = async (req, res) => {
+  const result = await ModelAllRecipes();
+  const { code, allRecipes } = result;
+  return res.status(code).json(allRecipes);
+};
+
 module.exports = {
   contRecipes,
+  contListRecipes,
 };
