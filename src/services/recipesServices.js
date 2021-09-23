@@ -16,4 +16,12 @@ const getAllRecipes = async () => {
   return recipes;
 };
 
-module.exports = { addRecipe, getAllRecipes };
+const getRecipeById = async (id) => {
+  const recipe = await recipesModel.getRecipeById(id);
+  
+  if (!recipe) return null;
+  
+  return recipe;
+};
+
+module.exports = { addRecipe, getAllRecipes, getRecipeById };

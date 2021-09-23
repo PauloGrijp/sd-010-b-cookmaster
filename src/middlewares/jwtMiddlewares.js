@@ -19,9 +19,8 @@ const validateJWT = (req, res, next) => {
   
   try {
     const payload = jwt.verify(token, secret);
-    console.log('payload', payload);
     const { id } = payload;
-    req.user = { userId: id };
+    req.user = { id };
     next();
   } catch (error) {
     return res.status(StatusCodes.UNAUTHORIZED).json({
