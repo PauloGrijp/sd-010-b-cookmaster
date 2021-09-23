@@ -36,6 +36,19 @@ async function excludeRecipe(id) {
   return recipe;
 }
 
+async function uploadImage(filename) {
+  const result = await recipesModel.uploadImage(filename);
+
+  const id = filename.slice(0, 24);
+  
+  if (result === 1) {
+      const recipe = await getRecipeById(id);
+      return recipe;
+  }
+
+  return { errorType: 'no change on database', error: { message: 'unable to update recipe' } };
+}
+
 module.exports = {
   validateFields,
   createRecipe,
@@ -43,4 +56,5 @@ module.exports = {
   getRecipeById,
   editRecipe,
   excludeRecipe,
+  uploadImage,
 };

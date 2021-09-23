@@ -70,6 +70,18 @@ async function excludeRecipe(req, res) {
   res.status(204).end();
 }
 
+async function uploadImage(req, res) {
+  const { filename } = req.file;
+  const recipe = await recipesService.uploadImage(filename);
+  if (!recipe) {
+    return res.status(404).json({
+      message: 'recipe not found',
+    });
+  }
+
+  return res.status(200).json(recipe);
+}
+
 module.exports = {
   validateFields,
   createRecipe,
@@ -77,4 +89,5 @@ module.exports = {
   getRecipeById,
   editRecipe,
   excludeRecipe,
+  uploadImage,
 };

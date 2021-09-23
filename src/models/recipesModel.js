@@ -49,10 +49,24 @@ async function excludeRecipe(id) {
   return recipe;
 }
 
+async function uploadImage(filename) {
+  const id = filename.slice(0, 24);
+
+  const filePath = `localhost:3000/src/uploads/${filename}`;
+
+  const db = await connection();
+
+  const result = await db.collection('recipes')
+  .updateOne({ _id: ObjectId(id) }, { $set: { image: filePath } });
+  
+  return result.result.nModified;
+}
+
 module.exports = {
   createRecipe,
   getAllRecipes,
   getRecipeById,
   editRecipe,
   excludeRecipe,
+  uploadImage,
 };
