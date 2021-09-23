@@ -10,10 +10,10 @@ const createUser = async (name, email, password) => {
 // const dbCon = await connection.execute;
     const dbCon = await connection();
     const returnUser = await dbCon.collection('users').insertOne({
-        name, email, password, role: 'user'
+        name, email, password, role: 'user',
     });
     return { user: returnUser[0] };
-}
+};
 
 module.exports = {
     getUserByEmail,

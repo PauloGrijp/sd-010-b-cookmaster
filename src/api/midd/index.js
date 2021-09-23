@@ -45,4 +45,4 @@ module.expots = {
   passwordIsValid,
   nameIsValid,
   emailIsValid,
-}
+};
