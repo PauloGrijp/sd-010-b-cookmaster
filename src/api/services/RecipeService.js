@@ -1,3 +1,6 @@
+const NotFound = require('../middlewares/error/BaseError');
+const { statusCode, messages } = require('../schemas');
+
 class RecipeService {
   constructor(model, authService) {
     this.model = model;
@@ -5,11 +8,18 @@ class RecipeService {
 
     this.insert = this.insert.bind(this);
     this.getAll = this.getAll.bind(this);
+    this.findById = this.findById.bind(this);
   }
 
   async getAll() {
     const recipeList = await this.model.getAll();
     return recipeList;
+  }
+
+  async findById(id) {
+    const result = await this.model.findBy({ _id: id });
+    if (!result) throw new NotFound(messages.RECIPE_NOT_FOUND, statusCode.NOT_FOUND);
+    return result;
   }
 
   async insert({ recipe, token }) {

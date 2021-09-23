@@ -5,6 +5,7 @@ const messages = {
   INCORRECT_CREDENTIALS: 'Incorrect username or password', 
   JWT_MALFORMED: 'jwt malformed', 
   DB_FAILURE: 'database failed to load resource',
+  RECIPE_NOT_FOUND: 'recipe not found',
 };
 
 module.exports = messages;

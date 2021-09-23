@@ -6,6 +6,7 @@ class RecipeController {
 
     this.insertData = this.insertData.bind(this);
     this.getAll = this.getAll.bind(this);
+    this.findById = this.findById.bind(this);
   }
 
   async getAll(_req, res, next) {
@@ -13,9 +14,18 @@ class RecipeController {
       const result = await this.service.getAll();
       res.status(statusCode.OK).json(result);
     } catch (e) {
-      console.log(e);
       e.message = messages.DB_FAILURE;
       e.statusCode = statusCode.UNKNOWN;
+      next(e);
+    }
+  }
+
+  async findById(req, res, next) {
+    try {
+      const { id } = req.params;
+      const result = await this.service.findById(id);
+      res.status(statusCode.OK).json(result);
+    } catch (e) {
       next(e);
     }
   }

@@ -14,6 +14,7 @@ class RecipeSerializer {
   } 
 
   all(data) {
+    if (!data) return null;
     this.serialize(data);
     return { 
       _id: this.id, 

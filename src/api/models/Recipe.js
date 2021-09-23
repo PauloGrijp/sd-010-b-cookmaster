@@ -4,6 +4,25 @@ class Recipe {
     this.serializer = serializer;
     this.ObjectId = ObjectId;
     this.IdRgx = /^[a-fA-F0-9]{24}$/;
+
+    this.isValidId = this.isValidId.bind(this);
+  }
+
+  isValidId(value) {
+    return this.IdRgx.test(value);
+  }
+
+  async findBy(value) {
+    const searchParam = Object.keys(value)[0];
+    const searchValue = value[searchParam];
+    let query;
+    if (this.isValidId(searchValue)) {
+      query = { [searchParam]: this.ObjectId(searchValue) };
+    } else {
+      query = { [searchParam]: searchValue };
+    }
+    const user = await this.collection.findOne(query);
+    return this.serializer.all(user);
   }
 
   async getAll() {

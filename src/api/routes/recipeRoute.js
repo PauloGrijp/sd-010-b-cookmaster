@@ -4,6 +4,7 @@ const { validateRecipeInsertion, authenticateMiddleware } = require('../middlewa
 const recipeRoute = (controller) => {
   const route = express.Router();
   route.get('/', controller.getAll);
+  route.get('/:id', controller.findById);
 
   route.use(authenticateMiddleware);
   route.post('/', validateRecipeInsertion, controller.insertData);
