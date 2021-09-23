@@ -4,7 +4,7 @@ const {
       CREATED,
       CONFLICT,
   } } = require('http-status-codes');
-  const usersService = require('../services/usersService');
+  const usersService = require('../services/usersServices');
   
   const createUser = async (req, res) => {
     const { name, email, password } = req.body;
