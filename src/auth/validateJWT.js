@@ -1,9 +1,10 @@
 const jwt = require('jsonwebtoken');
+const rescue = require('express-rescue');
 const ErrorRequest = require('../helpers/errorRequest');
 
 const secret = 'cookmaster';
 
-module.exports = async (req, res, next) => {
+module.exports = rescue(async (req, res, next) => {
   const token = req.headers.authorization;
 
   if (!token) {
@@ -20,4 +21,4 @@ module.exports = async (req, res, next) => {
     if (err) throw new ErrorRequest('unauthorized', err.message);
   });
   next();
-};
+});

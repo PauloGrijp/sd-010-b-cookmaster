@@ -1,4 +1,5 @@
 const multer = require('multer');
+const rescue = require('express-rescue');
 
 const storage = multer.diskStorage({
   destination: (req, file, callback) => {
@@ -11,5 +12,5 @@ const storage = multer.diskStorage({
   },
 });
 
-const uploadMiddleware = multer({ storage }).single('image');
+const uploadMiddleware = rescue(multer({ storage }).single('image'));
 module.exports = uploadMiddleware;
