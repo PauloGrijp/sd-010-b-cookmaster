@@ -34,6 +34,12 @@ class Recipe {
     const res = await this.collection.insertOne(recipe);
     return this.serializer.all(res.ops[0]);
   }
+
+  async update({ id, recipe }) {
+    const query = { _id: this.ObjectId(id) };
+    const newValues = { $set: recipe };
+    await this.collection.updateOne(query, newValues);
+  }
 }
 
 module.exports = Recipe;

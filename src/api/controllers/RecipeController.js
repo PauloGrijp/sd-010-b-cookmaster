@@ -7,6 +7,8 @@ class RecipeController {
     this.insertData = this.insertData.bind(this);
     this.getAll = this.getAll.bind(this);
     this.findById = this.findById.bind(this);
+    this.updateData = this.updateData.bind(this);
+    this.delete = this.delete.bind(this);
   }
 
   async getAll(_req, res, next) {
@@ -36,6 +38,26 @@ class RecipeController {
 
     const result = await this.service.insert({ recipe, token });
     res.status(statusCode.CREATED).json({ recipe: result });
+  }
+
+  async updateData(req, res, next) {
+    try {
+      const recipe = req.body;
+      const { id } = req.params;
+      const token = req.headers.authorization;
+      const result = await this.service.update({ id, recipe, token });
+      res.status(statusCode.OK).json(result);
+    } catch (e) {
+      next(e);
+    }
+  }
+
+  async delete(req, res, next) {
+    try {
+
+    } catch (e) {
+      next(e);
+    }
   }
 }
 

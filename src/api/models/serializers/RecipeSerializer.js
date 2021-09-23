@@ -4,13 +4,15 @@ class RecipeSerializer {
     this.name = null;
     this.ingredients = null;
     this.preparation = null;
+    this.userId = null;
   }
 
-  serialize({ _id, name, ingredients, preparation }) {
+  serialize({ _id, name, ingredients, preparation, userId }) {
     this.id = _id;
     this.name = name;
     this.ingredients = ingredients;
     this.preparation = preparation;
+    this.userId = userId;
   } 
 
   all(data) {
@@ -21,6 +23,7 @@ class RecipeSerializer {
       name: this.name, 
       ingredients: this.ingredients, 
       preparation: this.preparation, 
+      userId: this.userId,
     };
   }
 }

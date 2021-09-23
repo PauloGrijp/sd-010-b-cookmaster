@@ -1,4 +1,6 @@
 const NotFound = require('../middlewares/error/BaseError');
+
+const Unauthorized = NotFound;
 const { statusCode, messages } = require('../schemas');
 
 class RecipeService {
@@ -9,6 +11,7 @@ class RecipeService {
     this.insert = this.insert.bind(this);
     this.getAll = this.getAll.bind(this);
     this.findById = this.findById.bind(this);
+    this.update = this.update.bind(this);
   }
 
   async getAll() {
@@ -24,11 +27,27 @@ class RecipeService {
 
   async insert({ recipe, token }) {
     const payload = this.authService.authenticate(token);
+    const values = recipe;
     const { _id } = payload;
-
-    const res = await this.model.insert(recipe);
-    res.userId = _id;
+    values.userId = _id;
+    const res = await this.model.insert(values);
     return res;
+  }
+
+  async update({ id, recipe, token }) {
+    const payload = this.authService.authenticate(token);
+    const result = await this.model.findBy({ _id: id });
+    if (!result) throw new NotFound(messages.RECIPE_NOT_FOUND, statusCode.NOT_FOUND);
+
+    const { _id, role } = payload;
+    if (_id !== result.userId && role !== 'admin') {
+      throw new Unauthorized(messages.INCORRECT_CREDENTIALS, statusCode.UNAUTHORIZED);
+    } 
+
+    await this.model.update({ id, recipe });
+    
+    const updateResult = await this.model.findBy({ _id: id });
+    return updateResult;
   }
 }
 
