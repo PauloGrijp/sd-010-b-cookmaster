@@ -1,6 +1,19 @@
 const code = require('http-status-codes');
+const multer = require('multer');
 const RecipeService = require('../services/RecipeService');
 const RecipeModel = require('../models/RecipeModel');
+
+const storage = multer.diskStorage({
+  destination: (_req, _file, cb) => {
+    cb(null, '../uploads');
+  },
+  fileName: (req, _file, cb) => {
+    const { id } = req.params;
+    cb(null, `${id}.jpeg`);
+  },
+});
+
+const upload = multer({ storage });
 
 // cria a receita
 const createRecipe = async (req, res) => {
@@ -71,10 +84,14 @@ const deleteRecipe = async (req, res) => {
   return res.status(code.NO_CONTENT).json(id);
 };
 
+// uploadImage
+const uploadImage = () => {};
+
 module.exports = {
   createRecipe,
   getAllRecipes,
   getRecipeById,
   updateRecipe,
   deleteRecipe,
+  uploadImage,
 };
