@@ -1,8 +1,12 @@
+const express = require('express');
+
+const router = express.Router();
 const statusCode = require('http-status-codes');
 const recipeService = require('../services/recipeService');
 const recipesModel = require('../models/recipesModel');
+const validateJWT = require('../middlewares/validateJWT');
 
-const create = async (req, res) => {
+/* const create =  */router.put('/recipes', validateJWT, async (req, res) => {
 	const { name, ingredients, preparation } = req.body;
 	const { _id: id } = req.user;
 	const recipe = await recipeService.create({ name, ingredients, preparation });
@@ -15,7 +19,7 @@ const create = async (req, res) => {
 	} 
 	return res.status(statusCode.CREATED).json({ recipe: 
         { name, ingredients, preparation, userId: id, _id } });
-};
+}); 
 
 const getAll = async (_req, res) => {
 	const recipeList = await recipesModel.getAll();
