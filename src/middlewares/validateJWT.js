@@ -10,7 +10,7 @@ const validateJWT = async (req, res, next) => {
     const decoded = jwt.verify(token, segredo);
     const user = await findUser({ email: decoded.data.email, password: decoded.data.password });
     if (!user) {
-        return res.status(401).json({ message: 'JWT' }); 
+        return res.status(401).json({ message: 'Not Authorized' }); 
     }
     req.user = user;
     next();

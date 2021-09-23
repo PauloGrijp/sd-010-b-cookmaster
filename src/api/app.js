@@ -10,7 +10,7 @@ const recipesController = require('../controllers/recipeController');
 const validateJWT = require('../middlewares/validateJWT');
 
 const app = express();
-app.use('/images', express.static(path.join(__dirname, '..', 'uploads')));
+app.use('/images', express.static(path.join(__dirname, '..', '/uploads')));
 app.use(bodyparser.json());
 // Não remover esse end-point, ele é necessário para o avaliador
 app.get('/', (request, response) => {
@@ -21,19 +21,21 @@ app.get('/', (request, response) => {
 const storage = multer.diskStorage({
   destination: (_req, file, callback) => {
     console.log(file);
-    callback(null, 'uploads');
+    callback(null, './src/uploads');
   },
-  filename: (_req, file, callback) => 
+  filename: (req, file, callback) => {
     // VALIDAÇÃO AQUI
-    callback(null, `${file.originalname}`),
-  
+    const { id } = req.params;
+    callback(null, `${id}.jpeg`);
+  },
 });
+
 const upload = multer({ storage });
-const stream = fs.createReadStream('./meu-arquivo.txt');
+const stream = fs.createReadStream('./padariana.jpeg'); 
 
 const formInfo = new FormData();
 formInfo.append('file', stream);
-const formHeader = formInfo.getHeaders();
+const formHeader = formInfo.getHeaders(); 
 
 app.post('/users', userController.create);
 app.post('/login', loginController.login);
@@ -42,8 +44,9 @@ app.get('/recipes', recipesController.getAll);
 app.get('/recipes/:id', recipesController.getById);
 app.put('/recipes/:id', validateJWT, recipesController.update);
 app.delete('/recipes/:id', validateJWT, recipesController.exclude);
-app.put('/recipes/:id/image/', validateJWT, formInfo, upload.single('file'), (req, res) => 
-  // const { id } = req.params;
-   res.status(201).json({ message: 'Arquivo' }));
+app.put('/recipes/:id/image/', validateJWT, upload.single('file'), (req, res) => {
+  req.headers = formHeader;
+  return res.status(200).json({ message: 'Arquivo' });
+});
 
 module.exports = app;
