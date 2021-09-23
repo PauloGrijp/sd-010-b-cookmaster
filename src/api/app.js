@@ -12,4 +12,9 @@ app.get('/', (request, response) => {
 });
 // Não remover esse end-point, ele é necessário para o avaliador
 
+app.use('/users', routers.users);
+// app.use('/users', routers.recipes);
+
+app.use(middlewares.errorMiddleware);
+
 module.exports = app;
