@@ -7,12 +7,13 @@ const recipesController = require('../controllers/recipesControllers');
 const { 
     recipeFields,
     validateToken,
+    validateId,
 
   } = require('../services/recipesService');
 
 router.post('/', recipeFields, validateToken, recipesController.recipeRegistration); 
 router.get('/', recipesController.findAllRecipes); 
-
+router.get('/:id', validateId, recipesController.findRecipeById); 
 // app.use((err, req, res, _next) => 
 // res.status(500).send(`Algo deu errado! Mensagem: ${err.message}`));
 

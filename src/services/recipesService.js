@@ -3,11 +3,13 @@ const jwt = require('jsonwebtoken');
 const erroCode = {
     BAD_REQUEST: 400,
     Unauthorized: 401,
+    NotFound: 404,
 };
 
 const message = {
     BAD_REQUEST: 'Invalid entries. Try again.',
     Unauthorized: 'jwt malformed',
+    NotFound: 'recipe not found',
 
 };
 
@@ -35,8 +37,19 @@ const validateToken = (req, res, next) => {
    }
 };
 
+const validateId = (req, res, next) => {
+    const { id } = req.params;
+
+    if (id.length !== 24 || typeof id !== 'string') {
+        return res.status(erroCode.NotFound).json({ message: message.NotFound });
+    }
+
+    next();
+};
+
 module.exports = { 
     recipeFields,
     validateToken,
+    validateId,
 
 };
