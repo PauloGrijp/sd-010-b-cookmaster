@@ -27,7 +27,8 @@ const getRecipeById = async (id) => {
 };
 
 const updateRecipe = async ({ name, ingredients, preparation }, id) => {
-  if (!ObjectId(id)) return null;
+  console.log(id);
+  if (!ObjectId.isValid(id)) return null;
   const recipeCollection = await connection()
   .then((db) => db.collection('recipes'));
 

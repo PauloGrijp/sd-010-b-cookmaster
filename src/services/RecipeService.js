@@ -43,6 +43,7 @@ const getRecipeById = async (id) => {
 
 const updateRecipe = async ({ name, ingredients, preparation }, id) => {
   const recipe = await recipeModel.updateRecipe({ name, ingredients, preparation }, id);
+  console.log(recipe);
   if (!recipe) {
     return {
       status: 404,

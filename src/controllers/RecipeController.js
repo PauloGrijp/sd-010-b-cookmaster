@@ -45,19 +45,19 @@ const getRecipeById = async (req, res) => {
 const updateRecipe = async (req, res) => {
   const { name, ingredients, preparation } = req.body;
   const { _id: userId } = req.user;
-  // console.log(userId);
-  
-  const { message, id } = await RecipeService.updateRecipe({ 
+  const { id } = req.params;
+    
+  const { message } = await RecipeService.updateRecipe({ 
     name, ingredients, preparation,
-  });
+  }, id);
   
   if (message) {
-    // console.log('aqui');
+    console.log('aqui');
     return res.status(code.BAD_REQUEST).json({ message });
   }
 
-  return res.status(code.CREATED).json(
-    { recipe: { name, ingredients, preparation, userId, _id: id } },
+  return res.status(code.OK).json(
+    { _id: id, name, ingredients, preparation, userId },
     );
 };
 
