@@ -23,12 +23,25 @@ const findByEmail = async (email) => {
 const checkLogin = async (email, password) => {
   const db = await getConnection();
   const verifyEmail = await db.collection('users').findOne({ email, password });
-
   return verifyEmail; 
+};
+
+const registerAdmin = async (email, password, name) => {
+  const db = await getConnection();
+  const admin = await db.collection('users')
+  .insertOne({ name, email, password, role: 'admin' });
+  return { user: {
+    name,
+    email,
+    role: 'admin',
+    _id: admin.insertedId,
+  },
+  };
 };
 
 module.exports = {
    registerUsers,
   findByEmail, 
   checkLogin,
+  registerAdmin,
 };

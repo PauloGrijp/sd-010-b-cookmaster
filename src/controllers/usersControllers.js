@@ -26,6 +26,16 @@ const loginUser = rescue(async (req, res) => {
   return res.status(200).json({ token });
 });
 
+const registerAdmin = rescue(async (req, res) => {
+  const { email, password, name } = req.body;
+  const { role } = req.user;
+  const result = await UsersService.registerAdmin(email, password, name, role);
+  if (result.message) return res.status(result.status).json({ message: result.message });
+  return res.status(201).json(result);
+});
+
 module.exports = {
   registerUsers,
-  loginUser };
+  loginUser,
+  registerAdmin,
+};

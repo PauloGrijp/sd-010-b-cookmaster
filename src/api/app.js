@@ -12,12 +12,14 @@ app.use(bodyParser.json());
 app.get('/', (request, response) => {
   response.send();
 });
-
+// IMAGES
 app.use('/images', express.static('src/uploads/'));
 
 // USERS
 app.post('/users', UsersController.registerUsers);
 app.post('/login', UsersController.loginUser);
+// ADMINS
+app.post('/users/admin', verifyToken, UsersController.registerAdmin);
 
 // RECEITAS
 app.put('/recipes/:id/image', verifyToken, 

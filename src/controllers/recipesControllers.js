@@ -1,11 +1,7 @@
 const rescue = require('express-rescue');
-// const { verifyToken } = require('../middlewares/verifyToken');
 const RecipesService = require('../services/recipesServices');
 
 const registerRecipes = rescue(async (req, res) => {
-  // const token = req.headers.authorization;
-  // const validate = await verifyToken(token);
-  // if (validate.message) return res.status(validate.status).json({ message: validate.message });
   const { name, ingredients, preparation } = req.body;
   const userId = req.user;
   const result = await RecipesService.registerRecipes(name, ingredients, preparation, userId);
@@ -26,11 +22,7 @@ const getOneRecipes = rescue(async (req, res) => {
 });
 
 const updateRecipes = rescue(async (req, res) => {
-  // const token = req.headers.authorization;
-  // const validate = await verifyToken(token);
-  // if (validate.message) return res.status(validate.status).json({ message: validate.message });
   const { id } = req.params;
-  // const { _id } = validate;
   const userId = req.user;
   const { body } = req;
   const result = await RecipesService.updateRecipes(body, id, userId);
@@ -39,17 +31,11 @@ const updateRecipes = rescue(async (req, res) => {
 
 const deleteRecipes = rescue(async (req, res) => {
   const { id } = req.params;
-  // const token = req.headers.authorization;
-  // const validate = await verifyToken(token);
-  // if (validate.message) return res.status(validate.status).json({ message: validate.message });
   await RecipesService.deleteRecipes(id);
   return res.status(204).send();
 });
 
 const addImage = rescue(async (req, res) => {
-  // const token = req.headers.authorization;
-  // const validate = await verifyToken(token);
-  // if (validate.message) return res.status(validate.status).json({ message: validate.message });
   const { id } = req.params;
   const userId = req.user;
   const { file } = req;
