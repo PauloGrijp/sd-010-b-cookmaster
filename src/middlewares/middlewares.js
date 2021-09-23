@@ -12,7 +12,7 @@ const isValidEmail = (req, res, next) => {
   }
 
   if (!emailTester.test(email)) {
-    return res.status(400).json(invalidEntries);
+    return res.status(BAD_REQUEST).json(invalidEntries);
   }
 
   next();
@@ -21,6 +21,24 @@ const isValidEmail = (req, res, next) => {
 const isValidName = (req, res, next) => {
   const { name } = req.body;
   if (!name || typeof name !== 'string') {
+    return res.status(BAD_REQUEST).json(invalidEntries);
+  }
+
+  next();
+};
+
+const isValidIngredients = (req, res, next) => {
+  const { ingredients } = req.body;
+  if (!ingredients || typeof ingredients !== 'string') {
+    return res.status(BAD_REQUEST).json(invalidEntries);
+  }
+
+  next();
+};
+
+const isValidPreparation = (req, res, next) => {
+  const { preparation } = req.body;
+  if (!preparation || typeof preparation !== 'string') {
     return res.status(BAD_REQUEST).json(invalidEntries);
   }
 
@@ -48,6 +66,8 @@ const fieldPassword = (req, res, next) => {
 module.exports = {
   isValidEmail,
   isValidName,
+  isValidIngredients,
+  isValidPreparation,
   fieldEmail,
   fieldPassword,
 };

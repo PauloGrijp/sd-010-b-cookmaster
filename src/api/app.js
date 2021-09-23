@@ -8,19 +8,17 @@ const {
 
 const {
   requestNewRecipe,
+  requestListRecipes,
 } = require('../Controllers/recipes');
 
 const {
   isValidName,
   isValidEmail,  
-  fieldEmail,
-  fieldPassword,
-} = require('../middlewares/users');
-
-const {
   isValidIngredients,
   isValidPreparation,
-} = require('../middlewares/recipes');
+  fieldEmail,
+  fieldPassword,
+} = require('../middlewares/middlewares');
 
 const {
   verifyToken,
@@ -40,11 +38,15 @@ app.post('/users', isValidName, isValidEmail, requestNewUser);
 
 app.post('/login', fieldEmail, fieldPassword, requestLogin);
 
+app.get('/recipes', requestListRecipes);
+
+app.get('/recipes', verifyToken, requestListRecipes);
+
 app.post('/recipes',
+  verifyToken,
   isValidName,
   isValidPreparation,
   isValidIngredients,
-  verifyToken,
   requestNewRecipe);
 
 module.exports = app;

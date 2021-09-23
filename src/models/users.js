@@ -3,13 +3,13 @@ const connection = require('./connection');
 
 const SECRET = 'secret';
 
-const add = async (email, senha, nome) => {
+const add = async (email, password, nome) => {
   const role = 'user';
   const db = await connection();
   const { insertedId } = await db.collection('users').insertOne({
     user: {
       email,
-      senha,
+      password,
       nome,
       role,
     },
@@ -33,15 +33,17 @@ const login = async (email, password) => {
 
   const user = await db.collection('users').findOne({
     'user.email': email,
-    'user.senha': password,
+    'user.password': password,
   });
 
   if (!user) return null;
 
+  const { _id } = user;
+
   const newToken = jwt.sign(
     {
       email,
-      password,
+      userId: _id,
     },
     SECRET,
   );
@@ -52,5 +54,4 @@ module.exports = {
   add,
   checkEmailUniquity,
   login,
-  SECRET,
 };
