@@ -5,4 +5,6 @@ const create = await recipesModel.createRecipe(name, ingredients, preparation, u
 return create;
 };
 
-module.exports = { createRecipe };
+const getRecipesAll = () => recipesModel.getRecipesAll();
+
+module.exports = { createRecipe, getRecipesAll };

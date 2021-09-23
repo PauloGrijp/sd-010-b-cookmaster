@@ -18,4 +18,5 @@ const createUser = rescue(async (req, res, next) => {
   }
   res.status(201).json(create);
 });
+
 module.exports = { createUser };
