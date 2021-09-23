@@ -23,7 +23,7 @@ const create = async (_req, res) => {
     await services.create();
     res.status().json();
   } catch (error) {
-      res.status().json(error);
+    res.status().json(error);
   }
 };
 
