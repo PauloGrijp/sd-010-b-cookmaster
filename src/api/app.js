@@ -34,6 +34,6 @@ app.get('/recipes/:id', RecipeController.getRecipeById);
 app.put('/recipes/:id', validationJWT, RecipeController.updateRecipe);
 app.post('/recipes', validationJWT, RecipeController.createRecipe);
 app.get('/recipes', RecipeController.getAllRecipes);
-app.delete('/recipes/:id', () => console.log('alterar delete no app'));
+app.delete('/recipes/:id', validationJWT, RecipeController.deleteRecipe);
 
 module.exports = app;
