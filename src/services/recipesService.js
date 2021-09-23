@@ -16,6 +16,8 @@ const create = (reqBodyEntries) => {
   return recipesModel.create(reqBodyEntries);
 };
 
+const getAll = () => recipesModel.getAll();
+
 const getById = async (id) => {
   try {
     const recipeFound = await recipesModel.getById(id);  
