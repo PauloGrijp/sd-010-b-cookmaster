@@ -44,4 +44,13 @@ const exclude = async (id) => {
   return recipeDel;
 };
 
-module.exports = { create, getAll, getById, update, exclude };
+const updateImage = async (id, image) => {
+  if (!ObjectId.isValid(id)) return null;
+  const recipesCollection = await mongoConnection.getConnection();
+  const imageAtt = await recipesCollection.collection('recipes').updateOne(
+    { _id: ObjectId(id) }, { $set: { image } },
+  );
+  return imageAtt;
+};
+
+module.exports = { create, getAll, getById, update, exclude, updateImage };
