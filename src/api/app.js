@@ -16,6 +16,8 @@ app.post('/users', usersController.create);
 app.post('/login', usersController.login);
 
 app.post('/recipes', recipesController.create);
+app.get('/recipes', recipesController.getAll);
+app.get('/recipes/:id', recipesController.getById);
 
 app.use((err, _req, res, _next) => {
   const { code, message } = err;

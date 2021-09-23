@@ -1,3 +1,4 @@
+const { ObjectId } = require('mongodb');
 const jwt = require('jsonwebtoken');
 const recipesModel = require('../models/recipesModel');
 const userModel = require('../models/usersModel');
@@ -55,6 +56,18 @@ const create = async (body, token) => {
   }
 };
 
+const getById = async (id) => {
+  if (!ObjectId().isValid(id)) {
+    return { status: 401, message: 'Id invalid' };
+  }
+  const find = await recipesModel.getById(id);
+  if (!find) {
+    return { status: 404, message: 'recipe not found' };
+  }
+  return find;
+};
+
 module.exports = {
   create,
+  getById,
 };
