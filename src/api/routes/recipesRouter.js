@@ -10,4 +10,8 @@ recipesRouter.post('/', rescue(recipesController.addRecipes));
 recipesRouter.get('/', rescue(recipesController.getRecipeByAll));
 recipesRouter.get('/:id', rescue(recipesController.getRecipeById));
 
+recipesRouter.put('/:id', rescue(recipesController.editRecipes));
+
+recipesRouter.delete('/:id', rescue(recipesController.deleteRecipes));
+
 module.exports = recipesRouter;

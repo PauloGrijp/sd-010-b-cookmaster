@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const recipesModel = require('../models/recipesModel');
 
-// constantes de return
+// constantes de return Error
 const privateKey = 'passsecret';
 
 const BAD_ENTRIES = {
@@ -61,7 +61,7 @@ const addRecipes = async (token, name, ingredients, preparation) => {
   validPreparation(preparation);
   validAutheToken(token);
   const decoder = validTokenExist(token);
-  console.log(decoder, 'tdecoder');
+  // console.log(decoder, 'tdecoder');
   const result = await recipesModel.addRecipes(decoder, name, ingredients, preparation);
   return result;
 };
@@ -77,8 +77,26 @@ const getRecipeByAll = async () => {
   return result;
 };
 
+const editRecipes = async (token, id, { name, ingredients, preparation }) => {
+  validAutheToken(token); // se existe token
+  validTokenExist(token); // se token valid
+  // const { _id, role } = decode;
+  const result = await recipesModel.editRecipes(id, name, ingredients, preparation);
+  console.log(result, 'editServices');
+  return result;
+};
+
+const deleteRecipes = async (token, id) => {
+  validAutheToken(token);
+  validTokenExist(token);
+  const result = await recipesModel.deleteRecipes(id);
+  return result;
+};
+
 module.exports = {
   addRecipes,
   getRecipeByAll,
   getRecipeById,
+  editRecipes,
+  deleteRecipes,
 };
