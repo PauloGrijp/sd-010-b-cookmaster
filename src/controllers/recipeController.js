@@ -21,12 +21,12 @@ const validateJWT = require('../middlewares/validateJWT');
         { name, ingredients, preparation, userId: id, _id } });
 }); 
 
-const getAll = async (_req, res) => {
+/* const getAll =  */router.get('/recipes', async (_req, res) => {
 	const recipeList = await recipesModel.getAll();
 	return res.status(statusCode.OK).json(recipeList);
-};
+});
 
-const getById = async (req, res) => {
+/* const getById =  */async (req, res) => {
 	const { id } = req.params;
 	const recipe = await recipeService.getById(id);
 	if (recipe.message) {
