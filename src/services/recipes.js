@@ -28,7 +28,14 @@ const editarReceita = async (id, receitaEditada, usuario) => {
   return result;
 };
 
+const deleteReceita = async (id) => {
+  const result = await model.deleteReceita(id);
+
+  return result;
+};
+
 module.exports = { 
   cadastrarReceitas,
   editarReceita,
+  deleteReceita,
 };

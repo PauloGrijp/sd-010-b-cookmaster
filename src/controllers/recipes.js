@@ -54,9 +54,17 @@ const editarReceita = rescue(async (req, res, _next) => {
   return res.status(200).json(result);
 });
 
+const deleteReceita = rescue(async (req, res, _next) => {
+  const { id } = req.params;
+  await service.deleteReceita(id);
+
+  return res.status(204).json();
+});
+
 module.exports = { 
   cadastrarReceitas,
   buscarReceitas,
   buscarReceitasID,
   editarReceita,
+  deleteReceita,
 };

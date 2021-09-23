@@ -12,4 +12,6 @@ router.get('/:id', controller.buscarReceitasID);
 
 router.put('/:id', validateJWT, controller.editarReceita);
 
+router.delete('/:id', validateJWT, controller.deleteReceita);
+
 module.exports = router;

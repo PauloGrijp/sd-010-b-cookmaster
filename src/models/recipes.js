@@ -50,9 +50,20 @@ const editarReceita = async (id, receitaEditada, usuario) => {
   return { _id: id, userId: usuario.id, ...receitaEditada };
 };
 
+const deleteReceita = async (id) => {
+  if (!ObjectId.isValid(id)) return false;
+
+  const db = await connection();
+
+  await db.collection('recipes').deleteOne({ _id: ObjectId(id) });
+
+  return true;
+};
+
 module.exports = { 
   cadastrarReceitas,
   buscarReceitas,
   buscarReceitasID,
   editarReceita,
+  deleteReceita,
 };
