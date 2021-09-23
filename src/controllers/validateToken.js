@@ -1,4 +1,3 @@
-// validateJWT.js
 const jwt = require('jsonwebtoken');
 const status = require('http-status');
 
