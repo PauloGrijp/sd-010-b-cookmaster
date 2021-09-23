@@ -18,7 +18,7 @@ const userLogin = (req, res, next) => {
 const validatePwd = async (req, res, next) => {
   const { email, password } = req.body;
   const userData = await userModel.findEmail(email);
-  if (!userData || (userData && userData.email === email && userData.password !== password)) { 
+  if (!userData || userData.password !== password) { 
     return res.status(401).json(accessDenied); 
   }
   next();

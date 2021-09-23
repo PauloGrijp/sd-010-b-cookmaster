@@ -1,5 +1,3 @@
-// const recipesModel = require('../models/recipes');
-
 const invalidEntries = { message: 'Invalid entries. Try again.' };
 
 const dataValidation = (req, res, next) => {

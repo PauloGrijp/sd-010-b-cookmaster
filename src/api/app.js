@@ -1,6 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const path = require('path');
+// const path = require('path');
 const { 
   createUsers, 
   login, 
@@ -9,7 +9,7 @@ const {
   recipeById,
   editRecipe,
   deleteRecipe,
-} = require('./routes');
+} = require('../controllers');
 
 const { 
   userValidation, 
@@ -18,13 +18,14 @@ const {
   validatePwd, 
   dataValidation,
   isValidRecipe,
-} = require('../services/index');
+} = require('../services');
+
 const validateJWT = require('./auth/validateJWT');
 
 const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-app.use('/images', express.static(path.join(__dirname, '..', 'uploads')));
+// app.use('/images', express.static(path.join(__dirname, '..', 'uploads')));
 
 const apiRoutes = express.Router();
 
