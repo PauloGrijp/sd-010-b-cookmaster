@@ -8,13 +8,13 @@ const createUser = async (req, res) => {
     email: Joi.string().required().not().empty(),
     password: Joi.string().required().not().empty(),
   }).validate(req.body);
-  if (error) return res.status(CODE_HTTP.BAD_REQUEST).json(MESSAGE.ENTRIES_INVALID); 
+  if (error) return res.status(CODE_HTTP.BAD_REQUEST).json(MESSAGE.INVALID_ENTRIES); 
 
   const { name, email, password } = req.body;
   const resultServices = await userServices.createUser({ name, email, password });
   
   if (resultServices === 400) { 
-    return res.status(CODE_HTTP.BAD_REQUEST).json(MESSAGE.ENTRIES_INVALID); 
+    return res.status(CODE_HTTP.BAD_REQUEST).json(MESSAGE.INVALID_ENTRIES); 
   }
   
   if (resultServices === 409) { 

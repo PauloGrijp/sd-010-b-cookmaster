@@ -18,7 +18,7 @@ const login = async (req, res) => {
   const resultController = await loginServices.login({ email, password });
   
   if (resultController === 401) {
-    return res.status(CODE_HTTP.UNAUTHORIZED).json(MESSAGE.INCORRECT_ENTRY);
+    return res.status(CODE_HTTP.UNAUTHORIZED).json(MESSAGE.INCORRECT_USERNAME_OR_PASSWORD);
   }
 
   const token = jwt.sign({ data: resultController }, secret, jwtConfig);

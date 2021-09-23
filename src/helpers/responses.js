@@ -1,8 +1,8 @@
 const MESSAGE = {
-  ENTRIES_INVALID: { message: 'Invalid entries. Try again.' },
+  INVALID_ENTRIES: { message: 'Invalid entries. Try again.' },
   EMAIL_ALREADY_EXISTS: { message: 'Email already registered' },
   NO_ENTRY_FIELD: { message: 'All fields must be filled' },
-  INCORRECT_ENTRY: { message: 'Incorrect username or password' },
+  INCORRECT_USERNAME_OR_PASSWORD: { message: 'Incorrect username or password' },
   RECIPE_NOT_FOUND: { message: 'recipe not found' },
   MISSING_AUTH_TOKEN: { message: 'missing auth token' },
   JWT_MALFORMED: { message: 'jwt malformed' },

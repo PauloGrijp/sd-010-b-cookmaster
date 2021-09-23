@@ -11,7 +11,7 @@ const createRecipes = async (req, res) => {
     ingredients: Joi.string().required().not().empty(),
     preparation: Joi.string().required().not().empty(),
   }).validate(req.body);
-  if (error) return res.status(CODE_HTTP.BAD_REQUEST).json(MESSAGE.ENTRIES_INVALID);
+  if (error) return res.status(CODE_HTTP.BAD_REQUEST).json(MESSAGE.INVALID_ENTRIES);
 
   const resultService = await recipesServices
     .createRecipes({ name, ingredients, preparation, userId });
