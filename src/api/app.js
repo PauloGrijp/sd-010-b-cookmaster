@@ -22,8 +22,10 @@ const recipesRoute = require('../controller/recipe');
 const app = express();
 
 app.use(bodyParser.json());
+app.use(express.static(`${__dirname}/uploads`));
 app.use('/recipes', recipesRoute);
 app.use('/users', userRoute);
+app.use('/images', express.static(`${__dirname}/../uploads`));
 
 app.post('/login',
   checkBodyLogin,
