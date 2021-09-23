@@ -6,5 +6,6 @@ const authMiddleware = require('../middleware/validateJWT');
 const router = Router();
 
 router.post('/recipes', authMiddleware, recipesContoller.create);
+router.get('/recipes', recipesContoller.AllRecipes);
 
 module.exports = router;
