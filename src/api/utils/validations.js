@@ -4,7 +4,7 @@ const err = (statusCode) => ({ statusCode });
 
 const INVALID_ENTRIES = 'invalidEntries';
 const EMAIL_REGISTRED = 'emailRegistred';
-// const LOGIN_NOT_FILLED = 'loginNotFilled';
+const LOGIN_NOT_FILLED = 'loginNotFilled';
 const LOGIN_INCORRECT = 'loginIncorrect';
 
 const userName = (name) => {
@@ -30,8 +30,8 @@ const userEmailAlreadyExist = async (email) => {
 };
 
 const loginEmailPassword = (email, password) => {
-  if (!email || typeof email !== 'string') throw err(INVALID_ENTRIES);
-  if (!password || typeof password !== 'string') throw err(INVALID_ENTRIES);
+  if (!email || typeof email !== 'string') throw err(LOGIN_NOT_FILLED);
+  if (!password || typeof password !== 'string') throw err(LOGIN_NOT_FILLED);
 };
 
 const loginConfirmUser = async (email, password) => {

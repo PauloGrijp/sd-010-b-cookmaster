@@ -11,7 +11,7 @@ module.exports = {
 
   loginNotFilled: {
     status: 401,
-    message: 'All fields must be filled',
+    message: 'Invalid entries. Try again.',
   },
 
   loginIncorrect: {
