@@ -38,10 +38,19 @@ const exclude = async (recipeId) => {
   return result;
 };
 
+const addImage = async (recipeId) => {
+  const db = await connection();
+  await db.collection('recipes').updateOne({ _id: ObjectId(recipeId) },
+  { $set: { image: `localhost:3000/src/uploads/${recipeId}.jpeg` } });
+  const result = await db.collection('recipes').findOne({ _id: ObjectId(recipeId) });
+  return result;
+};
+
 module.exports = {
   create,
   getRecipes,
   getRecipeById,
   edit,
   exclude,
+  addImage,
 };

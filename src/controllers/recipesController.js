@@ -75,10 +75,17 @@ const exclude = async (req, res) => {
   return res.status(status401).json({ message: 'Unauthorized' });
 };
 
+const addImage = async (req, res) => {
+  const { id: recipeId } = req.params;
+  const result = await recipesService.addImage(recipeId);
+  return res.status(status200).json(result);
+};
+
 module.exports = {
   create,
   getRecipes,
   getRecipeById,
   edit,
   exclude,
+  addImage,
 };

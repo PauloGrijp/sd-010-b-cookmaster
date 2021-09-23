@@ -12,10 +12,13 @@ const edit = async (data) => recipesModel.edit(data);
 
 const exclude = async (recipeId) => recipesModel.exclude(recipeId);
 
+const addImage = async (recipeId) => recipesModel.addImage(recipeId);
+
 module.exports = {
   create,
   getRecipes,
   getRecipeById,
   edit,
   exclude,
+  addImage,
 };

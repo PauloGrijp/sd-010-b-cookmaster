@@ -1,3 +1,5 @@
+const recipesService = require('../services/recipesService');
+
 const status400 = 400;
 
 const validateRecipeFields = (req, res, next) => {
@@ -8,6 +10,9 @@ const validateRecipeFields = (req, res, next) => {
   next();
 };
 
+const getRecipe = async (id) => recipesService.getRecipeById(id);
+
 module.exports = {
   validateRecipeFields,
+  getRecipe,
 };

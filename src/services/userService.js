@@ -6,10 +6,13 @@ const signUp = async ({ name, password, email }) => userModel.signUp({ name, pas
 
 const findUser = async (email) => userModel.findUser(email);
 
+const getUserById = async (userId) => userModel.getUserById(userId);
+
 // const getUser = async (email) => userModel.findUser(email);
 
 module.exports = {
   uniqueEmail,
   signUp,
   findUser,
+  getUserById,
 };

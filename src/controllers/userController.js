@@ -9,6 +9,8 @@ const secret = 'minhaSenha';
 
 const getUser = async (email) => userService.findUser(email);
 
+const getUserById = async (userId) => userService.getUserById(userId);
+
 const signUp = async (req, res) => {
   const { name, password, email } = req.body;
   const uniqueEmail = await userService.uniqueEmail(email);
@@ -39,4 +41,5 @@ module.exports = {
   signUp,
   login,
   getUser,
+  getUserById,
 };
