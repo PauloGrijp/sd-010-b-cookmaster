@@ -28,7 +28,7 @@ const loginRequest = async ({ email, password }) => {
     },
     SECRET,
     {
-      expiresIn: 1440,
+      expiresIn: '1d',
     },
   );
 
