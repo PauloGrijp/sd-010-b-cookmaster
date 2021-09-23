@@ -41,7 +41,10 @@ const update = async ({ id, userId, role }, newData = {}) => {
   return updatedRecipe;
 };
 
-const putImage = async (reqData) => recipesModel.putImage(reqData);
+const deleteById = async ({ id, userId, role }) => {
+  const filterQuery = buildFilterQueryByRole({ id, userId, role });
+  await recipesModel.deleteById(filterQuery);
+};
 
 module.exports = {
   create,
