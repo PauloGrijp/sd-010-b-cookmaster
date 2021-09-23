@@ -2,6 +2,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const UsersController = require('../controllers/usersControllers');
 const RecipesController = require('../controllers/recipesControllers');
+const { verifyToken } = require('../middlewares/verifyToken');
+const { callMulter } = require('../middlewares/multer');
 
 const app = express();
 
@@ -16,9 +18,13 @@ app.post('/users', UsersController.registerUsers);
 app.post('/login', UsersController.loginUser);
 
 // RECEITAS
+app.put('/recipes/:id/image', verifyToken, 
+callMulter().single('image'),
+RecipesController.addImage);
 app.get('/recipes/:id', RecipesController.getOneRecipes);
-app.put('/recipes/:id', RecipesController.updateRecipes);
+app.put('/recipes/:id', verifyToken, RecipesController.updateRecipes);
+app.delete('/recipes/:id', verifyToken, RecipesController.deleteRecipes);
 app.get('/recipes', RecipesController.getAllRecipes);
-app.post('/recipes', RecipesController.registerRecipes);
+app.post('/recipes', verifyToken, RecipesController.registerRecipes);
 
 module.exports = app;

@@ -23,7 +23,7 @@ const findByEmail = async (email) => {
 const checkLogin = async (email, password) => {
   const db = await getConnection();
   const verifyEmail = await db.collection('users').findOne({ email, password });
-  // console.log(verifyEmail);
+
   return verifyEmail; 
 };
 

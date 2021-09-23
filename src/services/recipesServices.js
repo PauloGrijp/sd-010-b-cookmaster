@@ -41,9 +41,17 @@ const updateRecipes = async (body, id, _userId) => {
   return update;
 };
 
+const deleteRecipes = async (id) => {
+  await RecipesModel.deleteRecipes(id);
+};
+
+const addImage = async (id, file, _userId) => RecipesModel.addImage(id, file, _userId);
+
 module.exports = { 
   registerRecipes,
   getAllRecipes,
   getOneRecipes,
   updateRecipes,
+  deleteRecipes,
+  addImage,
  };
