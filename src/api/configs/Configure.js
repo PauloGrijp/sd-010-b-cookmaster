@@ -13,7 +13,7 @@ class Configure {
 
   injection(db) {
     const userModel = new User(db, ObjectID, UserSerializer);
-    const userService = new UserService(userModel);
+    const userService = new UserService(userModel, AuthenticateService);
     const userController = new UserController(userService);
 
     const loginService = new LoginService(userModel, AuthenticateService);

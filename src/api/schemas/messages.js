@@ -7,6 +7,7 @@ const messages = {
   JWT_MALFORMED: 'jwt malformed', 
   DB_FAILURE: 'database failed to load resource',
   RECIPE_NOT_FOUND: 'recipe not found',
+  NOT_ADMIN: 'Only admins can register new admins',
 };
 
 module.exports = messages;
