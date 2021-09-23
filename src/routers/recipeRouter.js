@@ -5,8 +5,8 @@ const validateToken = require('../controllers/validateToken');
 const router = express.Router();
 
 // READ ONE
-router.get('/:id', 
-recipeController.getId);
+// router.get('/:id', 
+// recipeController.getId);
 
 // UPDATE ONE
 router.put('/:id', validateToken.validate,
