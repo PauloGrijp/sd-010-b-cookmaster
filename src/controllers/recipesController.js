@@ -43,9 +43,17 @@ const update = async (req, res) => {
   }
 };
 
+const deleteRecipe = async (req, res) => {
+  const { id } = req.params;
+  await recipesService.validateDelete(id);
+
+  return res.status(204).send();
+};
+
 module.exports = {
   create,
   AllRecipes,
   getRecipe,
   update,
+  deleteRecipe,
 };

@@ -61,9 +61,19 @@ const validateUpdate = async (id, body, userId) => {
   return updateRecipe;
 };
 
+const validateDelete = async (id) => {
+  if (!ObjectId.isValid(id)) {
+    return null;
+  }
+
+  const deleteProduct = await recipesModel.deleteRecipe(id);
+  if (deleteProduct.deletedCount === 1) return true;
+};
+
 module.exports = {
   created,
   getRecipes,
   validateId,
   validateUpdate,
+  validateDelete,
 };
