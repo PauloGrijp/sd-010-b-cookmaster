@@ -51,5 +51,5 @@ module.exports = {
   getAll,
   getById,
   update,
-  putImage,
+  deleteById,
 };
