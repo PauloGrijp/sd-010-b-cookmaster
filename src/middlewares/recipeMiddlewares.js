@@ -6,7 +6,7 @@ const SECRET = 'senhasupersecreta123';
 const validToken = async (req, res, next) => {
   const token = req.headers.authorization;
   if (!token) {
-    return res.status(401).json({ message: 'missing token' });
+    return res.status(401).json({ message: 'missing auth token' });
   }
   try {
     const decryption = JWT.verify(token, SECRET);

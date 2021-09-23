@@ -1,6 +1,8 @@
 const { Router } = require('express');
 const { validToken, validRecipe } = require('../middlewares/recipeMiddlewares');
-const { createRecipe, allRecipes, getById } = require('../controllers/recipeController');
+const { createRecipe, allRecipes,
+  getById, deleteRecipe } = require('../controllers/recipeController');
+const { loggedUser } = require('../middlewares/userMiddlewares');
 
 const routes = new Router();
 
@@ -11,5 +13,6 @@ const routes = new Router();
 routes.post('/recipes', validToken, validRecipe, createRecipe);
 routes.get('/recipes', allRecipes);
 routes.get('/recipes/:id', getById);
+routes.delete('/recipes/:id', validToken, loggedUser, deleteRecipe);
 
 module.exports = routes;

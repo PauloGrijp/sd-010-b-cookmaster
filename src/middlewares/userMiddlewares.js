@@ -1,3 +1,4 @@
+const { ObjectId } = require('mongodb');
 const connection = require('../models/mongoConnection');
 
 const message = 'Invalid entries. Try again.';
@@ -73,6 +74,23 @@ const validPasswordLogin = (request, response, next) => {
   }
 };
 
+const loggedUser = async (request, response, next) => {
+  try {
+    const { userId } = request.user;
+    const db = await connection();
+    const { role } = await db.collection('users').findOne({ _id: ObjectId(userId) });  
+
+    const recipe = await db.collection('recipes').findOne({ _id: ObjectId(request.params.id) });
+    
+    if (role === 'user' && recipe.userId !== userId) {
+      return response.status(401).json({ message: 'missing auth token' });
+    } 
+    next();
+  } catch (error) {
+    return response.status(401).json({ message: 'missing auth token' });
+  } 
+};
+
 module.exports = {
   validEmail,
   validName, 
@@ -80,4 +98,5 @@ module.exports = {
   validUser, 
   validEmailLogin, 
   validPasswordLogin,
+  loggedUser,
 };
