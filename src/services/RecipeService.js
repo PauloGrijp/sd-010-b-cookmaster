@@ -1,6 +1,8 @@
 const { ObjectId } = require('mongodb');
 const recipeModel = require('../models/RecipeModel');
 
+const message = 'recipe not found';
+
 const isValidRecipes = (name, ingredients, preparation) => {
   if (!name || !ingredients || !preparation) {
     return false;
@@ -26,7 +28,7 @@ const getRecipeById = async (id) => {
   if (!checkId) {
     return {
       status: 404,
-      message: 'recipe not found',
+      message,
     };
   }
   
@@ -34,7 +36,7 @@ const getRecipeById = async (id) => {
   if (!recipe) {
     return {
       status: 404,
-      message: 'recipe not found',
+      message,
     };
   } 
 
@@ -47,7 +49,7 @@ const updateRecipe = async ({ name, ingredients, preparation }, id) => {
   if (!recipe) {
     return {
       status: 404,
-      message: 'recipe not found',
+      message,
     };
   }
   return {
@@ -60,7 +62,7 @@ const deleteRecipe = async (id) => {
   if (!recipe) {
     return {
       status: 404,
-      message: 'recipe not found',
+      message,
     };
   }
   
@@ -69,10 +71,11 @@ const deleteRecipe = async (id) => {
 
 const uploadImage = async (id, image) => {
   const recipe = await recipeModel.uploadImage(id, image);
+  console.log(recipe);
   if (!recipe) {
     return {
       status: 404,
-      message: 'recipe not found',
+      message,
     };
   }
   return recipe;
