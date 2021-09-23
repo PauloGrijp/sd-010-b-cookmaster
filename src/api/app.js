@@ -1,9 +1,10 @@
+const path = require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
 
 const app = express();
 const route = require('../routes');
-const error = require('../middlewares/errors');
+const errors = require('../middlewares/errors');
 
 app.use(bodyParser.json());
 
@@ -16,6 +17,7 @@ app.get('/', (request, response) => {
 route.users(app);
 route.recipes(app);
 
-app.use(error);
+app.use('/images', express.static(path.join(__dirname, '..', 'uploads')));
+app.use(errors);
 
 module.exports = app;
