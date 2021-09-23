@@ -1,4 +1,8 @@
 const express = require('express');
+// const path = require('path');
+const multer = require('multer');
+const FormData = require('form-data');
+const fs = require('fs');
 
 const router = express.Router();
 const statusCode = require('http-status-codes');
@@ -47,13 +51,39 @@ const validateJWT = require('../middlewares/validateJWT');
 	const { id } = req.params;
 	await recipesModel.exclude(id);
 	return res.status(statusCode.NO_CONTENT).json();
-}); 
+});
+
+const storage = multer.diskStorage({
+	destination: (_req, file, callback) => {
+		console.log(file);
+		callback(null, './src/uploads');
+	},
+	filename: (req, file, callback) => {
+		// VALIDAÇÃO AQUI
+		const { id } = req.params;
+		callback(null, `${id}.jpeg`);
+	},
+});
+  
+  const upload = multer({ storage });
+  const stream = fs.createReadStream('./padariana.jpeg'); 
+  
+  const formInfo = new FormData();
+  formInfo.append('file', stream);
+  const formHeader = formInfo.getHeaders(); 
+
+router.put('/recipes/:id/image/', validateJWT, upload.single('file'), async (req, res) => {
+	const { id } = req.params;
+	const { file } = req.file;
+	req.headers = formHeader;
+	await recipesModel.updateImage(id, file);
+	return res.status(200).json({ message: 'Arquivo' });
+});
 /* const updateImage = async (req, res) => {
-  const { id } = req.params;
-  const { file } = req.file;
+  
   // const recipeId = await recipesModel.getById(id);
   await recipesModel.updateImage(id, file);
 
 }; */
 
-module.exports = { create, getAll, getById, update, exclude/* , updateImage */ };
+module.exports = router;
