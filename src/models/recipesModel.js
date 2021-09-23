@@ -15,7 +15,7 @@ const getAll = async () => {
 
 const getById = async (id) => {
   const data = await connection()
-  .then((db) => db.collection('recipes').find(ObjectId(id)));
+  .then((db) => db.collection('recipes').findOne(ObjectId(id)));
   return data;
 };
 
