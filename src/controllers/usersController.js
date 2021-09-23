@@ -1,3 +1,4 @@
+const rescue = require('express-rescue');
 const usersService = require('../services/usersService');
 
 const create = async (req, res) => {

@@ -1,3 +1,4 @@
+const rescue = require('express-rescue');
 const recipesService = require('../services/recipesService');
 const recipesModel = require('../models/recipesModel');
 
