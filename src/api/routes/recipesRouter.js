@@ -8,6 +8,7 @@ const {
   getAllRecipes,
   getRecipeById,
   editRecipe,
+  excludeRecipe,
 } = require('../../controllers/recipesController');
 
 const validateJWT = require('../../middlewares/validateJWT');
@@ -22,5 +23,7 @@ router.get('/', getAllRecipes);
 router.get('/:id', getRecipeById);
 
 router.put('/:id', validateJWT, editRecipe);
+
+router.delete('/:id', validateJWT, excludeRecipe);
 
 module.exports = router;

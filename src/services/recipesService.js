@@ -30,10 +30,17 @@ async function editRecipe(params, body, user) {
   return recipe;
 }
 
+async function excludeRecipe(id) {
+  const recipe = await recipesModel.excludeRecipe(id);
+
+  return recipe;
+}
+
 module.exports = {
   validateFields,
   createRecipe,
   getAllRecipes,
   getRecipeById,
   editRecipe,
+  excludeRecipe,
 };

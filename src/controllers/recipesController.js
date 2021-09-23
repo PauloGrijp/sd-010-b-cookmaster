@@ -14,10 +14,10 @@ function validateFields(req, res, next) {
 
 async function createRecipe(req, res) {
   const { name, ingredients, preparation } = req.body;
-  // const { _id } = req.user;
+  const { _id } = req.user;
 
   const newRecipe = await recipesService
-    .createRecipe({ name, ingredients, preparation, userId: 1 });
+    .createRecipe({ name, ingredients, preparation, userId: _id });
 
   res.status(201).json({
     recipe:
@@ -57,10 +57,24 @@ async function editRecipe(req, res) {
   res.status(200).json(recipe);
 }
 
+async function excludeRecipe(req, res) {
+  const { id } = req.params;
+  const recipe = await recipesService.excludeRecipe(id);
+
+  if (!recipe) {
+    return res.status(404).json({
+      message: 'recipe not found',
+    });
+  }
+
+  res.status(204).end();
+}
+
 module.exports = {
   validateFields,
   createRecipe,
   getAllRecipes,
   getRecipeById,
   editRecipe,
+  excludeRecipe,
 };
