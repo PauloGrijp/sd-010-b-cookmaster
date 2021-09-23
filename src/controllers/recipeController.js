@@ -27,11 +27,12 @@ const getRecipes = async (_req, res) => {
 const getRecipeById = async (req, res) => {
   try {
     const { id } = req.params;
-
+    
     const { status, notification } = await recipeService.getRecipeById(id);
-
+    
     return res.status(status).json(notification);
   } catch (e) {
+    console.log(e);
     return res.status(code.HTTP_INTERNAL_SERVER_ERROR).json({ message: error.unexpectedError });
   }
 };
@@ -50,9 +51,23 @@ const updateRecipe = async (req, res) => {
   }
 };
 
+const deleteRecipe = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { _id, role } = req.user;
+
+    const { status, notification } = await recipeService.deleteRecipe(id, role, _id);
+  
+    return res.status(status).json(notification);
+  } catch (e) {
+    return res.status(code.HTTP_INTERNAL_SERVER_ERROR).json({ message: error.unexpectedError });
+  }
+};
+
 module.exports = {
   createRecipe,
   getRecipes,
   getRecipeById,
   updateRecipe,
+  deleteRecipe,
 };

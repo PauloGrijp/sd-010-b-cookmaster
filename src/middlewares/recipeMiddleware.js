@@ -1,3 +1,4 @@
+const { ObjectId } = require('mongodb');
 const { code, error } = require('../schema');
 
 const checkInformations = (req, res, next) => {
@@ -20,7 +21,18 @@ const checkAuthentication = (req, res, next) => {
   next();
 };
 
+const mongoValid = (req, res, next) => {
+  const { id } = req.params;
+
+  if (ObjectId.isValid(id) === false) {
+    return res.status(code.HTTP_NOT_FOUND).json({ message: error.notFound });
+  }
+
+  next();
+};
+
 module.exports = {
   checkInformations,
   checkAuthentication,
+  mongoValid,
 };

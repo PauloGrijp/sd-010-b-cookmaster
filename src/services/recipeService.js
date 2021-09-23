@@ -1,4 +1,3 @@
-const { ObjectId } = require('mongodb');
 const { recipeModel } = require('../models');
 const { code, verifyRecipe, error } = require('../schema');
 
@@ -36,13 +35,6 @@ const getRecipes = async () => {
 };
 
 const getRecipeById = async (id) => {
-  if (!ObjectId.isValid(id)) {
-    return {
-      status: code.HTTP_NOT_FOUND,
-      notification: { message: error.notFound },
-    };
-  }
-
   const recipe = await recipeModel.getRecipeById(id);
   const validation = verifyRecipe.isRecipe(recipe);
 
@@ -57,15 +49,12 @@ const getRecipeById = async (id) => {
 };
 
 const updateRecipe = async (update, id, idOfUser, role) => {
-  if (!ObjectId.isValid(id)) {
-    return {
-      status: code.HTTP_NOT_FOUND,
-      notification: { message: error.notFound },
-    };
-  }
+  const find = await recipeModel.getRecipeById(id);
+  const validationRecipe = verifyRecipe.isRecipe(find);
 
-  const { userId, _id } = await recipeModel.getRecipeById(id);
-  const validation = verifyRecipe.validId(idOfUser, userId, role);
+  if (validationRecipe.notification) return validationRecipe;
+  
+  const validation = verifyRecipe.validId(idOfUser, find.userId, role);
 
   if (validation.notification) return validation;
 
@@ -73,10 +62,35 @@ const updateRecipe = async (update, id, idOfUser, role) => {
 
   const result = {
     status: code.HTTP_OK_STATUS,
-    notification: { _id, ...update, userId },
+    notification: { _id: id, ...update, userId: find.userId },
   };
   
   return result;
+};
+
+const deleteRecipe = async (id, role, idOfUser) => {
+  const find = await recipeModel.getRecipeById(id);
+  const validationRecipe = verifyRecipe.isRecipe(find);
+
+  if (validationRecipe.notification) return validationRecipe;
+  
+  const validation = verifyRecipe.validId(idOfUser, find.userId, role);
+
+  if (validation.notification) return validation;
+
+  const deledted = await recipeModel.deleteRecipe(id);
+
+  if (deledted === 0) {
+    return {
+      status: code.HTTP_NOT_FOUND,
+      notification: { message: error.notFound },
+    };
+  }
+
+  return {
+    status: code.HTTP_NO_CONTENT,
+    notification: {},
+  };
 };
 
 module.exports = {
@@ -84,4 +98,5 @@ module.exports = {
   getRecipes,
   getRecipeById,
   updateRecipe,
+  deleteRecipe,
 };
