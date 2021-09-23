@@ -8,7 +8,6 @@ const registerRecipes = rescue(async (req, res) => {
   // if (validate.message) return res.status(validate.status).json({ message: validate.message });
   const { name, ingredients, preparation } = req.body;
   const userId = req.user;
-  console.log(userId);
   const result = await RecipesService.registerRecipes(name, ingredients, preparation, userId);
   if (result.message) return res.status(result.status).json({ message: result.message });
 return res.status(201).json(result);
@@ -55,7 +54,6 @@ const addImage = rescue(async (req, res) => {
   const userId = req.user;
   const { file } = req;
   const newImage = await RecipesService.addImage(id, file, userId);
-  console.log(newImage);
   return res.status(200).json(newImage);
 });
 

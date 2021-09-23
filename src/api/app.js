@@ -13,6 +13,8 @@ app.get('/', (request, response) => {
   response.send();
 });
 
+app.use('/images', express.static('src/uploads/'));
+
 // USERS
 app.post('/users', UsersController.registerUsers);
 app.post('/login', UsersController.loginUser);
