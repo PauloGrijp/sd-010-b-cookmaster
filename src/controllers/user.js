@@ -23,7 +23,8 @@ const validateCreate = (body) => {
 
 const validateLoginRequired = (body) => {
   const { error } = Joi.object({
-    email: Joi.string().not().empty().required(),
+    email: Joi.string().email().not().empty()
+      .required(),
     password: Joi.string().not().empty().required(),
   }).validate(body);
 

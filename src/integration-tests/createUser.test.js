@@ -10,8 +10,8 @@ chai.use(chaiHttp);
 
 const { expect } = chai;
 
-describe("Criando usuário", () => {
-  describe("01 - quando não é criado com sucesso:", () => {
+describe("1 - Criando usuário:", () => {
+  describe("a - Quando não é criado com sucesso", () => {
     let response = {};
     const DBServer = new MongoMemoryServer();
     const INVALID_ENTRIES = "Invalid entries. Try again.";
@@ -31,7 +31,7 @@ describe("Criando usuário", () => {
       await DBServer.stop();
     });
 
-    it("Não é possível criar usuario sem nome;", async () => {
+    it("sem nome;", async () => {
       response = await chai.request(server).post("/users").send({
         name: "",
         email: "erickjaquin@gmail.com",
@@ -42,7 +42,7 @@ describe("Criando usuário", () => {
       expect(response.body).to.have.property("message", INVALID_ENTRIES);
     });
 
-    it("Não é possível criar usuario sem email;", async () => {
+    it("sem email;", async () => {
       response = await chai.request(server).post("/users").send({
         name: "Erick Jacquin",
         email: "",
@@ -53,7 +53,7 @@ describe("Criando usuário", () => {
       expect(response.body).to.have.property("message", INVALID_ENTRIES);
     });
 
-    it("Não é possível criar usuario com email inválido;", async () => {
+    it("com email inválido;", async () => {
       response = await chai.request(server).post("/users").send({
         name: "Erick Jacquin",
         email: "erickjaquin",
@@ -64,7 +64,7 @@ describe("Criando usuário", () => {
       expect(response.body).to.have.property("message", INVALID_ENTRIES);
     });
 
-    it("Não é possível criar usuario sem senha;", async () => {
+    it("sem senha;", async () => {
       response = await chai.request(server).post("/users").send({
         name: "Erick Jacquin",
         email: "erickjaquin@gmail.com",
@@ -75,7 +75,7 @@ describe("Criando usuário", () => {
       expect(response.body).to.have.property("message", INVALID_ENTRIES);
     });
 
-    it("Email já existe;", async () => {
+    it("email já existe;", async () => {
 
       await chai.request(server).post("/users").send({
         name: "Erick Jacquin",
@@ -94,7 +94,7 @@ describe("Criando usuário", () => {
     });
   });
 
-  describe("02 - quando é criado com sucesso:", () => {
+  describe("b - Quando é criado com sucesso:", () => {
     let response = {};
     const DBServer = new MongoMemoryServer();
     const SEND_USER = {
