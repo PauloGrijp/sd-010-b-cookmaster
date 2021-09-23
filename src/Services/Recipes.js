@@ -30,6 +30,11 @@ const updateRecipe = async (id, name, ingredients, preparation) => {
   return result;
 };
 
+const addRecipeUrlImage = async (id, imagePath) => {
+  const result = await model.addRecipeUrlImage(id, imagePath);
+  return result;
+};
+
 const deleteRecipe = async (id) => {
   const result = await model.deleteRecipe(id);
   valid.isRecipe(result);
@@ -43,4 +48,5 @@ module.exports = {
   updateRecipe,
   deleteRecipe,
   checkRecipeOwner,
+  addRecipeUrlImage,
 };

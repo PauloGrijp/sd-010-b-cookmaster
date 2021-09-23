@@ -26,6 +26,16 @@ const updateRecipe = async (id, name, ingredients, preparation) =>
       ))
     .then((result) => result.value);
 
+const addRecipeUrlImage = async (id, imagePath) => 
+  connection()
+    .then((db) => db.collection('recipes')
+      .findOneAndUpdate(
+        { _id: ObjectId(id) },
+        { $set: { image: imagePath } },
+        { returnOriginal: false },
+      ))
+      .then((result) => result.value);
+        
 const deleteRecipe = async (id) => 
   connection()
     .then((db) => db.collection('recipes').deleteOne({ _id: ObjectId(id) }));
@@ -36,4 +46,5 @@ module.exports = {
   newRecipe,
   updateRecipe,
   deleteRecipe,
+  addRecipeUrlImage,
 };

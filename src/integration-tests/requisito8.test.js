@@ -4,7 +4,7 @@ const sinon = require('sinon');
 
 const server = require('../api/server');
 
-const { MongoClient, ObjectId } = require('mongodb');
+const { MongoClient } = require('mongodb');
 const { getConnection } = require('./mockConnection');
 
 const { expect } = chai;
@@ -25,12 +25,6 @@ describe('Testa o endpoint para apagar uma receita', () => {
         name: 'Arroz Doce',
         ingredients: 'arroz, canela, leite, açucar',
         preparation: 'mexe tudo',
-      };
-
-      const updateRecipe = {
-        name: 'Panquecas',
-        ingredients: 'Leite, ovo, fermento, farinha',
-        preparation: 'google',
       };
 
       let mockConnection;
