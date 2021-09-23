@@ -1,5 +1,16 @@
+const multer = require('multer');
 const service = require('../services/recipeService');
 const messages = require('../helpers/validationMessages');
+
+const storage = multer.diskStorage({
+  destination: (req, file, callback) => {
+    callback(null, 'src/uploads/');
+  },
+  filename: (req, file, callback) => {
+    const { id } = req.params;
+    callback(null, `${id}.jpeg`);
+  },
+});
 
 const getAllRecipes = async (_req, res) => {
   try {
@@ -52,9 +63,7 @@ const updateRecipe = async (req, res) => {
     const { _id } = req.user;
     const getId = _id.toString();
     
-    const result = await service.updateRecipe({ id, name, ingredients, preparation });
-    
-    if (result === false) res.status(400).json(messages.INVALID_ENTRY);
+    await service.updateRecipe({ id, name, ingredients, preparation });
 
     return res.status(200).json({
       _id: id,
@@ -63,6 +72,20 @@ const updateRecipe = async (req, res) => {
       preparation,
       userId: getId,
     });
+  } catch (error) {
+    return res.status(500).json(messages.ERROR);
+  }
+};
+
+const updateRecipeImage = async (req, res) => {
+  try {
+    const { id } = req.params;
+    
+    await service.updateRecipeImage({ id, image: `localhost:3000/src/uploads/${id}.jpeg` });
+
+    const response = await service.getRecipeById(id);
+
+    return res.status(200).json(response);
   } catch (error) {
     return res.status(500).json(messages.ERROR);
   }
@@ -87,4 +110,6 @@ module.exports = {
   createRecipe,
   updateRecipe,
   excludeRecipe,
+  updateRecipeImage,
+  storage,
 };
