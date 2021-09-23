@@ -13,14 +13,16 @@ const validateJWT = (req, res, next) => {
   
   if (!token) {
     return res.status(StatusCodes.UNAUTHORIZED).json({
-      message: 'jwt malformed',
+      message: 'missing auth token',
     }); 
   }
   
   try {
     const payload = jwt.verify(token, secret);
-    const { id } = payload;
-    req.user = { id };
+    const { id, email } = payload;
+
+    req.user = { userId: id, email };
+    
     next();
   } catch (error) {
     return res.status(StatusCodes.UNAUTHORIZED).json({

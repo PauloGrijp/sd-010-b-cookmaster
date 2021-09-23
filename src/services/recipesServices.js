@@ -1,4 +1,5 @@
 const recipesModel = require('../models/recipesModel');
+const usersModel = require('../models/usersModel');
 
 const addRecipe = async (recipeData) => {
   const recipe = await recipesModel.addRecipe(recipeData);
@@ -24,4 +25,16 @@ const getRecipeById = async (id) => {
   return recipe;
 };
 
-module.exports = { addRecipe, getAllRecipes, getRecipeById };
+const updateRecipe = async (email, id, recipe) => {
+  const user = await usersModel.findUser(email);
+
+  if (user.email !== email && user.role !== 'admin') return null;
+
+  const updatedRecipe = await recipesModel.updateRecipe(id, recipe);
+  
+  if (!updatedRecipe) return null;
+  
+  return updatedRecipe;
+};
+
+module.exports = { addRecipe, getAllRecipes, getRecipeById, updateRecipe };

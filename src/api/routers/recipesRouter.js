@@ -6,10 +6,12 @@ const recipesController = require('../../controllers/recipesController');
 
 const router = express.Router();
 
+router.put('/:id', validateJWT, recipesController.updateRecipe);
+
+router.post('/', validateJWT, checkValues, recipesController.addRecipe);
+
 router.get('/:id', recipesController.getRecipeById);
 
 router.get('/', recipesController.getAllRecipes);
-
-router.post('/', validateJWT, checkValues, recipesController.addRecipe);
 
 module.exports = router;

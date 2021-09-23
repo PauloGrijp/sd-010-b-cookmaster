@@ -4,9 +4,9 @@ const recipesService = require('../services/recipesServices');
 const addRecipe = async (req, res) => {
   try {
     const { name, ingredients, preparation } = req.body;
-    const { id } = req.user;
+    const { userId } = req.user;
 
-    const recipeData = { name, ingredients, preparation, userId: id };
+    const recipeData = { name, ingredients, preparation, userId };
   
     const recipe = await recipesService.addRecipe(recipeData);
   
@@ -42,4 +42,18 @@ const getRecipeById = async (req, res) => {
   }
 };
 
-module.exports = { addRecipe, getAllRecipes, getRecipeById };
+const updateRecipe = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const recipe = req.body;
+    const { email } = req.user;
+    
+    const updatedRecipe = await recipesService.updateRecipe(email, id, recipe);
+    
+    return res.status(StatusCodes.OK).json(updatedRecipe);
+  } catch (error) {
+    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ message: error });
+  }
+};
+
+module.exports = { addRecipe, getAllRecipes, getRecipeById, updateRecipe };
