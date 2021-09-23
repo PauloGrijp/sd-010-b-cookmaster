@@ -43,12 +43,11 @@ const validateJWT = require('../middlewares/validateJWT');
 	return res.status(statusCode.OK).json({ _id: id, name, ingredients, preparation, userId: _id });
 }); 
 
-const exclude = async (req, res) => {
+/* const exclude =  */router.delete('/recipes/:id', validateJWT, async (req, res) => {
 	const { id } = req.params;
 	await recipesModel.exclude(id);
 	return res.status(statusCode.NO_CONTENT).json();
-};
-
+}); 
 /* const updateImage = async (req, res) => {
   const { id } = req.params;
   const { file } = req.file;
