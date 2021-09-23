@@ -1,4 +1,5 @@
-const { recipes, createRecipe } = require('../models/recipes');
+const { ObjectId } = require('mongodb');
+const { recipes, createRecipe, uniquiRecipe } = require('../models/recipes');
 
 const addRecipe = async (name, ingredients, preparation, userId) => {
   const recipe = await createRecipe(name, ingredients, preparation, userId);
@@ -12,7 +13,16 @@ const allRecipes = async () => {
   return recipesList;
 };
 
+const recipeBy = async (id) => {
+  if (!ObjectId.isValid(id)) return null;
+  
+  const recipeReceived = await uniquiRecipe(id);
+
+  return recipeReceived;
+};
+
 module.exports = {
   addRecipe,
   allRecipes,
+  recipeBy,
 };

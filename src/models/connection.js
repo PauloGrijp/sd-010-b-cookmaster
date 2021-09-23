@@ -1,7 +1,7 @@
 const { MongoClient } = require('mongodb');
 
-const MONGO_DB_URL = 'mongodb://mongodb:27017/Cookmaster'; // github
-// const MONGO_DB_URL = 'mongodb://localhost:27017/Cookmaster'; // local
+// const MONGO_DB_URL = 'mongodb://mongodb:27017/Cookmaster'; // github
+const MONGO_DB_URL = 'mongodb://localhost:27017/Cookmaster'; // local
 
 const DB_NAME = 'Cookmaster';
 

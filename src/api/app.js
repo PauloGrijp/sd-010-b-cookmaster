@@ -9,6 +9,7 @@ const {
 const {
   requestNewRecipe,
   requestListRecipes,
+  requestRecipeById,
 } = require('../Controllers/recipes');
 
 const {
@@ -38,7 +39,9 @@ app.post('/users', isValidName, isValidEmail, requestNewUser);
 
 app.post('/login', fieldEmail, fieldPassword, requestLogin);
 
-app.get('/recipes', requestListRecipes);
+app.get('/recipes/:id', requestRecipeById);
+
+app.get('/recipes/', requestListRecipes);
 
 app.post('/recipes',
   verifyToken,

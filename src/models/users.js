@@ -36,11 +36,7 @@ const login = async (email, password) => {
 
   if (!user) return null;
 
-  console.log(user);
-
   const { _id, role } = user;
-
-  console.log(email, password);
 
   const newToken = jwt.sign(
     {

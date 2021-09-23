@@ -1,10 +1,8 @@
-const { addRecipe, allRecipes } = require('../services/recipes');
+const { addRecipe, allRecipes, recipeBy } = require('../services/recipes');
 
 const requestNewRecipe = async (req, res) => {
   const { name, ingredients, preparation } = req.body;
   const { user: { userId } } = req;
-
-  console.log(userId, 'controller');
 
   const recipe = await addRecipe(name, ingredients, preparation, userId);
 
@@ -17,7 +15,20 @@ const requestListRecipes = async (_req, res) => {
   return res.status(200).json(recipesList);
 };
 
+const requestRecipeById = async (req, res) => {
+  const { id } = req.params;
+
+  const recipeById = await recipeBy(id);
+
+  if (!recipeById) {
+    return res.status(404).json({ message: 'recipe not found' });
+  }
+
+  return res.status(200).json(recipeById);
+};
+
 module.exports = {
   requestNewRecipe,
   requestListRecipes,
+  requestRecipeById,
 };
