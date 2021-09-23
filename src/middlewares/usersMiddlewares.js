@@ -13,7 +13,21 @@ const checkEmailExist = async (email) => {
   const emailUser = await usersModel.checkEmailM(email);
   if (emailUser) {
     const error = new Error('Email already registered');
-    error.status = 409;
+    error.code = 409;
+    throw error;
+  }
+};
+const validLoginUser = (email, password) => {
+  if (!email || !password) {
+    const error = new Error('All fields must be filled');
+    error.code = 401;
+    throw error;
+  }
+};
+const checkLoginUser = (user) => {
+  if (!user) {
+    const error = new Error('Incorrect username or password');
+    error.code = 401;
     throw error;
   }
 };
@@ -21,4 +35,6 @@ const checkEmailExist = async (email) => {
 module.exports = {
   validCreateUser,
   checkEmailExist,
+  validLoginUser,
+  checkLoginUser,
 };

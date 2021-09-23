@@ -1,14 +1,14 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const rescue = require('express-rescue');
-const { createUserC } = require('../controllers/usersController');
 
 const app = express();
-const erro = require('../middlewares/erro');
+const error = require('../middlewares/erro');
+const usersRoute = require('../routes/usersRoute');
 
 app.use(bodyParser.json());
-app.post('/users', rescue(createUserC));
-app.use(erro);
+
+usersRoute(app);
+app.use(error);
 
 // Não remover esse end-point, ele é necessário para o avaliador
 app.get('/', (request, response) => {
