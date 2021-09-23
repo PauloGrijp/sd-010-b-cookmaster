@@ -3,12 +3,13 @@ const express = require('express');
 const app = express();
 app.use(express.json());
 
-const usersRoute = require('./routes/usersRoute');
+const { usersRoute, loginRoute } = require('./routes');
 
-app.get('/', (request, response) => {
+app.get('/', (_request, response) => {
   response.send();
 });
 
 app.use('/users', usersRoute);
+app.use('/login', loginRoute);
 
 module.exports = app;
