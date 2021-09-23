@@ -3,8 +3,9 @@ const bodyParser = require('body-parser');
 const { 
 userRouter, 
 loginRouter,
+recipesRouter,
 } = require('../routers');
-const erroMiddleware = require('../middlewareErro');
+const { errorMiddleware } = require('../middlewares');
 
 const app = express();
 
@@ -20,6 +21,8 @@ app.use('/users', userRouter);
 
 app.use('/login', loginRouter);
 
-app.use(erroMiddleware);
+app.use('/recipes', recipesRouter);
+
+app.use(errorMiddleware);
 
 module.exports = app;

@@ -23,6 +23,12 @@ const validacaoCampo = (valor) => !valor.name || !valor.email || !valor.password
 
 const validacaoCampoLogin = (valor) => !valor.email || !valor.password;
 
+const validacaoCampoReceita = (valor) => {
+  if (!valor.name || !valor.ingredients || !valor.preparation) {
+    return errors.campoObrigatorio;
+  }
+};
+
 const validacaoPassword = (valor) => valor.length < 5;
 
 const validacaoCadastramentoUsuario = (user, emailExiste) => {
@@ -54,4 +60,5 @@ const validacaoLoginUsuario = (user, result) => {
 module.exports = { 
   validacaoCadastramentoUsuario,
   validacaoLoginUsuario,
+  validacaoCampoReceita,
 };

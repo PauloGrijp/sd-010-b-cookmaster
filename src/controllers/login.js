@@ -16,7 +16,15 @@ const loginUsuario = rescue(async (req, res, next) => {
     return next(result);
   }
 
-  const token = jwt.sign({ data: user }, secret, jwtConfiguration);
+  const idUser = '_id';
+
+  const userToken = {
+    id: result[0][idUser],
+    email: result[0].email,
+    role: result[0].role,
+  };
+
+  const token = jwt.sign({ data: userToken }, secret, jwtConfiguration);
 
   return res.status(200).json({ token });
 });
