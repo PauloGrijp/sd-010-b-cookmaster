@@ -1,4 +1,4 @@
-const { create, getAll } = require('../services/recipe_service');
+const { create, getAll, getById } = require('../services/recipe_service');
 
 const createRecipe = async (req, res) => {
     const { name, ingredients, preparation } = req.body;
@@ -14,7 +14,21 @@ const getAllRecipes = async (req, res) => {
     return res.status(200).json(recipes);
 };
 
+const recipeById = async (req, res) => {
+    const { id } = req.params;
+    console.log(id, 'controller');
+
+    const recipe = await getById(id);
+
+    if (recipe.error) {
+        return res.status(404).json({ message: 'recipe not found' });
+    }
+
+    return res.status(200).json(recipe);
+};
+
 module.exports = {
     createRecipe,
     getAllRecipes,
+    recipeById,
 };

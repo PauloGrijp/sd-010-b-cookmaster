@@ -1,4 +1,6 @@
 const jwt = require('jsonwebtoken');
+const { ObjectId } = require('mongodb');
+
 // const connection = require('../models/connection');
 
 const SECRETKEY = '123456789';
@@ -32,7 +34,21 @@ const RecipeValidation = async (req, res, next) => {
     next();
 };
 
+const IdValidation = async (req, res, next) => {
+    const { id } = req.params;
+
+    if (!ObjectId.isValid(id)) {
+        return res.status(404).json({ message: 'recipe not found' });
+    }
+
+    if (!id) {
+        return res.status(404).json({ message: 'recipe not found' });
+    }
+    next();
+};
+
 module.exports = {
     TokenValidation,
     RecipeValidation,
+    IdValidation,
 };
