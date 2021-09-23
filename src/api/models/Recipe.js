@@ -40,6 +40,11 @@ class Recipe {
     const newValues = { $set: recipe };
     await this.collection.updateOne(query, newValues);
   }
+
+  async delete(id) {
+    const query = { _id: this.ObjectId(id) };
+    await this.collection.deleteOne(query);
+  }
 }
 
 module.exports = Recipe;

@@ -54,7 +54,10 @@ class RecipeController {
 
   async delete(req, res, next) {
     try {
-
+      const { id } = req.params;
+      const token = req.headers.authorization;
+      await this.service.delete({ id, token });
+      return res.status(statusCode.NO_CONTENT).send();
     } catch (e) {
       next(e);
     }

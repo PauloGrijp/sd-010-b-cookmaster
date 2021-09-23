@@ -7,6 +7,9 @@ const recipeRoute = (controller) => {
   route.get('/:id', controller.findById);
 
   route.use(authenticateMiddleware);
+
+  route.delete('/:id', controller.delete);
+
   route.use(validateRecipeInsertion);
   
   route.post('/', controller.insertData);

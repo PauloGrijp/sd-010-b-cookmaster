@@ -12,6 +12,19 @@ class RecipeService {
     this.getAll = this.getAll.bind(this);
     this.findById = this.findById.bind(this);
     this.update = this.update.bind(this);
+    this.checkIfUserIsAuthorized = this.checkIfUserIsAuthorized.bind(this);
+    this.delete = this.delete.bind(this);
+  }
+
+  async checkIfUserIsAuthorized(id, token) {
+    const payload = this.authService.authenticate(token);
+    const result = await this.model.findBy({ _id: id });
+    if (!result) throw new NotFound(messages.RECIPE_NOT_FOUND, statusCode.NOT_FOUND);
+    
+    const { _id, role } = payload;
+    if (_id !== result.userId && role !== 'admin') {
+      throw new Unauthorized(messages.INCORRECT_CREDENTIALS, statusCode.UNAUTHORIZED);
+    } 
   }
 
   async getAll() {
@@ -30,24 +43,24 @@ class RecipeService {
     const values = recipe;
     const { _id } = payload;
     values.userId = _id;
+
     const res = await this.model.insert(values);
     return res;
   }
 
   async update({ id, recipe, token }) {
-    const payload = this.authService.authenticate(token);
-    const result = await this.model.findBy({ _id: id });
-    if (!result) throw new NotFound(messages.RECIPE_NOT_FOUND, statusCode.NOT_FOUND);
-
-    const { _id, role } = payload;
-    if (_id !== result.userId && role !== 'admin') {
-      throw new Unauthorized(messages.INCORRECT_CREDENTIALS, statusCode.UNAUTHORIZED);
-    } 
+    await this.checkIfUserIsAuthorized(id, token);
 
     await this.model.update({ id, recipe });
-    
+
     const updateResult = await this.model.findBy({ _id: id });
     return updateResult;
+  }
+
+  async delete({ id, token }) {
+    await this.checkIfUserIsAuthorized(id, token);
+
+    await this.model.delete(id);
   }
 }
 
