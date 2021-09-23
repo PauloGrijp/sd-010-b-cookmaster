@@ -16,6 +16,7 @@ const customExpress = async () => {
 
   app.use('/users', routes.user);
   app.use('/login', routes.login);
+  app.use('/recipes', routes.recipe);
 
   app.get('/', (_request, response) => {
     response.send();
