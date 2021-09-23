@@ -18,7 +18,7 @@ const editarReceita = async (id, receitaEditada, usuario) => {
   
   if (userId !== usuario.id && usuario.role !== 'admin') {
     return {
-      message: 'jwt malformed',
+      message: 'nada',
       code: 401,
     };
   }

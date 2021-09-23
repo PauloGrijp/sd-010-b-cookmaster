@@ -32,7 +32,7 @@ const buscarReceitasID = rescue(async (req, res, next) => {
 
   if (!result || result.length === 0) {
     return next({
-      message: 'erro jwt 3',
+      message: 'recipe not found',
       code: 404,
     });
   }
