@@ -38,7 +38,7 @@ const getRecipeById = async (id) => {
   try {
     const recipe = await connection()
       .then((db) => db.collection('recipes').findOne(ObjectId(id)))
-      .then((result) => result);
+      .then((result) => (!result ? false : result));
     return recipe;
   } catch (err) {
     return {
