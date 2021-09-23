@@ -8,4 +8,14 @@ module.exports = {
     status: 409,
     message: 'Email already registered',
   },
+
+  loginNotFilled: {
+    status: 401,
+    message: 'All fields must be filled',
+  },
+
+  loginIncorrect: {
+    status: 401,
+    message: 'Incorrect username or passowrd',
+  },
 };

@@ -5,5 +5,6 @@ module.exports = (err, _req, res, _next) => {
     const { status, message } = errosCode[err.code];
     return res.status(status).json({ message });
   }
+  console.log(err);
   return res.status(500).json({ message: 'Erro' });
 };

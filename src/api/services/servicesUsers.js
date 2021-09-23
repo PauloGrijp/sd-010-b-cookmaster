@@ -1,5 +1,6 @@
 const models = require('../models/modelUsers');
 const validations = require('../utils/validations');
+const generateToken = require('../utils/generateToken');
 
 const create = async ({ name, email, password, role }) => {
   validations.userName(name);
@@ -16,4 +17,13 @@ const create = async ({ name, email, password, role }) => {
       });
 };
 
-module.exports = { create };
+const login = async ({ email, password }) => {
+  validations.loginEmailPassword(email, password);
+  await validations.loginConfirmUser(email, password);
+
+  const user = await models.getByEmail(email);
+  const token = generateToken(user);
+  return ({ status: 200, token });
+};
+
+module.exports = { create, login };
