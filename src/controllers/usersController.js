@@ -4,7 +4,7 @@ const service = require('../services/usersService');
 
 const secret = 'super-senha-que-ninguem-sabe';
 const jwtConfiguration = {
-  expiresIn: '15m',
+  expiresIn: '1d', // tempo para garantir que o token não vai expirar tão cedo
   algorithm: 'HS256',
 };
 

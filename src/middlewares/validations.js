@@ -29,8 +29,17 @@ const emailExists = async (req, res, next) => {
   next();
 };
 
+const validateRecipe = (req, res, next) => {
+  const { name, ingredients, preparation } = req.body;
+  if (!name || !ingredients || !preparation) {
+    return res.status(StatusCodes.BAD_REQUEST).json({ message: error });
+  }
+  next();
+};
+
 module.exports = {
   validateFields,
   validateEmail,
   emailExists,
+  validateRecipe,
 };
