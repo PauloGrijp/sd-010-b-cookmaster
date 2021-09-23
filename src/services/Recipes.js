@@ -8,4 +8,5 @@ const createRecipe = async (data) => {
 
 module.exports = {
   createRecipe,
+  getAllRecipes: Recipe.getAllRecipes,
 };

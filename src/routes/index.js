@@ -8,7 +8,10 @@ const Recipes = require('../controllers/Recipes');
 const router = express.Router();
 
 router.post('/users', User.createUser);
+
 router.post('/login', Login.login);
+
 router.post('/recipes', validateToken, Recipes.createRecipe);
+router.get('/recipes', Recipes.getAllRecipes);
 
 module.exports = router; 
