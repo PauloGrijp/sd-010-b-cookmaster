@@ -10,19 +10,22 @@ const registerNewRecipe = async (recipe, userId) => {
       isErrorMessage: ifFieldsExists.isErrorMessage,
     };
   }
-  
+
   const { name, ingredients, preparation } = recipe;
   const addedRecipe = await Recipes.registerNewRecipe(name, ingredients, preparation, userId);
-  if (addedRecipe.isErrorMessage) {
-    return {
-      codeError: addedRecipe.codeError,
-      isErrorMessage: addedRecipe.isErrorMessage,
-    };
-  }
+  if (addedRecipe.isErrorMessage) return { isErrorMessage: addedRecipe.isErrorMessage };
 
   return { recipe: addedRecipe };
 };
 
+const getAllRecipes = async () => {
+  const allRecipes = Recipes.getAllRecipes();
+  if (allRecipes.isErrorMessage) return { isErrorMessage: allRecipes.isErrorMessage };
+
+  return allRecipes;
+};
+
 module.exports = {
   registerNewRecipe,
+  getAllRecipes,
 };

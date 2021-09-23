@@ -17,6 +17,14 @@ const registerNewRecipe = async (req, res, next) => {
   res.status(StatusCodes.CREATED).json(addedRecipe);
 };
 
+const getAllRecipes = async (req, res, next) => {
+  const allRecipes = await Recipes.getAllRecipes();
+  if (allRecipes.isErrorMessage) return next({ isErrorMessage: allRecipes.isErrorMessage });
+
+  res.status(StatusCodes.OK).json(allRecipes);
+};
+
 module.exports = {
   registerNewRecipe,
+  getAllRecipes,
 };

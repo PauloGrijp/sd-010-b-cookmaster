@@ -19,6 +19,20 @@ const registerNewRecipe = async (name, ingredients, preparation, userId) => {
   }
 };
 
+const getAllRecipes = async () => {
+  try {
+    const allRecipes = await connection()
+      .then((db) => db.collection('recipes').find().toArray())
+      .then((result) => result);
+    return allRecipes;
+  } catch (err) {
+    return {
+      isErrorMessage: err,
+    };
+  }
+};
+
 module.exports = {
+  getAllRecipes,
   registerNewRecipe,
 };
