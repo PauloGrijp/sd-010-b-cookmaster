@@ -10,12 +10,11 @@ const createUser = rescue(async (req, res, next) => {
     password: Joi.string().required(),
   }).validate({ name, email, password });
   if (error) {
-    return next(error);
+    return next('userAndRecipes');
   }
   const create = await usersService.createUser(name, email, password);
-  if (create.message) {
-    const { code, message } = create;
-    return res.status(code).json({ message });
+  if (create === 'alreadyResgistered') {
+    return next('alreadyRegistered');
   }
   res.status(201).json(create);
 });
