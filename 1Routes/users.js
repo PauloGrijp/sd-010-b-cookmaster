@@ -6,4 +6,4 @@ router.route('/').get();
 
 module.exports = router;
 
-// teste 2 
+// teste 2
