@@ -1,10 +1,18 @@
 const jwt = require('jsonwebtoken');
-const { verify } = require('sinon');
 
-const SECRET = '123456'
-const validateToken = (req, res,next ) => {
+const SECRET = '123456';
+
+const validateToken = (req, res, next) => {
   const { authorization } = req.headers;
-  try{
-    const payload = jwt.verify(token,SECRET)
-  }catch(err)
+  try {
+    const verify = jwt.verify(authorization, SECRET);
+    const { _id } = verify;
+    if (verify) {
+      req.user = { _id };
+    }
+    return next();
+  } catch (err) {
+    return res.status(401).json({ message: 'jwt malformed' });
+}
 };
+module.exports = { validateToken };

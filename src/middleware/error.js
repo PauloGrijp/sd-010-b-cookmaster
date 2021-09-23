@@ -8,7 +8,7 @@ module.exports = (err, _req, res, _next) => {
       return res.status(401).json({ message: 'Incorrect username or password' });
     case 'alreadyRegistered':
       return res.status(409).json({ message: 'Email already registered' });
-      default:
+  default:
       break;
   }
 };
