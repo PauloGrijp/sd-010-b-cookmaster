@@ -40,7 +40,6 @@ const validateLogin = async (req, res, next) => {
 const secret = '12345';
 const validateJWT = async (req, res, next) => {
     const token = req.headers.authorization;
-    console.log(token);
     try {
         jwt.verify(token, secret);
         next();

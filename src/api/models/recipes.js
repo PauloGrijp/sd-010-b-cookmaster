@@ -8,4 +8,12 @@ const createOne = async (name, ingredients, preparation, userId) => {
     return out;
     };
 
-module.exports = { createOne };
+const getAll = async () => {
+    const out = await connect()
+        .then((db) => db.collection('recipes')
+        .find({}).toArray())
+        .then((result) => result);
+    return out;
+    };
+
+module.exports = { createOne, getAll };
