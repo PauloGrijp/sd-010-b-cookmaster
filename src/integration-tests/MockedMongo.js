@@ -7,7 +7,14 @@ const url = process.env.DB_URL;
 let db;
 MongoClient.connect(url, {}, function (err, client) {
   db = client.db();
-  // Get the documents collection
+  function cleanup() {
+    var state = collection.toJSON();""
+    state.documents.push({ a: 2 });
+    state.documents.length = 0;
+    db.close();
+  }
+
+  setTimeout(cleanup, 1000);
 });
 class MockedMongo {
   async main() {
