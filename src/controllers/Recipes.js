@@ -20,7 +20,8 @@ const upload = multer({ storage });
 
 recipeRouter.post('/', middleware.verifyToken, async (req, res) => {
   const { _id } = req.user;
-  const { name, ingredients, preparation } = req.body; 
+  const { name, ingredients, preparation } = req.body;
+  console.log('req.user recipe', req.user);
 
   const result = await recipeService.createRecipe({ name, ingredients, preparation, userId: _id });
 
@@ -49,7 +50,7 @@ recipeRouter.get('/:id', async (req, res) => {
 recipeRouter.put('/:id', middleware.verifyToken, async (req, res) => {
   const { id } = req.params;
   const { name, ingredients, preparation } = req.body;
-  const { _id: userId } = req.user;
+  const { _id: userId } = req.user;  
 
   const result = await recipeService.updateRecipe(id, userId, { name, ingredients, preparation });
   res.status(200).json(result);

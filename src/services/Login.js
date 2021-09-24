@@ -17,12 +17,13 @@ const login = async ({ email, password }) => {
   if (email === 'root@email.com' && password === 'admin') {
     const result = await loginModel.loginValidate({ email, password });
     const { password: _, ...userPayload } = result;
+    console.log(userPayload);
 
     const accessToken = jwt.sign(userPayload, SECRET_KEY, JWT_CONFIG); 
     return accessToken;
   }
 
-  const checkEntries = validateEntries(email, password);  
+  const checkEntries = validateEntries(email, password);
 
   if (checkEntries) return checkEntries;
 
@@ -31,7 +32,8 @@ const login = async ({ email, password }) => {
   if (!result) return { loginError: true, message: 'Incorrect username or password' };
   // console.log('console login service', result);
 
-  const { password: _, ...userPayload } = result;  
+  const { password: _, ...userPayload } = result;
+  console.log(userPayload);
 
   const accessToken = jwt.sign(userPayload, SECRET_KEY, JWT_CONFIG);  
 

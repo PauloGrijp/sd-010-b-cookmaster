@@ -18,6 +18,18 @@ const createUser = async ({ name, email, password }) => {
   return user;
 };
 
+const createAdmin = async ({ name, email, password, role }) => {
+  if (role !== 'admin') {
+    return { isError: true, message: 'Only admins can register new admins' };
+  }
+  // const checkEntries = validateEntries(name, email, password);
+  // if (checkEntries) return checkEntries;
+
+  const newAdmin = await userModel.insertAdmin({ name, email, password });
+  return newAdmin;
+};
+
 module.exports = {
   createUser,
+  createAdmin,  
 };
