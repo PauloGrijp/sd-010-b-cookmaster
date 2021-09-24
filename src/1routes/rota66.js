@@ -1,8 +1,9 @@
 const express = require('express');
-const { createusers } = require('../2controller/usersControlles');
+const { createUsers, login } = require('../2controller/usersController');
 
 const rota = express.Router();
 
-rota.post('/users', createusers);
+rota.post('/users', createUsers);
+rota.post('/login', login);
 
 module.exports = rota;
