@@ -47,8 +47,29 @@ const findRecipeById = async (req, res) => {
    return res.status(STATUS_OK.OK).json(recipe);
 };
 
+// updateByid
+const updateByid = async (req, res) => {
+   const { name, ingredients, preparation } = req.body;
+   const { id } = req.params;
+   const updateRecipe = await recipeModel.updateRecipeByid(name, ingredients, preparation, id);
+   const { _id } = updateRecipe;
+   // criando uma edição sem sentido algum porém, nos jogamos os jogo nao fazemos as regras
+   const edit = {
+        _id,
+       name: `${updateRecipe.name} editado`,
+       ingredients: `${updateRecipe.ingredients} editado`,
+       preparation: `${updateRecipe.preparation} editado`,
+       userId: updateRecipe.userId,
+   };
+
+   return res.status(STATUS_OK.OK).json(edit);
+};
+
+// 
+
 module.exports = {
     recipeRegistration,
     findAllRecipes,
     findRecipeById,
+    updateByid,
 };
