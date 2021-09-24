@@ -26,7 +26,7 @@ const modelEraser = async (id) => {
   if (!ObjectId.isValid(id)) return null;
   const db = await connection();
   const products = await db.collection('recipes').deleteOne({ _id: new ObjectId(id) });
-  return { code: 200, prod: products };  
+  return { code: 204, prod: products };  
 };
 
 const modelRecipes = async (recipes, token) => {
