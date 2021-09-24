@@ -1,4 +1,4 @@
-const { create, getAll, getById, update } = require('../services/recipe_service');
+const { create, getAll, getById, update, remove } = require('../services/recipe_service');
 
 const createRecipe = async (req, res) => {
     const { name, ingredients, preparation } = req.body;
@@ -36,9 +36,19 @@ const updateRecipe = async (req, res) => {
     return res.status(200).json(recipe);
 };
 
+const removeRecipe = async (req, res) => {
+    const { id } = req.params;
+
+    const recipe = await remove(id);
+    console.log(recipe, 'controller');
+
+    return res.status(204).json(recipe);
+};
+
 module.exports = {
     createRecipe,
     getAllRecipes,
     recipeById,
     updateRecipe,
+    removeRecipe,
 };
