@@ -11,6 +11,7 @@ const message = {
 const STATUS_OK = {
     OK: 200,
     Created: 201,
+    noContent: 204,
     
 };
 
@@ -65,6 +66,14 @@ const updateByid = async (req, res) => {
    return res.status(STATUS_OK.OK).json(edit);
 };
 
+// deleteByid
+
+const deleteByid = async (req, res) => {
+    await recipeModel.deleteRecipeByid;
+   
+    return res.status(STATUS_OK.noContent).json();
+ };
+
 // 
 
 module.exports = {
@@ -72,4 +81,5 @@ module.exports = {
     findAllRecipes,
     findRecipeById,
     updateByid,
+    deleteByid,
 };

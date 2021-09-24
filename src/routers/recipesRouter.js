@@ -9,6 +9,7 @@ const {
     validateToken,
     validateId,
     validateAdminToken,
+    validateTokenForDelete,
     
   } = require('../services/recipesService');
 
@@ -16,6 +17,7 @@ router.post('/', recipeFields, validateToken, recipesController.recipeRegistrati
 router.get('/', recipesController.findAllRecipes); 
 router.get('/:id', validateId, recipesController.findRecipeById); 
 router.put('/:id', validateAdminToken, recipesController.updateByid); 
+router.delete('/:id', validateTokenForDelete, recipesController.deleteByid); 
 // app.use((err, req, res, _next) => 
 // res.status(500).send(`Algo deu errado! Mensagem: ${err.message}`));
 
