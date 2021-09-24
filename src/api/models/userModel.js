@@ -6,7 +6,7 @@ const getUserByEmail = async (email) => {
     return result;
   };
 
-const createNewUser = async (name, email, password) => {
+const createUser = async (name, email, password) => {
 // const dbCon = await connection.execute;
     const dbCon = await connection();
     const returnUser = await dbCon.collection('users').insertOne({
