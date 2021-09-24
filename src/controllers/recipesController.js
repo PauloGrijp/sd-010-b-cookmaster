@@ -1,6 +1,6 @@
 const Joi = require('joi');
-const recipesServices = require('../services/recipesServices');
 const { CODE_HTTP, MESSAGE } = require('../helpers/responses');
+const recipesServices = require('../services/recipesServices');
 
 const createRecipes = async (req, res) => {
   const { name, ingredients, preparation } = req.body;
@@ -53,10 +53,17 @@ const exclude = async (req, res) => {
   return res.status(CODE_HTTP.NO_CONTENT).send();
 };
 
+const addImage = async (req, res) => {
+  const { id } = req.params;
+  const resultService = await recipesServices.addImage({ id });
+  return res.status(CODE_HTTP.SUCCESS).json(resultService);
+};
+
 module.exports = {
   createRecipes,
   getAll,
   getById,
   update,
   exclude,
+  addImage,
 };

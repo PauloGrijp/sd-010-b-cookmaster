@@ -24,10 +24,17 @@ const update = async ({ id, name, ingredients, preparation, userId }) => {
 
 const exclude = async ({ id }) => recipesModels.exclude({ id });
 
+const addImage = async ({ id }) => {
+  const imageURL = `localhost:3000/src/uploads/${id}.jpeg`;
+  const resultModel = await recipesModels.addImage({ imageURL, id });
+  return resultModel;
+};
+
 module.exports = {
   createRecipes,
   getAll,
   getById,
   update,
   exclude,
+  addImage,
 };

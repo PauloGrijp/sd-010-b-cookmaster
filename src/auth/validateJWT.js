@@ -16,8 +16,6 @@ module.exports = async (req, res, next) => {
     const { email, password } = decoded.data;
 
     const user = await model.findUser({ email, password });
-      // console.log(user);
-      
     if (!user) {
       return res.status(401).json({ message: 'Erro ao procurar usuário do token.' });
     }
