@@ -8,9 +8,14 @@ const findRecipes = async () => {
 
 const findRecipesById = async (id) => {
     const db = await connection();
-    const data = await db.collection('recipes').findOne(ObjectId(id));
-    console.log(data, 'model');
-    return data;
+    return db.collection('recipes').findOne(ObjectId(id));
+};
+
+const updateRecipesById = async (id, name, ingredients, preparation) => {
+    const db = await connection();
+    return db.collection('recipes')
+    .updateOne({ _id: ObjectId(id) }, 
+    { $set: { name, ingredients, preparation, userId: ObjectId(id) } });
 };
 
 const createRecipes = async (info) => {
@@ -18,4 +23,4 @@ const createRecipes = async (info) => {
     return db.collection('recipes').insertOne(info);
 };
 
-module.exports = { findRecipes, createRecipes, findRecipesById };
+module.exports = { findRecipes, createRecipes, findRecipesById, updateRecipesById };
