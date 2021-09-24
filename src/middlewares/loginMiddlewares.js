@@ -1,31 +1,16 @@
-// const { unauthorized, unauthorizedEmailPassword } = require('../error/errorUsers');
-// const Users = require('../models/usersModel');
+const Error = require('../helpers/errorUsers');
 
-// const checkLogin = async (req, res, next) => {
-//   const { email, password } = req.body;
-//   const userEmail = await Users.findEmail(email);
+const validateEmailPassword = (req, res, next) => {
+  const { code, message } = Error.unauthorized('All fields must be filled');
+  const { email, password } = req.body;
+  if (!email || !password) {
+    return res.status(code).json({
+      message,
+    });
+  }
+  next();
+};
 
-//   if (!userEmail || userEmail.password !== password) {
-//     unauthorized(res);
-//   }
-//   next();
-// };
-
-// const validEmailPassword = (req, res, next) => {
-//   const { email, password } = req.body;
-//   const regex = /\S+@\S+\.\S+/;
-
-//   if (!email || !password) {
-//     unauthorizedEmailPassword(res);
-//   }
-
-//   if (!regex.test(email)) {
-//     unauthorized(res);
-//   }
-//   next();
-// };
-
-// module.exports = {
-//   checkLogin,
-//   validEmailPassword,
-// };
+module.exports = {
+  validateEmailPassword,
+};
