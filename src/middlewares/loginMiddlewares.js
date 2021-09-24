@@ -11,6 +11,4 @@ const validateEmailPassword = (req, res, next) => {
   next();
 };
 
-module.exports = {
-  validateEmailPassword,
-};
+module.exports = validateEmailPassword;

@@ -12,6 +12,4 @@ const userValidate = (req, res, next) => {
   next();
 };
 
-module.exports = {
-  userValidate,
-};
+module.exports = userValidate;
