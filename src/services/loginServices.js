@@ -1,10 +1,14 @@
-// const Users = require('../models/usersModel');
+const Users = require('../models/usersModel');
+const Error = require('../helpers/errorUsers');
 
-// const findUser = async (email) => {
-//   const check = await Users.findEmail(email);
-//   return check; 
-// };
+const findUser = async (email, password) => {
+  const checkEmail = await Users.findEmail(email);
+  if (!checkEmail || checkEmail.password !== password) {
+    return Error.unauthorized('Incorrect username or password');
+  }
+  return checkEmail; 
+};
 
-// module.exports = {
-//   findUser,
-// };
+module.exports = {
+  findUser,
+};
