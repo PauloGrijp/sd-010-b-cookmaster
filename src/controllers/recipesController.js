@@ -15,8 +15,12 @@ const getAll = async (_req, res) => {
 
 const getById = async (req, res) => {
   const { id } = req.params;
-  const recipeFound = await RecipesService.getById(id);
-  res.status(200).json(recipeFound);
+  const { recipe, code, message } = await RecipesService.getById(id);
+  console.log(code, message);
+
+  if (code === 404) return res.status(code).json({ message });
+
+  res.status(code).json(recipe);
 };
 
 module.exports = {
