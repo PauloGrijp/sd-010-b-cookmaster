@@ -13,9 +13,9 @@ app.get('/', (request, response) => {
 // Não remover esse end-point, ele é necessário para o avaliador
 
 // ------------------------------------------------------------------
-// Requisito 1: Rota Users
+// Requisito 1, 2: Rota Users e Login
 
-app.use('/users', usersRouter);
+app.use('/', usersRouter);
 
 // ------------------------------------------------------------------
 
