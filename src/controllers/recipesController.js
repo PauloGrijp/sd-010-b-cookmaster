@@ -1,3 +1,4 @@
+const path = require('path');
 const recipesService = require('../services/recipesService');
 const recipesModel = require('../models/recipesModel');
 
@@ -31,7 +32,14 @@ const deleteRecipeById = async (req, res) => {
   const { id } = req.params;
   const targetRecipe = await recipesService.deleteRecipeById(req.user, id);
   if (!targetRecipe.result) return res.status(401).json(targetRecipe);
-  res.status(204).json(targetRecipe);
+  return res.status(204).json(targetRecipe);
+};
+
+const addImage = async (req, res) => {
+  const { id } = req.params;
+  const image = path.join('localhost:3000', 'src', 'uploads', `${id}.jpeg`);
+  const imageSent = await recipesService.addImage(req.user, image, id);
+  return res.status(200).json(imageSent);
 };
 
 module.exports = {
@@ -40,4 +48,5 @@ module.exports = {
   getRecipeById,
   updateRecipeById,
   deleteRecipeById,
+  addImage,
 };

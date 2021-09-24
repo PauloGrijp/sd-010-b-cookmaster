@@ -59,9 +59,21 @@ const deleteRecipeById = async (userInfo, id) => {
   return unauthorizedUserError;
 };
 
+const addImage = async (userInfo, image, id) => {
+  if (!ObjectId.isValid(id)) return recipeNotExistsError;
+  const { _id, role } = userInfo;
+  const targetRecipe = await getRecipeById(id);
+
+  if (role === 'admin' || _id === targetRecipe.userId) {
+    return recipesModel.addImage(image, id);
+  }
+  return unauthorizedUserError;
+};
+
 module.exports = {
   registerNewRecipe,
   getRecipeById,
   updateRecipeById,
   deleteRecipeById,
+  addImage,
 };
