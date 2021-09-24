@@ -1,8 +1,13 @@
 const express = require('express');
-// const path = require('path');
+const path = require('path');
 const bodyParser = require('body-parser').json();
 
 const app = express();
+
+// cria uma url para acessar um arquivo a partir do navegador!!
+
+app.use('/images', express.static(path.join(__dirname, '..', 'uploads')));
+
 app.use(express.json());
 app.use(bodyParser);
 require('dotenv').config();

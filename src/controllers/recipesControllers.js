@@ -74,6 +74,15 @@ const deleteByid = async (req, res) => {
     return res.status(STATUS_OK.noContent).json();
  };
 
+ const updateImageById = async (req, res) => {
+    // const { id } = req.params;
+    console.log(req.file.path, 'quero fazer o update da imagem posso?');
+    // const imagePath = `http://localhost:3000/${req.file.path}`;
+    // const recipeWithImage = await recipeModel.imageUpload(id, imagePath);
+ 
+    return res.status(STATUS_OK.OK).json();
+ };
+
 // 
 
 module.exports = {
@@ -82,4 +91,5 @@ module.exports = {
     findRecipeById,
     updateByid,
     deleteByid,
+    updateImageById,
 };

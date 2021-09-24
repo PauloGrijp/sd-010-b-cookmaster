@@ -66,6 +66,20 @@ const validateAdminToken = (req, res, next) => {
     }
  };
 
+ const validateUpdateImage = (req, res, next) => {
+    const token = req.headers.authorization;
+ 
+    if (!token) {
+     return res.status(erroCode.Unauthorized).json({ message: message.notAdmin });
+    }
+    try {
+     jwt.verify(token, secret);
+     next(); 
+    } catch (error) {
+     return res.status(erroCode.Unauthorized).json({ message: message.notAdmin });
+    }
+ };
+
 const validateId = (req, res, next) => {
     const { id } = req.params;
 
@@ -82,5 +96,6 @@ module.exports = {
     validateId,
     validateAdminToken,
     validateTokenForDelete,
+    validateUpdateImage,
 
 };
