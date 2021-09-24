@@ -1,5 +1,8 @@
+const path = require('path');
+
 const { addNewRecipe, getRecipe, 
-  getRecipeById, deletedRecipe, editedRecipe } = require('../services/recipeService');
+  getRecipeById, deletedRecipe, editedRecipe, uploadImg } = require('../services/recipeService');
+  const { multerUpload } = require('../middlewares/uploadImage');
 
 const createRecipe = async (req, res) => {
   const { name, ingredients, preparation } = req.body;
@@ -36,4 +39,14 @@ const editRecipe = async (req, res) => {
   return res.status(200).json({ ...result, userId });
 };
 
-module.exports = { createRecipe, allRecipes, getById, deleteRecipe, editRecipe };
+const uploadImage = [
+  multerUpload.single('image'),
+  async (req, res) => {
+    const { id } = req.params;
+    const result = await uploadImg(id, 
+      path.join('localhost:3000', 'src', 'uploads', `${id}.jpeg`));
+    res.status(200).json(result);
+  },
+];
+
+module.exports = { createRecipe, allRecipes, getById, deleteRecipe, editRecipe, uploadImage };

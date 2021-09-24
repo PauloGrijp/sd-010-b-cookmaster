@@ -22,10 +22,12 @@ const getById = async (id) => {
       return { status: 200, result };
     }
     return {
-      status: 404, err: { message: 'recipe not found' } };
+      status: 404, err: { message: 'recipe not found' },
+    };
   } catch (error) {
     return {
-      status: 404, err: { message: 'recipe not found' } };
+      status: 404, err: { message: 'recipe not found' },
+    };
   }
 };
 
@@ -45,4 +47,23 @@ const editRecipe = async (id, name, ingredients, preparation) => {
   return { _id: id, name, ingredients, preparation };
 };
 
-module.exports = { addNewRecipeModel, getRecipes, getById, deleteRecipe, editRecipe };
+const editImageWithUrl = async (id, image) => {
+  const db = await connection();
+  if (!ObjectId.isValid(id)) return null;
+  const result = await db.collection('recipes').findOneAndUpdate(
+    { _id: ObjectId(id) },
+    { $set: { image } },
+   
+    { returnOriginal: false },
+  );
+  return result.value;
+};
+
+module.exports = {
+  addNewRecipeModel,
+  getRecipes,
+  getById,
+  deleteRecipe,
+  editRecipe,
+  editImageWithUrl,
+};
