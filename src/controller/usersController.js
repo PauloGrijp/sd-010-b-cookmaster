@@ -47,6 +47,4 @@ usersRouter.post('/login',
   return res.status(200).json({ token });
 });
 
-// ---------------------------------------------------------------
-
 module.exports = { usersRouter };

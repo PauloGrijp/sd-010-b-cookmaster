@@ -13,7 +13,7 @@ const postUserService = async ({ name, email, password, role }) => {
 };
 
 // ---------------------------------------------------------------
-// Requisito 2: 
+// Requisito 2: SERVICE responsável por autenticar "email" e "password", gerar e retornar o TOKEN.
 
 const postLoginService = async ({ email, password }) => {
   const user = await getUserByEmail(email);
@@ -26,6 +26,8 @@ const postLoginService = async ({ email, password }) => {
   
   return token;
 };
+
+// ---------------------------------------------------------------
 
 module.exports = {
   postUserService,

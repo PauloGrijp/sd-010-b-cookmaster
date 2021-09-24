@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const { usersRouter } = require('../controller/usersController');
+const { recipesRouter } = require('../controller/recipesController');
 
 const app = express();
 
@@ -13,9 +14,14 @@ app.get('/', (request, response) => {
 // Não remover esse end-point, ele é necessário para o avaliador
 
 // ------------------------------------------------------------------
-// Requisito 1, 2: Rota Users e Login
+// Requisitos 1, 2: Rota de Users e Login
 
 app.use('/', usersRouter);
+
+// ------------------------------------------------------------------
+// Requisito 3: Rota de Recipes
+
+app.use('/recipes', recipesRouter);
 
 // ------------------------------------------------------------------
 
