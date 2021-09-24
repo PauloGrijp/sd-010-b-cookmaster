@@ -27,7 +27,6 @@ const {
     validateId,
     validateAdminToken,
     validateTokenForDelete,
-    validateUpdateImage,
     
   } = require('../services/recipesService');
 
@@ -36,7 +35,7 @@ router.get('/', recipesController.findAllRecipes);
 router.get('/:id', validateId, recipesController.findRecipeById); 
 router.put('/:id', validateAdminToken, recipesController.updateByid); 
 router.delete('/:id', validateTokenForDelete, recipesController.deleteByid); 
-router.put('/:id/image', validateUpdateImage, 
+router.put('/:id/image', validateTokenForDelete, 
   upload.single('image'), recipesController.updateImageById);
 // app.use((err, req, res, _next) => 
 // res.status(500).send(`Algo deu errado! Mensagem: ${err.message}`));
