@@ -16,7 +16,7 @@ module.exports = {
 
   loginIncorrect: {
     status: 401,
-    message: 'Incorrect username or passowrd',
+    message: 'Incorrect username or password',
   },
 
   missingToken: {
