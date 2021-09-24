@@ -1,10 +1,10 @@
-const Users = require('../models/usersModel');
+// const Users = require('../models/usersModel');
 
-const findUser = async (email) => {
-  const check = await Users.findEmail(email);
-  return check; 
-};
+// const findUser = async (email) => {
+//   const check = await Users.findEmail(email);
+//   return check; 
+// };
 
-module.exports = {
-  findUser,
-};
+// module.exports = {
+//   findUser,
+// };
