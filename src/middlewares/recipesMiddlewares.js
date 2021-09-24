@@ -1,5 +1,5 @@
 const validate = require('../helpers/validateRecipes');
-const Error = require('../helpers/errorUsers');
+const Error = require('../helpers/errors');
 
 const recipesValidate = (req, res, next) => {
   const { error } = validate.schemaRecipes.validate(req.body);

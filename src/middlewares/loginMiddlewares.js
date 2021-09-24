@@ -1,4 +1,4 @@
-const Error = require('../helpers/errorUsers');
+const Error = require('../helpers/errors');
 
 const validateEmailPassword = (req, res, next) => {
   const { code, message } = Error.unauthorized('All fields must be filled');

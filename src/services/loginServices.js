@@ -1,5 +1,5 @@
 const Users = require('../models/usersModel');
-const Error = require('../helpers/errorUsers');
+const Error = require('../helpers/errors');
 
 const findUser = async (email, password) => {
   const checkEmail = await Users.findEmail(email);

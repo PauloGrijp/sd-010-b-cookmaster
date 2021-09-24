@@ -1,5 +1,5 @@
 const Users = require('../models/usersModel');
-const Error = require('../helpers/errorUsers');
+const Error = require('../helpers/errors');
 
 const createUser = async (user) => {
   const { email } = user;

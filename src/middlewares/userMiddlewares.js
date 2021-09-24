@@ -1,5 +1,5 @@
 const validate = require('../helpers/validateUser');
-const Error = require('../helpers/errorUsers');
+const Error = require('../helpers/errors');
 
 const userValidate = (req, res, next) => {
   const { error } = validate.schemaUser.validate(req.body);

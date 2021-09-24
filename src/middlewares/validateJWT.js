@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const Error = require('../helpers/errorUsers');
+const Error = require('../helpers/errors');
 
 const secret = 'minha-senha';
 
