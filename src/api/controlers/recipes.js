@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const { createRecipe, getAllRecipes } = require('../services/recipes');
+const { createRecipe, getAllRecipes, getRecipe } = require('../services/recipes');
 
 const secret = '12345';
 
@@ -16,4 +16,17 @@ const getRecipes = async (_req, res) => {
     return res.status(200).json(recipes);
 };
 
-module.exports = { create, getRecipes };
+const getRecipeID = async (req, res) => {
+    const { id } = req.params;
+    try {
+        const recipes = await getRecipe(id);
+        if (recipes === null) {
+            return res.status(404).json({ message: 'recipe not found' });
+        }
+        return res.status(200).json(recipes);
+    } catch (error) {
+        return res.status(404).json({ message: 'recipe not found' });
+    }
+};
+
+module.exports = { create, getRecipes, getRecipeID };
