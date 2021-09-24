@@ -72,7 +72,7 @@ const storage = multer.diskStorage({
   formInfo.append('file', stream);
   const formHeader = formInfo.getHeaders();  */
   
-router.put('/:id/image/', validateJWT, upload.single('file'), async (req, res) => {
+router.put('/:id/image/', validateJWT, upload.single('image'), async (req, res) => {
 	try {
 		const { id } = req.params;
 	const { path: pathFile } = req.file;

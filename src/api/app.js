@@ -12,6 +12,7 @@ const recipesRouter = require('../controllers/recipeController');
 
 const app = express();
 app.use('/images', express.static(path.join(__dirname, '..', 'uploads')));
+// app.use(express.static(`${__dirname}/uploads`));
 app.use(express.urlencoded({ extended: true }));
 app.use(bodyparser.json());
 // Não remover esse end-point, ele é necessário para o avaliador
