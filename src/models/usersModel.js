@@ -5,7 +5,7 @@ const findEmail = async (email) => {
   return db.collection('users').findOne({ email });
 };
 
-const createUser = async (user) => {
+const create = async (user) => {
   const { name, email, password } = user;
   const role = 'user';
   const db = await connection();
@@ -20,5 +20,5 @@ const createUser = async (user) => {
 
 module.exports = {
   findEmail,
-  createUser,
+  create,
 };
