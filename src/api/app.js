@@ -16,9 +16,6 @@ app.get('/', (request, response) => {
   response.send();
 });
 
-// app.use(express.static(path.join(__dirname, '..', 'uploads')));
-// const upload = multer({ dest: 'uploads' });
-
 app.use('/images', express.static(path.join(__dirname, '..', 'uploads')));
 
 app.post('/users', usersController.registerNewUser);
