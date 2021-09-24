@@ -32,7 +32,7 @@ const deleteRecipes = async (req, res) => {
   const { id } = req.params;
   const { authorization } = req.headers;
   const result = await recipesServices.deleteRecipes(authorization, id);
-  return res.status(200).json(result);
+  return res.status(204).json(result);
 };
 
 module.exports = {

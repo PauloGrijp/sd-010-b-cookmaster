@@ -29,15 +29,14 @@ const db = await connection();
 const result = await db.collection('recipes').findOneAndUpdate(
   { _id: ObjectId(id) }, { $set: { name, ingredients, preparation } }, { returnOriginal: false },
 );
-  // const { userId } = result.value;
+  // const { userId } = result.value;  {returnDocument: 'after'}
   // return { _id: ObjectId(id), name, ingredients, preparation, userId };
   return result.value;
 };
 
 const deleteRecipes = async (id) => {
 const db = await connection();
-const result = await db.collection('recipes').deleteOne({ _id: ObjectId(id) });
-return result;
+await db.collection('recipes').deleteOne({ _id: ObjectId(id) });
 };
 
 module.exports = {

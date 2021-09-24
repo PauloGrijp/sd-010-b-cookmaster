@@ -89,8 +89,7 @@ const editRecipes = async (token, id, { name, ingredients, preparation }) => {
 const deleteRecipes = async (token, id) => {
   validAutheToken(token);
   validTokenExist(token);
-  const result = await recipesModel.deleteRecipes(id);
-  return result;
+  await recipesModel.deleteRecipes(id);
 };
 
 module.exports = {
