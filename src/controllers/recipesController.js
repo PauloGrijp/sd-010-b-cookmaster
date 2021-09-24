@@ -20,6 +20,17 @@ const createRecipe = async (req, res) => {
   }
 };
 
+const getAllRecipes = async (req, res) => {
+  try {
+    const allRecipes = await service.getAllRecipes();
+    return res.status(StatusCodes.OK).json(allRecipes);
+  } catch (error) {
+    return res.status(StatusCodes.INTERNAL_SERVER_ERROR)
+    .json({ message: 'Sorry! There is something wrong!' });
+  }
+};
+
 module.exports = {
   createRecipe,
+  getAllRecipes,
 };

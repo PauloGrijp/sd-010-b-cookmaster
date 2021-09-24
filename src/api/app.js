@@ -14,6 +14,8 @@ const app = express();
 
 app.use(bodyParser.json());
 
+app.get('/recipes', recipesController.getAllRecipes);
+
 app.post('/users',
   validateFields,
   validateEmail,
