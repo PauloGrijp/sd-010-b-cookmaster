@@ -3,7 +3,6 @@ const RecipeService = require('../services/recipes');
 const create = async (req, res) => {
   const newRecipe = req.body;
   const { authorization } = req.headers;
-  // console.log(authorization, 'token');
 
   const createRecipe = await RecipeService.create(newRecipe, authorization);
   if (createRecipe.err) return res.status(401).json(createRecipe.err);
@@ -26,8 +25,21 @@ const getRecipeById = async (req, res) => {
   return res.status(200).json(recipe);
 };
 
+const updateRecipe = async (req, res) => {
+  const update = req.body;
+  const { id } = req.params;
+  const { authorization } = req.headers;
+  if (!authorization) return res.status(401).json({ message: 'missing auth token' });
+
+  const recipe = await RecipeService.updateRecipe(id, update, authorization);
+
+  if (recipe.err) return res.status(401).json(recipe.err);
+  return res.status(200).json(recipe);
+};
+
 module.exports = {
   create,
   getAllRecipes,
   getRecipeById,
+  updateRecipe,
 };

@@ -18,7 +18,6 @@ const validateRecipe = ({ name, preparation, ingredients }) => {
 
 const validateToken = async (token) => {
   if (!token) return err.malformed;
-  // console.log(token, secret, 'jwt');
   try {
     const decoded = jwt.verify(token, secret);
     if (typeof decoded !== 'object') return err.malformed;
@@ -63,12 +62,21 @@ const getRecipeById = async (id) => {
 
   const recipe = await RecipeModel.getRecipeById(id);
   if (!recipe) return err.notFound;
-  console.log(recipe, 'service');
   return recipe;
+};
+
+const updateRecipe = async (id, recipe, authorization) => {
+  if (!authorization) return err.malformed;
+  const validToken = await validateToken(authorization);
+  if (validToken.err) return err.malformed;
+
+  const update = await RecipeModel.updateRecipe(id, recipe);
+  return update;
 };
 
 module.exports = {
   create,
   getAllRecipes,
   getRecipeById,
+  updateRecipe,
 };
