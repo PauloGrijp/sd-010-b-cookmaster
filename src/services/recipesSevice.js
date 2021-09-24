@@ -12,4 +12,14 @@ const getRecipesId = async (id) => {
   return getRecipe;
 };
 
-module.exports = { createRecipe, getRecipesAll, getRecipesId };
+const updateRecipe = async (id, name, ingredients, preparation) => {
+  const update = await recipesModel.updateRecipe(id, name, ingredients, preparation);
+  return update;
+};
+
+const deleteRecipe = async (id) => {
+  const deleteDate = await recipesModel.deleteRecipe(id);
+  return deleteDate;
+};
+
+module.exports = { createRecipe, getRecipesAll, getRecipesId, updateRecipe, deleteRecipe };

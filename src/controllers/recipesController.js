@@ -27,14 +27,30 @@ const getRecipesAll = rescue(async (req, res, _next) => {
 
 const getRecipeId = rescue(async (req, res, next) => {
   const { id } = req.params;
+  console.log(id);
   const getRecipe = await recipeService.getRecipesId(id);
   if (!getRecipe) {
     return next('recipeNotFound');
   }
   res.status(200).json(getRecipe);
 });
+
+const updateRecipe = rescue(async (req, res, _next) => {
+  const { id } = req.params;
+  const { name, ingredients, preparation } = req.body;
+  const update = await recipeService.updateRecipe(id, name, ingredients, preparation);
+  res.status(200).json(update);
+});
+const deleteRecipe = rescue(async (req, res, _next) => {
+  const { id } = req.params;
+  console.log(id);
+  const deleteData = await recipeService.deleteRecipe(id);
+  res.status(204).json(deleteData);
+});
 module.exports = {
   createRecipes,
   getRecipesAll,
   getRecipeId,
+  updateRecipe,
+  deleteRecipe,
 };
