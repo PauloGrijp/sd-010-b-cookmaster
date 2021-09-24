@@ -1,6 +1,7 @@
 const {
   postRecipeModel,
-  getRecipesModel } = require('../model/recipesModel');
+  getRecipesModel, 
+  getRecipeByIdModel } = require('../model/recipesModel');
 
 // ---------------------------------------------------------------
 // Requisito 3: SERVICE responsável por chamar MODEL de cadastro de receitas e retornar a receita cadastrada para o CONTROLLER.
@@ -21,8 +22,18 @@ const getRecipesService = async () => {
 };
 
 // ---------------------------------------------------------------
+// Requisito 5: SERVICE responsável por chamar MODEL de pesquisa de receita por ID e retornar a receitas cadastrada para o CONTROLLER.
+
+const getRecipeByIdService = async (id) => {
+  const recipe = await getRecipeByIdModel(id);
+
+  return recipe;
+};
+
+// ---------------------------------------------------------------
 
 module.exports = {
   postRecipeService,
   getRecipesService,
+  getRecipeByIdService,
 };

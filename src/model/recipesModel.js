@@ -16,8 +16,15 @@ const getRecipesModel = async () => connection()
   .then((recipes) => recipes);
 
 // ---------------------------------------------------------------
+// Requisito 5: MODEL responsável pela pesquisar receita por ID na BASE DE DADOS, e retorno a receita cadastrada.
+
+const getRecipeByIdModel = async (id) => connection()
+  .then((db) => db.collection('recipes').findOne({ _id: ObjectId(id) }));
+
+// ---------------------------------------------------------------
   
   module.exports = {
     postRecipeModel,
     getRecipesModel,
+    getRecipeByIdModel,
   };

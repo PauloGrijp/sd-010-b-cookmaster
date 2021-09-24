@@ -6,7 +6,8 @@ const {
   validatePreparationRecipes } = require('../middlewares/recipesMiddlewares');
 const {
   postRecipeService,
-  getRecipesService } = require('../service/recipesService');
+  getRecipesService, 
+  getRecipeByIdService } = require('../service/recipesService');
 
 const recipesRouter = express.Router();
 
@@ -33,6 +34,21 @@ recipesRouter.get('/', async (req, res) => {
   const recipes = await getRecipesService();
 
   return res.status(200).json(recipes);
+});
+
+// ---------------------------------------------------------------
+// Requisito 5: CONTROLLER responsável por receber a requisição de listagem de receita por ID, chamar SERVICE e retornar a receita cadastrada.
+
+recipesRouter.get('/:id', async (req, res) => {
+  const { id } = req.params;
+
+  const recipe = await getRecipeByIdService(id);
+
+  if (!recipe) {
+    return res.status(404).json({ message: 'recipe not found' });
+  }
+
+  return res.status(200).json(recipe);
 });
 
 // ---------------------------------------------------------------
