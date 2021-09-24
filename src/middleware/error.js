@@ -1,5 +1,4 @@
 module.exports = (err, _req, res, _next) => {
-  console.log(err);
   const statusCode = {
     userAndRecipes: 400,
     login: 401,
