@@ -1,12 +1,16 @@
+const express = require('express');
 const { StatusCodes } = require('http-status-codes');
 const rescue = require('express-rescue');
 const userServices = require('../services/userServices');
 
-const createUser = rescue(async (req, res) => {
-  const user = await userServices.createUser(req.body);
-  res.status(StatusCodes.CREATED).json({ user });
-});
+const usersRouter = express.Router();
 
-module.exports = {
-  createUser,
-};
+usersRouter.post('/', rescue(async (req, res) => {
+  const user = await userServices.createUser(req.body);
+  if (user.isError) {
+    return res.status(user.code).json({ message: user.message });
+  }
+  return res.status(StatusCodes.CREATED).json({ user });
+}));
+
+module.exports = usersRouter;
