@@ -14,11 +14,9 @@ app.get('/', (request, response) => {
 
 const userValidate = require('../middlewares/userMiddlewares');
 const validateEmailPassword = require('../middlewares/loginMiddlewares');
-const recipesValidate = require('../middlewares/recipesMiddlewares');
-const validateJWT = require('../middlewares/validateJWT');
 
 app.use('/users', userValidate, users);
 app.use('/login', validateEmailPassword, login);
-app.use('/recipes', recipesValidate, validateJWT, recipes);
+app.use('/recipes', recipes);
 
 module.exports = app;
