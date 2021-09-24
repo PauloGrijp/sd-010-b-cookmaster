@@ -53,7 +53,7 @@ describe("POST /login", () => {
         email: "valid@valid.com",
         password: "valid",
       };
-      MockedMongo.db.collection("users").insertOne(validData);
+      await MockedMongo.db.collection("users").insertOne(validData);
       response = await chai.request(app).post("/login").send(validData);
     });
 
