@@ -5,6 +5,12 @@ const create = async (recipe) => {
   return newRecipe;
 };
 
+const getAll = async () => {
+  const recipes = await Recipes.getAll();
+  return recipes;
+};
+
 module.exports = {
   create,
+  getAll,
 };
