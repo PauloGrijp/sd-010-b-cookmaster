@@ -1,6 +1,22 @@
 const { fieldValidator, tokenValidator } = require('../middleware/recipes');
-const { modelRecipes, modelListById } = require('../models/recipes');
+const { modelRecipes, modelListById, modelUpdater, modelEraser } = require('../models/recipes');
 const { idValidator } = require('../middleware/recipes');
+
+const servUpdater = async ({ id, name, ingredients, preparation }, tokenReceived) => {
+const result = await modelListById(id);
+if (!result) return { err: { message: 'recipe not found' }, code: 404 };
+
+const invalidator = await fieldValidator(name, ingredients, preparation);
+if (invalidator) {
+  return invalidator;
+}
+
+const invalidatoken = await tokenValidator(tokenReceived);
+if (invalidatoken) {
+  return invalidatoken;
+}
+  return modelUpdater({ id, name, ingredients, preparation }, tokenReceived);
+};
 
 const servRecipes = async (recipes, tokenReceived) => { 
   const { name, ingredients, preparation } = recipes;
@@ -27,7 +43,15 @@ const servListByID = async (id) => {
  return result;
 };
 
+const servEraser = async (id) => {
+  const result = await modelEraser(id);
+  if (!result) return { err: { code: 'invalid_data', message: 'Wrong id format' }, code: 422 };
+  return result;
+};
+
 module.exports = {
- servRecipes,
- servListByID,
+  servUpdater,
+  servEraser,
+  servRecipes,
+  servListByID,
 };

@@ -15,7 +15,7 @@ const idValidator = async (id) => {
 
 const tokenValidator = async (token) => {
   if (!token) {
-    return { err: { message: 'jwt malformed' }, code: 401 };
+    return { err: { message: 'missing auth token' }, code: 401 };
   }
   try {
     const { data: { email } } = jwt.verify(token, secret);
@@ -26,6 +26,7 @@ const tokenValidator = async (token) => {
   } catch (error) {
     return { err: { message: 'jwt malformed' }, code: 401 };
   }
+  return false;
 };
 
 const fieldValidator = (name, ingredients, preparation) => {
