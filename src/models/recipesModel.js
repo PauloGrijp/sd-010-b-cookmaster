@@ -9,13 +9,14 @@ const registerNewRecipe = async (recipe, userInfo) => {
   return { recipe: { _id: registeredRecipe.insertedId, ...newRecipe } };
 };
 
-module.exports = {
-  registerNewRecipe,
+const getAllRecipes = async () => {
+  const db = await connection.getConnection();
+  const allRecipes = await db.collection('recipes').find().toArray();
+  
+  return allRecipes;
 };
 
-// { 
-//   "name" : "Receita do Jacquin",
-//   "ingredients" : "Frango",
-//   "preparation" : "10 minutos no forno" 
-//   "userId" : "token"
-// }
+module.exports = {
+  registerNewRecipe,
+  getAllRecipes,
+};
