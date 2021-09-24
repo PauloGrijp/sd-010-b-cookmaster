@@ -4,11 +4,12 @@ const { recipeValidator, recipeIdValidator } = require('../validators/Recipes');
 
 const createRecipe = async (req, res) => {
   const { error } = recipeValidator(req.body);
-
+  
   if (error) return res.status(BAD_REQUEST).json({ message: 'Invalid entries. Try again.' });
-
+  
+  const { _id } = req.user;
   const { name, ingredients, preparation } = req.body;
-  const recipe = await Recipe.createRecipe({ name, ingredients, preparation });
+  const recipe = await Recipe.createRecipe({ name, ingredients, preparation, userId: _id });
 
   return res.status(CREATE).json(recipe);
 };
@@ -30,8 +31,18 @@ const getRecipeById = async (req, res) => {
   return res.status(SUCCESS).json(recipe);
 };
 
+const updateRecipe = async (req, res) => {
+  const { id } = req.params;
+  const { user } = req;
+
+  const recipesUpdated = await Recipe.updateRecipe({ id, data: req.body, user });
+
+  res.status(SUCCESS).json(recipesUpdated);
+};
+
 module.exports = {
   createRecipe,
   getAllRecipes,
   getRecipeById,
+  updateRecipe,
 };

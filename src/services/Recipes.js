@@ -1,11 +1,5 @@
 const Recipe = require('../models/Recipes');
-const { NOT_FOUND } = require('../utils/statusCodes');
-
-const createRecipe = async (data) => {
-  const recipe = await Recipe.createRecipe(data);
-
-  return recipe;
-};
+const { NOT_FOUND, UNAUTHORIZED } = require('../utils/statusCodes');
 
 const getRecipeById = async (id) => {
   const recipe = await Recipe.getRecipeById(id);
@@ -15,8 +9,22 @@ const getRecipeById = async (id) => {
   return recipe;
 };
 
+const updateRecipe = async ({ id, data, user }) => {
+  const { _id, role } = user;
+  const recipeExists = await getRecipeById(id);
+
+  if (_id !== recipeExists.userId && role !== 'admin') {
+    return { code: UNAUTHORIZED, message: 'missing auth token' };
+  }
+
+  const recipe = await Recipe.updateRecipe({ id, data });
+
+  return recipe;
+};
+
 module.exports = {
-  createRecipe,
+  createRecipe: Recipe.createRecipe,
   getAllRecipes: Recipe.getAllRecipes,
   getRecipeById,
+  updateRecipe,
 };

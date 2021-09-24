@@ -3,6 +3,7 @@ const connection = require('./connection');
 
 const createRecipe = async (data) => {
   const db = await connection();
+
   const response = await db.collection('recipes').insertOne(data);
   const recipe = { ...response.ops[0] };
 
@@ -23,8 +24,21 @@ const getRecipeById = async (id) => {
   return recipe;
 };
 
+const updateRecipe = async ({ id, data }) => {
+  const db = await connection();
+  const { matchedCount } = await db.collection('recipes')
+    .updateOne({ _id: ObjectId(id) }, { $set: data });
+
+  if (matchedCount) {
+    return db.collection('recipes').findOne({ _id: ObjectId(id) });
+  }
+
+  return matchedCount;
+};
+
 module.exports = {
   createRecipe,
   getAllRecipes,
   getRecipeById,
+  updateRecipe,
 }; 
