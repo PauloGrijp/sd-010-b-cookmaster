@@ -27,4 +27,6 @@ app.get('/recipes', recipesController.getAllRecipes);
 
 app.get('/recipes/:id', recipesController.getRecipeById);
 
+app.put('/recipes/:id', validateJWT.validateToken, recipesController.updateRecipeById);
+
 module.exports = app;

@@ -31,7 +31,21 @@ const getRecipeById = async (id) => {
   return recipe;
 };
 
+const updateRecipeById = async (recipe, userInfo, id) => {
+  if (!ObjectId.isValid(id)) return recipeNotExistsError;
+  const { _id, role } = userInfo;
+  const { error } = recipeSchema.validate(recipe);
+  const targetRecipe = await getRecipeById(id);
+
+  if (error) return invalidEntriesError;
+  if (role === 'admin' || _id === targetRecipe.userId) {
+    return recipesModel.updateRecipeById(recipe, userInfo, id);
+  }
+  return 'Not autorized';
+};
+
 module.exports = {
   registerNewRecipe,
   getRecipeById,
+  updateRecipeById,
 };
