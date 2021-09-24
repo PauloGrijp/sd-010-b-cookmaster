@@ -1,8 +1,5 @@
 const express = require('express');
-/* const path = require('path'); */
 const multer = require('multer');
-/* const FormData = require('form-data');
-const fs = require('fs'); */
 
 const router = express.Router();
 const statusCode = require('http-status-codes');
@@ -64,14 +61,9 @@ const storage = multer.diskStorage({
 		callback(null, `${id}.jpeg`);
 	},
 });
-  /* const photoFile = path.resolve(__dirname, '..', '/uploads'); */
-  const upload = multer({ storage });
- /*  const stream = fs.createReadStream(photoFile);  */
-  
-  /* const formInfo = new FormData();
-  formInfo.append('file', stream);
-  const formHeader = formInfo.getHeaders();  */
-  
+
+const upload = multer({ storage });
+
 router.put('/:id/image/', validateJWT, upload.single('image'), async (req, res) => {
 	try {
 		const { id } = req.params;
