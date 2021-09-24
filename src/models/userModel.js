@@ -1,20 +1,34 @@
 const connect = require('./connection');
-
 require('dotenv').config();
 
-const getUserByEmail = async (email) => {
+const getUser = async (name) => {
   const db = await connect();
-  const result = db.collection(process.env.COLLECTION).findOne({ email });
+  const result = await db.collection('users').findOne({ name });
   return result;
 };
 
-const createUser = async (name, email, password, role) => {
+const getUserByEmail = async (email) => {
   const db = await connect();
-  const result = db.collection(process.env.COLLECTION).insertOne({ name, email, password, role });
+  const result = await db.collection('users').findOne({ email });
   return result;
+};
+
+const createUser = async (name, email, password) => {
+  const db = await connect();
+  const result = await db.collection('users')
+    .insertOne({ name, email, password, role: 'user' });
+  return { role: result.ops[0].role, id: result.insertedId };
+};
+
+const getAll = async () => {
+  const db = await connect();
+  const result = await db.collection('users').find().toArray();
+  return result; 
 };
 
 module.exports = {
   getUserByEmail,
   createUser,
+  getAll,
+  getUser,
 };

@@ -1,26 +1,31 @@
 const express = require('express');
 const rescue = require('express-rescue');
 
-const { validateUsers } = require('../middlewares/validateUsers');
-const { createServiceUser } = require('../services/userService');
+const validateUsers = require('../middlewares/validateUsers');
+const { createServiceUser,
+  getAll } = require('../services/userService');
 
 const routerUsers = express.Router();
-const routerLogin = express.Router();
+
+routerUsers.get('/', async (_req, res) => {
+  const result = await getAll();
+  return res.status(200).json(result);
+});
 
 routerUsers.post('/', validateUsers, rescue(async (req, res, next) => {
-   const { name, email, password, role } = req.body;
+  const { name, email, password } = req.body;
 
-   const createdUsers = await createServiceUser(name, email, password, role);
+   const createdUsers = await createServiceUser(name, email, password);
 
    if (createdUsers.isError) {
      return next(createdUsers);
    }
 
    const newUser = {
-     _id: createdUsers.insertedId,
      name,
      email,
-     role,
+     role: createdUsers.role,
+     _id: createdUsers.id,
    };
 
    return res.status(201).json({ user: newUser });
@@ -28,5 +33,4 @@ routerUsers.post('/', validateUsers, rescue(async (req, res, next) => {
 
 module.exports = {
   routerUsers,
-  routerLogin,
 };
