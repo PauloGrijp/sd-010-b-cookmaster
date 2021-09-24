@@ -1,46 +1,42 @@
 const Jwt = require('jsonwebtoken');
 
-const SECRET = 'Quem é de verdade sabe quem é de mentira';
-
+const secret = 'secretSecret';
 const jwtConfig = {
   algorithm: 'HS256',
-  expiresIn: '30m',
+  expiresIn: '5d',
 };
 
-const checkIfTokenExists = (token) => {
+const checkToken = (token) => {
   if (!token) {
     const error = new Error('missing auth token');
     error.code = 401;
     throw error;
   }
 };
-
-const isTokenValid = (token) => {
+const validToken = (token) => {
   try {
-    Jwt.verify(token, SECRET);
+    Jwt.verify(token, secret);
   } catch (err) {
     err.message = 'jwt malformed';
     err.code = 401;
     throw err;
   }
 };
-
-const createToken = (user) => {
+const createTokenUser = (user) => {
   const { password: _, ...payload } = user;
-  const token = Jwt.sign(payload, SECRET, jwtConfig);
+  const token = Jwt.sign(payload, secret, jwtConfig);
   return token;
 };
-
-const validateToken = async (req, _res, next) => {
+const validTokenUser = async (req, _res, next) => {
   const token = req.headers.authorization;
-  checkIfTokenExists(token);
-  isTokenValid(token);
-  const payload = Jwt.verify(token, SECRET);
+  checkToken(token);
+  validToken(token);
+  const payload = Jwt.verify(token, secret);
   req.user = payload;
   next();
 };
 
 module.exports = {
-  createToken,
-  validateToken,
+  createTokenUser,
+  validTokenUser,
 };

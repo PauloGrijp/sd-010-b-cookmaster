@@ -1,7 +1,7 @@
+const { createTokenUser } = require('../middlewares/auth');
 const { validCreateUser, checkEmailExist, checkLoginUser,
   validLoginUser } = require('../middlewares/usersMiddlewares');
 const usersModel = require('../model/usersModel');
-const { createToken } = require('../utils/token');
 
 const createUserS = async (email, password, name, role) => {
   validCreateUser(email, password, name);
@@ -13,7 +13,7 @@ const login = async (email, password) => {
   validLoginUser(email, password);
   const user = await usersModel.checkEmailM(email, password);
   checkLoginUser(user);
-  const token = createToken(user);
+  const token = createTokenUser(user);
   return token;
 };
 
