@@ -14,6 +14,10 @@ describe("POST /users", () => {
     app = await server(MockedMongo);
   });
 
+  after(async () => {
+    await MockedMongo.stopMongoServer();
+  });
+
   describe("when it is a valid signup with name, email and password", () => {
     let response = {};
 

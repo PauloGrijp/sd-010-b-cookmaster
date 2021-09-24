@@ -1,24 +1,33 @@
 require("dotenv").config();
-const mongodb = require("mongo-mock");
-mongodb.max_delay = 0;
-const MongoClient = mongodb.MongoClient;
+const sinon = require("sinon");
+const { MongoClient } = require("mongodb");
+const { MongoMemoryServer } = require("mongodb-memory-server");
 
-const url = process.env.DB_URL;
-let db;
-MongoClient.connect(url, {}, function (err, client) {
-  db = client.db();
-  function cleanup() {
-    var state = collection.toJSON();""
-    state.documents.push({ a: 2 });
-    state.documents.length = 0;
-    db.close();
+class MockedMongo {
+  constructor() {
+    this.dbServer = new MongoMemoryServer();
+
+    this.stopMongoServer = this.stopMongoServer.bind(this);
   }
 
-  setTimeout(cleanup, 1000);
-});
-class MockedMongo {
   async main() {
+    const DBServer = this.dbServer;
+
+    const URLMock = await DBServer.getUri();
+    const connectionMock = await MongoClient.connect(URLMock, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+
+    sinon.stub(MongoClient, "connect").resolves(connectionMock);
+    const db = connectionMock.db("test");
+
     this.db = db;
+  }
+
+  async stopMongoServer() {
+    MongoClient.connect.restore();
+    await this.dbServer.stop();
   }
 }
 

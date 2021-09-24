@@ -14,6 +14,10 @@ describe("POST /login", () => {
     app = await server(MockedMongo);
   });
 
+  after(async () => {
+    await MockedMongo.stopMongoServer();
+  });
+
   describe("when it is not registered in db", () => {
     let response = {};
 
@@ -50,11 +54,15 @@ describe("POST /login", () => {
 
     before(async () => {
       const validData = {
+        name: "test",
         email: "valid@valid.com",
         password: "valid",
       };
       await MockedMongo.db.collection("users").insertOne(validData);
-      response = await chai.request(app).post("/login").send(validData);
+      response = await chai.request(app).post("/login").send({
+        email: "valid@valid.com",
+        password: "valid",
+      });
     });
 
     after(async () => {

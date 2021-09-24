@@ -39,6 +39,10 @@ describe("POST /recipe", () => {
     });
   });
 
+  after(async () => {
+    await MockedMongo.stopMongoServer();
+  });
+
   describe("when it is a valid recipe and authenticated user", () => {
     let response = {};
 
@@ -97,6 +101,10 @@ describe("GET /recipe", () => {
     await MockedMongo.db.collection("recipes").insertMany([validRecipe1, validRecipe2]);
   });
 
+  after(async () => {
+    await MockedMongo.stopMongoServer();
+  });
+
   describe("should be able to get all recipes in the database", () => {
     let response = {};
 
@@ -123,7 +131,7 @@ describe("GET /recipe", () => {
   });
 });
 
-describe("POST /recipe/:id", () => {
+describe("GET /recipe/:id", () => {
   let app;
   let token;
   let id;
@@ -150,12 +158,17 @@ describe("POST /recipe/:id", () => {
       email: "test@email.com",
       password: "test",
     });
+
     token = res.body.token;
     response = await chai.request(app).post("/users").send({
       name: "testingboy",
       email: "testing@test.com",
       password: "bigtest",
     });
+  });
+
+  after(async () => {
+    await MockedMongo.stopMongoServer();
   });
 
   describe("when it is a recipe that is in the db", () => {
@@ -234,6 +247,10 @@ describe("PUT /recipe/:id", () => {
     });
   });
 
+  after(async () => {
+    await MockedMongo.stopMongoServer();
+  });
+
   describe("when it is a recipe that is in the db and can be updated", () => {
     let response = {};
 
@@ -306,6 +323,10 @@ describe("DELETE /recipe/:id", () => {
       email: "testing@test.com",
       password: "bigtest",
     });
+  });
+
+  after(async () => {
+    await MockedMongo.stopMongoServer();
   });
 
   describe("when it is a recipe that is in the db and can be deleted", () => {
