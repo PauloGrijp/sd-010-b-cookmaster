@@ -3,6 +3,25 @@ const Joi = require('joi');
 const jwtvalid = require('../middlewares/jwtvalid');
 const recipesModel = require('../model/recipesModel');
 
+const isValidToken = (token) => {
+  const validateJwt = jwtvalid(token);
+
+  if (validateJwt === 'jwt malformed') {
+    return validateJwt;
+  }
+
+  if (validateJwt === 'missing auth token') {
+    return validateJwt;
+  }
+  return false;
+};
+
+const validarCriador = (id, userId, role) => {
+  if (id === userId) return false;
+  if (role === 'admin') return false;
+  return true; 
+};
+
 const createRecipes = async ({ body, token }) => {
   const { name, ingredients, preparation } = body;
   const { error } = Joi.object({
@@ -13,13 +32,9 @@ const createRecipes = async ({ body, token }) => {
 
   if (error) return 'keyNotExist';
 
-  const validateJwt = jwtvalid(token);
+  if (isValidToken(token)) return isValidToken(token);
 
-  if (validateJwt === 'jwt malformed') {
-    return validateJwt;
-  }
-
-  const { _id } = validateJwt;
+  const { _id } = jwtvalid(token);
 
   const recipes = await recipesModel.createRecipes({ body, userId: _id });
   
@@ -39,19 +54,14 @@ const getByIdRecipes = async (id) => {
 
 const updateByIdRecipes = async (recId, body, token) => {
   if (!ObjectId.isValid(recId)) return null;
-  const validateJwt = jwtvalid(token);
 
-  const { _id } = validateJwt;
+  if (isValidToken(token)) return isValidToken(token);
+
+  const { _id, role } = jwtvalid(token);
 
   const recipeId = await getByIdRecipes(recId);
 
-  if (validateJwt === 'jwt malformed') {
-    return validateJwt;
-  }
-
-  if (validateJwt === 'missing auth token') {
-    return validateJwt;
-  }
+  if (validarCriador(_id, recipeId.userId, role)) return 'criadorInvalido';
 
   if (recipeId === null) return null;
 
@@ -61,17 +71,14 @@ const updateByIdRecipes = async (recId, body, token) => {
 
 const deleteByIdRecipes = async (recId, token) => {
   if (!ObjectId.isValid(recId)) return null;
-  const validateJwt = jwtvalid(token);
+
+  if (isValidToken(token)) return isValidToken(token);
+
+  const { _id, role } = jwtvalid(token);
 
   const recipeId = await getByIdRecipes(recId);
 
-  if (validateJwt === 'jwt malformed') {
-    return validateJwt;
-  }
-
-  if (validateJwt === 'missing auth token') {
-    return validateJwt;
-  }
+  if (validarCriador(_id, recipeId.userId, role)) return 'criadorInvalido';
 
   if (recipeId === null) return null;
 
@@ -81,17 +88,14 @@ const deleteByIdRecipes = async (recId, token) => {
 
 const createImageRecipe = async (recId, token, path) => {
   if (!ObjectId.isValid(recId)) return null;
-  const validateJwt = jwtvalid(token);
+
+  if (isValidToken(token)) return isValidToken(token);
+
+  const { _id, role } = jwtvalid(token);
 
   const recipeId = await getByIdRecipes(recId);
-
-  if (validateJwt === 'jwt malformed') {
-    return validateJwt;
-  }
-
-  if (validateJwt === 'missing auth token') {
-    return validateJwt;
-  }
+  
+  if (validarCriador(_id, recipeId.userId, role)) return 'criadorInvalido';
 
   if (recipeId === null) return null;
 

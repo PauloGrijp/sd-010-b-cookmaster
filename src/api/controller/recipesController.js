@@ -50,6 +50,10 @@ const updateByIdRecipes = async (req, res) => {
   if (recipes === 'missing auth token') {
     return res.status(401).json({ message: recipes });
   }
+
+  if (recipes === 'criadorInvalido') {
+    return res.status(401).json({ message: 'você não tem permissão!' });
+  }
   
   if (!recipes) {
     return res.status(404).json({ message: RECIPE_NOT_FOUND });
