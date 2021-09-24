@@ -1,4 +1,6 @@
-const { create, getAll, getById, update, remove } = require('../services/recipe_service');
+const path = require('path');
+const { create, getAll, getById, update, remove, addImage } = require('../services/recipe_service');
+const { uploadMulter } = require('../middlewares/multer');
 
 const createRecipe = async (req, res) => {
     const { name, ingredients, preparation } = req.body;
@@ -40,10 +42,17 @@ const removeRecipe = async (req, res) => {
     const { id } = req.params;
 
     const recipe = await remove(id);
-    console.log(recipe, 'controller');
 
     return res.status(204).json(recipe);
 };
+
+const uploadImage = [uploadMulter.single('image'), async (req, res) => {
+    const { id } = req.params;
+    const image = await addImage(id, path.join('localhost:3000', 'src', 'uploads', `${id}.jpeg`));
+
+    return res.status(200).json(image);
+}];
+// Feito com ajuda da colega Alessandra Rezende
 
 module.exports = {
     createRecipe,
@@ -51,4 +60,5 @@ module.exports = {
     recipeById,
     updateRecipe,
     removeRecipe,
+    uploadImage,
 };

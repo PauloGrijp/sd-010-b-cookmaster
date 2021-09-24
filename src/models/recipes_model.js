@@ -47,10 +47,21 @@ const deleteRecipe = async (id) => {
     return recipe;
 };
 
+const putImage = async (id, image) => {
+    const db = await connection();
+
+    const recipe = await db.collection('recipes').findOneAndUpdate(
+        { _id: ObjectId(id) }, { $set: { image } }, { returnOriginal: false },
+        // https://stackoverflow.com/questions/35626040/how-to-get-updated-document-back-from-the-findoneandupdate-method
+        );
+        return recipe.value;
+};
+
 module.exports = {
     createRecipe,
     listRecipes,
     recipesById,
     updateById,
     deleteRecipe,
+    putImage,
 };

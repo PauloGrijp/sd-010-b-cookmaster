@@ -1,4 +1,4 @@
-const { createRecipe, listRecipes, recipesById, updateById, deleteRecipe,
+const { createRecipe, listRecipes, recipesById, updateById, deleteRecipe, putImage,
  } = require('../models/recipes_model');
 
 const create = async (name, ingredients, preparation, userId) => {
@@ -33,10 +33,16 @@ const remove = async (id) => {
     return recipe;
 };
 
+const addImage = async (id, image) => {
+    const recipe = await putImage(id, image);
+    return recipe;
+};
+
 module.exports = {
     create,
     getAll,
     getById,
     update,
     remove,
+    addImage,
 };
