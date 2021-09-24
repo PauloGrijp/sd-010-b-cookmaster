@@ -8,6 +8,7 @@ const { upload } = require('../../middlewares/multer');
 const userController = require('../../controllers/userController');
 const recipeController = require('../../controllers/recipeController');
 const validateJWT = require('../../middlewares/validateJWT');
+const validateAdmin = require('../../middlewares/validateAdmin');
 
 app.use(bodyParser.json());
 
@@ -22,6 +23,8 @@ app.get('/', (request, response) => {
 app.get('/recipes/:id', recipeController.getRecipeById);
 
 app.get('/recipes', recipeController.getAllRecipes);
+
+app.post('/users/admin', validateJWT, validateAdmin, userController.createAdmin);
 
 app.post('/users', userController.createUser);
 

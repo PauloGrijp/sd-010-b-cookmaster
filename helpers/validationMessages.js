@@ -14,6 +14,8 @@ const MISSING_TOKEN = { message: 'missing auth token' };
 
 const RECIPE_NOT_FOUND = { message: 'recipe not found' };
 
+const ONLY_ADMINS = { message: 'Only admins can register new admins' };
+
 module.exports = {
   ERROR,
   INVALID_ENTRY,
@@ -23,4 +25,5 @@ module.exports = {
   INVALID_TOKEN,
   RECIPE_NOT_FOUND,
   MISSING_TOKEN,
+  ONLY_ADMINS,
 };
