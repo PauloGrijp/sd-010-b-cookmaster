@@ -1,12 +1,10 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const path = require('path');
 const userController = require('../../controller/userController');
 const auth = require('../../service/auth');
 
 const app = express();
 
-app.use('/images', express.static(path.join(__dirname, '..', 'uploads')));
 app.use(bodyParser.json());
 
 app.post('/users', userController.userRegister);

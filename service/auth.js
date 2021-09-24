@@ -25,6 +25,7 @@ const validadeLogin = async (req, _res, next) => {
 };
 
 const secret = '1234';
+
 const generateToken = (email, id, role) => {
   const jwtConfig = {
     expiresIn: '1d',
