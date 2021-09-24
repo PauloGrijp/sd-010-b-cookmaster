@@ -10,6 +10,10 @@ const recipeNotExistsError = {
   message: 'recipe not found',
 };
 
+const unauthorizedUserError = {
+  message: 'unauthorized user',
+};
+
 const recipeSchema = Joi.object({
   name: Joi.string().required(),
   ingredients: Joi.string().required(),
@@ -41,11 +45,23 @@ const updateRecipeById = async (recipe, userInfo, id) => {
   if (role === 'admin' || _id === targetRecipe.userId) {
     return recipesModel.updateRecipeById(recipe, userInfo, id);
   }
-  return 'Not autorized';
+  return unauthorizedUserError;
+};
+
+const deleteRecipeById = async (userInfo, id) => {
+  if (!ObjectId.isValid(id)) return recipeNotExistsError;
+  const { _id, role } = userInfo;
+  const targetRecipe = await getRecipeById(id);
+
+  if (role === 'admin' || _id === targetRecipe.userId) {
+    return recipesModel.deleteRecipeById(id);
+  }
+  return unauthorizedUserError;
 };
 
 module.exports = {
   registerNewRecipe,
   getRecipeById,
   updateRecipeById,
+  deleteRecipeById,
 };

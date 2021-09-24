@@ -22,10 +22,16 @@ const getRecipeById = async (req, res) => {
 
 const updateRecipeById = async (req, res) => {
   const { id } = req.params;
-  // console.log(req.user);
   const targetRecipe = await recipesService.updateRecipeById(req.body, req.user, id);
   if (!targetRecipe.name) return res.status(401).json(targetRecipe);
   return res.status(200).json(targetRecipe);
+};
+
+const deleteRecipeById = async (req, res) => {
+  const { id } = req.params;
+  const targetRecipe = await recipesService.deleteRecipeById(req.user, id);
+  if (!targetRecipe.result) return res.status(401).json(targetRecipe);
+  res.status(204).json(targetRecipe);
 };
 
 module.exports = {
@@ -33,4 +39,5 @@ module.exports = {
   getAllRecipes,
   getRecipeById,
   updateRecipeById,
+  deleteRecipeById,
 };
