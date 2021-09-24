@@ -3,7 +3,8 @@ const { validateJWT } = require('../middlewares/loginMiddlewares');
 const {
   validateNameRecipes,
   validateIngredientsRecipes,
-  validatePreparationRecipes } = require('../middlewares/recipesMiddlewares');
+  validatePreparationRecipes, 
+  validateIdRecipes } = require('../middlewares/recipesMiddlewares');
 const {
   postRecipeService,
   getRecipesService, 
@@ -39,7 +40,7 @@ recipesRouter.get('/', async (req, res) => {
 // ---------------------------------------------------------------
 // Requisito 5: CONTROLLER responsável por receber a requisição de listagem de receita por ID, chamar SERVICE e retornar a receita cadastrada.
 
-recipesRouter.get('/:id', async (req, res) => {
+recipesRouter.get('/:id', validateIdRecipes, async (req, res) => {
   const { id } = req.params;
 
   const recipe = await getRecipeByIdService(id);

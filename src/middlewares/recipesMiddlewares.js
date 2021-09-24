@@ -1,6 +1,4 @@
-// Comments: Helpers
-// const regexEmail = require('../helpers/regexEmail');
-// const { getUserByEmail } = require('../model/usersModel');
+const { ObjectId } = require('mongodb'); 
 
 // Comments: Lista de erros
 const errors = {
@@ -42,8 +40,20 @@ const validatePreparationRecipes = async (req, res, next) => {
   next();
 };
 
+// Comments: Valida se o argumento ID passado na URL é ou não válido.
+const validateIdRecipes = async (req, res, next) => {
+  const { id } = req.params;
+
+  if (!ObjectId.isValid(id)) {
+    return res.status(404).json({ message: 'recipe not found' });
+  }
+
+  next();
+};
+
 module.exports = {
   validateNameRecipes,
   validateIngredientsRecipes,
   validatePreparationRecipes,
+  validateIdRecipes,
 };
