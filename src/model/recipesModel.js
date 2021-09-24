@@ -9,7 +9,15 @@ const postRecipeModel = async ({ name, ingredients, preparation, userId }) => co
   .then((recipe) => ({ name, ingredients, preparation, userId, _id: ObjectId(recipe.insertedId) }));
 
 // ---------------------------------------------------------------
+// Requisito 4: MODEL responsável pela listagem de receitas da BASE DE DADOS, e retorno dad receitas cadastradas.
+
+const getRecipesModel = async () => connection()
+  .then((db) => db.collection('recipes').find({}).toArray())
+  .then((recipes) => recipes);
+
+// ---------------------------------------------------------------
   
   module.exports = {
     postRecipeModel,
+    getRecipesModel,
   };
