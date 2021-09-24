@@ -14,8 +14,8 @@ const getAll = async (_req, res) => {
 };
 
 const getById = async (req, res) => {
-  const recipeId = req.params;
-  const recipeFound = await RecipesService.getById(recipeId);
+  const { id } = req.params;
+  const recipeFound = await RecipesService.getById(id);
   res.status(200).json(recipeFound);
 };
 
