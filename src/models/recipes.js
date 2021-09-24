@@ -18,9 +18,21 @@ const updateRecipesById = async (id, name, ingredients, preparation) => {
     { $set: { name, ingredients, preparation, userId: ObjectId(id) } });
 };
 
+const deleteRecipesById = async (id) => {
+    const db = await connection();
+    return db.collection('recipes')
+    .deleteOne({ _id: ObjectId(id) });
+};
+
 const createRecipes = async (info) => {
     const db = await connection();
     return db.collection('recipes').insertOne(info);
 };
 
-module.exports = { findRecipes, createRecipes, findRecipesById, updateRecipesById };
+module.exports = { 
+    findRecipes,
+    createRecipes, 
+    findRecipesById, 
+    updateRecipesById, 
+    deleteRecipesById,
+};

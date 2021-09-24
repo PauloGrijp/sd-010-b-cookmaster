@@ -1,5 +1,6 @@
 const express = require('express');
-const { findRecipes, createRecipes, findRecipesById } = require('../models/recipes');
+const { findRecipes, createRecipes } = require('../models/recipes');
+const { findRecipesById, deleteRecipesById } = require('../models/recipes');
 const { updateRecipesById } = require('../models/recipes');
 const { isJWTvalid, recipesFillersCheck } = require('../middlewares/jwtValidate');
 const { idRecipesCheck } = require('../middlewares/idRecipes');
@@ -27,6 +28,16 @@ console.log(id);
 const data = await findRecipesById(id);
 console.log(data, 'data');
 return res.status(200).json(data);
+});
+
+router.delete('/:id',
+idRecipesCheck,
+isJWTRecipe,
+async (req, res) => {
+const { id } = req.params;
+console.log(id);
+await deleteRecipesById(id);
+return res.status(204).json();
 });
 
 router.get('/',
