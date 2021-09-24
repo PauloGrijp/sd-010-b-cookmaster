@@ -2,7 +2,6 @@ const express = require('express');
 const rescue = require('express-rescue');
 const { createServiceRecipes } = require('../services/recipesService');
 const { validateRecipes, validateToken } = require('../middlewares/validateRecipes');
-// const { getUser } = require('../models/userModel');
 
 const routerRecipes = express.Router();
 

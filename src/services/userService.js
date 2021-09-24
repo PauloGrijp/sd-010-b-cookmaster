@@ -14,8 +14,7 @@ const createServiceUser = async (name, email, password) => {
   if (!emailIsValid.test(email)) {
     return errorBusiness('Invalid entries. Try again.');
   }
-  // assssssss
-  // "email": "aqui@la.com"
+
   const userCreated = await createUser(name, email, password);
 
   return userCreated;
