@@ -1,15 +1,19 @@
+const jwt = require('jsonwebtoken');
+const Joi = require('@hapi/joi');
 const userModel = require('../models/userModel');
-const validation = require('../midd/index');
 
-const createUser = async (name, email, password) => {
-    validation.emailIsValid(email);
-    validation.passwordIsValid(password);
-    validation.nameIsValid(name);
-    validation.emailExists(email);
-    await userModel.createUser(name, email, password);
-      return { name, email };
-  };
-  
+const createUser = async (email, name, password) => {
+  const { error } = userSchm.validate({ email, name, password });
+  if (error) {
+    throw dataErr(400, 'Invalid entries. Try again.');
+  }
+  const getUser = await User.getUserByEmail(email);
+  if (getUser) {
+    throw dataErr(409, 'Email already registered');
+  }
+  const user = await userModel.createNewUser(email, name, password);
+  return { user };
+};
 module.exports = {
   createUser,
 };
