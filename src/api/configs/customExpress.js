@@ -2,10 +2,9 @@ const express = require('express');
 const path = require('path');
 
 const { errorMiddleware } = require('../middlewares/error');
-const Mongo = require('../utils/database/Mongo');
 const Configure = require('./Configure');
 
-const customExpress = async () => {
+const customExpress = async (Mongo) => {
   await Mongo.main();
   const { db } = Mongo;
   const controllers = Configure.injection(db);

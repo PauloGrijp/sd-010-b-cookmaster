@@ -3,6 +3,7 @@ const { messages, statusCode } = require('../schemas');
 
 class User {
   constructor(db, ObjectId, serializer) {
+    console.log(db);
     this.collection = db.collection('users');
     this.serializer = serializer;
     this.ObjectId = ObjectId;
