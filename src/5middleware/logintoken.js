@@ -7,13 +7,23 @@ const jwtConfig = {
   algorithm: 'HS256',
 };
 
-const createToken = (data) => {
-  const { name } = data;
-  const token = jwt.sign({ data: name }, secret, jwtConfig);
+const createToken = (dados) => {
+  const data = dados;
+  delete data.password;
+  const token = jwt.sign({ data }, secret, jwtConfig);
   return { token };
 };
-// email, id, role
+
+const verifyToken = async (token) => {
+  try {
+    const verify = jwt.verify(token, secret);
+    return verify.data;
+  } catch (error) {
+    return 'error';
+  }
+};
 
 module.exports = {
   createToken,
+  verifyToken,
 };

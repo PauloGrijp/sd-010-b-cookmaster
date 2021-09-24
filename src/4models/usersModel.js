@@ -3,8 +3,8 @@ const connection = require('./connection');
 
 const createUsersModel = async (user) => {
   const DB = await connection();
-  const products = await DB.collection('users').insertOne(user);
-  return products.ops[0];
+  const userDB = await DB.collection('users').insertOne(user);
+  return userDB.ops[0];
 };
 
 const showAllEsersModel = async () => connection()

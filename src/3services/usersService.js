@@ -48,12 +48,10 @@ const createusers = async (data) => {
   const emailValid = await validaEmail(email);
   if (!emailValid) { return invalidAll; }
   const passwordValid = await validaPassword(email, password);
-  console.log(passwordValid);
   if (!passwordValid) { return invalidAll; }
 
   const answer = await showByEmailUsersModel(email);
-  const { _id, role } = answer;
-  return createToken({ email, _id, role });
+  return createToken(answer);
 };
 
 module.exports = {
