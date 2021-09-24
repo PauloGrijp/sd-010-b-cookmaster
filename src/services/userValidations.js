@@ -1,5 +1,6 @@
 const userModels = require('../models/userModels');
 
+// Valildações do usuário
 const validateName = (name) => {
   if (!name) {
     return false;
@@ -19,7 +20,6 @@ const createUserValidations = async ({ name, email, password, role }) => {
   const validName = validateName(name);
   const validEmail = validateEmail(email);
   const validFormatEmail = await userModels.findByEmail(email);
-  console.log(validFormatEmail);
   if (!validName || !validEmail) {
     return { message: 'Invalid entries. Try again.' };
   }
@@ -30,12 +30,6 @@ const createUserValidations = async ({ name, email, password, role }) => {
   return create;
 };
 
-const findLogin = async ({ email, password }) => {
-  const login = await userModels.findLogin({ email, password });
-  return login;
-};
-
 module.exports = {
   createUserValidations,
-  findLogin,
 };
