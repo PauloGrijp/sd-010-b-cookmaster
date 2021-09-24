@@ -24,7 +24,7 @@ const findByEmail = async (email) => {
 
   if (!emailFound) return null;
 
-  return true;
+  return emailFound;
 };
 
 module.exports = {
