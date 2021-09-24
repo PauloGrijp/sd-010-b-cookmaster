@@ -16,15 +16,26 @@ const getAll = async (_req, res) => {
 const getById = async (req, res) => {
   const { id } = req.params;
   const { recipe, code, message } = await RecipesService.getById(id);
-  console.log(code, message);
 
   if (code === 404) return res.status(code).json({ message });
 
   res.status(code).json(recipe);
 };
 
+const update = async (req, res) => {
+  const { id } = req.params;
+  const { _id } = req.user;
+  const recipe = req.body;
+  // const { authorization } = req.headers;
+
+  const { recipeUpdated, code } = await RecipesService.update(id, recipe, _id);
+
+  res.status(code).json(recipeUpdated);
+};
+
 module.exports = {
   create,
   getAll,
   getById,
+  update,
 };

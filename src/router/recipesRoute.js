@@ -5,6 +5,7 @@ const { validateInputs } = require('../middlewares/recipesMiddleware');
 
 router.get('/', RecipesController.getAll);
 router.get('/:id', RecipesController.getById);
+router.put('/:id', tokenValidator, RecipesController.update);
 router.post('/', tokenValidator, validateInputs, RecipesController.create);
 
 module.exports = router;
