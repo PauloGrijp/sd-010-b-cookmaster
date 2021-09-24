@@ -10,11 +10,12 @@ const {
   requestNewRecipe,
   requestListRecipes,
   requestRecipeById,
+  requestEditRecipe,
 } = require('../Controllers/recipes');
 
 const {
   isValidName,
-  isValidEmail,  
+  isValidEmail,
   isValidIngredients,
   isValidPreparation,
   fieldEmail,
@@ -49,5 +50,12 @@ app.post('/recipes',
   isValidPreparation,
   isValidIngredients,
   requestNewRecipe);
+
+app.put('/recipes/:id',
+  verifyToken,
+  isValidName,
+  isValidPreparation,
+  isValidIngredients,
+  requestEditRecipe);
 
 module.exports = app;

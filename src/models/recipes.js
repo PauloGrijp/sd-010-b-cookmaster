@@ -27,8 +27,21 @@ const uniquiRecipe = async (id) => {
   return recipe;
 };
 
+const editRecipe = async (id, { name, ingredients, preparation }, userId) => {
+  const db = await connection();
+
+  console.log(id);
+
+  const recipe = await db.collection('recipes').findOne({ _id: ObjectId(id), userId: ObjectId(userId) });
+
+  console.log(recipe);
+
+  return { _id: id, name, ingredients, preparation };
+};
+
 module.exports = {
   createRecipe,
   recipes,
   uniquiRecipe,
+  editRecipe,
 };
