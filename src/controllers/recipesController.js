@@ -13,6 +13,16 @@ recipes.get('/', rescue(async (req, res) => {
   return res.status(StatusCodes.OK).json(recipesAll);
 }));
 
+recipes.get('/:id', rescue(async (req, res) => {
+  const { id } = req.params;
+  const recipe = await Recipes.findId(id);
+
+  if (recipe.isError) {
+    return res.status(recipe.code).json({ message: recipe.message });
+  }
+  return res.status(StatusCodes.OK).json(recipe);
+}));
+
 recipes.post('/',
   recipesValidate,
   validateJWT,
