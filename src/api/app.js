@@ -14,6 +14,7 @@ app.post('/users', userController.createUser);
 app.post('/login', loginController.loginUser);
 app.post('/recipes', validateToken, recipesController.createRecipes);
 app.get('/recipes', recipesController.getRecipesAll);
+app.get('/recipes/:id', recipesController.getRecipeId);
 
 app.get('/', (request, response) => {
   response.send();
