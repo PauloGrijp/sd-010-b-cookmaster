@@ -20,13 +20,6 @@ const userLogin = async (req, res, next) => {
   }
 };
 
-const imageUpload = [upload.single('image'), async (req, res) => {
-  const { path } = req.file;
-  const { id } = req.params;
-  const recipe = await service.uploadService(id, path);
-  return res.status(200).json(recipe);
-}];
-
 const userCreateRecipes = async (req, res, next) => {
   try {
     const { _id } = req.user;
@@ -63,6 +56,13 @@ const deleteOneRecipe = async (req, res) => {
   await service.deleteOneRecipe(id);
   return res.status(204).json();
 };
+
+const imageUpload = [upload.single('image'), async (req, res) => {
+  const { path } = req.file;
+  const { id } = req.params;
+  const recipe = await service.upload(id, path);
+  return res.status(200).json(recipe);
+}];
 
 module.exports = {
   userRegister,
