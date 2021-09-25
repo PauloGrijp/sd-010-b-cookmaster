@@ -19,7 +19,7 @@ app.get('/', (request, response) => {
 app.use('/', usersRouter);
 
 // ------------------------------------------------------------------
-// Requisito 3: Rota de Recipes
+// Requisito 3, 4, 5, 7, 8: Rota de Recipes
 
 app.use('/recipes', recipesRouter);
 

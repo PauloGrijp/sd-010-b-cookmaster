@@ -22,9 +22,23 @@ const getRecipeByIdModel = async (id) => connection()
   .then((db) => db.collection('recipes').findOne({ _id: ObjectId(id) }));
 
 // ---------------------------------------------------------------
-  
+// Requisito 7: MODEL responsável por atualizar receita por ID na BASE DE DADOS, e retorno a receita atualizada.
+
+// Source: https://docs.mongodb.com/manual/reference/method/db.collection.findOneAndUpdate/
+// +
+// Source: https://stackoverflow.com/questions/32811510/mongoose-findoneandupdate-doesnt-return-updated-document
+const putRecipeByIdModel = async ({ recipeId, name, ingredients, preparation }) => connection()
+  .then((db) => db.collection('recipes').findOneAndUpdate(
+    { _id: ObjectId(recipeId) },
+    { $set: { name, ingredients, preparation } },
+    { returnOriginal: false },
+  ))
+  .then(({ value }) => value);
+// ---------------------------------------------------------------
+
   module.exports = {
     postRecipeModel,
     getRecipesModel,
     getRecipeByIdModel,
+    putRecipeByIdModel,
   };

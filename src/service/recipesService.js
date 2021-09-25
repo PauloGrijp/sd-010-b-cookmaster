@@ -1,7 +1,9 @@
+// const { ObjectId } = require('mongodb');
 const {
   postRecipeModel,
   getRecipesModel, 
-  getRecipeByIdModel } = require('../model/recipesModel');
+  getRecipeByIdModel, 
+  putRecipeByIdModel } = require('../model/recipesModel');
 
 // ---------------------------------------------------------------
 // Requisito 3: SERVICE responsável por chamar MODEL de cadastro de receitas e retornar a receita cadastrada para o CONTROLLER.
@@ -31,9 +33,25 @@ const getRecipeByIdService = async (id) => {
 };
 
 // ---------------------------------------------------------------
+// Requisito 7: SERVICE responsável por validar regras de negócio, chamar MODEL de atualização de receita por ID e retornar a receitas atualizada para o CONTROLLER.
+
+const putRecipeByIdService = async ({
+  recipeId, name, ingredients, preparation, reqUserId, role }) => {
+  const { userId } = await getRecipeByIdModel(recipeId);
+
+  // Comments: Compara se UserId da Receita é igual ao UserId da Requisição, & se o role do userId é igual a 'admin'.
+  if (String(userId) !== String(reqUserId) && role !== 'admin') return null;
+  
+  const updatedRecipe = await putRecipeByIdModel({ recipeId, name, ingredients, preparation });
+
+  return updatedRecipe;
+};
+
+// ---------------------------------------------------------------
 
 module.exports = {
   postRecipeService,
   getRecipesService,
   getRecipeByIdService,
+  putRecipeByIdService,
 };

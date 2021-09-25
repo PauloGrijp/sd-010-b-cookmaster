@@ -8,7 +8,8 @@ const {
 const {
   postRecipeService,
   getRecipesService, 
-  getRecipeByIdService } = require('../service/recipesService');
+  getRecipeByIdService, 
+  putRecipeByIdService } = require('../service/recipesService');
 
 const recipesRouter = express.Router();
 
@@ -50,6 +51,30 @@ recipesRouter.get('/:id', validateIdRecipes, async (req, res) => {
   }
 
   return res.status(200).json(recipe);
+});
+
+// ---------------------------------------------------------------
+// Requisito 7: CONTROLLER responsável por receber a atualização de receita por ID, chamar SERVICE e retornar a receita atualizada.
+
+recipesRouter.put('/:id', validateJWT, async (req, res) => {
+  const { id } = req.params;
+  const { name, ingredients, preparation } = req.body;
+  const { _id, role } = req.user;
+
+  const updatedRecipe = await putRecipeByIdService({
+    recipeId: id,
+    name,
+    ingredients,
+    preparation,
+    reqUserId: _id,
+    role,
+  });
+
+  if (!updatedRecipe) {
+    return res.status(404).json({ message: 'recipe not found' });
+  }
+
+  return res.status(200).json(updatedRecipe);
 });
 
 // ---------------------------------------------------------------
