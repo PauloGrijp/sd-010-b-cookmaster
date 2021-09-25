@@ -10,14 +10,14 @@ const tokenReceived = req.headers.authorization;
     const { code, err } = result;
     return res.status(code).json(err);
   }
-  console.log(result, 'reszul');
     const { code, recipe } = result;
   return res.status(code).json(recipe);
 };
 
 const contEraser = async (req, res) => {
   const { id } = req.params;
- const result = await servEraser(id);
+  const tokenReceived = req.headers.authorization;
+ const result = await servEraser(id, tokenReceived);
  if (result.err) {
   const { code, err } = result;
   return res.status(code).json(err);

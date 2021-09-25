@@ -43,7 +43,11 @@ const servListByID = async (id) => {
  return result;
 };
 
-const servEraser = async (id) => {
+const servEraser = async (id, tokenReceived) => {
+  const invalidatoken = await tokenValidator(tokenReceived);
+  if (invalidatoken) {
+    return invalidatoken;
+  }
   const result = await modelEraser(id);
   if (!result) return { err: { code: 'invalid_data', message: 'Wrong id format' }, code: 422 };
   return result;
