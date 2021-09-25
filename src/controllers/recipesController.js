@@ -41,4 +41,12 @@ recipes.put('/:id',
     return res.status(StatusCodes.OK).json(recipe);
 }));
 
+recipes.delete('/:id', 
+  validateJWT,
+  rescue(async (req, res) => {
+    const { id } = req.params;
+    await Recipes.deleteRecipe(id);
+    return res.status(StatusCodes.NO_CONTENT).json(recipes);
+}));
+
 module.exports = recipes;
