@@ -9,6 +9,10 @@ const validateJWT = require('../../auth/validateJWT');
 
 app.use(bodyParser.json());
 
+app.get('/recipes/:id', recipeController.getRecipeById);
+
+app.get('/recipes', recipeController.getAllRecipes);
+
 app.post(
   '/users',
   userMiddlewares.validateNameAndPassword,

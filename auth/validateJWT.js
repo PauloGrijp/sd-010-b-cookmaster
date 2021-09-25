@@ -8,7 +8,6 @@ module.exports = async (req, res, next) => {
 
   try {
     const payload = jwt.verify(token, secret);
-    console.log(payload);
     const user = await model.findUser(payload.data.email);
 
     if (!user) {
