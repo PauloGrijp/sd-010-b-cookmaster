@@ -35,13 +35,30 @@ const getRecipeById = async (id) => {
   }
 
   const recipe = await Recipes.getRecipeById(id);
-  if (recipe.isErrorMessage) return { recipe: recipe.isErrorMessage };
+  if (recipe.isErrorMessage) return { isErrorMessage: recipe.isErrorMessage };
 
   return recipe;
+};
+
+const editRecipeById = async (recipeId, user, newDataRecipe) => {
+  const ifUserIsAuthorized = await validations.ifUserIsAuthorized(user, recipeId);
+  if (ifUserIsAuthorized.isErrorMessage) {
+    return {
+      codeError: ifUserIsAuthorized.codeError,
+      isErrorMessage: ifUserIsAuthorized.isErrorMessage,
+    };
+  }
+
+  const { _id: userId } = user;
+  const editedRecipe = await Recipes.editRecipeById(recipeId, newDataRecipe, userId);
+  if (editedRecipe.isErrorMessage) return { isErrorMessage: editedRecipe.isErrorMessage };
+
+  return editedRecipe;
 };
 
 module.exports = {
   registerNewRecipe,
   getAllRecipes,
   getRecipeById,
+  editRecipeById,
 };

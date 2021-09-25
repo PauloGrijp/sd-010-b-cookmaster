@@ -5,10 +5,9 @@ const secret = 'akojtA3FFkK3KA5z';
 const Users = require('../models/Users');
 
 const UNAUTHORIZED = 'unauthorized';
+const jwtError = { codeError: UNAUTHORIZED, isErrorMessage: 'jwt malformed' };
 
 const validateToken = async (req, res, next) => {
-  const jwtError = { codeError: UNAUTHORIZED, isErrorMessage: 'jwt malformed' };
-
   const token = req.headers.authorization;
   if (!token) return next(jwtError);
 
@@ -26,6 +25,4 @@ const validateToken = async (req, res, next) => {
   }
 };
 
-module.exports = {
-  validateToken,
-};
+module.exports = validateToken;
