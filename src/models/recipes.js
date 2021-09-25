@@ -59,10 +59,25 @@ const modelListById = async (id) => {
   return { code: 200, recipe };
 };
 
+const modelImageCreate = async (id, image) => {
+  if (!ObjectId.isValid(id)) return null;
+  const db = await connection();
+  const itemRecipe = await db.collection('recipes').findOneAndUpdate({ _id: new ObjectId(id) },
+   {
+     $set: { 
+          image } });
+
+  return { code: 200,
+    item: {
+    ...itemRecipe.value,
+     image } };
+};
+
 module.exports = {
   modelUpdater,
   modelEraser,
   modelRecipes,
   ModelAllRecipes,
   modelListById,
+  modelImageCreate,
 };

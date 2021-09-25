@@ -1,5 +1,13 @@
+const path = require('path');
 const { ModelAllRecipes } = require('../models/recipes');
-const { servUpdater, servEraser, servRecipes, servListByID } = require('../services/recipes');
+const {
+  servUpdater,
+  servEraser,
+  servRecipes,
+  servListByID,
+  servImageCreate,
+} = require('../services/recipes');
+const uploadImage = require('../middleware/image');
 
 const contUpdate = async (req, res) => {
 const { id } = req.params;
@@ -55,10 +63,27 @@ const { code, recipe } = result;
 return res.status(code).json(recipe);
 };
 
+// tive a ajuda da Camila Arruda para a execução do req 9 
+const contImageCreate = [uploadImage.single('image'), async (req, res) => {
+  const { id } = req.params;
+  const tokenReceived = req.headers.authorization;
+  const result = await servImageCreate(id,
+     tokenReceived,
+     path.join('localhost:3000', 'src', 'uploads', `${id}.jpeg`));
+  if (result.err) {
+    const { code, err } = result;
+    return res.status(code).json(err);
+  }
+  const { code, item } = result;
+  console.log(item, 'control');
+  return res.status(code).json(item);
+}];
+
 module.exports = {
   contUpdate,
   contEraser,
   contRecipes,
+  contImageCreate,
   contListRecipes,
   contListByID,
 };

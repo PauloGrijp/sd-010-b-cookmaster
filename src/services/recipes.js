@@ -1,6 +1,10 @@
-const { fieldValidator, tokenValidator } = require('../middleware/recipes');
-const { modelRecipes, modelListById, modelUpdater, modelEraser } = require('../models/recipes');
-const { idValidator } = require('../middleware/recipes');
+const { 
+  fieldValidator,
+  tokenValidator,
+  idValidator,
+} = require('../middleware/recipes');
+const { modelRecipes, modelListById, modelUpdater, modelEraser, modelImageCreate,
+ } = require('../models/recipes');
 
 const servUpdater = async ({ id, name, ingredients, preparation }, tokenReceived) => {
 const result = await modelListById(id);
@@ -53,9 +57,27 @@ const servEraser = async (id, tokenReceived) => {
   return result;
 };
 
+const servImageCreate = async (id, tokenReceived, image) => {
+  const invalidatoken = await tokenValidator(tokenReceived);
+  if (invalidatoken) {
+    return invalidatoken;
+  }
+  const invalidator = await idValidator(id);
+  if (invalidator) {
+    return invalidator;
+  }
+  const resultID = await modelListById(id);
+  if (!resultID) return { err: { message: 'recipe not found' }, code: 404 };
+
+  const result = await modelImageCreate(id, image);
+  if (!result) return { err: { message: 'recipe not found' }, code: 404 };
+  return result;
+};
+
 module.exports = {
   servUpdater,
   servEraser,
   servRecipes,
   servListByID,
+  servImageCreate,
 };
