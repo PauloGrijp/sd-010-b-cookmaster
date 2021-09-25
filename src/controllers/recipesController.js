@@ -50,7 +50,6 @@ const deleteRecipe = rescue(async (req, res, _next) => {
 const updateImage = rescue(async (req, res, _next) => {
   const { id } = req.params;
   const { path } = req.file;
-  console.log('cheguei');
   const image = `localhost:3000/${path}`;
   const update = await recipeService.updateImage(id, image);
   res.status(200).json(update);
