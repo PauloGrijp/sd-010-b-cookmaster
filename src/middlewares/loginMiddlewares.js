@@ -42,11 +42,14 @@ const validatePasswordToken = async (req, res, next) => {
   next();
 };
 
-// Comments: Valida se o argumento PASSWORD passado no body está no padrão.
-const validatePasswordFormatToken = async (req, res, next) => {
-  const { password } = req.body;
+// Comments: Valida se o argumento PASSWORD passado no body é válido.
+const validatePasswordIsValidToken = async (req, res, next) => {
+  const { email, password } = req.body;
+  // console.log(password);
 
-  if (password.length < 8) {
+  const user = await getUserByEmail(email);
+  
+  if (!user || user.password !== password) {
     return res.status(401).json({ message: errors.incorrectUsernameOrPsw });
   }
 
@@ -89,6 +92,6 @@ module.exports = {
   validateEmailToken,
   validatePasswordToken,
   validateEmailFormatToken,
-  validatePasswordFormatToken,
+  validatePasswordIsValidToken,
   validateJWT,
 };

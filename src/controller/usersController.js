@@ -3,7 +3,7 @@ const {
   validateEmailToken,
   validatePasswordToken,
   validateEmailFormatToken,
-  validatePasswordFormatToken } = require('../middlewares/loginMiddlewares');
+  validatePasswordIsValidToken } = require('../middlewares/loginMiddlewares');
 const { 
   validateNameExists,
   validateEmailExists, 
@@ -39,7 +39,7 @@ usersRouter.post('/login',
   validateEmailToken,
   validatePasswordToken,
   validateEmailFormatToken,
-  validatePasswordFormatToken, async (req, res) => {
+  validatePasswordIsValidToken, async (req, res) => {
   const { email, password } = req.body;
 
   const token = await postLoginService({ email, password });
