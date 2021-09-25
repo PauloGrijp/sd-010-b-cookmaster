@@ -21,9 +21,9 @@ const erroEmailExists = {
 
 const userIsNotValid = async ({ name, email, password }) => {
   switch (true) {
-    case (blank(name, email, password)): return errorMessage;// { code: 400, message: 'vazio' };
-    case (validateEmail(email)): return errorMessage;// { code: 400, message: 'validaçao email' };
-    case (await alreadyExists(email)): return erroEmailExists; // { code: 400, message: 'ja exist' };
+    case (blank(name, email, password)): return errorMessage;
+    case (validateEmail(email)): return errorMessage;
+    case (await alreadyExists(email)): return erroEmailExists;
     default: return false;
   }
 };

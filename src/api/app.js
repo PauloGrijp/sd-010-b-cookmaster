@@ -10,7 +10,9 @@ app.use(bodyParser.json());
 
 app.use('/images', express.static(path.join(__dirname, '..', 'uploads')));
 
-app.use('/users', router.users);
+app.use('/', router.users);
+app.use('/login', router.login);
+app.use('/', router.recipes);
 
 // Não remover esse end-point, ele é necessário para o avaliador
 app.get('/', (request, response) => {
