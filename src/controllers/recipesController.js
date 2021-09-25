@@ -5,6 +5,7 @@ const Recipes = require('../services/recipesService');
 
 const recipesValidate = require('../middlewares/recipesMiddlewares');
 const validateJWT = require('../middlewares/validateJWT');
+const { upload } = require('../middlewares/uploads');
 
 const recipes = express.Router();
 
@@ -47,6 +48,15 @@ recipes.delete('/:id',
     const { id } = req.params;
     await Recipes.deleteRecipe(id);
     return res.status(StatusCodes.NO_CONTENT).json(recipes);
+}));
+
+recipes.put('/:id/image', 
+  validateJWT,
+  upload.single('image'),
+  rescue(async (req, res) => {
+    const { id } = req.params;
+    const recipe = await Recipes.uploadImage(id);
+    return res.status(StatusCodes.OK).json(recipe);
 }));
 
 module.exports = recipes;
