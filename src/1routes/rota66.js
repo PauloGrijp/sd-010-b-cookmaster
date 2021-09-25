@@ -5,7 +5,7 @@ const {
   getRecipesID,
   putRecipesID,
   deleteRecipesID, 
-  putImage} = require('../2controller/recipesController');
+  putImage } = require('../2controller/recipesController');
 const { createUsers, login } = require('../2controller/usersController');
 const { imageMulter } = require('../5middleware/multer');
 
