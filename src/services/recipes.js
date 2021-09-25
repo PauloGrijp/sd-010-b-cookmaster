@@ -74,9 +74,19 @@ const updateRecipe = async (id, recipe, authorization) => {
   return update;
 };
 
+const deleteRecipe = async (id, authorization) => {
+  if (!authorization) return err.malformed;
+  const validToken = await validateToken(authorization);
+  if (validToken.err) return err.malformed;
+
+  const del = await RecipeModel.deleteRecipe(id);
+  return del;
+};
+
 module.exports = {
   create,
   getAllRecipes,
   getRecipeById,
   updateRecipe,
+  deleteRecipe,
 };
