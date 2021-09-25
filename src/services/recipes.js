@@ -83,10 +83,21 @@ const deleteRecipe = async (id, authorization) => {
   return del;
 };
 
+const recipeImg = async (id, authorization) => {
+  if (!authorization) return err.malformed;
+  const validToken = await validateToken(authorization);
+  if (validToken.err) return err.malformed;
+  const imgUrl = `localhost:3000/src/uploads/${id}.jpeg`;
+
+  const recipeImage = await RecipeModel.recipeImg(id, imgUrl);
+  return recipeImage;
+};
+
 module.exports = {
   create,
   getAllRecipes,
   getRecipeById,
   updateRecipe,
   deleteRecipe,
+  recipeImg,
 };

@@ -43,9 +43,20 @@ const deleteRecipe = async (req, res) => {
   if (!authorization) return res.status(401).json({ message: 'missing auth token' });
 
   const del = await RecipeService.deleteRecipe(id);
-  console.log((del, 'del'));
+  
   if (del) return res.status(204).json();
   return res.status(401).json(del.err);
+};
+
+const recipeImg = async (req, res) => {
+  const { id } = req.params;
+  const { authorization } = req.headers;
+  if (!authorization) return res.status(401).json({ message: 'missing auth token' });
+  
+  const recipe = await RecipeService.recipeImg(id, authorization);
+  console.log(recipe);
+  
+  return res.status(200).json(recipe);
 };
 
 module.exports = {
@@ -54,4 +65,5 @@ module.exports = {
   getRecipeById,
   updateRecipe,
   deleteRecipe,
+  recipeImg,
 };
