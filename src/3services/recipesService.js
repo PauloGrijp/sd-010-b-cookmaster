@@ -1,4 +1,4 @@
-const { createRecipeModel, getRecipesModel } = require('../4models/recipeModel');
+const { createRecipeModel, getRecipesModel, getRecipesIDModel } = require('../4models/recipeModel');
 const { verifyToken } = require('../5middleware/logintoken');
 
 const error = {
@@ -17,7 +17,13 @@ const createRecipeService = async (recipe, token) => {
 
 const getRecipesService = async () => getRecipesModel();
 
+const getRecipesIDService = async (req) => {
+  const { id } = req.params;
+  return getRecipesIDModel(id);
+};
+
 module.exports = {
   createRecipeService,
   getRecipesService,
+  getRecipesIDService,
 };
