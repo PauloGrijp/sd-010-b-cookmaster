@@ -12,11 +12,9 @@ app.get('/', (request, response) => {
   response.send();
 });
 
-const userValidate = require('../middlewares/userMiddlewares');
-const validateEmailPassword = require('../middlewares/loginMiddlewares');
-
-app.use('/users', userValidate, users);
-app.use('/login', validateEmailPassword, login);
+app.use('/users', users);
+app.use('/login', login);
 app.use('/recipes', recipes);
+app.use('/images', express.static(`${__dirname}/../uploads`));
 
 module.exports = app;
