@@ -6,6 +6,8 @@ const recipesController = require('../../controllers/recipesController');
 
 const router = express.Router();
 
+router.delete('/:id', validateJWT, recipesController.deleteRecipe);
+
 router.put('/:id', validateJWT, recipesController.updateRecipe);
 
 router.post('/', validateJWT, checkValues, recipesController.addRecipe);
