@@ -3,7 +3,8 @@ const {
   getRecipesModel,
   getRecipesIDModel,
   deleteRecipesIDModel,
-  putRecipesIDModel } = require('../4models/recipeModel');
+  putRecipesIDModel, 
+  putImageModel } = require('../4models/recipeModel');
 const { verifyToken } = require('../5middleware/logintoken');
 
 const error = {
@@ -45,10 +46,22 @@ const deleteRecipesIDService = async (req) => {
   return deleteRecipesIDModel(id);
 };
 
+const putImageService = async (req) => {
+  if (!req.headers.authorization) { return error.missingToken; }
+  const answer = await verifyToken(req.headers.authorization);
+  if (answer === 'error') { return error.invalidToken; }
+
+  const { id } = req.params;
+  const answerDB = await putImageModel(id);
+  if (answerDB === 'error') { return error.invalidToken; }
+  return answerDB;
+};
+
 module.exports = {
   createRecipeService,
   getRecipesService,
   getRecipesIDService,
   putRecipesIDService,
   deleteRecipesIDService,
+  putImageService,
 };

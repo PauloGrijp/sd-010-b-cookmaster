@@ -32,10 +32,20 @@ const deleteRecipesIDModel = async (id) => {
   return item;
 };
 
+const putImageModel = async (id) => {
+  if (!ObjectId.isValid(id)) { return 'error'; }
+  await connection()
+  .then((db) => db.collection('recipes').updateOne({ _id: new ObjectId(id) },
+   { $set: { image: `localhost:3000/src/uploads/${id}.jpeg` } }));
+  const result = await getRecipesIDModel(id);
+  return result;
+};
+
 module.exports = {
   createRecipeModel,
   getRecipesModel,
   getRecipesIDModel,
   putRecipesIDModel,
   deleteRecipesIDModel,
+  putImageModel,
 };

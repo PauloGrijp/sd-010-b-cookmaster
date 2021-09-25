@@ -3,6 +3,7 @@ const {
   getRecipesService,
   putRecipesIDService,
   deleteRecipesIDService,
+  putImageService,
   getRecipesIDService } = require('../3services/recipesService');
 
 const STATUS = {
@@ -51,10 +52,20 @@ const deleteRecipesID = async (req, res) => {
   return res.status(STATUS.delete).json(answer);
 };
 
+const putImage = async (req, res) => {
+  const answer = await putImageService(req);
+  const { status, message } = answer;
+  if (status) {
+    return res.status(status).json({ message });
+  }
+  return res.status(STATUS.get).json(answer);
+};
+
 module.exports = {
   createRecipes,
   getRecipes,
   getRecipesID,
   putRecipesID,
   deleteRecipesID,
+  putImage,
 };
