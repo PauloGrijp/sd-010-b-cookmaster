@@ -37,15 +37,23 @@ const getRecipeId = rescue(async (req, res, next) => {
 
 const updateRecipe = rescue(async (req, res, _next) => {
   const { id } = req.params;
-  const { name, ingredients, preparation } = req.body;
-  const update = await recipeService.updateRecipe(id, name, ingredients, preparation);
+  const { body } = req;
+  const { user } = req;
+  const update = await recipeService.updateRecipe(id, body, user);
   res.status(200).json(update);
 });
 const deleteRecipe = rescue(async (req, res, _next) => {
   const { id } = req.params;
-  console.log(id);
   const deleteData = await recipeService.deleteRecipe(id);
   res.status(204).json(deleteData);
+});
+const updateImage = rescue(async (req, res, _next) => {
+  const { id } = req.params;
+  const { path } = req.file;
+  console.log('cheguei');
+  const image = `localhost:3000/${path}`;
+  const update = await recipeService.updateImage(id, image);
+  res.status(200).json(update);
 });
 module.exports = {
   createRecipes,
@@ -53,4 +61,5 @@ module.exports = {
   getRecipeId,
   updateRecipe,
   deleteRecipe,
+  updateImage,
 };

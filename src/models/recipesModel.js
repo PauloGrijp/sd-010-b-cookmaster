@@ -25,10 +25,12 @@ const getRecipesId = async (id) => {
   return getRecipe;
 };
 
-const updateRecipe = async (id, name, ingredients, preparation) => {
+const updateRecipe = async (id, body, user) => {
   if (!ObjectId.isValid(id)) {
     return null;
   }
+  const { name, ingredients, preparation } = body;
+  const { _id, role } = user;
   const db = await connection();
   const { value } = await db
     .collection('recipes')
@@ -37,7 +39,10 @@ const updateRecipe = async (id, name, ingredients, preparation) => {
       { $set: { name, ingredients, preparation } },
       { returnOriginal: false },
     );
-  return value;
+    if (_id === value.userId || role === 'admin') {
+      return value;
+    }
+    return {};
 };
 
 const deleteRecipe = async (id) => {
@@ -48,4 +53,21 @@ const deleteRecipe = async (id) => {
  const deleteData = await db.collection('recipes').deleteOne({ _id: ObjectId(id) });
  return deleteData;
 };
-module.exports = { createRecipe, getRecipesAll, getRecipesId, updateRecipe, deleteRecipe };
+
+const updateImage = async (id, image) => {
+  if (!ObjectId.isValid(id)) {
+    return null;
+  }
+  const db = await connection();
+  const { value } = await db.collection('recipes').findOneAndUpdate({ _id: ObjectId(id) },
+  { $set: { image } },
+  { returnOriginal: false });
+  return value;
+};
+module.exports = {
+  createRecipe,
+  getRecipesAll,
+  getRecipesId,
+  updateRecipe,
+  deleteRecipe,
+  updateImage };

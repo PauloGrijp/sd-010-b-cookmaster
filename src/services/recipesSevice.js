@@ -12,14 +12,26 @@ const getRecipesId = async (id) => {
   return getRecipe;
 };
 
-const updateRecipe = async (id, name, ingredients, preparation) => {
-  const update = await recipesModel.updateRecipe(id, name, ingredients, preparation);
-  return update;
+const updateRecipe = async (id, body, user) => {
+  if (user.role === 'admin' || user.role === 'user') {
+    const update = await recipesModel.updateRecipe(id, body, user);
+    return update;
+  }
+  return {};
 };
-
 const deleteRecipe = async (id) => {
   const deleteDate = await recipesModel.deleteRecipe(id);
   return deleteDate;
 };
-
-module.exports = { createRecipe, getRecipesAll, getRecipesId, updateRecipe, deleteRecipe };
+const updateImage = async (id, image) => {
+  const update = await recipesModel.updateImage(id, image);
+  return update;
+};
+module.exports = {
+  createRecipe,
+  getRecipesAll,
+   getRecipesId,
+  updateRecipe,
+  deleteRecipe,
+  updateImage,
+};
