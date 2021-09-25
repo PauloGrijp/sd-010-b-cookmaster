@@ -63,7 +63,7 @@ const { code, recipe } = result;
 return res.status(code).json(recipe);
 };
 
-// tive a ajuda da Camila Arruda para a execução do req 9 
+// tive a ajuda do Renato Graça para a execução do req 9 
 const contImageCreate = [uploadImage.single('image'), async (req, res) => {
   const { id } = req.params;
   const tokenReceived = req.headers.authorization;
