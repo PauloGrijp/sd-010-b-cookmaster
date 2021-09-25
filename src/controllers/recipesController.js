@@ -33,4 +33,12 @@ recipes.post('/',
     return res.status(StatusCodes.CREATED).json({ recipe });
 }));
 
+recipes.put('/:id', 
+  validateJWT,
+  rescue(async (req, res) => {
+    const { id } = req.params;
+    const recipe = await Recipes.update(id, req.body);
+    return res.status(StatusCodes.OK).json(recipe);
+}));
+
 module.exports = recipes;
