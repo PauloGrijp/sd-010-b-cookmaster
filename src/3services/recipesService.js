@@ -1,14 +1,19 @@
-const { createRecipeModel, getRecipesModel, getRecipesIDModel } = require('../4models/recipeModel');
+const {
+  createRecipeModel,
+  getRecipesModel,
+  getRecipesIDModel,
+  putRecipesIDModel } = require('../4models/recipeModel');
 const { verifyToken } = require('../5middleware/logintoken');
 
 const error = {
   invalid: { status: 400, message: 'Invalid entries. Try again.' },
   invalidToken: { status: 401, message: 'jwt malformed' },
+  missingToken: { status: 401, message: 'missing auth token' },
 };
 
 const createRecipeService = async (recipe, token) => {
   const { name, ingredients, preparation } = recipe;
-  if (!name || !ingredients || !preparation) { return error.invalid; }
+    if (!name || !ingredients || !preparation) { return error.invalid; }
   const answer = await verifyToken(token);
   if (answer === 'error') { return error.invalidToken; }
   const { _id } = answer;
@@ -22,8 +27,17 @@ const getRecipesIDService = async (req) => {
   return getRecipesIDModel(id);
 };
 
+const putRecipesIDService = async (req) => {
+  if (!req.headers.authorization) { return error.missingToken; }
+  const answer = await verifyToken(req.headers.authorization);
+  if (answer === 'error') { return error.invalidToken; }
+  const { id } = req.params;
+  return putRecipesIDModel(id, req.body);
+};
+
 module.exports = {
   createRecipeService,
   getRecipesService,
   getRecipesIDService,
+  putRecipesIDService,
 };

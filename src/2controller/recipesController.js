@@ -1,6 +1,7 @@
 const {
   createRecipeService,
   getRecipesService,
+  putRecipesIDService,
   getRecipesIDService } = require('../3services/recipesService');
 
 const STATUS = {
@@ -27,7 +28,15 @@ const getRecipes = async (req, res) => {
 const getRecipesID = async (req, res) => {
   const answer = await getRecipesIDService(req);
   if (!answer) { return res.status(STATUS.err).json({ message: 'recipe not found' }); }
-  console.log(answer, 'seilah');
+  return res.status(STATUS.get).json(answer);
+};
+
+const putRecipesID = async (req, res) => {
+  const answer = await putRecipesIDService(req);
+  const { status, message } = answer;
+  if (status) {
+    return res.status(status).json({ message });
+  }
   return res.status(STATUS.get).json(answer);
 };
 
@@ -35,4 +44,5 @@ module.exports = {
   createRecipes,
   getRecipes,
   getRecipesID,
+  putRecipesID,
 };
