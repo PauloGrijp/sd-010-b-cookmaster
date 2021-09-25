@@ -24,8 +24,7 @@ const createRecipe = async ({ name, ingredients, preparation }) => {
 };
 
 const getRecipeById = async (id) => {
-  const checkId = await ObjectId.isValid(id);
-  if (!checkId) {
+  if (!ObjectId.isValid(id)) {
     return {
       status: 404,
       message,
@@ -45,7 +44,6 @@ const getRecipeById = async (id) => {
 
 const updateRecipe = async ({ name, ingredients, preparation }, id) => {
   const recipe = await recipeModel.updateRecipe({ name, ingredients, preparation }, id);
-  console.log(recipe);
   if (!recipe) {
     return {
       status: 404,
@@ -69,9 +67,10 @@ const deleteRecipe = async (id) => {
   return recipe;
 };
 
-const uploadImage = async (id, image) => {
-  const recipe = await recipeModel.uploadImage(id, image);
-  console.log(recipe);
+const uploadImage = async ({ id }) => {
+  const imageURL = `localhost:3000/src/uploads/${id}.jpeg`;
+  const recipe = await recipeModel.uploadImage({ imageURL, id });
+      
   if (!recipe) {
     return {
       status: 404,

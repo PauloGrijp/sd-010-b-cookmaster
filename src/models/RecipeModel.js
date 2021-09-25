@@ -7,8 +7,7 @@ const createRecipe = async ({ name, ingredients, preparation }) => {
   const { insertedId: id } = await recipeCollection.insertOne(
     { name, ingredients, preparation },
   );
-  // console.log(recipe);
-  
+    
   return { name, ingredients, preparation, id };
 };
 
@@ -54,18 +53,18 @@ const deleteRecipe = async (id) => {
   return id;
 };
 
-const uploadImage = async (id, image) => {
+const uploadImage = async ({ id, imageURL }) => {
   if (!ObjectId.isValid(id)) return null;
-
+  
   const recipeCollection = await connection()
   .then((db) => db.collection('recipes'));
 
   await recipeCollection.updateOne({ _id: ObjectId(id) },
   {
-    $set: { image },
+    $set: { imageURL },
   });
-  
-  return recipeCollection;
+
+  return id;
 };
 
 module.exports = {

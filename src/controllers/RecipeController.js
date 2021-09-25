@@ -1,22 +1,28 @@
+const express = require('express');
 const code = require('http-status-codes');
 const multer = require('multer');
+
+const recipeRouter = express.Router();
+const validationJWT = require('../middlewares/validationJWT');
+
 const RecipeService = require('../services/RecipeService');
 const RecipeModel = require('../models/RecipeModel');
 
 const storage = multer.diskStorage({
-  destination: (_req, _file, cb) => {
-    cb(null, '../uploads');
+  destination: (_req, _file, callback) => {
+    callback(null, './src/uploads');
   },
-  fileName: (req, _file, cb) => {
+  filename: (req, _file, callback) => {
     const { id } = req.params;
-    cb(null, `${id}.jpeg`);
+    const fileExtension = `${id}.jpeg`;
+    callback(null, fileExtension);
   },
 });
 
 const upload = multer({ storage });
 
 // cria a receita
-const createRecipe = async (req, res) => {
+recipeRouter.post('/', validationJWT, async (req, res) => {
   const { name, ingredients, preparation } = req.body;
   const { _id: userId } = req.user;
   
@@ -31,19 +37,19 @@ const createRecipe = async (req, res) => {
   return res.status(code.CREATED).json(
     { recipe: { name, ingredients, preparation, userId, _id: id } },
     );
-};
+});
 
 // visualiza receitas
-const getAllRecipes = async (req, res) => {
+recipeRouter.get('/', async (req, res) => {
   const allRecipes = await RecipeModel.getAllRecipes();
   if (!allRecipes) {
     return res.status(code.NOT_FOUND).json({ message: 'Nenhuma receita encontrada' });
   }
   return res.status(code.OK).json(allRecipes);
-};
+});
 
 // visualiza receita pelo ID
-const getRecipeById = async (req, res) => {
+recipeRouter.get('/:id', async (req, res) => {
   const { id } = req.params;
   const recipe = await RecipeService.getRecipeById(id);
   
@@ -51,10 +57,10 @@ const getRecipeById = async (req, res) => {
     return res.status(code.NOT_FOUND).json({ message: 'recipe not found' });
   }
   return res.status(code.OK).json(recipe);
-};
+});
 
 // atualiza receita
-const updateRecipe = async (req, res) => {
+recipeRouter.put('/:id', validationJWT, async (req, res) => {
   const { name, ingredients, preparation } = req.body;
   const { _id: userId } = req.user;
   const { id } = req.params;
@@ -70,10 +76,10 @@ const updateRecipe = async (req, res) => {
   return res.status(code.OK).json(
     { _id: id, name, ingredients, preparation, userId },
     );
-};
+});
 
 // deleta receita
-const deleteRecipe = async (req, res) => {
+recipeRouter.delete('/:id', validationJWT, async (req, res) => {
   const { id } = req.params;
 
   const { message } = await RecipeService.deleteRecipe(id);
@@ -82,16 +88,22 @@ const deleteRecipe = async (req, res) => {
   }
 
   return res.status(code.NO_CONTENT).json(id);
-};
+});
 
-// uploadImage
-const uploadImage = () => {};
+// atualiza receita com imagem
+recipeRouter.put('/:id/image', validationJWT, upload.single('image'), async (req, res) => {
+  const { id } = req.params;
+  const { path: pathFile } = req.file;
+  const { _id: userId } = req.user;
+  const { _id, name, ingredients, preparation, message } = await RecipeService.getRecipeById(id);
 
-module.exports = {
-  createRecipe,
-  getAllRecipes,
-  getRecipeById,
-  updateRecipe,
-  deleteRecipe,
-  uploadImage,
-};
+  if (message) {
+    return res.status(code.BAD_REQUEST).json({ message });
+  }
+  
+  await RecipeService.uploadImage(id, `localhost:3000/${pathFile}`);
+  return res.status(200).json(
+    { _id, name, ingredients, preparation, userId, image: `localhost:3000/${pathFile}` },
+  );
+});
+module.exports = recipeRouter;
