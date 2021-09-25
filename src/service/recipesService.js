@@ -3,7 +3,8 @@ const {
   postRecipeModel,
   getRecipesModel, 
   getRecipeByIdModel, 
-  putRecipeByIdModel } = require('../model/recipesModel');
+  putRecipeByIdModel, 
+  delRecipeByIdModel } = require('../model/recipesModel');
 
 // ---------------------------------------------------------------
 // Requisito 3: SERVICE responsável por chamar MODEL de cadastro de receitas e retornar a receita cadastrada para o CONTROLLER.
@@ -41,10 +42,24 @@ const putRecipeByIdService = async ({
 
   // Comments: Compara se UserId da Receita é igual ao UserId da Requisição, & se o role do userId é igual a 'admin'.
   if (String(userId) !== String(reqUserId) && role !== 'admin') return null;
-  
+
   const updatedRecipe = await putRecipeByIdModel({ recipeId, name, ingredients, preparation });
 
   return updatedRecipe;
+};
+
+// ---------------------------------------------------------------
+// Requisito 8: SERVICE responsável por chamar MODEL que deleta receita por ID e retornar a receitas deletada para o CONTROLLER.
+
+const delRecipeByIdService = async ({ recipeId, reqUserId, role }) => {
+  const { userId } = await getRecipeByIdModel(recipeId);
+
+  // Comments: Compara se UserId da Receita é igual ao UserId da Requisição, & se o role do userId é igual a 'admin'.
+  if (String(userId) !== String(reqUserId) && role !== 'admin') return null;
+
+  const deletedRecipe = await delRecipeByIdModel(recipeId);
+
+  return deletedRecipe;
 };
 
 // ---------------------------------------------------------------
@@ -54,4 +69,5 @@ module.exports = {
   getRecipesService,
   getRecipeByIdService,
   putRecipeByIdService,
+  delRecipeByIdService,
 };

@@ -9,7 +9,8 @@ const {
   postRecipeService,
   getRecipesService, 
   getRecipeByIdService, 
-  putRecipeByIdService } = require('../service/recipesService');
+  putRecipeByIdService, 
+  delRecipeByIdService } = require('../service/recipesService');
 
 const recipesRouter = express.Router();
 
@@ -75,6 +76,22 @@ recipesRouter.put('/:id', validateJWT, async (req, res) => {
   }
 
   return res.status(200).json(updatedRecipe);
+});
+
+// ---------------------------------------------------------------
+// Requisito 8: CONTROLLER responsável por receber a requisição para deletar receita por ID, chamar SERVICE e retornar a receita deletada.
+
+recipesRouter.delete('/:id', validateJWT, validateIdRecipes, async (req, res) => {
+  const { id } = req.params;
+  const { _id, role } = req.user;
+
+  const deletedRecipe = await delRecipeByIdService({ recipeId: id, reqUserId: _id, role });
+
+  if (!deletedRecipe) {
+    return res.status(404).json({ message: 'recipe not found' });
+  }
+
+  return res.status(204).end();
 });
 
 // ---------------------------------------------------------------

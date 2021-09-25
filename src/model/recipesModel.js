@@ -35,10 +35,17 @@ const putRecipeByIdModel = async ({ recipeId, name, ingredients, preparation }) 
   ))
   .then(({ value }) => value);
 // ---------------------------------------------------------------
+// Requisito 8: MODEL responsável pela deletar receita por ID na BASE DE DADOS, e retornar a receita deletada.
+
+const delRecipeByIdModel = async (id) => connection()
+  .then((db) => db.collection('recipes').findOneAndDelete({ _id: ObjectId(id) }));
+
+// ---------------------------------------------------------------
 
   module.exports = {
     postRecipeModel,
     getRecipesModel,
     getRecipeByIdModel,
     putRecipeByIdModel,
+    delRecipeByIdModel,
   };
