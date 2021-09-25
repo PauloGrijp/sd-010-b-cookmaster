@@ -2,11 +2,13 @@ const {
   createRecipeService,
   getRecipesService,
   putRecipesIDService,
+  deleteRecipesIDService,
   getRecipesIDService } = require('../3services/recipesService');
 
 const STATUS = {
   create: 201,
   get: 200,
+  delete: 204,
   err: 404,
 };
 
@@ -40,9 +42,19 @@ const putRecipesID = async (req, res) => {
   return res.status(STATUS.get).json(answer);
 };
 
+const deleteRecipesID = async (req, res) => {
+  const answer = await deleteRecipesIDService(req);
+  const { status, message } = answer;
+  if (status) {
+    return res.status(status).json({ message });
+  }
+  return res.status(STATUS.delete).json(answer);
+};
+
 module.exports = {
   createRecipes,
   getRecipes,
   getRecipesID,
   putRecipesID,
+  deleteRecipesID,
 };

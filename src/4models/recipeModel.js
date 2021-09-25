@@ -24,9 +24,18 @@ const putRecipesIDModel = async (id, data) => {
   .then((DB) => DB.collection('recipes').findOne(ObjectId(id)));
 };
 
+const deleteRecipesIDModel = async (id) => {
+  if (!ObjectId.isValid(id)) { return 'error'; }
+  const item = connection().then((DB) => DB.collection('recipes').findOne(ObjectId(id)));
+  connection().then((DB) => DB.collection('recipes')
+    .deleteOne({ _id: ObjectId(id) })); 
+  return item;
+};
+
 module.exports = {
   createRecipeModel,
   getRecipesModel,
   getRecipesIDModel,
   putRecipesIDModel,
+  deleteRecipesIDModel,
 };

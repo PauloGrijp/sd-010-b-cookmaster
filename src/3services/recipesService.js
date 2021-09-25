@@ -2,6 +2,7 @@ const {
   createRecipeModel,
   getRecipesModel,
   getRecipesIDModel,
+  deleteRecipesIDModel,
   putRecipesIDModel } = require('../4models/recipeModel');
 const { verifyToken } = require('../5middleware/logintoken');
 
@@ -35,9 +36,19 @@ const putRecipesIDService = async (req) => {
   return putRecipesIDModel(id, req.body);
 };
 
+const deleteRecipesIDService = async (req) => {
+  if (!req.headers.authorization) { return error.missingToken; }
+  const answer = await verifyToken(req.headers.authorization);
+  if (answer === 'error') { return error.invalidToken; }
+
+  const { id } = req.params;
+  return deleteRecipesIDModel(id);
+};
+
 module.exports = {
   createRecipeService,
   getRecipesService,
   getRecipesIDService,
   putRecipesIDService,
+  deleteRecipesIDService,
 };
