@@ -25,8 +25,24 @@ const findById = async (id) => {
   return result;
 };
 
+const update = async (id, recipe) => {
+  const result = await recipesModel.update(id, recipe);
+  if (!result) { return { message: 'recipe not found' }; }
+  return result;
+};
+
+const remove = async (id) => recipesModel.remove(id);
+
+const image = async (id) => {
+  const result = await recipesModel.image(id);
+  return result;
+};
+
 module.exports = {
   create,
   getAll,
   findById,
+  update,
+  remove,
+  image,
 };

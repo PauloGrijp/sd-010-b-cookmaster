@@ -18,8 +18,35 @@ const findById = async (id) => {
   return result;
 };
 
+const update = async (id, { name, ingredients, preparation }) => {
+  if (!ObjectId.isValid(id)) { return null; }
+  await connection()
+  .then((db) => db.collection('recipes')
+  .updateOne({ _id: new ObjectId(id) }, { $set: { name, ingredients, preparation } }));
+  const result = await findById(id);
+  return result;
+};
+
+const remove = async (id) => {
+  if (!ObjectId.isValid(id)) { return null; }
+  await connection()
+  .then((db) => db.collection('recipes').deleteOne({ _id: new ObjectId(id) }));
+};
+
+const image = async (id) => {
+  if (!ObjectId.isValid(id)) { return null; }
+  await connection()
+  .then((db) => db.collection('recipes').updateOne({ _id: new ObjectId(id) },
+   { $set: { image: `localhost:3000/src/uploads/${id}.jpeg` } }));
+  const result = await findById(id);
+  return result;
+};
+
 module.exports = {
   create,
   getAll,
   findById,
+  update,
+  remove,
+  image,
 };
