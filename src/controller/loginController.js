@@ -7,7 +7,6 @@ const secret = 'seusecretdetoken';
 
 const login = async (req, res) => {
   const user = await loginService.login(req.body);
-  // console.log(user);
   if (user.message) { return res.status(StatusCodes.UNAUTHORIZED).json({ message: user.message }); }
   const jwtConfig = {
     expiresIn: '7d',
