@@ -19,8 +19,14 @@ const findId = async (id) => {
   return recipe;
 };
 
+const update = async (id, recipe) => {
+  const recipeUpdate = await Recipes.update(id, recipe);
+  return recipeUpdate;
+};
+
 module.exports = {
   create,
   getAll,
   findId,
+  update,
 };
