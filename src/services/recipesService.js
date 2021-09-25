@@ -70,10 +70,18 @@ const validateDelete = async (id) => {
   if (deleteProduct.deletedCount === 1) return true;
 };
 
+const validateUpload = async (path, recipeId) => {
+  const upload = await recipesModel.uploadImage(path, recipeId);
+  console.log(upload, 'service');
+
+  return upload;
+};
+
 module.exports = {
   created,
   getRecipes,
   validateId,
   validateUpdate,
   validateDelete,
+  validateUpload,
 };

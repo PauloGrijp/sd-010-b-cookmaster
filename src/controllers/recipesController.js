@@ -50,10 +50,20 @@ const deleteRecipe = async (req, res) => {
   return res.status(204).send();
 };
 
+const uploadImage = async (req, res) => {
+  const { path } = req.file;
+  const { id: recipeId } = req.params;
+  const recipe = await recipesService.validateUpload(path, recipeId);
+  console.log(recipe, 'controler');
+
+  return res.status(200).json(recipe);
+};
+
 module.exports = {
   create,
   AllRecipes,
   getRecipe,
   update,
   deleteRecipe,
+  uploadImage,
 };
