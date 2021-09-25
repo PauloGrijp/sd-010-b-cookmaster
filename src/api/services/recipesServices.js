@@ -98,4 +98,6 @@ module.exports = {
   getRecipeById,
   editRecipes,
   deleteRecipes,
+  validAutheToken,
+  validTokenExist,
 };
