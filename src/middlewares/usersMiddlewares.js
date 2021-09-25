@@ -31,10 +31,18 @@ const checkLoginUser = (user) => {
     throw error;
   }
 };
+const validCreateUserAdmin = (role) => {
+  if (role !== 'admin') {
+    const error = new Error('Only admins can register new admins');
+    error.code = 403;
+    throw error;
+  }
+};
 
 module.exports = {
   validCreateUser,
   checkEmailExist,
   validLoginUser,
   checkLoginUser,
+  validCreateUserAdmin,
 };

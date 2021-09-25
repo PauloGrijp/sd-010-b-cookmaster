@@ -1,29 +1,33 @@
-const { checkRecipe, validRecipes } = require('../middlewares/recipesMiddlewares');
-const { getAllRecipesM, createRecipesM, getIdRecipesM, updateRecipesM,
-  deleteRecipesM } = require('../model/recipesModel');
+const { validRecipes, checkRecipe } = require('../middlewares/recipesMiddlewares');
+const { getAllRecipesM, getRecipeIdM, createRecipeM, updateRecipeM,
+  uploadImgRecipeM, deleteRecipeM } = require('../model/recipesModel');
 
-const createRecipesS = async (name, ingredients, preparation, userId) => {
+const createRecipeS = async (name, ingredients, preparation, userId) => {
   validRecipes(name, ingredients, preparation);
-  const result = await createRecipesM(name, ingredients, preparation, userId);
+  const result = await createRecipeM(name, ingredients, preparation, userId);
   return result;
 };
 const getAllRecipesS = () => getAllRecipesM();
-const getIdRecipesS = async (id) => {
-  const result = await getIdRecipesM(id);
+const getRecipeIdS = async (id) => {
+  const result = await getRecipeIdM(id);
   checkRecipe(result);
   return result;
 };
-const updateRecipesS = async (id, name, ingredients, preparation) => {
-  const result = await updateRecipesM(id, name, ingredients, preparation);
+const updateRecipeS = async (id, name, ingredients, preparation) => {
+  const result = await updateRecipeM(id, name, ingredients, preparation);
   return result;
 };
-const deleteRecipesS = async (id) => {
-  const result = await deleteRecipesM(id);
+const deleteRecipeS = async (id) => {
+  const result = await deleteRecipeM(id);
   checkRecipe(result);
   return result;
 };
-const authorRecipesS = async (userID, userRole, recipeID) => {
-  const recipe = await getIdRecipesM(recipeID);
+const uploadImgRecipeS = async (id, imagePath) => {
+  const result = await uploadImgRecipeM(id, imagePath);
+  return result;
+};
+const getAuthorRecipeS = async (userID, userRole, recipeID) => {
+  const recipe = await getRecipeIdM(recipeID);
   checkRecipe(recipe);
   if (recipe.userId !== userID && userRole !== 'admin') {
     const error = new Error('unauthorized');
@@ -34,9 +38,10 @@ const authorRecipesS = async (userID, userRole, recipeID) => {
 
 module.exports = {
   getAllRecipesS,
-  getIdRecipesS,
-  createRecipesS,
-  updateRecipesS,
-  deleteRecipesS,
-  authorRecipesS,
+  getRecipeIdS,
+  createRecipeS,
+  updateRecipeS,
+  deleteRecipeS,
+  getAuthorRecipeS,
+  uploadImgRecipeS,
 };
