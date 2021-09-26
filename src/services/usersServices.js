@@ -24,18 +24,19 @@ const createUser = async (userData) => {
   const passwordValid = usersValidation.validatePassword(password);
 
   if (!emailValid || !nameValid || !passwordValid) {
-    return { message: 'Invalid entries. Try again.' };
+    return {
+      error: {
+        status: 400,
+        message: 'Invalid entries. Try again.',
+      },
+    };
   }
 
   newUser.role = 'user';
 
   const user = await usersModel.createUser(newUser);
 
-  return {
-    user: {
-      ...user,
-    },
-  };
+  return { user: { ...user } };
 };
 
 module.exports = {
