@@ -2,7 +2,7 @@ require('dotenv').config();
 const { MongoClient } = require('mongodb');
 
 const OPTIONS = { useNewUrlParser: true, useUnifiedTopology: true };
-const MONGO_DB_URL = 'mongodb://mongodb:27017/Cookmaster';
+// const MONGO_DB_URL = 'mongodb://mongodb:27017/Cookmaster';
 const DB_NAME = 'Cookmaster';
 
 const MONGO_DB_URL = process.env.MONGO_DB_URL || 'mongodb://mongodb:27017/StoreManager';
@@ -15,5 +15,4 @@ const connection = () => MongoClient
     process.exit(1);
   });
 
-module.exports = connection;
-
+module.exports = { connection };
