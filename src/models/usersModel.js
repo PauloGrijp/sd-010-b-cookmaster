@@ -1,16 +1,8 @@
 const connection = require('./connection');
 
-const getUser = async (userEmail) => {
-  const { insertedId, name, role, email } = connection()
-    .then((db) => db.collection('users').findOne({ userEmail }));
-
-  return {
-    _id: insertedId,
-    name,
-    email,
-    role,
-  };
-};
+const getUser = async (userEmail) => 
+  connection()
+    .then((db) => db.collection('users').findOne({ email: userEmail }));
 
 const createUser = async (userData) => 
   connection()

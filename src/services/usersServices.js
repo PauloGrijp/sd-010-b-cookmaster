@@ -1,6 +1,20 @@
 const usersModel = require('../models/usersModel');
 const usersValidation = require('../validation/usersValidation');
 
+const validationObjError = {
+  error: {
+    status: 400,
+    message: 'Invalid entries. Try again.',
+  },
+};
+
+const uniqueEmailObjError = {
+  error: {
+    status: 409,
+    message: 'Email already registered',
+  },
+};
+
 const getUser = async (userEmail) => {
   const userFound = await usersModel.getUser(userEmail);
 
@@ -13,7 +27,9 @@ const getUser = async (userEmail) => {
     };
   }
 
-  return { user: { ...userFound } };
+  const { _id, name, email, role } = userFound;
+
+  return { user: { _id, name, email, role } };
 };
 
 const createUser = async (userData) => {
@@ -22,16 +38,12 @@ const createUser = async (userData) => {
   const emailValid = usersValidation.validateEmail(email);
   const nameValid = usersValidation.validateName(name);
   const passwordValid = usersValidation.validatePassword(password);
+  
+  if (!emailValid || !nameValid || !passwordValid) return validationObjError;
+  
   const { user } = await getUser(email);
 
-  if (!emailValid || !nameValid || !passwordValid || user.email) {
-    return {
-      error: {
-        status: 400,
-        message: 'Invalid entries. Try again.',
-      },
-    };
-  }
+  if (user) return uniqueEmailObjError;
 
   newUser.role = 'user';
 
