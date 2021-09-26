@@ -18,8 +18,7 @@ const validateToken = async (req, res, next) => {
     const user = await findUserByEmail(payload.email);
 
     if (!user) {
-      return res.status(StatusCodes.UNAUTHORIZED)
-        .json({ message: 'invalid user' });
+      return res.status(StatusCodes.UNAUTHORIZED).json({ message: 'invalid user' });
     }
 
     const { password, ...userWithoutPassword } = user;
@@ -28,8 +27,7 @@ const validateToken = async (req, res, next) => {
 
     next();
   } catch (err) {
-    return res.status(StatusCodes.UNAUTHORIZED)
-      .json({ message: err.message });
+    return res.status(StatusCodes.UNAUTHORIZED).json({ message: err.message });
   }
 };
 
