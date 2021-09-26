@@ -40,7 +40,7 @@ describe('POST /users', () => {
   });
 
   describe('cadastro de usuários é feito com sucesso', () => {
-    let response = {};
+    let response;
 
     before(async () => {
       /* const userCollection = connectionMock.db('Cookmaster').collection('users')
