@@ -75,12 +75,15 @@ const deleteByid = async (req, res) => {
  };
 
  const updateImageById = async (req, res) => {
-    // const { id } = req.params;
+    const { id } = req.params;
     console.log(req.file.path, 'quero fazer o update da imagem posso?');
-    // const imagePath = `http://localhost:3000/${req.file.path}`;
-    // const recipeWithImage = await recipeModel.imageUpload(id, imagePath);
+    const imagePath = `localhost:3000/${req.file.path}`;
+    console.log(imagePath, 'estou para enviar a url');
+    await recipeModel.imageUpload(id, imagePath);
+    const recipeWithImage = await recipeModel.findRecipeById(id);
+    console.log(recipeWithImage);
  
-    return res.status(STATUS_OK.OK).json();
+    return res.status(STATUS_OK.OK).json(recipeWithImage);
  };
 
 // 
