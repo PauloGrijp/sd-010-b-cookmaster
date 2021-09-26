@@ -13,15 +13,11 @@ const validateToken = async (req, res, next) => {
   try {
     const payload = jwt.verify(token, SECRET);
 
-    if (!payload) {
-      return res.status(401).json({ message: 'jwt malformed' });
-    }
+    if (!payload) return res.status(401).json({ message: 'jwt malformed' });
 
     const user = await findUserByEmail(payload.email);
 
-    if (!user) {
-      return res.status(401).json({ message: 'invalid user' });
-    }
+    if (!user) return res.status(401).json({ message: 'invalid user' });
 
     const { password, ...userWithoutPassword } = user;
 
