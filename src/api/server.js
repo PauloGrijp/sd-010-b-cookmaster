@@ -1,13 +1,13 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const path = require('path');
+const multer = require('multer');
 const app = require('./app');
 const { createUser } = require('../controllers/users');
 const { createRecipe, getAllRecipes, getRecipe,
   updateRecipe, deleteRecipe, uploadImage } = require('../controllers/recipes');
 const { login } = require('../controllers/login');
 const { validateToken } = require('../middlewares/validateToken');
-const path = require('path');
-const multer = require('multer');
 
 const PORT = 3000;
 
