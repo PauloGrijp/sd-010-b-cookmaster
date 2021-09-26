@@ -7,13 +7,13 @@ const validateEmail = (email) => {
 };
 
 const validateName = (name) => {
-  if (name.length > 3) return true;
+  if (name && name.length > 3) return true;
 
   return false;
 };
 
 const validatePassword = (password) => {
-  if (password.length > 5) return true;
+  if (password && password.length > 5) return true;
 
   return false;
 };

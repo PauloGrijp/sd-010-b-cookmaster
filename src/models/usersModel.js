@@ -14,7 +14,7 @@ const getUser = async (userEmail) => {
 
 const createUser = async (userData) => 
   connection()
-    .then((db) => db.collection('users').insertOne(userData));
+    .then((db) => db.collection('users').insertOne({ ...userData }));
 
 module.exports = {
   getUser,

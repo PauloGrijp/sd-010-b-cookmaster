@@ -1,9 +1,9 @@
 const express = require('express');
 
+const usersController = require('../controllers/usersController');
+
 const route = express.Router();
 
-route.get('/', (req, res) => {
-  res.send('Worked');
-});
+route.post('/', usersController.createUser);
 
 module.exports = route;

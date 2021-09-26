@@ -22,10 +22,9 @@ const createUser = async (userData) => {
   const emailValid = usersValidation.validateEmail(email);
   const nameValid = usersValidation.validateName(name);
   const passwordValid = usersValidation.validatePassword(password);
-
   const { user } = await getUser(email);
 
-  if (!emailValid || !nameValid || !passwordValid || user) {
+  if (!emailValid || !nameValid || !passwordValid || user.email) {
     return {
       error: {
         status: 400,
