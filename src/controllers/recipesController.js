@@ -1,6 +1,6 @@
 const express = require('express');
 const rescue = require('express-rescue');
-const { createServiceRecipes } = require('../services/recipesService');
+const { createServiceRecipes, getAllRecipes } = require('../services/recipesService');
 const { validateRecipes, validateToken } = require('../middlewares/validateRecipes');
 
 const routerRecipes = express.Router();
@@ -22,5 +22,11 @@ routerRecipes.post('/', validateToken, validateRecipes, rescue(async (req, res, 
 
   return res.status(201).json({ recipe: newRecipes });
 }));
+
+routerRecipes.get('/', async (_req, res, _next) => {
+  const recipes = await getAllRecipes();
+
+  return res.status(200).json(recipes);
+});
 
 module.exports = routerRecipes;
