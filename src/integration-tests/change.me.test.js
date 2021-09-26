@@ -36,8 +36,8 @@ describe('POST /users', () => {
       it('retorna um objeto', () => {
           expect(response.body).to.be.a('object');
       });
-      it('o objeto possui a propriedade "message"', () => {
-          expect(response.body).to.have.property('message');
+      it('o objeto possui a propriedade "user"', () => {
+          expect(response.body).to.have.property('user');
       });
       // it('a propriedade "message" possui o texto "Novo usuário criado com sucesso"',
       //     () => {
