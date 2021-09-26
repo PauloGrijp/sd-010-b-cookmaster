@@ -2,11 +2,20 @@ const errorLogin = (err, res, next) => {
   if (err.message === 'Incorrect username or password') {
     return res.status(401).json({ message: err.message });
   }
-  next();
+ return next();
+};
+
+const errorNotFound = (err, res, next) => {
+  if (err.message === 'recipe not found') {
+    return res.status(404).json({ message: err.message });
+  }
+
+ return next();
 };
 
 const errorMidllewares = (err, _req, res, next) => {
   errorLogin(err, res, next);
+  errorNotFound(err, res, next);
   if (err.isError) {
     if (err.message === 'Email already registered') {
       return res.status(409).json({ message: err.message });
