@@ -30,8 +30,24 @@ const getById = async (req, res, next) => {
     return res.status(200).json(recipe);
 };
 
+const updateId = async (req, res, next) => {
+  const { id } = req.params;
+  const { body } = req;
+  const token = req.headers.authorization;
+  if (id.length !== 24 || !token) {
+    return next({ status: 401, message: 'missing auth token' });
+  }
+  const data = await recipesService.updateId(id, body, token);
+  console.log(data, 'DATA');
+  if (data.message) {
+    return next(data);
+  }
+  return res.status(200).json(data);
+};
+
 module.exports = {
   create,
   getAll,
+  updateId,
   getById,
 };
