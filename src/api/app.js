@@ -3,10 +3,13 @@ const bodyParser = require('body-parser');
 const User = require('../controllers/User');
 // const Sale = require('../controllers/Sale');
 const errorMiddleware = require('../middlewares/error');
+const Login = require('../controllers/Login');
 
 const app = express();
 
 app.use(bodyParser.json());
+
+app.post('/login', Login);
 
 app.get('/users', User.getAll);
 app.get('/products/:id', User.findById);
