@@ -23,7 +23,9 @@ const createUser = async (userData) => {
   const nameValid = usersValidation.validateName(name);
   const passwordValid = usersValidation.validatePassword(password);
 
-  if (!emailValid || !nameValid || !passwordValid) {
+  const { user } = await getUser(email);
+
+  if (!emailValid || !nameValid || !passwordValid || user) {
     return {
       error: {
         status: 400,
@@ -34,9 +36,9 @@ const createUser = async (userData) => {
 
   newUser.role = 'user';
 
-  const user = await usersModel.createUser(newUser);
+  const { insertedId } = await usersModel.createUser(newUser);
 
-  return { user: { ...user } };
+  return { user: { email, name, role: newUser.role, _id: insertedId } };
 };
 
 module.exports = {
