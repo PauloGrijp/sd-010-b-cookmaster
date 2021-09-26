@@ -16,9 +16,9 @@ describe('POST /login', () => {
       sinon.stub(MongoClient, 'connect').resolves(connectionMock);
   });
 
-  after(async () => {
+/*   after(async () => {
       MongoClient.connect.restore();
-  });
+  }); */
 
   describe('Quando não é passada email e senha', () => {
     let response;
@@ -74,7 +74,6 @@ describe('POST /login', () => {
   describe('Login de usuários é feito com sucesso', () => {
       let response = {};
       before(async () => {
-        
         const userCollection = connectionMock.db('Cookmaster').collection('users')
           await userCollection.insertOne({
             email: 'felippe@test.com',
@@ -88,10 +87,10 @@ describe('POST /login', () => {
           });
       });
 
-      after(async () => {
+     /*  after(async () => {
         MongoClient.connect.restore();
         await DBServer.stop();
-      });
+      }); */
 
       it('retorna o código de status 200', () => {
         expect(response).to.have.status(200);
