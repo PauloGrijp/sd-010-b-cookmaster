@@ -61,7 +61,6 @@ const addRecipes = async (token, name, ingredients, preparation) => {
   validPreparation(preparation);
   validAutheToken(token);
   const decoder = validTokenExist(token);
-  // console.log(decoder, 'tdecoder');
   const result = await recipesModel.addRecipes(decoder, name, ingredients, preparation);
   return result;
 };
@@ -82,7 +81,6 @@ const editRecipes = async (token, id, { name, ingredients, preparation }) => {
   validTokenExist(token); // se token valid
   // const { _id, role } = decode;
   const result = await recipesModel.editRecipes(id, name, ingredients, preparation);
-  console.log(result, 'editServices');
   return result;
 };
 
