@@ -5,6 +5,8 @@ const secret = 'o palmeiras não tem mundial';
 const validateToken = (req, res, next) => {
   try {
     const token = req.headers.authorization;
+    if (!token) return res.status(401).json({ message: 'missing auth token' });
+    
     const tokenIsValid = jwt.verify(token, secret);
   
     req.userId = tokenIsValid;
