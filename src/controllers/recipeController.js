@@ -64,10 +64,25 @@ const deleteRecipe = async (req, res) => {
   }
 };
 
+const uploadImage = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { _id, role } = req.user;
+    const image = { image: `localhost:3000/${req.file.path}` };
+
+    const { status, notification } = await recipeService.updateRecipe(image, id, _id, role);
+
+    return res.status(status).send(notification);
+  } catch (e) {
+    return res.status(code.HTTP_INTERNAL_SERVER_ERROR).json({ message: error.unexpectedError });
+  }
+};
+
 module.exports = {
   createRecipe,
   getRecipes,
   getRecipeById,
   updateRecipe,
   deleteRecipe,
+  uploadImage,
 };

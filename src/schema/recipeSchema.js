@@ -23,18 +23,6 @@ const validId = (idOfUser, userId, role) => {
   return {};
 };
 
-// const mongoValid = (id) => {
-//   if (ObjectId.isValid(id) === false) {
-//     console.log(ObjectId.isValid(id));
-//     return {
-//       status: code.HTTP_NOT_FOUND,
-//       notification: { message: error.notFound },
-//     };
-//   }
-
-//   return {};
-// };
-
 module.exports = {
   isRecipe,
   validId,

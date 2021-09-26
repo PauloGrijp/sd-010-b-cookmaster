@@ -59,12 +59,12 @@ const updateRecipe = async (update, id, idOfUser, role) => {
   if (validation.notification) return validation;
 
   await recipeModel.updateRecipe(update, id);
-
+ 
   const result = {
     status: code.HTTP_OK_STATUS,
-    notification: { _id: id, ...update, userId: find.userId },
+    notification: await recipeModel.getRecipeById(id),
   };
-  
+
   return result;
 };
 
