@@ -1,29 +1,23 @@
-require('dotenv').config();
-const rescue = require('express-rescue');
-const jwt = require('jsonwebtoken');
 const { StatusCodes } = require('http-status-codes');
+const { findUser } = require('../services/users');
 
-const servicesLogin = require('../services/login');
-
-const secret = process.env.SECRET || 'notSoSecret';
-const jwtConfig = {
-  expiresIn: '1d',
-  algorithm: 'HS256',
-};
-
-const checkLogin = rescue(async (req, res) => {
+const login = async (req, res) => {
   const { email, password } = req.body;
 
-    const result = await servicesLogin.checkLogin(email, password);
-    if (result.message) return res.status(StatusCodes.UNAUTHORIZED).json(result);
+  if(!email || !password) {
+    return res.status(StatusCodes.UNAUTHORIZED)
+      .json({ message: 'All fields must be filled' });
+  }
 
-    const { _id, role } = result;
-    const payload = { _id, email, role };
-    const token = jwt.sign(payload, secret, jwtConfig);
+  const result = await findUser(email, password);
 
-    return res.status(StatusCodes.OK).json({ token });
-});
+  if(result === null) {
+    return res.status(StatusCodes.UNAUTHORIZED)
+      .json({ message: 'Incorrect username or password' });
+  }
 
-module.exports = {
-  checkLogin,
-};
+  return res.status(StatusCodes.OK)
+    .json(result);
+}
+
+module.exports = { login };
