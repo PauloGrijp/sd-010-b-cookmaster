@@ -6,8 +6,9 @@ const create = async (name, ingredients, preparation, user) => {
     name,
     ingredients,
     preparation,
-    userId: user
+    userId: user,
   });
+
   return { recipe: { name, ingredients, preparation, userId: user, _id: recipe.insertedId } };
 };
 
