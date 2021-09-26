@@ -5,7 +5,7 @@ const createRecipe = async (req, res) => {
   const { name, ingredients, preparation } = req.body;
   const { _id } = req.user;
   const createdRecipe = await model.create(name, ingredients, preparation, _id);
-  
+
   if (!name || !ingredients || !preparation) {
     return res.status(400).json({ message: 'Invalid entries. Try again.' });
   }
@@ -48,13 +48,16 @@ const updateRecipe = async (req, res) => {
 
 const deleteRecipe = async (req, res) => {
   const { id } = req.params;
+
   await model.deleteOne(id);
+
   return res.status(204).send();
 };
 
 const uploadImage = (async (req, res) => {
   const { id } = req.params;
   const { path } = req.file;
+  
   const recipeImage = `localhost:3000/${path}`;
 
   const addImage = await service.recipeImage(id, recipeImage);
