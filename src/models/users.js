@@ -4,9 +4,9 @@ const emailAlreadyExists = async (email) => {
   const db = await connection();
   const emailExist = await db.collection('users').findOne({ email });
   return emailExist !== null;
-}
+};
 
-const createUser = async ( name, email, password ) => {
+const createUser = async (name, email, password) => {
   const db = await connection();
   const newUser = await db.collection('users').insertOne(
     { name, email, password, role: 'user' },
@@ -18,5 +18,5 @@ const createUser = async ( name, email, password ) => {
 
 module.exports = {
   emailAlreadyExists,
-  createUser
-}
+  createUser,
+};

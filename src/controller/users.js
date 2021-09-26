@@ -10,7 +10,6 @@ const createUser = rescue(async (req, res) => {
   if (newUser.message) return res.status(StatusCodes.BAD_REQUEST).json(newUser);
   
   return res.status(StatusCodes.CREATED).json(newUser);
-
 });
 
 module.exports = {
