@@ -46,4 +46,18 @@ const deletedeRecipe = async (req, res) => {
   console.log('a');
   return res.status(204).json('');
 };
-module.exports = { createRecipe, getAllRecipes, getRecipeById, updateRecipe, deletedeRecipe };
+
+const insertImage = async (req, res) => {
+  const { id } = req.params;
+  const image = `localhost:3000/src/uploads/${req.file.filename}`;
+  const recipe = await RecipeService.insertImage(id, image);
+  return res.status(200).json(recipe);
+};
+module.exports = {
+  createRecipe,
+  getAllRecipes,
+  getRecipeById,
+  updateRecipe,
+  deletedeRecipe,
+  insertImage,
+};
