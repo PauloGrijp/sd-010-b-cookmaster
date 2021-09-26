@@ -30,8 +30,20 @@ const updateRecipe = async (req, res) => {
   }
 
   const result = await RecipeService.updateRecipe(id, name, ingredients, preparation);
-  console.log(result);
   return res.status(200).json(result);
 };
-
-module.exports = { createRecipe, getAllRecipes, getRecipeById, updateRecipe };
+const deletedeRecipe = async (req, res) => {
+  const { id } = req.params;
+  const { _id: userId, role } = req.user;
+  const recipe = await RecipeService.getRecipeById(id);
+  console.log(recipe);
+  if (recipe.userId !== userId && role !== 'admin') {
+    const error = new Error('unauthorized');
+    error.code = 401;
+    throw error;
+  }
+  await RecipeService.deletedeRecipe(id);
+  console.log('a');
+  return res.status(204).json('');
+};
+module.exports = { createRecipe, getAllRecipes, getRecipeById, updateRecipe, deletedeRecipe };

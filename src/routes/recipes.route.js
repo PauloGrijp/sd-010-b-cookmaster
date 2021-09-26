@@ -9,5 +9,6 @@ recipesRoute.post('/', rescue(validateToken), rescue(RecipesController.createRec
 recipesRoute.get('/', rescue(RecipesController.getAllRecipes));
 recipesRoute.get('/:id', rescue(RecipesController.getRecipeById));
 recipesRoute.put('/:id', rescue(validateToken), rescue(RecipesController.updateRecipe));
+recipesRoute.delete('/:id', rescue(validateToken), rescue(RecipesController.deletedeRecipe));
 
 module.exports = recipesRoute;
