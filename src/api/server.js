@@ -33,6 +33,13 @@ app.post(
   recipeController.createRecipe,
 );
 
+app.put(
+  '/recipes/:id',
+  validateJWT,
+  recipeMiddlewares.validationIsUserOrAdmin,
+  recipeController.updateRecipe,
+  );
+
 const PORT = 3000;
 
 app.listen(PORT, () => console.log(`conectado na porta ${PORT}`));

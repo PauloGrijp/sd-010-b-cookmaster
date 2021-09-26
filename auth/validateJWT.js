@@ -7,6 +7,10 @@ module.exports = async (req, res, next) => {
   const token = req.headers.authorization;
 
   try {
+    if (!token) {
+      return res.status(401).json({ message: 'missing auth token' });
+    }
+
     const payload = jwt.verify(token, secret);
     const user = await model.findUser(payload.data.email);
 
@@ -14,7 +18,7 @@ module.exports = async (req, res, next) => {
       return res.status(401).json({ message: 'jwt malformed' });
     }
 
-    req.user = await user;
+    req.user = user;
 
     next();
   } catch (err) {
