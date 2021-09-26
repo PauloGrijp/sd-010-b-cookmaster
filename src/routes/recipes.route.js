@@ -6,5 +6,6 @@ const { validateToken } = require('../middlewares/validateToken');
 const RecipesController = require('../controllers/recipes.controller');
 
 recipesRoute.post('/', rescue(validateToken), rescue(RecipesController.createRecipe));
+recipesRoute.get('/', rescue(RecipesController.getAllRecipes));
 
 module.exports = recipesRoute;
