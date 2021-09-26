@@ -35,7 +35,7 @@ const update = async (id, recipe, userId) => {
     { _id: recipeID },
     { $set: { ...recipe } },
   );
-  // console.log(recipeUpdated);
+  
   return {
     _id: recipeID,
     ...recipe,

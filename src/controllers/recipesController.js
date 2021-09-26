@@ -26,7 +26,6 @@ const update = async (req, res) => {
   const { id } = req.params;
   const { _id } = req.user;
   const recipe = req.body;
-  // const { authorization } = req.headers;
 
   const { recipeUpdated, code } = await RecipesService.update(id, recipe, _id);
 
