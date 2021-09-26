@@ -39,10 +39,6 @@ describe('POST /users', () => {
 
   });
 
- /*  after(async () => {
-      await MongoClient.connect.restore(); 
-  });*/ 
-
   describe('cadastro de usuários é feito com sucesso', () => {
     let response = {};
 
