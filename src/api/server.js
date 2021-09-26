@@ -38,7 +38,14 @@ app.put(
   validateJWT,
   recipeMiddlewares.validationIsUserOrAdmin,
   recipeController.updateRecipe,
-  );
+);
+
+app.delete(
+  '/recipes/:id',
+  validateJWT,
+  recipeMiddlewares.validationIsUserOrAdmin,
+  recipeController.deleteRecipe,
+);
 
 const PORT = 3000;
 
