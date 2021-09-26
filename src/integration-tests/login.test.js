@@ -20,6 +20,30 @@ describe('POST /login', () => {
       MongoClient.connect.restore();
   });
 
+  describe('Quando não é passada email e senha', () => {
+    let response;
+    before(async () => {
+        response = await chai.request(server).post('/login').send({})
+    });
+
+    it('retorna código de status 401', () => {
+        expect(response).to.have.status(401);
+    });
+
+    it('retorna um object no body', () => {
+        expect(response.body).to.be.an('object')
+    })
+
+    it('objeto de resposta possui a propriedade "message"', () => {
+        expect(response.body).to.have.property('message');
+    });
+
+    it('a propriedade "message" tem o valor "All fields must be filled"', () => {
+        expect(response.body.message).to.be.equals('All fields must be filled');
+    });
+
+  });
+
   describe('Login de usuários é feito com sucesso', () => {
       let response = {};
       before(async () => {
@@ -35,26 +59,13 @@ describe('POST /login', () => {
               email: 'felippe@test.com',
               password: 'password-ok'
           });
-       /*  sinon.stub(MongoClient, 'connect').resolves(connectionMock);
-           const validLogin = {
-              name: "felippe",
-              email: "felippe@test.com",
-              password: "247105887",
-            };      
-          await connectionMock.collection("users").insertOne(validLogin);
-          response = await chai.request(server)
-              .post('/login')
-              .send({
-                email: 'felippe@test.com',
-                password: '247105887'
-          }); */
       });
 
       after(async () => {
         MongoClient.connect.restore();
         await DBServer.stop();
       });
-      
+
       it('retorna o código de status 200', () => {
         expect(response).to.have.status(200);
       });
@@ -64,11 +75,8 @@ describe('POST /login', () => {
       it('o objeto possui a propriedade "token"', () => {
           expect(response.body).to.have.property('token');
       });
-      // it('a propriedade "message" possui o texto "Novo usuário criado com sucesso"',
-      //     () => {
-      //         expect(response.body.message)
-      //             .to.be.equal('Novo usuário criado com sucesso');
-      //     }
-      // );
+      it('a propriedade "token" não está vazia', () => {
+        expect(response.body.token).to.be.not.empty;
+      });
   });
 });

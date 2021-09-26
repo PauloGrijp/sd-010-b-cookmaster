@@ -9,5 +9,4 @@ const getConnection = async () => {
     return MongoClient.connect(URLMock, OPTIONS);
 }
 
-
 module.exports = { getConnection } ;
