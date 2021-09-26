@@ -34,9 +34,9 @@ const putRecipesIDService = async (req) => {
   const answer = await verifyToken(req.headers.authorization);
   if (answer === 'error') { return error.invalidToken; }
   const { id } = req.params;
-  const { name } = req.body;
-
-  return putRecipesIDModel(id, { ...req.body, name: `${name} editado` });
+  // const { name } = req.body;
+// , name: `${name} editado`
+  return putRecipesIDModel(id, { ...req.body });
 };
 
 const deleteRecipesIDService = async (req) => {
