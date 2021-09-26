@@ -61,12 +61,11 @@ const uploadImage = (async (req, res) => {
   return res.status(200).json(addImage);
 });
 
-
 module.exports = {
   createRecipe,
   getAllRecipes,
   getRecipe,
   updateRecipe,
   deleteRecipe,
-  uploadImage
+  uploadImage,
 };

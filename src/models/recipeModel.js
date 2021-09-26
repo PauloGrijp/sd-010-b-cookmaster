@@ -40,7 +40,6 @@ const addRecipeImage = async (id, img) => {
     return db
       .collection('recipes')
       .updateOne({ _id: ObjectId(id) }, { $set: img });
-
 }; 
 
 module.exports = { create, getAll, getOne, update, deleteOne, addRecipeImage };

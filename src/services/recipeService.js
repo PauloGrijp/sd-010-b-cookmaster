@@ -8,14 +8,12 @@ const readRecipe = async (id) => {
 };
 
 const recipeImage = async (id, img) => {
-
     const recipe = await readRecipe(id);
-    const recipeImage = { ...recipe, image: img };
+    const image = { ...recipe, image: img };
   
     await model.addRecipeImage(id, { image: img });
   
-    return recipeImage;
-
+    return image;
 };
 
 module.exports = { readRecipe, recipeImage };
