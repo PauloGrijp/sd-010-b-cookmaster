@@ -44,6 +44,33 @@ describe('POST /login', () => {
 
   });
 
+  describe('Quando email ou senha são inválidos', () => {
+    let response;
+
+    before(async () => {
+        response = await chai.request(server).post('/login').send({
+            email: 'user-fake',
+            password: 'senha-fake'
+        })
+    })
+
+    it('retorna código de status "401"', () => {
+        expect(response).to.have.status(401);
+    });
+
+    it('retorna um objeto no body', () => {
+        expect(response.body).to.be.an('object');
+    });
+
+    it('objeto de resposta possui a propriedade "message"', () => {
+        expect(response.body).to.have.property('message');
+    });
+
+    it('a propriedade "message" tem o valor de "Incorret username or password"', () => {
+        expect(response.body.message).to.be.equals('Incorret username or password');
+    });
+  }); 
+
   describe('Login de usuários é feito com sucesso', () => {
       let response = {};
       before(async () => {
