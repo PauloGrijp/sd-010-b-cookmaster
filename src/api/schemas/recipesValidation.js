@@ -34,6 +34,7 @@ const ifUserIsAuthorized = async ({ role, _id }, recipeId) => {
   if (role === 'admin') return true;
 
   const recipe = await Recipes.getRecipeById(recipeId);
+  console.log(recipe);
   if (recipe.isErrorMessage) return { isErrorMessage: recipe.isErrorMessage };
 
   if (_id.toString() !== recipe.userId.toString()) {

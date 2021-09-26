@@ -56,8 +56,8 @@ const editRecipeById = async (recipeId, user, newDataRecipe) => {
   return editedRecipe;
 };
 
-const deleteRecipeById = async (id, user) => {
-  const ifUserIsAuthorized = await validations.ifUserIsAuthorized(user, id);
+const deleteRecipeById = async (recipeId, user) => {
+  const ifUserIsAuthorized = await validations.ifUserIsAuthorized(user, recipeId);
   if (ifUserIsAuthorized.isErrorMessage) {
     return {
       codeError: ifUserIsAuthorized.codeError,
@@ -65,7 +65,8 @@ const deleteRecipeById = async (id, user) => {
     };
   }
 
-  const deleteRecipe = await Recipes.deleteRecipeById(id);
+  const deleteRecipe = await Recipes.deleteRecipeById(recipeId);
+  console.log(deleteRecipe);
   if (deleteRecipe.isErrorMessage) return { isErrorMessage: deleteRecipe.isErrorMessage };
 
   return deleteRecipe;

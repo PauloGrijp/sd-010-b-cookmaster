@@ -65,8 +65,8 @@ const deleteRecipeById = async (req, res, next) => {
       isErrorMessage: deleteRecipe.isErrorMessage,
     });
   }
-  
-  res.status(StatusCodes.NO_CONTENT);
+
+  res.status(StatusCodes.NO_CONTENT).json();
 };
 
 module.exports = {
