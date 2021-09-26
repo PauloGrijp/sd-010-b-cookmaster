@@ -4,7 +4,8 @@ const {
   getRecipesModel, 
   getRecipeByIdModel, 
   putRecipeByIdModel, 
-  delRecipeByIdModel } = require('../model/recipesModel');
+  delRecipeByIdModel, 
+  putRecipeImageByIdModel } = require('../model/recipesModel');
 
 // ---------------------------------------------------------------
 // Requisito 3: SERVICE responsável por chamar MODEL de cadastro de receitas e retornar a receita cadastrada para o CONTROLLER.
@@ -63,6 +64,20 @@ const delRecipeByIdService = async ({ recipeId, reqUserId, role }) => {
 };
 
 // ---------------------------------------------------------------
+// Requisito 9: SERVICE responsável por chamar MODEL que salva caminho do arquivo de imagem da receita por ID e retornar as informações da receitas cadastrada para o CONTROLLER.
+
+const putRecipeImageByIdService = async ({ recipeId, reqUserId, role, filename }) => {
+  const { userId } = await getRecipeByIdModel(recipeId);
+
+  // Comments: Compara se UserId da Receita é igual ao UserId da Requisição, & se o role do userId é igual a 'admin'.
+  if (String(userId) !== String(reqUserId) && role !== 'admin') return null;
+
+  const imageRecipeUpdated = await putRecipeImageByIdModel({ recipeId, filename });
+
+  return imageRecipeUpdated;
+};
+
+// ---------------------------------------------------------------
 
 module.exports = {
   postRecipeService,
@@ -70,4 +85,5 @@ module.exports = {
   getRecipeByIdService,
   putRecipeByIdService,
   delRecipeByIdService,
+  putRecipeImageByIdService,
 };

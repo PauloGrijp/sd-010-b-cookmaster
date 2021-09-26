@@ -41,6 +41,17 @@ const delRecipeByIdModel = async (id) => connection()
   .then((db) => db.collection('recipes').findOneAndDelete({ _id: ObjectId(id) }));
 
 // ---------------------------------------------------------------
+// Requisito 8: MODEL responsável pela atualizar o campo imagem da receita por ID na BASE DE DADOS, e retornar a receita atualizada.
+
+const putRecipeImageByIdModel = async ({ recipeId, filename }) => connection()
+  .then((db) => db.collection('recipes').findOneAndUpdate(
+    { _id: ObjectId(recipeId) },
+    { $set: { image: filename } },
+    { returnOriginal: false },
+  ))
+  .then(({ value }) => value);
+
+// ---------------------------------------------------------------
 
   module.exports = {
     postRecipeModel,
@@ -48,4 +59,5 @@ const delRecipeByIdModel = async (id) => connection()
     getRecipeByIdModel,
     putRecipeByIdModel,
     delRecipeByIdModel,
+    putRecipeImageByIdModel,
   };

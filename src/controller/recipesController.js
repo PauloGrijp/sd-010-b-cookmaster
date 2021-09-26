@@ -10,8 +10,10 @@ const {
   getRecipesService, 
   getRecipeByIdService, 
   putRecipeByIdService, 
-  delRecipeByIdService } = require('../service/recipesService');
-
+  delRecipeByIdService, 
+  putRecipeImageByIdService } = require('../service/recipesService');
+const upload = require('../middlewares/uploadMiddleware');
+    
 const recipesRouter = express.Router();
 
 // ---------------------------------------------------------------
@@ -92,6 +94,26 @@ recipesRouter.delete('/:id', validateJWT, validateIdRecipes, async (req, res) =>
   }
 
   return res.status(204).end();
+});
+
+// ---------------------------------------------------------------
+// Requisito 9: CONTROLLER responsável por receber a requisição para armazenar path da imagem da receita, chamar SERVICE e retornar informações da receita armazenada.
+
+recipesRouter.put('/:id/image', validateJWT, upload.single('image'), async (req, res) => {
+  const { id } = req.params;
+  const { _id, role } = req.user;
+  const { filename } = req.file;
+
+  const imageRecipeUpdated = await putRecipeImageByIdService({
+    recipeId: id,
+    reqUserId: _id,
+    role,
+    filename,
+  });
+  
+  imageRecipeUpdated.image = `localhost:3000/src/uploads/${imageRecipeUpdated.image}`;
+
+  return res.status(200).json(imageRecipeUpdated);
 });
 
 // ---------------------------------------------------------------
