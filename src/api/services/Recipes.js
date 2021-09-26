@@ -66,7 +66,6 @@ const deleteRecipeById = async (recipeId, user) => {
   }
 
   const deleteRecipe = await Recipes.deleteRecipeById(recipeId);
-  console.log(deleteRecipe);
   if (deleteRecipe.isErrorMessage) return { isErrorMessage: deleteRecipe.isErrorMessage };
 
   return deleteRecipe;
