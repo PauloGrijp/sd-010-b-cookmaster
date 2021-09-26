@@ -11,17 +11,17 @@ const jwtConfig = {
 const findUser = async (email, password) => {
   const userSearch = await modelsUsers.getUserByEmail(email);
 
-  if(!userSearch || userSearch.password !== password) return null;
+  if (!userSearch || userSearch.password !== password) return null;
 
   const { password: _, ...userWithoutPassword } = userSearch;
 
   const token = jwt.sign(userWithoutPassword, SECRET, jwtConfig);
 
   return { token };
-}
+};
 
 const userIsValid = (name, email, password) => {
-  if(!name || !email || !password) return false;
+  if (!name || !email || !password) return false;
 
   return email.match(/^[\w.]+@[\w]+(.[\w]+)+$/);
 };
@@ -29,9 +29,9 @@ const userIsValid = (name, email, password) => {
 const createUser = async (name, email, password) => {
   const user = await modelsUsers.getUserByEmail(email);
 
-  if(!userIsValid(name, email, password)) return 'invalid entry';
+  if (!userIsValid(name, email, password)) return 'invalid entry';
 
-  if(user) return 'user exists';
+  if (user) return 'user exists';
 
   return createUser(name, email, password);
 };

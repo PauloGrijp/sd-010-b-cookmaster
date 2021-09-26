@@ -20,7 +20,7 @@ const getAll = async () => {
 
   return db.collection('recipes')
     .find().toArray();
-}
+};
 
 module.exports = {
   create,

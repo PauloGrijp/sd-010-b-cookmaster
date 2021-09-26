@@ -4,17 +4,17 @@ const modelsRecipes = require('../models/recipes');
 
 const createRecipe = rescue(async (req, res) => {
   const { name, ingredients, preparation } = req.body;
-    const { _id } = req.user; 
-    const newRecipe = await modelsRecipes
-      .create(name, ingredients, preparation, _id);
-    
-    if (!name || !ingredients || !preparation) {
-      return res.status(StatusCodes.BAD_REQUEST)
-        .json({ message: 'Invalid entries. Try again.'});
-    }
+  const { _id } = req.user;
+  const newRecipe = await modelsRecipes
+    .create(name, ingredients, preparation, _id);
 
-    return res.status(StatusCodes.CREATED)
-      .json(newRecipe);
+  if (!name || !ingredients || !preparation) {
+    return res.status(StatusCodes.BAD_REQUEST)
+      .json({ message: 'Invalid entries. Try again.' });
+  }
+
+  return res.status(StatusCodes.CREATED)
+    .json(newRecipe);
 });
 
 const getAllRecipes = rescue(async (_req, res) => {
