@@ -50,8 +50,23 @@ const editRecipeById = async (req, res, next) => {
       isErrorMessage: editedRecipe.isErrorMessage,
     });
   }
-  
+
   res.status(StatusCodes.OK).json(editedRecipe);
+};
+
+const deleteRecipeById = async (req, res, next) => {
+  const { id } = req.params;
+  const { user } = req;
+
+  const deleteRecipe = await Recipes.deleteRecipeById(id, user);
+  if (deleteRecipe.isErrorMessage) {
+    return next({
+      codeError: deleteRecipe.codeError,
+      isErrorMessage: deleteRecipe.isErrorMessage,
+    });
+  }
+  
+  res.status(StatusCodes.NO_CONTENT);
 };
 
 module.exports = {
@@ -59,4 +74,5 @@ module.exports = {
   getAllRecipes,
   getRecipeById,
   editRecipeById,
+  deleteRecipeById,
 };

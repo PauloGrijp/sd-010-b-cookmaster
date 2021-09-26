@@ -20,8 +20,12 @@ app.post('/login', Users.loginUser);
 
 app.get('/recipes', Recipes.getAllRecipes);
 app.get('/recipes/:id', Recipes.getRecipeById);
+
 app.post('/recipes', validateJWTPost, Recipes.registerNewRecipe);
+
 app.put('/recipes/:id', validateJWTPutDelete, Recipes.editRecipeById);
+
+app.delete('/recipes/:id', validateJWTPutDelete, Recipes.deleteRecipeById);
 
 app.use(errorMiddleware);
 

@@ -56,9 +56,25 @@ const editRecipeById = async (recipeId, user, newDataRecipe) => {
   return editedRecipe;
 };
 
+const deleteRecipeById = async (id, user) => {
+  const ifUserIsAuthorized = await validations.ifUserIsAuthorized(user, id);
+  if (ifUserIsAuthorized.isErrorMessage) {
+    return {
+      codeError: ifUserIsAuthorized.codeError,
+      isErrorMessage: ifUserIsAuthorized.isErrorMessage,
+    };
+  }
+
+  const deleteRecipe = await Recipes.deleteRecipeById(id);
+  if (deleteRecipe.isErrorMessage) return { isErrorMessage: deleteRecipe.isErrorMessage };
+
+  return deleteRecipe;
+};
+
 module.exports = {
   registerNewRecipe,
   getAllRecipes,
   getRecipeById,
   editRecipeById,
+  deleteRecipeById,
 };
