@@ -1,4 +1,7 @@
-const { createRecipesModel, getAllRecipes, getRecipesById } = require('../models/recipesModel');
+const { 
+  createRecipesModel, 
+  getAllRecipes, 
+  getRecipesById, editeRecipesById } = require('../models/recipesModel');
 
 const { notFound } = require('../middlewares/errors');
 
@@ -21,4 +24,5 @@ module.exports = {
   createServiceRecipes,
   getAllRecipes,
   getServiceById,
+  editeRecipesById,
 };
