@@ -13,8 +13,9 @@ routerLogin.post('/', verificacaoLogin, async (req, res, next) => {
     return next(result);
   }
   console.log(result);
-  const { id, email, role } = result;
-  const token = jwt.sign({ id, email, role }, secret, { expiresIn: '100000m' });
+  const { _id, email, role } = result;
+  console.log(_id);
+  const token = jwt.sign({ _id, email, role }, secret, { expiresIn: '1000000m' });
   return res.status(200).json({ token });
 });
 
