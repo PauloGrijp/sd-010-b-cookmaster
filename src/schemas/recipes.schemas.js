@@ -9,4 +9,12 @@ const registerRecipeValidation = (name, ingredients, preparation) => {
   if (error) throw error;
 };
 
-module.exports = { registerRecipeValidation };
+const validationRecipe = (recipe) => {
+  if (!recipe) {
+    const error = new Error('recipe not found');
+    error.code = 404;
+    throw error;
+  }
+};
+
+module.exports = { registerRecipeValidation, validationRecipe };
