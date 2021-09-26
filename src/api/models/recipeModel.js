@@ -43,20 +43,22 @@ const updateRec = async (id, body, idUser) => {
   };
 };
 
-const setPicFile = async (body, idRecipe, idUser) => {
+const setPicFile = async (body, idRecipe) => {
   await connection().then((db) =>
     db.collection('recipes')
     .updateOne({ _id: ObjectId(idRecipe) },
     { $set: { image: `localhost:3000/src/uploads/${idRecipe}.jpeg` } }));
+    const recipe = await getRecipeData(idRecipe);
 
-    return {
-      _id: idRecipe,
-      name: body.name,
-      ingredients: body.ingredients,
-      preparation: body.preparation,
-      userId: idUser,
-      image: `localhost:3000/src/uploads/${idRecipe}.jpeg`,
-    };
+    // return {
+    //   _id: idRecipe,
+    //   name: body.name,
+    //   ingredients: body.ingredients,
+    //   preparation: body.preparation,
+    //   userId: idUser,
+    //   image: `localhost:3000/src/uploads/${idRecipe}.jpeg`,
+    // };
+    return recipe;
 };
 
 const removeRecipeData = async (id) => {
