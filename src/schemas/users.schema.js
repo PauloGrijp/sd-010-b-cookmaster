@@ -19,4 +19,12 @@ const userExists = async (email) => {
   }
 };
 
-module.exports = { validationCreateUser, userExists };
+const validationLogin = (email, password) => {
+  if (!email || !password) {
+    const error = new Error('All fields must be filled');
+    error.code = 401;
+    throw error;
+  }
+};
+
+module.exports = { validationCreateUser, userExists, validationLogin };
