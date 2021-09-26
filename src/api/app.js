@@ -6,6 +6,7 @@ const app = express();
 
 const userRoutes = require('../routes/users.route');
 const loginRoutes = require('../routes/login.route');
+const recipesRoute = require('../routes/recipes.route');
 const error = require('../middlewares/error');
 
 app.use(bodyParser.json());
@@ -18,6 +19,7 @@ app.get('/', (request, response) => {
 
 app.use('/users', userRoutes);
 app.use('/login', loginRoutes);
+app.use('/recipes', recipesRoute);
 app.use(error);
 
 module.exports = app;
