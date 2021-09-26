@@ -7,7 +7,7 @@ const create = async (name, ingredients, preparation, user) => {
     name,
     ingredients,
     preparation,
-    userId: user
+    userId: user,
   });
 
   return { recipe: { name, ingredients, preparation, userId: user, _id: recipe.insertedId } };
@@ -21,7 +21,7 @@ const getAll = async () => {
 
 const getOne = async (id) => {
   const db = await connection();
-  
+
   return db.collection('recipes').findOne({ _id: ObjectId(id) });
 };
 
