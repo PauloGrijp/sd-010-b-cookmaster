@@ -1,7 +1,7 @@
 const { 
   createRecipesModel, 
   getAllRecipes, 
-  getRecipesById, editeRecipesById } = require('../models/recipesModel');
+  getRecipesById, editeRecipesById, deleteRecipesById } = require('../models/recipesModel');
 
 const { notFound } = require('../middlewares/errors');
 
@@ -25,4 +25,5 @@ module.exports = {
   getAllRecipes,
   getServiceById,
   editeRecipesById,
+  deleteRecipesById,
 };

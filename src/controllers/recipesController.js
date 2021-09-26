@@ -5,6 +5,7 @@ const {
   getAllRecipes, 
   getServiceById, 
   editeRecipesById,
+  deleteRecipesById,
 } = require('../services/recipesService');
 const { validateRecipes, validateToken } = require('../middlewares/validateRecipes');
 
@@ -58,5 +59,12 @@ routerRecipes.put('/:id', validateToken, validateRecipes, (rescue(async (req, re
 
   return res.status(200).json(newEditRecipe);
 })));
+
+routerRecipes.delete('/:id', validateToken, async (req, res, _next) => {
+  const { id } = req.params;
+   await deleteRecipesById(id);
+
+   return res.status(204).json();
+});
 
 module.exports = routerRecipes;
