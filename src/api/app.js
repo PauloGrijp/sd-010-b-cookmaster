@@ -14,6 +14,7 @@ app.use('/images', express.static(path.join(__dirname, '..', 'uploads')));
 app.use('/recipes', recipeRouter);
 app.post('/login', LoginController.findUser);
 app.post('/users', UserController.createUser);
+app.post('/user/admin', () => {});
 
 // Não remover esse end-point, ele é necessário para o avaliador
 app.get('/', (_req, res) => {
