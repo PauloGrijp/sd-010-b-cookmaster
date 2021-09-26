@@ -5,8 +5,12 @@ const { updateRecipesById } = require('../models/recipes');
 const { isJWTvalid, recipesFillersCheck } = require('../middlewares/jwtValidate');
 const { idRecipesCheck } = require('../middlewares/idRecipes');
 const { isJWTRecipe } = require('../middlewares/jwtRecipes');
+const createUpload = require('../middlewares/image');
 
 const router = express.Router();
+
+router.put('/:id/image',
+createUpload);
 
 router.put('/:id',
 recipesFillersCheck,

@@ -1,5 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const path = require('path');
 const user = require('../controllers/user');
 const recipes = require('../controllers/recipes');
 const login = require('../controllers/login');
@@ -20,5 +21,6 @@ app.use(router);
 app.use('/users', user);
 app.use('/recipes', recipes);
 app.use('/login', login);
+app.use('/images', express.static(path.join(__dirname, '..', 'uploads')));
 
 module.exports = app;
