@@ -37,5 +37,5 @@ module.exports = {
   getRecipeById,
   updateRecipe,
   deletedeRecipe,
-  insertImage
+  insertImage,
 };
