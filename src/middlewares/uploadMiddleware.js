@@ -2,7 +2,6 @@ const multer = require('multer');
 const path = require('path');
 
 // Source: https://app.betrybe.com/course/live-lectures/sd-cohort-10-b#aula-282-nodejs-upload-de-arquivos-com-multer
-// const staticDestination = `${__dirname}/../uploads`;
 const staticDestination = path.join(__dirname, '..', 'uploads');
 
 const storage = multer.diskStorage({

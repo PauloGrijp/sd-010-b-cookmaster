@@ -1,24 +1,19 @@
 const express = require('express');
-const { validateJWT } = require('../middlewares/loginMiddlewares');
+const path = require('path');
 
 const imagesRouter = express.Router();
 
 // ---------------------------------------------------------------
-// Requisito 10: CONTROLLER responsável por receber a requisição para armazenar path da imagem da receita, chamar SERVICE e retornar informações da receita armazenada.
+// Requisito 10: CONTROLLER responsável por receber a requisição de visualização da imagem da receita por ID e retornar a imagen.
 
 imagesRouter.get('/:id', async (req, res) => {
   const { id } = req.params;
 
-  const imageRecipeUpdated = await putRecipeImageByIdService({
-    recipeId: id,
-    reqUserId: _id,
-    role,
-    filename,
-  });
-  
-  imageRecipeUpdated.image = `localhost:3000/src/uploads/${imageRecipeUpdated.image}`;
+  const staticDestination = path.join(__dirname, '..', 'uploads', id);
 
-  return res.status(200).json(imageRecipeUpdated);
+  const image = staticDestination;
+
+  return res.status(200).sendFile(image);
 });
 
 // ---------------------------------------------------------------
