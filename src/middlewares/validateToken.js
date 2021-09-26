@@ -12,7 +12,6 @@ const validateToken = (req, _res, next) => {
   try {
     jwt.verify(token, SECRET);
   } catch (err) {
-    console.log(err);
     err.message = 'jwt malformed';
     err.code = 401;
     throw err;

@@ -7,7 +7,7 @@ const SECRET = 'vqvtrybe';
 
 const jwtConfig = {
   algorithm: 'HS256',
-  expiresIn: '10m',
+  expiresIn: '50m',
 };
 
 const createUser = async (name, email, password, role) => {
