@@ -28,8 +28,20 @@ const postLoginService = async ({ email, password }) => {
 };
 
 // ---------------------------------------------------------------
+// Requisito 12: SERVICE responsável por chamar MODEL de cadastro de usuários ADMIN e retornar o usuário ADMIN cadastrado para o CONTROLLER.
+
+const postAdminService = async ({ name, email, password, role, reqUserRole }) => {
+  if (reqUserRole !== 'admin') return null;
+
+  const newAdmin = await postUserModel({ name, email, password, role });
+
+  return newAdmin;
+};
+
+// ---------------------------------------------------------------
 
 module.exports = {
   postUserService,
   postLoginService,
+  postAdminService,
 };

@@ -3,7 +3,8 @@ const {
   validateEmailToken,
   validatePasswordToken,
   validateEmailFormatToken,
-  validatePasswordIsValidToken } = require('../middlewares/loginMiddlewares');
+  validatePasswordIsValidToken, 
+  validateJWT } = require('../middlewares/loginMiddlewares');
 const { 
   validateNameExists,
   validateEmailExists, 
@@ -12,7 +13,8 @@ const {
   validateEmailIsRegistered } = require('../middlewares/usersMiddlewares');
 const { 
   postUserService,
-  postLoginService } = require('../service/usersService');
+  postLoginService, 
+  postAdminService } = require('../service/usersService');
 
 const usersRouter = express.Router();
 
@@ -46,5 +48,27 @@ usersRouter.post('/login',
 
   return res.status(200).json({ token });
 });
+
+// ---------------------------------------------------------------
+// Requisito 12: CONTROLLER responsável por receber a requisição de cadastro de usuário ADMIN, chamar SERVICE e retornar o usuário ADMIN cadastrado.
+
+usersRouter.post('/users/admin', validateJWT, async (req, res) => {
+  const { name, email, password } = req.body;
+  const { role } = req.user;
+
+  const newAdmin = await postAdminService({
+    name,
+    email,
+    password,
+    role: 'admin',
+    reqUserRole: role });
+  
+  if (!newAdmin) res.status(403).json({ message: 'Only admins can register new admins' });
+  console.log(newAdmin);
+
+  return res.status(201).json({ user: newAdmin });
+});
+
+// ---------------------------------------------------------------
 
 module.exports = { usersRouter };
