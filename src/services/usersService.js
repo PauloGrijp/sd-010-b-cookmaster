@@ -23,7 +23,7 @@ const userPassword = ({ password }) => {
   if (password === undefined) {
     return { error: true, message: reqFields, status: 401 };
   }
-  if (password.length < 6) {
+  if (typeof password !== 'string') {
     return { error: true, message: incorrect, status: 401 };
   }
   return false;
