@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const { ObjectId } = require('mongodb');
 const recipesModel = require('../models/RecipesModel');
 
 const secret = 'minhasupersenha';
@@ -9,6 +10,10 @@ const errorInvalidEntries = {
 
 const invalidToken = {
     message: 'jwt malformed',
+};
+
+const recipeNotFound = {
+    message: 'recipe not found',
 };
 
 const validateIfFieldsExists = async (name, ingredients, preparation) => {
@@ -52,9 +57,21 @@ const getAllRecipes = async () => {
     return getRecipes;
 };
 
+const getRecipeById = async (id) => {
+    if (!ObjectId.isValid(id)) {
+        return recipeNotFound;
+    }
+    const getRecipe = await recipesModel.getRecipeById(id);
+    if (!getRecipe) {
+        return recipeNotFound;
+    }
+    return getRecipe;
+};
+
 module.exports = {
     validateIfFieldsExists,
     validateToken,
     addRecipes,
     getAllRecipes,
+    getRecipeById,
 };
