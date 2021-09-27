@@ -1,5 +1,5 @@
-const user = require('../models/userModel');
 const JWT = require('jsonwebtoken');
+const user = require('../models/userModel');
 
 const createUser = async (req, res, _next) => {
   const userInfo = req.body;
@@ -11,7 +11,7 @@ const createUser = async (req, res, _next) => {
   res.status(201).json({ user: { name, email, role, _id } });
 };
 
-const loguinValidation = async (req, res, next) => {
+const loguinVal = async (req, res, next) => {
   const data = req.body;
 
   if (!data.email || !data.password) {
@@ -22,7 +22,7 @@ const loguinValidation = async (req, res, next) => {
   }  
 
   try {
-    const result = await getUserByEmail('email', data.email);
+    const result = await user.getUserByEmail('email', data.email);
     if (!result) {
       return next({
         status: 401,
@@ -55,8 +55,7 @@ const loguinValidation = async (req, res, next) => {
   }
 };
 
-
 module.exports = {
   createUser,
-  loguinValidation
+  loguinVal,
 };
