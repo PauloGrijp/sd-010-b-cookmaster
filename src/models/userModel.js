@@ -10,7 +10,7 @@ const getUserByEmail = async (field, data) => {
   return result;
 };
 
-const createNewUser = async (email, name, password) => {
+const createNewUser = async (data) => {
   const { name, email, password, role } = data;
   const inserted = await connection().then(db => 
     db.collection('users').insertOne({ name, email, password, role }));
