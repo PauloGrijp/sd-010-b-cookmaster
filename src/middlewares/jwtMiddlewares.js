@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 const secret = 'It is secret ok?!';
 
 const jwtConfiguration = {
-  expiresIn: '30m',
+  expiresIn: '7d',
   algorithm: 'HS256',
 };
 

@@ -47,4 +47,19 @@ const deleteRecipe = async (id, email) => {
   return deletedRecipe;
 };
 
-module.exports = { addRecipe, getAllRecipes, getRecipeById, updateRecipe, deleteRecipe };
+const addImage = async (id, image) => {
+  const result = await recipesModel.addImage(id, image);
+
+  if (!result) return null;
+
+  return result;
+};
+
+module.exports = {
+  addRecipe,
+  getAllRecipes,
+  getRecipeById,
+  updateRecipe,
+  deleteRecipe,
+  addImage,
+};

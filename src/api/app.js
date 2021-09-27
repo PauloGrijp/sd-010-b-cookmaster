@@ -1,4 +1,5 @@
 const express = require('express');
+const path = require('path');
 
 const app = express();
 const bodyParser = require('body-parser');
@@ -8,6 +9,9 @@ const loginRouter = require('./routers/loginRouter');
 const recipesRouter = require('./routers/recipesRouter');
 
 app.use(bodyParser.json());
+
+// acesso à pasta src/uploads através da rota '/images'
+app.use('/images', express.static(path.join(__dirname, '..', 'uploads')));
 
 // Rotas
 app.use('/users', usersRouter);

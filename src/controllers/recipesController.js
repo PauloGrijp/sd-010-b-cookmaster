@@ -1,4 +1,5 @@
 const { StatusCodes } = require('http-status-codes');
+const path = require('path');
 const recipesService = require('../services/recipesServices');
 
 const addRecipe = async (req, res) => {
@@ -69,4 +70,23 @@ const deleteRecipe = async (req, res) => {
   }
 };
 
-module.exports = { addRecipe, getAllRecipes, getRecipeById, updateRecipe, deleteRecipe };
+const uploadFile = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { filename } = req.file;
+    const imagePath = path.join('localhost:3000', 'src', 'uploads', filename);
+    const recipe = await recipesService.addImage(id, imagePath);
+    return res.status(StatusCodes.OK).json(recipe);
+  } catch (error) {
+    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ message: error });
+  }
+};
+
+module.exports = {
+  addRecipe,
+  getAllRecipes,
+  getRecipeById,
+  updateRecipe,
+  deleteRecipe,
+  uploadFile,
+};
