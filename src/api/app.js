@@ -6,11 +6,14 @@ const bodyParser = require('body-parser');
 
 const usersRouter = require('./routers/user');
 const loginRouter = require('./routers/login');
+const recipesRouter = require('./routers/recipes');
 
 app.use(bodyParser.json());
 
 app.use('/users', usersRouter);
 app.use('/login', loginRouter);
+app.use('/recipes', recipesRouter);
+/* app.use('/recipes/:id', recipesRouter); */
 
 // Não remover esse end-point, ele é necessário para o avaliador
 app.get('/', (request, response) => {
