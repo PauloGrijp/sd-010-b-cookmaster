@@ -18,10 +18,13 @@ function valid({ name, ingredients, preparation }) {
   return true;
 }
 
-async function validToken(token) {
+async function validToken(token, method = 'comum') {
   try {
     return jwt.verify(token, secret);
   } catch (err) {
+    if (method === 'exclud') {
+      throw new AppError(401, 'missing auth token');
+    }
     throw new AppError(401, 'jwt malformed');
   }
 }
@@ -63,16 +66,16 @@ const getById = async (id) => {
   return find;
 };
 
-const validAuthUser = async (id, newObj, { data }) => {
+const validAuthUser = async (id, { data }, newObj) => {
   const { _id } = await userModel.getByEmail(data.email);
-  const { userId } = await recipesModel.getById(id);
-  console.log(_id, 'user');
-  console.log(userId, 'recipe');
-  if (parseFloat(userId) !== parseFloat(_id)) {
+  const recipe = await recipesModel.getById(id);
+  if (parseFloat(recipe.userId) !== parseFloat(_id)) {
     return { status: 401, message: 'Unauthoration' };
   }
-  await recipesModel.update(id, newObj);
-  return { ...newObj, userId };
+  if (newObj) {
+    return { ...newObj, userId: recipe.userId };
+  }
+  return recipe;
 };
 
 const updateId = async (id, body, token) => {
@@ -86,14 +89,33 @@ const updateId = async (id, body, token) => {
   if (validateToken.message) {
     return validateToken;
   }
-    return validAuthUser(id, newObj, validateToken);
+    validAuthUser(id, validateToken, newObj);
+    await recipesModel.update(id, newObj);
   } catch (err) {
       return err;
+  }
+};
+
+const deleteId = async (id, token) => {
+  try {
+    const validateToken = await validToken(token, 'exclud');
+    if (validateToken.message) {
+      return validateToken;
+    }
+    const validUser = await validAuthUser(id, validateToken);
+    if (validUser.message) {
+      return validUser;
+    }
+    await recipesModel.deleteId(id);
+    return 'No body returned for response';
+  } catch (err) {
+    return err;
   }
 };
 
 module.exports = {
   create,
   getById,
+  deleteId,
   updateId,
 };
