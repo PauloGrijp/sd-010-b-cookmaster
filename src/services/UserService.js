@@ -20,7 +20,8 @@ const createUser = async (name, email, password) => {
     return { message: 'Email already registered', status: 409 };
   }
 
-  const userCreated = await UsersModel.createUser(name, email);
+  const userCreated = await UsersModel.createUser(name, email, password);
+  delete userCreated.password;
   return userCreated;
 };
 
