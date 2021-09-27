@@ -6,8 +6,10 @@ const {
   getServiceById, 
   editeRecipesById,
   deleteRecipesById,
+  createImage,
 } = require('../services/recipesService');
 const { validateRecipes, validateToken } = require('../middlewares/validateRecipes');
+const uploads = require('../middlewares/updateFile');
 
 const routerRecipes = express.Router();
 
@@ -65,6 +67,21 @@ routerRecipes.delete('/:id', validateToken, async (req, res, _next) => {
    await deleteRecipesById(id);
 
    return res.status(204).json();
+});
+
+routerRecipes.put('/:id/image', 
+validateToken, uploads.single('image'), async (req, res, _next) => {
+  const { id } = req.params;
+  const createdImage = await createImage(id);
+
+  const { _id } = req.userId;
+
+  const updateUserImage = {
+    ...createdImage,
+    userId: _id,
+  };
+
+  return res.status(200).json(updateUserImage);
 });
 
 module.exports = routerRecipes;
