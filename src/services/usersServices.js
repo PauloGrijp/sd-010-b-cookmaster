@@ -15,23 +15,6 @@ const uniqueEmailObjError = {
   },
 };
 
-const getUser = async (userEmail) => {
-  const userFound = await usersModel.getUser(userEmail);
-
-  if (!userFound) {
-    return {
-      error: {
-        status: 404,
-        message: 'User not found',
-      },
-    };
-  }
-
-  const { _id, name, email, role } = userFound;
-
-  return { user: { _id, name, email, role } };
-};
-
 const createUser = async (userData) => {
   const newUser = userData;
   const { email, name, password } = newUser;
@@ -41,9 +24,9 @@ const createUser = async (userData) => {
   
   if (!emailValid || !nameValid || !passwordValid) return validationObjError;
   
-  const { user } = await getUser(email);
+  const { email: foundEmail } = await usersModel.getUser(email);
 
-  if (user) return uniqueEmailObjError;
+  if (foundEmail) return uniqueEmailObjError;
 
   newUser.role = 'user';
 
@@ -53,6 +36,5 @@ const createUser = async (userData) => {
 };
 
 module.exports = {
-  getUser,
   createUser,
 };
