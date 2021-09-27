@@ -1,6 +1,7 @@
 const express = require('express');
+
 const usersRoutes = express.Router();
-const { createUser } = require('../controllers/usersControllers');
+const User = require('../controllers/userController');
 const Validation = require('../midd/index');
 
 usersRoutes.post('/',
@@ -9,8 +10,7 @@ usersRoutes.post('/',
   Validation.passwordValidation,
   Validation.emailCheckExistis,
   Validation.checkRole,
-  createUser
+  User.createUser,
 );
-
 
 module.exports = usersRoutes;

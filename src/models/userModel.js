@@ -1,8 +1,9 @@
 const connection = require('./connection');
+const { ObjectId } = require('mongodb');
 
 const getUserByEmail = async (field, data) => {
   let value = data;
-  if( field === '_id'){
+  if ( field === '_id') {
     value = ObjectId(data);
   }
   const result = await connection().then(db => 
