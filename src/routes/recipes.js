@@ -2,9 +2,11 @@ const express = require('express');
 
 const router = express.Router();
 
-const { create } = require('../controllers/recipes');
+const authJWT = require('../middleweres/validateJWT');
+const { create, getAll } = require('../controllers/recipes');
 
 router.route('/')
-  .post(create);
+  .get(getAll)
+  .post(authJWT, create);
 
 module.exports = router;

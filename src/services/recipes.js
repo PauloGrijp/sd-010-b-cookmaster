@@ -15,6 +15,13 @@ const create = async (recipe, payload) => {
   return newRecipe;
 };
 
+const getAll = async () => {
+  const allRecipes = await models.getAll();
+
+  return allRecipes;
+};
+
 module.exports = {
   create,
+  getAll,
 };
