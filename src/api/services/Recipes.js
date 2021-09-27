@@ -71,10 +71,26 @@ const deleteRecipeById = async (recipeId, user) => {
   return deleteRecipe;
 };
 
+const addImageRecipeById = async (recipeId, user) => {
+  const ifUserIsAuthorized = await validations.ifUserIsAuthorized(user, recipeId);
+  if (ifUserIsAuthorized.isErrorMessage) {
+    return {
+      codeError: ifUserIsAuthorized.codeError,
+      isErrorMessage: ifUserIsAuthorized.isErrorMessage,
+    };
+  }
+
+  const addedImage = await Recipes.addImageRecipeById(recipeId);
+  if (addedImage.isErrorMessage) return { isErrorMessage: addedImage.isErrorMessage };
+
+  return addedImage;
+};
+
 module.exports = {
   registerNewRecipe,
   getAllRecipes,
   getRecipeById,
   editRecipeById,
   deleteRecipeById,
+  addImageRecipeById,
 };

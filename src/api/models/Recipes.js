@@ -81,10 +81,28 @@ const deleteRecipeById = async (id) => {
   }
 };
 
+const addImageRecipeById = async (id) => {
+  try {
+    const addedImage = await connection()
+      .then((db) => db.collection('recipes')
+        .updateOne(
+          { _id: ObjectId(id) },
+          { $set: { image: `localhost:3000/src/uploads/${id}.jpeg` } },
+        ))
+      .then((result) => (result));
+    return addedImage;
+  } catch (err) {
+    return {
+      isErrorMessage: err,
+    };
+  }
+};
+
 module.exports = {
   getAllRecipes,
   getRecipeById,
   registerNewRecipe,
   editRecipeById,
   deleteRecipeById,
+  addImageRecipeById,
 };

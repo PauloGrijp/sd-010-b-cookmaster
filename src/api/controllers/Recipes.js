@@ -69,10 +69,26 @@ const deleteRecipeById = async (req, res, next) => {
   res.status(StatusCodes.NO_CONTENT).json();
 };
 
+const addImageRecipeById = async (req, res, next) => {
+  const { id } = req.params;
+  const { user } = req;
+
+  const addedImage = await Recipes.addImageRecipeById(id, user);
+  if (addedImage.isErrorMessage) {
+    return next({
+      codeError: addedImage.codeError,
+      isErrorMessage: addedImage.isErrorMessage,
+    });
+  }
+
+  next();
+};
+
 module.exports = {
   registerNewRecipe,
   getAllRecipes,
   getRecipeById,
   editRecipeById,
   deleteRecipeById,
+  addImageRecipeById,
 };
