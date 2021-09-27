@@ -11,7 +11,7 @@ const createUser = async (req, res, _next) => {
   res.status(201).json({ user: { name, email, role, _id } });
 };
 
-const dar = async (req, res, next) => {
+const login = async (req, res, next) => {
   const data = req.body;
   if (!data.email || !data.password) {
     return next({
@@ -22,20 +22,12 @@ const dar = async (req, res, next) => {
 
   try {
     const result = await user.getUserByEmail('email', data.email);
-    if (!result) {
+    if (!result || result.password !== data.password) {
       return next({
         status: 401,
         message: 'Incorrect username or password',
       });
     }
-
-    else if (result.password !== data.password) {
-      return next({
-        status: 401,
-        message: 'Incorrect username or password',
-      });
-    } 
-
     const secret = 'tokensupersecreto';
     const jwtconfig = {
       expiresIn: '1d',
@@ -55,5 +47,5 @@ const dar = async (req, res, next) => {
 
 module.exports = {
   createUser,
-  dar,
+  login,
 };
