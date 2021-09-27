@@ -1,7 +1,7 @@
 const rescue = require('express-rescue');
 const User = require('../services/userService');
 
-const createUser = rescue(async (req, res) => {
+const createNewUser = rescue(async (req, res) => {
   const { email, name, password } = req.body;
   // console.log(name, email, password);
   const user = await User.createUserService(email, name, password);
@@ -9,5 +9,5 @@ const createUser = rescue(async (req, res) => {
 });
 
 module.exports = {
-    createUser,
+  createNewUser,
 };

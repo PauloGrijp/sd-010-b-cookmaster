@@ -20,7 +20,7 @@ const createUserService = async (name, email, password) => {
   if (getUserByEmailVal) {
     throw dataErr(409, 'Email already registered');
   }
-  const user = await User.createUser(email, name, password);
+  const user = await User.createNewUser(email, name, password);
   return { user };
 };
 module.exports = {
