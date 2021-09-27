@@ -17,6 +17,15 @@ const create = async (name, email, password, role) => {
   return User.create(name, email, password, role);
 };
 
+const findEmail = async (email) => {
+  const foundEmail = await User.findEmail(email);
+
+  if (foundEmail) return false;
+
+  return true;
+};
+
 module.exports = {
   create,
+  findEmail,
 };
