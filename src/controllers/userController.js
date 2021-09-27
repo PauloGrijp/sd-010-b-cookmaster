@@ -1,4 +1,5 @@
 const user = require('../models/userModel');
+const JWT = require('jsonwebtoken');
 
 const createUser = async (req, res, _next) => {
   const userInfo = req.body;
@@ -10,6 +11,46 @@ const createUser = async (req, res, _next) => {
   res.status(201).json({ user: { name, email, role, _id } });
 };
 
+const loguinValidation = async (req, res, next) => {
+  const data = req.body;
+
+  if(!data.email || !data.password) return next({
+    status: 401,
+    message: 'All fields must be filled',
+  });  
+
+  try {
+    const result = await getUserByEmail('email', data.email);
+    if(!result) return next({
+      status: 401,
+      message: 'Incorrect username or password',
+    });
+
+    if(result.password !== data.password) return next({
+      status: 401,
+      message: 'Incorrect username or password',
+    }); 
+
+    const secret = 'tokensupersecreto';
+    const jwtconfig = {
+      expiresIn: '1d',
+      // esse algoritmo é o msm da aula
+      algorithm: 'HS256',
+    };
+    const { _id, email, role } = result;
+    const token = JWT.sign({ id: _id, email, role }, secret, jwtconfig);
+    res.status(200).json({token});
+
+  } catch (error) {
+    next({
+      status: 500,
+      message: error.message,
+    });
+  }
+};
+
+
 module.exports = {
   createUser,
+  loguinValidation
 };
