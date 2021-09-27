@@ -1,5 +1,4 @@
 const Joi = require('joi');
-const fs = require('fs/promises');
 
 const { CODE_HTTP, MESSAGE } = require('../helpers/responses');
 const recipesServices = require('../services/recipesServices');
