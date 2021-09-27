@@ -7,7 +7,7 @@ const create = async (req, res) => {
 
     const validRecipe = await services.create(recipe, payload);
 
-    return res.status(200).json({ recipe: validRecipe });
+    return res.status(201).json({ recipe: validRecipe });
   } catch (error) {
     return res.status(error.err.code).json({ message: error.err.message });
   }
@@ -16,7 +16,7 @@ const create = async (req, res) => {
 const getAll = async (_req, res) => {
   try {
     const allRecipes = await services.getAll();
-    res.status(200).json(allRecipes);
+    res.status(201).json(allRecipes);
   } catch (error) {
     return res.status(500).json();
   }
