@@ -29,7 +29,7 @@ const dar = async (req, res, next) => {
       });
     }
 
-    if (result.password !== data.password) {
+    else if (result.password !== data.password) {
       return next({
         status: 401,
         message: 'Incorrect username or password',
