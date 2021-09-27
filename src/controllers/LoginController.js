@@ -7,13 +7,15 @@ const goLogin = async (req, res) => {
     if (validateEmail) {
         return res.status(401).json(validateEmail);
     }
-    const validatePass = await loginService.validatePassword(password);
+    const validatePass = await loginService.validatePassword(email, password);
     if (validatePass) {
         return res.status(401).json(validatePass);
     }
 
     const showToken = await loginService.doLogin(email, password);
-    return res.status(200).json(showToken);
+    return res.status(200).json({
+        token: showToken,
+    });
 };
 
 module.exports = {

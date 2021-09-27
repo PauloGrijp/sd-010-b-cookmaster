@@ -12,7 +12,6 @@ const errorFields = {
 };
 
 const validateEmail = async (email) => {
-    console.log('aqui');
     if (!email) {
         return errorFields;
     }
@@ -22,21 +21,19 @@ const validateEmail = async (email) => {
     }
 };
 
-const validatePassword = async (password) => {
+const validatePassword = async (email, password) => {
     if (!password) {
-        console.log('pass n existe');
         return errorFields;
     }
-    console.log('entrei no pass');
-    const verifyPass = await loginModel.verifyPassword(password);
+    const verifyPass = await loginModel.verifyPassword(email, password);
     if (!verifyPass) {
-        console.log('entrei no pass');
         return errorPasswordAndEmail;
     }
 };
 
 const doLogin = async (userEmail, password) => {
     const { email, _id } = await loginModel.getUser(userEmail, password);
+    console.log(email, _id);
 
     const jwtConfig = {
         expiresIn: '7d',
