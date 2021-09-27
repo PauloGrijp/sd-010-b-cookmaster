@@ -19,7 +19,7 @@ userRouter.post('/', async (req, res) => {
 userRouter.post('/admin', middleware.verifyToken, async (req, res) => {
   const { role } = req.user;
   const { name, email, password } = req.body;
-  console.log('role de req.user controller', role);
+  // console.log('role de req.user controller', role);
   const result = await userService.createAdmin({ name, email, password, role });
   if (result.isError) {
     return res.status(403).json({ message: result.message });

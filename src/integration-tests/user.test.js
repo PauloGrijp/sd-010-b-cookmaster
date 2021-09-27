@@ -1,7 +1,6 @@
 const { MongoClient } = require("mongodb");
 const chai = require("chai");
 const sinon = require("sinon");
-// const { MongoMemoryServer } = require("mongodb-memory-server");
 
 const chaiHttp = require("chai-http");
 chai.use(chaiHttp);
