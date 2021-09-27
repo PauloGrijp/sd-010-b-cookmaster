@@ -10,6 +10,6 @@ usersRoutes.post('/',
   Validation.passwordValidation,
   Validation.emailCheckExistis,
   Validation.checkRole,
-  User.createUser,)
+  User.createUser);
 
 module.exports = usersRoutes;
