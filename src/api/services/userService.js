@@ -21,7 +21,6 @@ const createUser = async (name, email, password) => {
     throw dataErr(409, 'Email already registered');
   }
   const user = await userModel.createUser(email, name, password);
-// console.log(user)
   return { user };
 };
 module.exports = {
