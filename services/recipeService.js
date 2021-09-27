@@ -25,10 +25,16 @@ const deleteRecipe = async (id) => {
   return exclude;
 };
 
+const insertImage = async (id) => {
+  const insert = await recipeModel.insertImage(id);
+  return insert;
+};
+
 module.exports = {
   createRecipe,
   getAll,
   getById,
   updateRecipe,
   deleteRecipe,
+  insertImage,
 };

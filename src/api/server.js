@@ -1,3 +1,4 @@
+const express = require('express');
 const bodyParser = require('body-parser');
 const app = require('./app');
 const userMiddlewares = require('../../middlewares/userMiddleware');
@@ -6,8 +7,11 @@ const userController = require('../../controllers/userController');
 const recipeController = require('../../controllers/recipeController');
 const login = require('../../controllers/login');
 const validateJWT = require('../../auth/validateJWT');
+const upload = require('../../middlewares/uploadImage');
 
 app.use(bodyParser.json());
+
+app.use('/images', express.static('src/uploads'));
 
 app.get('/recipes/:id', recipeController.getRecipeById);
 
@@ -32,6 +36,14 @@ app.post(
   recipeMiddlewares.validateFields,
   recipeController.createRecipe,
 );
+
+app.put(
+  '/recipes/:id/image',
+  validateJWT,
+  recipeMiddlewares.validationIsUserOrAdmin,
+  upload,
+  recipeController.insertImage,
+  );
 
 app.put(
   '/recipes/:id',

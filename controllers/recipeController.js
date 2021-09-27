@@ -55,9 +55,23 @@ const updateRecipe = async (req, res) => {
 };
 
 const deleteRecipe = async (req, res) => {
-  const { id } = req.params;
-  const exclude = await service.deleteRecipe(id);
-  return res.status(204).json(exclude);
+  try {
+    const { id } = req.params;
+    const exclude = await service.deleteRecipe(id);
+    return res.status(204).json(exclude);
+  } catch (err) {
+    res.status(401).json({ message: err.message });
+  }
+};
+
+const insertImage = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const insert = await service.insertImage(id);
+    return res.status(200).json(insert);
+  } catch (err) {
+    res.status(401).json({ message: err.message });
+  }
 };
 
 module.exports = {
@@ -66,4 +80,5 @@ module.exports = {
   getRecipeById,
   updateRecipe,
   deleteRecipe,
+  insertImage,
 };

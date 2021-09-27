@@ -3,7 +3,7 @@ const userModel = require('../models/userModel');
 
 const secret = 'mytokensecret';
 const jwtConfig = {
-  expiresIn: '2h',
+  expiresIn: '3h',
   algorithm: 'HS256',
 };
 
