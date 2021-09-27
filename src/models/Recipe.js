@@ -3,7 +3,7 @@ const connection = require('./connection');
 
 const getAll = async () => connection()
   .then((db) => db.collection('recipes').find().toArray())
-  .then((recipes) => ({ recipes }));
+  .then((recipes) => recipes);
 
 const findById = async (id) => (
   ObjectId.isValid(id)

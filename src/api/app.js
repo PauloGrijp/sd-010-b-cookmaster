@@ -18,7 +18,7 @@ app.post('/users', User.create);
 // app.put('/products/:id', User.update);
 // app.delete('/products/:id', User.remove);
 
-// app.get('/sales', Sale.getAll);
+app.get('/recipes', Recipe.getAll);
 // app.get('/sales/:id', Sale.findById);
 app.post('/recipes', validateJWT, Recipe.create);
 // app.put('/sales/:id', Sale.update);
