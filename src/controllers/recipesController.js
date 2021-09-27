@@ -1,4 +1,6 @@
 const Joi = require('joi');
+const fs = require('fs/promises');
+
 const { CODE_HTTP, MESSAGE } = require('../helpers/responses');
 const recipesServices = require('../services/recipesServices');
 
@@ -58,6 +60,13 @@ const addImage = async (req, res) => {
   const resultService = await recipesServices.addImage({ id });
   return res.status(CODE_HTTP.SUCCESS).json(resultService);
 };
+
+// const getImage = async (req, res) => {
+//   console.log('oi');
+//   const { id } = req.params;
+//   const image = await fs.readFile(`../uploads${id}.jpeg`, 'utf-8');
+//   return res.status(200).json(image);
+// };
 
 module.exports = {
   createRecipes,

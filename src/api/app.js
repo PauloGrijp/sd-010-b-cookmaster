@@ -1,5 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const path = require('path');
+
 const routerUsers = require('../routers/userRouters');
 const routerLogin = require('../routers/loginRouters');
 const routerRecipes = require('../routers/routerRecipes');
@@ -8,8 +10,8 @@ const routerRecipes = require('../routers/routerRecipes');
 
 const app = express();
 app.use(bodyParser.json());
-app.use(express.static(`${__dirname}/uploads`));
 
+app.use('/images', express.static(path.join(__dirname, '..', 'uploads')));
 app.use('/users', routerUsers);
 app.use('/login', routerLogin);
 app.use('/recipes', routerRecipes);

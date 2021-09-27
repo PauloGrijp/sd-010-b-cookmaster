@@ -18,13 +18,6 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({ storage });
-// const fileFilter = (req, file, cb) => {
-//   if (file.mimetype !== 'imagem/jpeg') {
-//     req.fileValidationError = true;
-//     return cb(null, false);
-//   }
-//   cb(null, true);
-// };
 
 router.put('/:id/image', validadeJWT, upload.single('image'), recipesController.addImage);
 router.get('/:id', recipesController.getById);
