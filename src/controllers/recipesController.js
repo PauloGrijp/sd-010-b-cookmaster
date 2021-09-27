@@ -12,7 +12,6 @@ const createRecipe = async (req, res) => {
     return res.status(StatusCodes.CREATED).json({
       recipe: {
         ...newRecipe,
-        _id,
       },
     });
   } catch (error) {
@@ -20,7 +19,7 @@ const createRecipe = async (req, res) => {
   }
 };
 
-const getAllRecipes = async (req, res) => {
+const getAllRecipes = async (_req, res) => {
   try {
     const allRecipes = await service.getAllRecipes();
     return res.status(StatusCodes.OK).json(allRecipes);
@@ -30,7 +29,22 @@ const getAllRecipes = async (req, res) => {
   }
 };
 
+const getRecipeById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const recipe = await service.getRecipeById(id);
+    if (recipe === false) {
+      return res.status(StatusCodes.NOT_FOUND).json({ message: 'recipe not found' });
+    }
+    return res.status(StatusCodes.OK).json(recipe);
+  } catch (error) {
+    return res.status(StatusCodes.INTERNAL_SERVER_ERROR)
+    .json({ message: 'Sorry! There is something wrong!' });
+  }
+};
+
 module.exports = {
   createRecipe,
   getAllRecipes,
+  getRecipeById,
 };

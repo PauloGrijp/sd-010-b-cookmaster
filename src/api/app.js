@@ -15,6 +15,7 @@ const app = express();
 app.use(bodyParser.json());
 
 app.get('/recipes', recipesController.getAllRecipes);
+app.get('/recipes/:id', recipesController.getRecipeById);
 
 app.post('/users',
   validateFields,
