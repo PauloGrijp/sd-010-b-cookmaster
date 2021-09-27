@@ -11,7 +11,8 @@ const createUser = async (req, res, _next) => {
   res.status(201).json({ user: { name, email, role, _id } });
 };
 
-const loguinVal = async (req, res, next) => {
+const loguinVal = 
+  async (req, res, next) => {
   const data = req.body;
 
   if (!data.email || !data.password) {
