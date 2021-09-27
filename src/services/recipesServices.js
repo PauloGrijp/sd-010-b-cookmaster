@@ -23,6 +23,12 @@ const createRecipe = async (recipeData) => {
   };
 };
 
+const getAllRecipes = async () => {
+  const foundRecipes = await recipesModel.getAllRecipes();
+  return foundRecipes;
+};
+
 module.exports = {
   createRecipe,
+  getAllRecipes,
 };

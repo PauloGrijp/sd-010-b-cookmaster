@@ -5,6 +5,8 @@ const recipesController = require('../controllers/recipesController');
 
 const route = express.Router();
 
-route.post('/', JWTValidation, recipesController.createRecipe);
+route
+  .post('/', JWTValidation, recipesController.createRecipe)
+  .get('/', recipesController.getAllRecipes);
 
 module.exports = route;
