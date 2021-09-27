@@ -1,6 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser').json();
-const User = require('./controllers/userController');
+const Users = require('./controllers/userController');
 
 const app = express();
 
@@ -13,6 +13,6 @@ app.get('/', (request, response) => {
 // Não remover esse end-point, ele é necessário para o avaliador
 
 /* rota para users */
-app.post('/users', User.createUser);
+app.post('/users', Users.createUser);
 
 module.exports = app;
