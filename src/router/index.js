@@ -12,4 +12,6 @@ router.post('/recipes', middlewares.validateToken, controllers.postRecipeControl
 
 router.get('/recipes', controllers.getRecipesController);
 
+router.get('/recipes/:id', controllers.getRecipeByIdController);
+
 module.exports = router;
