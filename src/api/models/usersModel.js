@@ -5,7 +5,6 @@ const checkExistence = async (email) => {
   const wasFound = await db.collection('users').findOne({ email });
   return wasFound !== null;
 };
-
 const createUser = async (name, email, password) => {
   const db = await getConnection();
   const createdUser = await db.collection('users').insertOne(
@@ -14,7 +13,14 @@ const createUser = async (name, email, password) => {
 
   return { user: { _id: createdUser.insertedId, name, email, role: 'user' } };
 };
+
+const findUser = async (email) => {
+  const db = await getConnection();
+   return db.collection('users').findOne({ email });
+};
+
 module.exports = {
   checkExistence,
   createUser,
+  findUser,
 };

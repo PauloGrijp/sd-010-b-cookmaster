@@ -1,5 +1,5 @@
-/* eslint-disable import/no-unresolved */
 require('dotenv').config();
+
 const jwt = require('jsonwebtoken');
 const { StatusCodes: { UNAUTHORIZED, NOT_FOUND } } = require('http-status-codes');
 const usersModel = require('../models/usersModel');
