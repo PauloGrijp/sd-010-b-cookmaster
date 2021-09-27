@@ -1,4 +1,4 @@
-const { postUsers } = require('./users');
-const { checkEmailPassword } = require('./login');
+const { postUsersService, checkEmailPassword } = require('./users');
+const { postRecipeService, getRecipesService } = require('./recipes');
 
-module.exports = { postUsers, checkEmailPassword };
+module.exports = { postUsersService, checkEmailPassword, postRecipeService, getRecipesService };
