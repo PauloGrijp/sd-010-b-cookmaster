@@ -12,5 +12,4 @@ usersRoutes.post('/',
   Validation.checkRole,
   User.createUser,
 );
-
 module.exports = usersRoutes;
