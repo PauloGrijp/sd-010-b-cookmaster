@@ -19,7 +19,7 @@ app.post('/users', User.create);
 // app.delete('/products/:id', User.remove);
 
 app.get('/recipes', Recipe.getAll);
-// app.get('/sales/:id', Sale.findById);
+app.get('/recipes/:id', Recipe.findById);
 app.post('/recipes', validateJWT, Recipe.create);
 // app.put('/sales/:id', Sale.update);
 // app.delete('/sales/:id', Sale.remove);

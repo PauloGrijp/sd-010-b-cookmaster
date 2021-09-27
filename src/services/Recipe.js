@@ -16,7 +16,7 @@ const generateError = (message, status) => (
 const findById = async (id) => {
   const recipe = await Recipe.findById(id);
 
-  if (!recipe) return generateError('Sale not found', 404);
+  if (!recipe) return generateError('recipe not found', 404);
   
   return recipe;
 };
