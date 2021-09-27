@@ -1,19 +1,23 @@
 const connection = require('./connection');
 
 const getUserByEmail = async (email) => {
-    const db = await connection();
-    const result = await db.collection('users').findOne({ email });
-    return result;
+    const users = await connection().then((db) => db.collection('users')
+      .findOne({ email }));
+    
+    if (users) {
+      const { password: passBD, ...userWithoutPassword } = users;
+      return userWithoutPassword;
+    } 
+    
+    return users;
   };
-
-const createUser = async (name, email, password) => {
-// const dbCon = await connection.execute;
-    const dbCon = await connection();
-    const returnUser = await dbCon.collection('users').insertOne({
-        name, email, password, role: 'user',
-    });
-    return { user: returnUser[0] };
-};
+const createUser = async (email, name, password) => {
+    const user = await connection().then((db) =>
+      db.collection('users')
+        .insertOne({ email, name, password, role: 'user' }));
+    const { password: passBD, ...userWithoutPassword } = user.ops[0];
+    return userWithoutPassword;
+  };
 
 module.exports = {
     getUserByEmail,
