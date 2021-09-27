@@ -24,9 +24,9 @@ const createUser = async (userData) => {
   
   if (!emailValid || !nameValid || !passwordValid) return validationObjError;
   
-  const { email: foundEmail } = await usersModel.getUser(email);
+  const foundUser = await usersModel.getUser(email);
 
-  if (foundEmail) return uniqueEmailObjError;
+  if (foundUser) return uniqueEmailObjError;
 
   newUser.role = 'user';
 

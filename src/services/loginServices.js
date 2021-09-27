@@ -14,12 +14,15 @@ const fieldsEmpty = {
   },
 };
 
+const correctPassword = (userFound, inputedPassword) => 
+  (userFound ? userFound.password === inputedPassword : null);
+
 const getUser = async (userData) => {
   const { email: userEmail, password: userPassword } = userData;
   if (!userEmail || !userPassword) return fieldsEmpty;
 
   const userFound = await usersModel.getUser(userEmail);
-  const passwordCheck = userFound.password === userPassword;
+  const passwordCheck = correctPassword(userFound, userPassword);
   
   if (!userFound || !passwordCheck) return incorrectData;
 
