@@ -16,7 +16,7 @@ const create = async (req, res) => {
 const getAll = async (_req, res) => {
   try {
     const allRecipes = await services.getAll();
-    res.status(201).json(allRecipes);
+    res.status(200).json(allRecipes);
   } catch (error) {
     return res.status(500).json();
   }
