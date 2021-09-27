@@ -28,11 +28,16 @@ const getRecipeByIdService = async (id) => {
 };
 
 const putRecipeByIdService = async (id, name, ingredients, preparation) => {
-  const recipeChanged = recipeModel.putRecipeById(id, name, ingredients, preparation);
+  const recipeChanged = await recipeModel.putRecipeById(id, name, ingredients, preparation);
   return recipeChanged;
+};
+
+const deleteRecipeByIdService = async (id) => {
+  await recipeModel.deleteRecipeById(id);
 };
 
 module.exports = { postRecipeService,
   getRecipesService,
   getRecipeByIdService,
-  putRecipeByIdService };
+  putRecipeByIdService,
+  deleteRecipeByIdService };

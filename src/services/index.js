@@ -2,7 +2,8 @@ const { postUsersService, checkEmailPassword } = require('./users');
 const { postRecipeService,
   getRecipesService,
   getRecipeByIdService,
-  putRecipeByIdService } = require('./recipes');
+  putRecipeByIdService,
+  deleteRecipeByIdService } = require('./recipes');
 
 module.exports = {
   postUsersService,
@@ -10,4 +11,5 @@ module.exports = {
   postRecipeService,
   getRecipesService,
   getRecipeByIdService,
-  putRecipeByIdService };
+  putRecipeByIdService,
+  deleteRecipeByIdService };
