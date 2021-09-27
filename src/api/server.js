@@ -8,7 +8,7 @@ const bodyParser = require('body-parser');
 //   recipeById, 
 //   editRecipe,
 //   deleteRecipe,
-// } = require('./routes');
+// } = require('./controllers');
 
 const PORT = process.env.PORT || 3000;
 const app = require('./app');
