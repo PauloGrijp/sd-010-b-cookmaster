@@ -1,9 +1,11 @@
-const { postUsers } = require('../services');
+const jwt = require('jsonwebtoken');
+const { postUsersService } = require('../services');
+const { checkEmailPassword } = require('../services');
 
-module.exports = async (req, res, next) => {
+const postUsersController = async (req, res, next) => {
   const { name, email, password } = req.body;
 
-  const newUser = await postUsers(name, email, password);
+  const newUser = await postUsersService(name, email, password);
 
   if (newUser.err) return next(newUser.err);
 
@@ -20,3 +22,28 @@ module.exports = async (req, res, next) => {
 
   return res.status(201).json(responseObj);
 };
+
+const login = async (req, res, next) => {
+  const { email, password } = req.body;
+
+  const checkedEmailPassword = await checkEmailPassword(email, password);
+
+  if (checkedEmailPassword.err) return next(checkedEmailPassword.err);
+
+  const SECRET = 'superSenha';
+  const { _id, role } = checkedEmailPassword;
+  const payload = {
+      _id,
+      email: checkedEmailPassword.email,
+      role,
+   };
+   const jwtConfig = {
+    expiresIn: '1h',
+    algorithm: 'HS256',
+ };
+  const token = jwt.sign({ data: payload }, SECRET, jwtConfig);
+
+  return res.status(200).json({ token });
+};
+
+module.exports = { postUsersController, login };

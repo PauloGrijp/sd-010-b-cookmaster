@@ -1,4 +1,4 @@
-const postUsers = require('./users');
-const checkEmailPassword = require('./login');
+const { postUsersController, login } = require('./users');
+const { postRecipeController, getRecipesController } = require('./recipes');
 
-module.exports = { postUsers, checkEmailPassword };
+module.exports = { postUsersController, login, getRecipesController, postRecipeController };
