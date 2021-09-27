@@ -3,7 +3,8 @@ const {
    postRecipeController,
    getRecipesController,
    getRecipeByIdController,
-   putRecipeByIdController } = require('./recipes');
+   putRecipeByIdController,
+   deleteRecipeByIdController } = require('./recipes');
 
 module.exports = {
   postUsersController,
@@ -11,4 +12,5 @@ module.exports = {
   getRecipesController,
   postRecipeController,
   getRecipeByIdController,
-  putRecipeByIdController };
+  putRecipeByIdController,
+  deleteRecipeByIdController };
