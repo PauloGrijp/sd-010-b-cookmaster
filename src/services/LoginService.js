@@ -27,6 +27,7 @@ const validatePassword = async (email, password) => {
     }
     const verifyPass = await loginModel.verifyPassword(email, password);
     if (!verifyPass) {
+        console.log(`Incorrect ${verifyPass}`);
         return errorPasswordAndEmail;
     }
 };
