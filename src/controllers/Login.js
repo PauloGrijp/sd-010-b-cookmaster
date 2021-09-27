@@ -30,6 +30,6 @@ module.exports = async (req, res) => {
 
     res.status(200).json({ token });
   } catch (e) {
-    return res.status(500).json({ message: 'Erro interno', error: e });
+    return res.status(500).json({ message: 'Internal error', error: e });
   }
 };

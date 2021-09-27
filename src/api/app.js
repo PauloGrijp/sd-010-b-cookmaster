@@ -1,8 +1,9 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const User = require('../controllers/User');
-// const Sale = require('../controllers/Sale');
 const errorMiddleware = require('../middlewares/error');
+const validateJWT = require('./auth/validateJWT');
+const User = require('../controllers/User');
+const Recipe = require('../controllers/Recipe');
 const Login = require('../controllers/Login');
 
 const app = express();
@@ -11,15 +12,15 @@ app.use(bodyParser.json());
 
 app.post('/login', Login);
 
-app.get('/users', User.getAll);
-app.get('/products/:id', User.findById);
+// app.get('/users', User.getAll);
+// app.get('/products/:id', User.findById);
 app.post('/users', User.create);
-app.put('/products/:id', User.update);
-app.delete('/products/:id', User.remove);
+// app.put('/products/:id', User.update);
+// app.delete('/products/:id', User.remove);
 
 // app.get('/sales', Sale.getAll);
 // app.get('/sales/:id', Sale.findById);
-// app.post('/sales', Sale.create);
+app.post('/recipes', validateJWT, Recipe.create);
 // app.put('/sales/:id', Sale.update);
 // app.delete('/sales/:id', Sale.remove);
 
