@@ -1,4 +1,10 @@
-const { addRecipe, allRecipes, recipeBy, updateRecipe } = require('../services/recipes');
+const {
+  addRecipe,
+  allRecipes,
+  recipeBy,
+  updateRecipe,
+  deleteRecipe,
+} = require('../services/recipes');
 
 const requestNewRecipe = async (req, res) => {
   const { name, ingredients, preparation } = req.body;
@@ -21,6 +27,14 @@ const requestEditRecipe = async (req, res) => {
   }
 
   return res.status(200).json(editedRecipe);
+};
+
+const requestDeleteRecipe = async (req, res) => {
+  const { id } = req.params;
+
+  const recipeDeleted = await deleteRecipe(id);
+  
+  return res.status(204).json(recipeDeleted);
 };
 
 const requestListRecipes = async (_req, res) => {
@@ -46,4 +60,5 @@ module.exports = {
   requestListRecipes,
   requestRecipeById,
   requestEditRecipe,
+  requestDeleteRecipe,
 };

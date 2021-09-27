@@ -11,6 +11,7 @@ const {
   requestListRecipes,
   requestRecipeById,
   requestEditRecipe,
+  requestDeleteRecipe,
 } = require('../Controllers/recipes');
 
 const {
@@ -56,5 +57,7 @@ app.put('/recipes/:id',
   verifyToken,
   isValidUpdate,
   requestEditRecipe);
+
+app.delete('/recipes/:id', verifyToken, isValidUpdate, requestDeleteRecipe);
 
 module.exports = app;
