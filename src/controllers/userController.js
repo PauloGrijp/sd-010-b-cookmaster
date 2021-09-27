@@ -46,14 +46,13 @@ const login = async (req, res, next) => {
     const { _id, email, role } = result;
     const token = JWT.sign({ id: _id, email, role }, secret, jwtconfig);
     res.status(200).json({ token });
-
   } catch (error) {
     next({
       status: 500,
       message: error.message,
     });
   }
-};
+}
 
 module.exports = {
   createUser,
