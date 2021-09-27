@@ -5,7 +5,7 @@ const { nameValidation, emailValidation, passwordValidation } = require('../vali
 const create = async (user) => {
   const { name, email, password } = user;
   const error = new Error();
-  error.err = { code: 400, message: 'Invalid entries. Try again' };
+  error.err = { code: 400, message: 'Invalid entries. Try again.' };
 
   const existsError = new Error();
   existsError.err = { code: 409, message: 'Email already registered' };
