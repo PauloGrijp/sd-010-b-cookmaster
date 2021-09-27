@@ -3,14 +3,15 @@ const jwt = require('jsonwebtoken');
 module.exports = (req, res, next) => {
   try {
     const token = req.headers.authorization;
+    if (!token) return next({ status: 401, message: 'missing auth token' });
 
     const SECRET = 'superSenha';
     
     const payload = jwt.verify(token, SECRET);
     
-    const { _id } = payload.data;
+    const { _id, role } = payload.data;
 
-    req.payloadId = _id;
+    req.payload = { _id, role };
   
     return next();
   } catch (_err) {
