@@ -1,8 +1,9 @@
 const status = require('./status');
 const user = require('../models/userModel');
+
 const nameValidation = (req, _res, next) => {
   const data = req.body;
-  if(!data.name) return next({
+  if (!data.name) return next({
     status: status.INVALID,
     message: status.INVALID_M,
   });
@@ -13,7 +14,7 @@ const emailValidation = async (req, _res, next) => {
   const data = req.body;
   const emailCheck = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/g;
 
-  if(!data.email || !emailCheck.test(data.email)) return next({
+  if (!data.email || !emailCheck.test(data.email)) return next({
     status: status.INVALID,
     message: status.INVALID_M,
   });  
@@ -23,7 +24,7 @@ const emailValidation = async (req, _res, next) => {
 const emailCheckExistis = async (req, _res, next) => {
   try {
     const result = await user.getUserByEmail('email', req.body.email);
-    if(result) return next({
+    if (result) return next({
       status: status.NOTUNIQUE,
       message: status.NOTUNIQUE_M,
     });
@@ -37,7 +38,7 @@ const emailCheckExistis = async (req, _res, next) => {
 };
 
 const passwordValidation = (req, _res, next) => {
-  if(!req.body.password) return next({
+  if (!req.body.password) return next({
     status: status.INVALID,
     message: status.INVALID_M,
   });
@@ -46,7 +47,7 @@ const passwordValidation = (req, _res, next) => {
 
 const checkRole = (req, _res, next) => {
   const data = req.body;
-  if(!data.role) req.body.role = 'user';
+  if (!data.role) req.body.role = 'user';
   next();
 };
 
@@ -56,4 +57,4 @@ module.exports = {
   emailCheckExistis,
   passwordValidation,
   checkRole,
-}
+};
