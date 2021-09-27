@@ -8,9 +8,7 @@ const createUser = async (newUser) => {
     password: Joi.string().required(),
   }).validate(newUser);
   
-  if (validate.error) {
-    console.log('cheguei')
-    return { message: 'Invalid entries. Try again.' } };
+  if (validate.error) return { message: 'Invalid entries. Try again.' };
   const userCreated = await models.createUser(newUser);
   if (!userCreated) return { message: 'Email already registered' };
   return userCreated;

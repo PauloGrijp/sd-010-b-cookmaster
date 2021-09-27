@@ -9,6 +9,7 @@ const statusCode = {
   'missing auth token': 401,
   'recipe not found': 404,
 };
+
 if (statusCode[message]) return res.status(statusCode[message]).json(err);
 return res.status(500).send(err);
 };

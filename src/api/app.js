@@ -5,6 +5,7 @@ const multer = require('multer');
 const controllers = require('../controllers');
 const authentication = require('../middlewares/authentication');
 const authorization = require('../middlewares/authorization');
+const middlewareError = require('../middlewares/erro');
 
 const app = express();
 app.use('/images', express.static(path.join(__dirname, '..', 'uploads')));
@@ -44,5 +45,7 @@ app.delete('/recipes/:id', authorization.verifyToken, controllers.deleteRecipe);
 
 app.put('/recipes/:id/image',
   authorization.verifyToken, upload.single('image'), controllers.upload);
-  
+
+app.use(middlewareError);
+
 module.exports = app;
