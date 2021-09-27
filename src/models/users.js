@@ -8,22 +8,31 @@ const userExists = async (email) => {
   return exists;
 };
 
-const create = async (user) => {
+const create = async (usuario) => {
   const db = await connection();
 
-  const newUSer = {
-    name: user.name,
-    email: user.email,
-    password: user.password,
+  const newUser = {
+    name: usuario.name,
+    email: usuario.email,
+    password: usuario.password,
     role: 'user',
   };
 
-  const users = await db.collection('users').insertOne(newUSer);
+  const user = await db.collection('users').insertOne(newUser);
 
-  return users.ops;
+  return user.ops[0];
+};
+
+const getUser = async (name) => {
+  const db = await connection();
+
+  const user = await db.collection('users').findOne(name);
+
+  return user;
 };
 
 module.exports = {
   create,
   userExists,
+  getUser,
 };
