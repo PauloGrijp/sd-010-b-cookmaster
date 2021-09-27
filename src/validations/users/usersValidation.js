@@ -25,6 +25,15 @@ async function validateCreate({ name, email, password }) {
   if (emailExists) return 'email exists';
 }
 
+async function validateLogin({ email, password }) {
+  const checkLogin = await usersModel.checkLogin({ email, password });
+  
+  if (!email || !password) return 'missing fields';
+  console.log(checkLogin);
+  if (!checkLogin) return 'wrong data';
+}
+
 module.exports = {
   validateCreate,
+  validateLogin,
 };
