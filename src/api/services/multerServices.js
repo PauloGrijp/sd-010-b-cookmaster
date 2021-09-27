@@ -1,12 +1,12 @@
  const recipesServices = require('./recipesServices');
- const multerModel = require('../models/multerModel');
+// const multerModel = require('../models/multerModel');
 
- const validCreateFile = async (token, id) => {
+ const validCreateFile = async (token) => {
  recipesServices.validAutheToken(token);
  recipesServices.validTokenExist(token);
- const result = await multerModel.createFiledb(id);
+//  const result = await multerModel.createFiledb(id);
 
- console.log(result, 'services');
+ // console.log(result, 'services');
 };
 
 module.exports = {

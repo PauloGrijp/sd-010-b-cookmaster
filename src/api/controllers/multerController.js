@@ -2,6 +2,7 @@ const multer = require('multer');
 // const recipesServices = require('../services/recipesServices');
 // const path = require('path');
  const serviceMulter = require('../services/multerServices');
+ const multerModel = require('../models/multerModel');
 
 const storage = multer.diskStorage({
   destination: (req, file, callback) => {
@@ -14,21 +15,23 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
-const validFile = async (req, res, next) => {
-  const { authorization: token } = req.headers;
+const createFileImg = async (req, res) => {
   const { id } = req.params;
-  await serviceMulter.validCreateFile(token, id);
-  next();
-  // const result = await serviceMulter.validCreateFile(id);
-  return res.status(200).json('result');
+  const result = await multerModel.createFiledb(id);
+  console.log(result, 'result');
+  return res.status(200).json(result);
 };
 
-// const createFileImg = async (req, res) => {
-//   const { id } = req.params;
-// };
+const validFile = async (req, _res, next) => {
+  const { authorization: token } = req.headers;
+  // const { id } = req.params;
+  await serviceMulter.validCreateFile(token);
+  next();
+};
 
 module.exports = {
   upload,
   validFile,
+  createFileImg,
 
 };
