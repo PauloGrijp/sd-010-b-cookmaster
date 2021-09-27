@@ -27,4 +27,12 @@ const getRecipeByIdService = async (id) => {
   return recipe;
 };
 
-module.exports = { postRecipeService, getRecipesService, getRecipeByIdService };
+const putRecipeByIdService = async (id, name, ingredients, preparation) => {
+  const recipeChanged = recipeModel.putRecipeById(id, name, ingredients, preparation);
+  return recipeChanged;
+};
+
+module.exports = { postRecipeService,
+  getRecipesService,
+  getRecipeByIdService,
+  putRecipeByIdService };
