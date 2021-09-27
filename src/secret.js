@@ -1,3 +1,1 @@
-const secret = 'minhachaveextremamentesecretaninguemvaisaberquale';
-
-module.exports = { secret };
+module.exports = 'minhachaveextremamentesecretaninguemvaisaberquale';

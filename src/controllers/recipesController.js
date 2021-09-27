@@ -6,8 +6,7 @@ const createRecipe = async (req, res) => {
 
   recipe.userId = _id;
 
-  const createdRecipe = recipesServices.createRecipe(recipe);
-
+  const createdRecipe = await recipesServices.createRecipe(recipe);
   if (createdRecipe.error) {
     const { error: { status, message } } = createdRecipe;
     return res.status(status).json({ message });

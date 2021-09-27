@@ -8,14 +8,17 @@ const invalidEntries = {
 };
 
 const createRecipe = async (recipeData) => {
-  const { name, ingredients, preparation } = recipeData;
+  const { name, ingredients, preparation, userId } = recipeData;
   if (!name || !ingredients || !preparation) return invalidEntries;
-
-  const createdRecipe = await recipesModel.createRecipe(recipeData);
+  const { insertedId } = await recipesModel.createRecipe(recipeData);
 
   return {
     recipe: {
-      ...createdRecipe,
+      _id: insertedId,
+      name,
+      ingredients,
+      preparation,
+      userId,
     },
   };
 };
