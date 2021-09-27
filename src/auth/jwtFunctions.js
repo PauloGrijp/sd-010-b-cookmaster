@@ -4,12 +4,13 @@ require('dotenv').config();
 const secret = 'SuperSenha';
 
 const createJWT = (user) => {
-  const payload = { ...user };
+  const { _id, email } = user;
+  // const payload = { ...user };
   const jwtConfig = {
     algorithm: 'HS256',
     expiresIn: '1h',
   };
-  const token = jwt.sign(payload, secret, jwtConfig);
+  const token = jwt.sign({ idUser: _id, email }, secret, jwtConfig);
   return token;
 };
 

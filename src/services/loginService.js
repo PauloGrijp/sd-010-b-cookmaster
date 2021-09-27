@@ -7,15 +7,11 @@ const validations = async ({ email, password }) => {
   if (!ifExists) return { erro: { code: 401, message: 'All fields must be filled' } };
 
   const userExist = await loginModel.userExists(email);
-  if (!userExist) {
+  if (!userExist || userExist.password !== password) {
     return { erro: { code: 401, message: 'Incorrect username or password' } };
   }
 
-  if (userExist.password !== password) {
-    return { erro: { code: 401, message: 'Incorrect username or password' } };
-  }
-
-  return 'valid';
+  return userExist;
 };
 
 module.exports = { validations };

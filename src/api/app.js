@@ -1,7 +1,11 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+
+const { authValidation } = require('../auth/authMiddleware');
+
 const userController = require('../controllers/userController');
 const loginController = require('../controllers/loginController');
+const recipeController = require('../controllers/recipeController');
 
 const app = express();
 app.use(bodyParser.json());
@@ -17,5 +21,7 @@ app.route('/users')
 
 app.route('/login')
   .post(loginController.login);
+
+app.post('/recipes', authValidation, recipeController.create);
 
 module.exports = app;
