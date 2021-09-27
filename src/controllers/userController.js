@@ -14,22 +14,28 @@ const createUser = async (req, res, _next) => {
 const loguinValidation = async (req, res, next) => {
   const data = req.body;
 
-  if(!data.email || !data.password) return next({
-    status: 401,
-    message: 'All fields must be filled',
-  });  
+  if (!data.email || !data.password) {
+    return next({
+      status: 401,
+      message: 'All fields must be filled',
+    });
+  }  
 
   try {
     const result = await getUserByEmail('email', data.email);
-    if(!result) return next({
-      status: 401,
-      message: 'Incorrect username or password',
-    });
+    if (!result) {
+      return next({
+        status: 401,
+        message: 'Incorrect username or password',
+      });
+    }
 
-    if(result.password !== data.password) return next({
-      status: 401,
-      message: 'Incorrect username or password',
-    }); 
+    if (result.password !== data.password) {
+      return next({
+        status: 401,
+        message: 'Incorrect username or password',
+      });
+    } 
 
     const secret = 'tokensupersecreto';
     const jwtconfig = {
@@ -39,7 +45,7 @@ const loguinValidation = async (req, res, next) => {
     };
     const { _id, email, role } = result;
     const token = JWT.sign({ id: _id, email, role }, secret, jwtconfig);
-    res.status(200).json({token});
+    res.status(200).json({ token });
 
   } catch (error) {
     next({
