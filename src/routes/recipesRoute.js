@@ -7,6 +7,7 @@ const route = express.Router();
 
 route
   .post('/', JWTValidation, recipesController.createRecipe)
-  .get('/', recipesController.getAllRecipes);
+  .get('/', recipesController.getAllRecipes)
+  .get('/:id', recipesController.getRecipeById);
 
 module.exports = route;

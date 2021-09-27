@@ -7,6 +7,13 @@ const invalidEntries = {
   },
 };
 
+const recipeNotFound = {
+  error: {
+    status: 404,
+    message: 'recipe not found',
+  },
+};
+
 const createRecipe = async (recipeData) => {
   const { name, ingredients, preparation, userId } = recipeData;
   if (!name || !ingredients || !preparation) return invalidEntries;
@@ -28,7 +35,16 @@ const getAllRecipes = async () => {
   return foundRecipes;
 };
 
+const getRecipeById = async (id) => {
+  const foundRecipe = await recipesModel.getRecipeById(id);
+  
+  if (!foundRecipe) return recipeNotFound;
+  
+  return foundRecipe;
+};
+
 module.exports = {
   createRecipe,
   getAllRecipes,
+  getRecipeById,
 };
