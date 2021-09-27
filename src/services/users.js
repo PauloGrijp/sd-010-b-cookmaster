@@ -21,6 +21,7 @@ const create = async (user) => {
   if (emailExists) throw existsError;
 
   const model = await models.create(user);
+  delete model.password;
   return model;
 };
 

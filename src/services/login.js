@@ -1,17 +1,27 @@
 const models = require('../models/users');
 
 const login = async (user) => {
-  const { name, password } = user;
-
-  const userExists = await models.getUser(name);
+  const { email, password } = user;
 
   const error = new Error();
   error.err = {
-    status: 200,
-    message: 'usuário ou senha inválida',
+    code: 401,
+    message: 'All fields must be filled',
   };
 
-  if (!userExists || userExists.password !== password) throw error;
+  if (!email || !password) throw error;
+
+  const userExists = await models.userExists(email);
+
+  const invalidError = new Error();
+  invalidError.err = {
+    code: 401,
+    message: 'Incorrect username or password',
+  };
+
+  if (!userExists || userExists.password !== password) throw invalidError;
+
+  return userExists;
 };
 
 module.exports = {
