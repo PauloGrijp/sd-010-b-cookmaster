@@ -6,8 +6,8 @@ const getUserByEmail = async (field, data) => {
   if (field === '_id') {
     value = ObjectId(data);
   }
-  const result = await connection().then((db => 
-    db.collection('users').findOne({ [field]: value })));
+  const result = await connection().then(db => 
+    db.collection('users').findOne({ [field]: value }));
   return result;
 };
 
