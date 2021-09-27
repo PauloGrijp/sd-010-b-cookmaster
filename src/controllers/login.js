@@ -9,15 +9,17 @@ const login = async (req, res) => {
     const user = req.body;
 
     const userExists = await services.login(user);
+    const { _id } = userExists;
 
     const userWithoutPass = {
+      _id,
       name: userExists.name,
       email: userExists.email,
     };
 
     const token = jwt.sign({ data: userWithoutPass }, SECRET, jwtConfiguration);
 
-    return res.status(200).json(token);
+    return res.status(200).json({ token });
   } catch (error) {
     return res.status(error.err.code).json({ message: error.err.message });
   }

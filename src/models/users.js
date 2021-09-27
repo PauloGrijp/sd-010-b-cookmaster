@@ -23,16 +23,7 @@ const create = async (usuario) => {
   return user.ops[0];
 };
 
-const getUser = async (name) => {
-  const db = await connection();
-
-  const user = await db.collection('users').findOne(name);
-
-  return user;
-};
-
 module.exports = {
   create,
   userExists,
-  getUser,
 };
