@@ -1,0 +1,20 @@
+module.exports = {
+  'OK' : 200,
+  'INVALID' : 400,
+  'INVALID_M': 'Invalid entries. Try again.',
+  'CREATED' : 201,
+  'UNAUTHORIZED' : 401,
+  'NOTFOUND' : 404,
+  'NOTFOUND_M' : 'recipe not found',
+  'ERRO' : 500,
+  'NOTUNIQUE': 409,
+  'NOTUNIQUE_M': 'Email already registered',
+  'FILLFIELDS': 401,
+  'FILLFIELDS_M': 'All fields must be filled',
+  'INCORRECT': 401,
+  'INCORRECT_M': 'Incorrect username or password',
+  'DELETE': 204,
+  'MISSING': 'missing auth token',
+  'MALFORMED': 'jwt malformed',
+};
+  
