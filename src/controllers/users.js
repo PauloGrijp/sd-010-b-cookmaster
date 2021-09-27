@@ -1,6 +1,5 @@
 const jwt = require('jsonwebtoken');
-const { postUsersService } = require('../services');
-const { checkEmailPassword } = require('../services');
+const { postUsersService, checkEmailPassword } = require('../services');
 
 const postUsersController = async (req, res, next) => {
   const { name, email, password } = req.body;
