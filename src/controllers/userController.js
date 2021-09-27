@@ -11,7 +11,7 @@ const createUser = async (req, res, _next) => {
   res.status(201).json({ user: { name, email, role, _id } });
 };
 
-const login = async (req, res, next) => {
+const dar = async (req, res, next) => {
   const data = req.body;
   if (!data.email || !data.password) {
     return next({
@@ -55,5 +55,5 @@ const login = async (req, res, next) => {
 
 module.exports = {
   createUser,
-  login,
+  dar,
 };
