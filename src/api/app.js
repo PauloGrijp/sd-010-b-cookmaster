@@ -1,17 +1,20 @@
 const express = require('express');
+const bodyParser = require('body-parser');
 
 const app = express();
-app.use(express.json());
+const route = require('../routes');
+const error = require('../middlewares/errors');
 
-const { usersRoute, loginRoute, recipesRoute } = require('./routes');
+app.use(bodyParser.json());
 
-// Do not remove this end-point, it is necessary for the evaluator.
-app.get('/', (_request, response) => {
+// Não remover esse end-point, ele é necessário para o avaliador
+app.get('/', (request, response) => {
   response.send();
 });
+// Não remover esse end-point, ele é necessário para o avaliador
 
-app.use('/users', usersRoute);
-app.use('/login', loginRoute);
-app.use('/recipes', recipesRoute);
+route.users(app);
+
+app.use(error);
 
 module.exports = app;
