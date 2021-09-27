@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const loginServices = require('../services/loginServices');
 
-const secret = 'minhachaveextremamentesecretaninguemvaisaberquale';
+const secret = require('../secret');
 
 const getUser = async (req, res) => {
   const userFound = await loginServices.getUser(req.body);
