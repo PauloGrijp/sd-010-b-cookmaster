@@ -10,7 +10,7 @@ const loginUser = async (req, res) => {
   const loginValidate = await LoginService.login(email, password);
 
   if (loginValidate.message) {
-    res.status(401).json({ message: loginValidate.message });
+    return res.status(401).json({ message: loginValidate.message });
   }
 
   const jwtConfig = {
@@ -18,7 +18,7 @@ const loginUser = async (req, res) => {
     algorithm: 'HS256',
   };
 
-  const token = jwt.sign({ data: loginValidate }, secret, jwtConfig);
+  const token = await jwt.sign({ data: loginValidate }, secret, jwtConfig);
 
   return res.status(200).json({ token });
 };
