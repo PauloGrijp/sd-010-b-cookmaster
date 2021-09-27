@@ -16,7 +16,7 @@ const createUserService = async (name, email, password) => {
   if (error) {
     throw dataErr(400, 'Invalid entries. Try again.');
   }
-  const getUserByEmailVal = await userModel.getUserByEmail(email);
+  const getUserByEmailVal = await User.getUserByEmail(email);
   if (getUserByEmailVal) {
     throw dataErr(409, 'Email already registered');
   }
