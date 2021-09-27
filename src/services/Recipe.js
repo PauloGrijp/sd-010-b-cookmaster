@@ -21,9 +21,6 @@ const findById = async (id) => {
   return recipe;
 };
 
-const isNotValidQuantity = (recipe) => recipe
-  .some(({ quantity }) => quantity <= 0 || !Number.isInteger(quantity));
-
 const create = async (recipe) => {
   if (!recipe.name || !recipe.ingredients || !recipe.preparation) {
     return generateError('Invalid entries. Try again.', BAD_REQUEST);
@@ -32,10 +29,8 @@ const create = async (recipe) => {
 };
 
 const update = async (id, recipe) => {
-  if (isNotValidQuantity(recipe)) {
-    return generateError('Wrong product ID or invalid quantity');
-  }
-  return Recipe.update(id, recipe);
+  Recipe.update(id, recipe);
+  return Recipe.findById(id);
 };
 
 const remove = async (id) => {

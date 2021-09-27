@@ -21,7 +21,7 @@ app.post('/users', User.create);
 app.get('/recipes', Recipe.getAll);
 app.get('/recipes/:id', Recipe.findById);
 app.post('/recipes', validateJWT, Recipe.create);
-// app.put('/sales/:id', Sale.update);
+app.put('/recipes/:id', validateJWT, Recipe.update);
 // app.delete('/sales/:id', Sale.remove);
 
 app.use(errorMiddleware);
