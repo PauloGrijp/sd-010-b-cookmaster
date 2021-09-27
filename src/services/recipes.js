@@ -8,7 +8,7 @@ const addRecipe = async (name, ingredients, preparation, userId) => {
 };
 
 const updateRecipe = async (id, body, { userId }) => {
-  console.log(userId);
+  if (!ObjectId.isValid(id)) return null;
   const recipe = await editRecipe(id, body, userId);
   return recipe;
 };

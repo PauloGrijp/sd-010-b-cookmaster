@@ -20,6 +20,7 @@ const {
   isValidPreparation,
   fieldEmail,
   fieldPassword,
+  isValidUpdate,
 } = require('../middlewares/middlewares');
 
 const {
@@ -53,9 +54,7 @@ app.post('/recipes',
 
 app.put('/recipes/:id',
   verifyToken,
-  isValidName,
-  isValidPreparation,
-  isValidIngredients,
+  isValidUpdate,
   requestEditRecipe);
 
 module.exports = app;

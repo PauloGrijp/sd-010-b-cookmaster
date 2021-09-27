@@ -5,7 +5,7 @@ const createRecipe = async (name, ingredients, preparation, userId) => {
   const db = await connection();
 
   const { insertedId } = await db.collection('recipes').insertOne({
-    name, ingredients, preparation,
+    name, ingredients, preparation, userId,
   });
 
   return { recipe: { name, ingredients, preparation, userId, _id: insertedId } };
@@ -30,13 +30,14 @@ const uniquiRecipe = async (id) => {
 const editRecipe = async (id, { name, ingredients, preparation }, userId) => {
   const db = await connection();
 
-  console.log(id);
+  await db.collection('recipes').updateOne(
+    { _id: ObjectId(id) },
+    { $set: {
+      name, ingredients, preparation,
+    } },
+  );
 
-  const recipe = await db.collection('recipes').findOne({ _id: ObjectId(id), userId: ObjectId(userId) });
-
-  console.log(recipe);
-
-  return { _id: id, name, ingredients, preparation };
+  return { _id: id, name, ingredients, preparation, userId };
 };
 
 module.exports = {

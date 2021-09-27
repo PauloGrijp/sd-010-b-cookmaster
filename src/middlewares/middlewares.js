@@ -1,3 +1,5 @@
+const { uniquiRecipe } = require('../models/recipes');
+
 const invalidEntries = { message: 'Invalid entries. Try again.' };
 const invalidFields = { message: 'All fields must be filled' };
 const BAD_REQUEST = 400;
@@ -63,11 +65,24 @@ const fieldPassword = (req, res, next) => {
   next();
 };
 
+const isValidUpdate = async (req, res, next) => {
+  const { userId, role } = req.user;
+  const { id } = req.params;
+
+  const recipe = await uniquiRecipe(id);
+
+  if (role === 'user' && recipe.userId !== userId) {
+    return res.status(401).json({ message: 'missing auth token' });
+  }
+  next();
+};
+
 module.exports = {
   isValidEmail,
   isValidName,
   isValidIngredients,
   isValidPreparation,
+  isValidUpdate,
   fieldEmail,
   fieldPassword,
 };

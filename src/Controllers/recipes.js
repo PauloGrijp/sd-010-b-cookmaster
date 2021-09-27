@@ -16,6 +16,10 @@ const requestEditRecipe = async (req, res) => {
 
   const editedRecipe = await updateRecipe(id, body, user);
 
+  if (!editedRecipe) {
+    return null;
+  }
+
   return res.status(200).json(editedRecipe);
 };
 
