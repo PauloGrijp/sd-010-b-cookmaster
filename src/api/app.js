@@ -39,8 +39,7 @@ const upload = multer({ storage });
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-// app.use('/image', express.static(path.join(__dirname, '..', 'uploads')));
-// console.log(path);
+
 const apiRoutes = express.Router();
 apiRoutes.post('/users', userValidation, validateEmail, createUsers)
 .post('/login', userLogin, validatePwd, login)
