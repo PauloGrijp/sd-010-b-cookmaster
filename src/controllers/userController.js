@@ -50,7 +50,7 @@ const login = async(req, res ,next) => {
       status: 500,
       message: error.message,
     });
-  }
+  };
 }
 
 module.exports = {
