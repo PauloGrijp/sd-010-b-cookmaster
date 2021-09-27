@@ -1,23 +1,20 @@
 const connection = require('./connection');
 
-const getUserByEmail = async (email) => {
-    const users = await connection().then((db) => db.collection('users')
-      .findOne({ email }));
-    
-    if (users) {
-        // aqui a gente desestrutura ja o objeto users do banco e retorna ele sem a senha
-      const { password: passBD, ...userWithoutPassword } = users;
-      return userWithoutPassword;
-    } 
-    
-    return users;
-  };
+const getUserByEmail = async (field, data) => {
+  let value = data;
+  if( field === '_id'){
+    value = ObjectId(data);
+  }
+  const result = await connection().then(db => 
+    db.collection('users').findOne({ [field]: value }));
+  return result;
+};
+
 const createNewUser = async (email, name, password) => {
-    const user = await connection().then((db) =>
-      db.collection('users')
-        .insertOne({ email, name, password, role: 'user' }));
-    const { password: passBD, ...userWithoutPassword } = user.ops[0];
-    return userWithoutPassword;
+  const { name, email, password, role } = data;
+  const inserted = await connection().then(db => 
+    db.collection('users').insertOne({ name, email, password, role }));
+  return { _id: inserted.insertedId, name, email, password, role };
   };
 
 module.exports = {

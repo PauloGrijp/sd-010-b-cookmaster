@@ -1,48 +1,59 @@
-const userModel = require('../models/userModel');
-
-const nameIsValid = (name) => {
-  const lengtnname = name.length;
-    if (!name || lengtnname < 2) {
-      const isValidName = {
-        status: 400,
-        message: 'Invalid entries. Try again.',
-      };
-      throw isValidName;
-    }
-  };
-  
-const emailIsValid = (email) => {
-  const isEmailValid = new RegExp(/\w+@[a-zA-Z]+\.[a-zA-Z]{2,3}/).test(email);
-    if (!isEmailValid) {
-      throw new Error({
-        status: 400,
-        message: 'Invalid entries. Try again.',
-      });
-    }
-  };
-  
-const passwordIsValid = (password) => {
-  if (!password) {
-    throw Error({
-        status: 400,
-        message: 'Invalid entries. Try again.',
-      });
-    }
-  };
-  
-const emailExists = async (email) => {
-  const user = await userModel.userByEmail(email);
-    if (user) {
-      throw Error({
-        status: 409,
-        message: 'Email already registered',
-      });
-    }
-  };
-
-module.expots = {
-  emailExists,
-  passwordIsValid,
-  nameIsValid,
-  emailIsValid,
+const status = require('./status');
+const user = require('../models/userModel');
+const nameValidation = (req, _res, next) => {
+  const data = req.body;
+  if(!data.name) return next({
+    status: status.INVALID,
+    message: status.INVALID_M,
+  });
+  next();
 };
+
+const emailValidation = async (req, _res, next) => {
+  const data = req.body;
+  const emailCheck = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/g;
+
+  if(!data.email || !emailCheck.test(data.email)) return next({
+    status: status.INVALID,
+    message: status.INVALID_M,
+  });  
+  next();
+};
+
+const emailCheckExistis = async (req, _res, next) => {
+  try {
+    const result = await user.getUserByEmail('email', req.body.email);
+    if(result) return next({
+      status: status.NOTUNIQUE,
+      message: status.NOTUNIQUE_M,
+    });
+  } catch (error) {
+    next({
+      status: status.ERRO,
+      message: error.message,
+    });
+  }
+  next();
+};
+
+const passwordValidation = (req, _res, next) => {
+  if(!req.body.password) return next({
+    status: status.INVALID,
+    message: status.INVALID_M,
+  });
+  next();
+};
+
+const checkRole = (req, _res, next) => {
+  const data = req.body;
+  if(!data.role) req.body.role = 'user';
+  next();
+};
+
+module.exports = {
+  nameValidation,
+  emailValidation,
+  emailCheckExistis,
+  passwordValidation,
+  checkRole,
+}
