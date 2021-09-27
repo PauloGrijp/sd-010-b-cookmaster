@@ -17,5 +17,6 @@ app.get('/', (request, response) => {
 app.post('/users', UsersController.createUser);
 app.post('/login', LoginController.loginUser);
 app.post('/recipes', validateJWT, RecipeController.createRecipe);
+app.get('/recipes', RecipeController.getRecipes);
 
 module.exports = app;
