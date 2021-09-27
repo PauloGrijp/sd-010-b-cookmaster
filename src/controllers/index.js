@@ -1,4 +1,10 @@
 const { postUsersController, login } = require('./users');
-const { postRecipeController, getRecipesController } = require('./recipes');
+const {
+   postRecipeController, getRecipesController, getRecipeByIdController } = require('./recipes');
 
-module.exports = { postUsersController, login, getRecipesController, postRecipeController };
+module.exports = {
+  postUsersController,
+  login,
+  getRecipesController,
+  postRecipeController,
+  getRecipeByIdController };
