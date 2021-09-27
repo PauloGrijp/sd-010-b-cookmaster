@@ -17,7 +17,7 @@ const validateIfFieldsExists = async (name, ingredients, preparation) => {
     }
 };
 
-let getIdUser = '';
+let getIdUser = ''; // Para jogar no objeto retornado da receita recém adicionada
 
 const validateToken = async (token) => {
     try {
@@ -43,18 +43,18 @@ const validateToken = async (token) => {
 };
 
 const addRecipes = async (name, ingredients, preparation) => {
-    const addRecipe = await recipesModel.addNewRecipes(name, ingredients, preparation);
-    return {
-        name: addRecipe.ops[0].name,
-        ingredients: addRecipe.ops[0].ingredients,
-        preparation: addRecipe.ops[0].preparation,
-        userId: getIdUser,
-        _id: addRecipe.insertedId,
-    };
+    const addRecipe = await recipesModel.addNewRecipes(name, ingredients, preparation, getIdUser);
+    return addRecipe;
+};
+
+const getAllRecipes = async () => {
+    const getRecipes = await recipesModel.getAllRecipes();
+    return getRecipes;
 };
 
 module.exports = {
     validateIfFieldsExists,
     validateToken,
     addRecipes,
+    getAllRecipes,
 };

@@ -6,11 +6,17 @@ const verifyUser = async (email) =>
         .then((db) => db.collection('users').findOne({ email }))
         .then((re) => re);
 
-const addNewRecipes = async (name, ingredients, preparation) =>
+const addNewRecipes = async (name, ingredients, preparation, userId) =>
     connection()
-        .then((db) => db.collection('recipes').insertOne({ name, ingredients, preparation }));
+        .then((db) => db.collection('recipes')
+            .insertOne({ name, ingredients, preparation, userId }));
+
+const getAllRecipes = async () =>
+    connection()
+        .then((db) => db.collection('recipes').find().toArray());
 
 module.exports = {
     addNewRecipes,
     verifyUser,
+    getAllRecipes,
 };

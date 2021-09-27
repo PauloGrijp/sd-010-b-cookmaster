@@ -14,9 +14,15 @@ const addNewRecipe = async (req, res) => {
         return res.status(401).json(validateTok);
     }
     const addRecipe = await recipesService.addRecipes(name, ingredients, preparation);
-    return res.status(201).json({ recipe: addRecipe });
+    return res.status(201).json({ recipe: addRecipe.ops[0] });
+};
+
+const getAllRecipes = async (req, res) => {
+    const getRecipes = await recipesService.getAllRecipes();
+    return res.status(200).json(getRecipes);
 };
 
 module.exports = {
     addNewRecipe,
+    getAllRecipes,
 };
