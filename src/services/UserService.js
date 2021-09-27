@@ -5,7 +5,6 @@ const BAD_REQUEST = 400;
 const HTTP_CONFLICT = 409;
 
 const createUser = async ({ name, email, password }) => {
-
   const isEmailValid = validateEmail(email);
   if (!isEmailValid) return BAD_REQUEST;
 
@@ -18,4 +17,4 @@ const createUser = async ({ name, email, password }) => {
 
 module.exports = {
   createUser,
-}
+};

@@ -1,10 +1,9 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const UserController = require('../controllers/UserController')
+const UserController = require('../controllers/UserController');
 
 const app = express();
 app.use(bodyParser.json());
-
 
 app.post('/users', UserController.createUser);
 

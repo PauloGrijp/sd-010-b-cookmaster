@@ -8,7 +8,7 @@ const getConnection = () => MongoClient
   .connect(MONGO_DB_URL, {
     // urlNewParser: true,
     useUnifiedTopology: true,
-}).then ((conn) => conn.db(DB_NAME))
+}).then((conn) => conn.db(DB_NAME))
   .catch((err) => {
     console.log(err);
     process.exit();
