@@ -43,7 +43,7 @@ const remove = rescue(async (req, res, next) => {
 
   if (removedProduct.error) return next(removedProduct.error);
 
-  return res.status(200).json(removedProduct);
+  return res.status(204).json(removedProduct);
 });
 
 module.exports = {

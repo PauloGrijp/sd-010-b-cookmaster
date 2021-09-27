@@ -22,7 +22,7 @@ app.get('/recipes', Recipe.getAll);
 app.get('/recipes/:id', Recipe.findById);
 app.post('/recipes', validateJWT, Recipe.create);
 app.put('/recipes/:id', validateJWT, Recipe.update);
-// app.delete('/sales/:id', Sale.remove);
+app.delete('/recipes/:id', validateJWT, Recipe.remove);
 
 app.use(errorMiddleware);
 
