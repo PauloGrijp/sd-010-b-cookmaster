@@ -40,4 +40,5 @@ module.exports = {
   getRecipeById,
   updateRecipe,
   deleteRecipe,
+  uploadImage: Recipe.uploadImage,
 };
