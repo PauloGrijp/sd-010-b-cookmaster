@@ -36,4 +36,15 @@ const updateOne = async (id, aoba) => {
   return aux;
 };
 
-module.exports = { createRecipes, getAll, auxGetById, updateOne };
+const deleteOne = async (id) => {
+  if (!ObjectId.isValid(id)) {
+    return null;
+  }
+  const auxConnection = await connection();
+  await auxConnection.collection('recipes')
+  .deleteOne({ _id: ObjectId(id) });
+  const aux = await auxGetById(id);
+  return aux;
+};
+
+module.exports = { createRecipes, getAll, auxGetById, updateOne, deleteOne };

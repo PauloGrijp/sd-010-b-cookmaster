@@ -1,7 +1,8 @@
 const express = require('express');
 const rescue = require('express-rescue');
 const { validatedToken, validatedApi } = require('../middleware/validatedToken');
-const { createRecipes, getAll, getById, updateOne } = require('../service/recipesService');
+const { createRecipes,
+  getAll, getById, updateOne, deleteOne } = require('../service/recipesService');
 
 const routerRecipes = express.Router();
 
@@ -44,8 +45,10 @@ routerRecipes.put('/:id', validatedToken, validatedApi, async (req, res) => {
   return res.status(200).json(aoba);
 });
 
-routerRecipes.delete('/id', async (_req, _res) => {
-
+routerRecipes.delete('/:id', validatedToken, async (req, res) => {
+  const { id } = req.params;
+  await deleteOne(id);
+  return res.status(204).json();
 });
 
 module.exports = routerRecipes;
