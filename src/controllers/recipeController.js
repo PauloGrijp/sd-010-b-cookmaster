@@ -44,9 +44,21 @@ const updateRecipe = rescue(async (req, res, next) => {
   return res.status(200).json(updatedRecipe);
 });
 
+const deleteRecipe = rescue(async (req, res, next) => {
+  const { id } = req.params;
+  
+  const deletedRecipe = await recipeService.deleteRecipe(id);
+  // Caso haja erro na criação do autor, iniciamos o fluxo de erro
+  if (deletedRecipe.error) return next(deletedRecipe);
+  // Caso esteja tudo certo, retornamos o status 201 Created, junto com as informações
+  // do novo Produto
+  return res.status(204).send();
+});
+
 module.exports = {
   createRecipe,
   getAllRecipes,
   getRecipeById,
   updateRecipe,
+  deleteRecipe,
 };
