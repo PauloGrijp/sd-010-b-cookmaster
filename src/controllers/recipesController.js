@@ -38,6 +38,7 @@ const updateId = async (req, res, next) => {
     return next({ status: 401, message: 'missing auth token' });
   }
   const data = await recipesService.updateId(id, body, token);
+  console.log(data, 'UPDATE');
   if (data.message) {
     return next(data);
   }
@@ -47,9 +48,10 @@ const updateId = async (req, res, next) => {
 const deleteId = async (req, res, next) => {
   const { id } = req.params;
   const token = req.headers.authorization;
-
+  if (id.length !== 24 || !token) {
+    return next({ status: 401, message: 'missing auth token' });
+  }
   const exclud = await recipesService.deleteId(id, token);
-  console.log(exclud);
   if (exclud.message) {
     return next(exclud);
   }

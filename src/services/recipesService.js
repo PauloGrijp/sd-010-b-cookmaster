@@ -18,13 +18,10 @@ function valid({ name, ingredients, preparation }) {
   return true;
 }
 
-async function validToken(token, method = 'comum') {
+async function validToken(token) {
   try {
     return jwt.verify(token, secret);
   } catch (err) {
-    if (method === 'exclud') {
-      throw new AppError(401, 'missing auth token');
-    }
     throw new AppError(401, 'jwt malformed');
   }
 }
@@ -68,14 +65,11 @@ const getById = async (id) => {
 
 const validAuthUser = async (id, { data }, newObj) => {
   const { _id } = await userModel.getByEmail(data.email);
-  const recipe = await recipesModel.getById(id);
-  if (parseFloat(recipe.userId) !== parseFloat(_id)) {
+  const { userId } = await recipesModel.getById(id);
+  if (parseFloat(userId) !== parseFloat(_id)) {
     return { status: 401, message: 'Unauthoration' };
   }
-  if (newObj) {
-    return { ...newObj, userId: recipe.userId };
-  }
-  return recipe;
+  return { ...newObj, userId };
 };
 
 const updateId = async (id, body, token) => {
@@ -89,8 +83,9 @@ const updateId = async (id, body, token) => {
   if (validateToken.message) {
     return validateToken;
   }
-    validAuthUser(id, validateToken, newObj);
+    const isValidUser = await validAuthUser(id, validateToken, newObj);
     await recipesModel.update(id, newObj);
+    return isValidUser;
   } catch (err) {
       return err;
   }
@@ -98,14 +93,11 @@ const updateId = async (id, body, token) => {
 
 const deleteId = async (id, token) => {
   try {
-    const validateToken = await validToken(token, 'exclud');
+    const validateToken = await validToken(token);
     if (validateToken.message) {
       return validateToken;
     }
-    const validUser = await validAuthUser(id, validateToken);
-    if (validUser.message) {
-      return validUser;
-    }
+    await validAuthUser(id, validateToken);
     await recipesModel.deleteId(id);
     return 'No body returned for response';
   } catch (err) {
