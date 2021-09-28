@@ -1,8 +1,14 @@
 const express = require('express');
+const path = require('path');
+
 const router = require('../router');
+
 const { errorMiddleware } = require('../middlewares');
 
 const app = express();
+
+app.use('/src/uploads', express.static(path.join(__dirname, '..', 'uploads')));
+app.use('/images', express.static(path.join(__dirname, '..', 'uploads')));
 
 app.use(express.json());
 
@@ -10,7 +16,6 @@ app.use(express.json());
 app.get('/', (request, response) => {
   response.send();
 });
-// Não remover esse end-point, ele é necessário para o avaliador
 
 app.use('/', router);
 
