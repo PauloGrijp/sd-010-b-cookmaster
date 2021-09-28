@@ -18,4 +18,13 @@ const putRecipeById = async (id, name, ingredients, preparation) => connection()
 const deleteRecipeById = async (id) => connection()
   .then((db) => db.collection('recipes').deleteOne({ _id: ObjectId(id) }));
 
-module.exports = { postRecipe, getRecipes, getRecipeById, putRecipeById, deleteRecipeById };
+const putImage = async (id, image, recipe) => connection()
+  .then((db) => db.collection('recipes')
+    .updateOne({ _id: ObjectId(id) }, { $set: { ...recipe, image } }));
+
+module.exports = { postRecipe,
+  getRecipes,
+  getRecipeById,
+  putRecipeById,
+  deleteRecipeById,
+  putImage };
