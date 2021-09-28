@@ -11,11 +11,22 @@ const { dbConnect, dbDisconnect } = require('./connectionMock');
 const app = require('../api/app');
 
 describe('POST /users', () => {
+
+  before(async () => {
+    connectionMock = await dbConnect();
+    sinon.stub(MongoClient, 'connect').resolves(connectionMock);
+  });
+
+  after(async () => await dbDisconnect());
   
   describe('quando cadastrado com sucesso', () => {
     let response;
+    const DB_NAME = 'Cookmaster';
+    const USERS_COLLECTION = 'users';
 
     before(async () => {
+      await connectionMock.db(DB_NAME).collection(USERS_COLLECTION).deleteMany({});
+      
       response = await chai.request(app)
       .post('/users')
       .send({
