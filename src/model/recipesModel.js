@@ -25,4 +25,15 @@ const auxGetById = async (id) => {
   return result;
 };
 
-module.exports = { createRecipes, getAll, auxGetById };
+const updateOne = async (id, aoba) => {
+  if (!ObjectId.isValid(id)) {
+    return null;
+  }
+  const auxConnection = await connection();
+  await auxConnection.collection('recipes')
+  .updateOne({ _id: ObjectId(id) }, { $set: aoba });
+  const aux = await auxGetById(id);
+  return aux;
+};
+
+module.exports = { createRecipes, getAll, auxGetById, updateOne };
