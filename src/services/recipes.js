@@ -60,7 +60,7 @@ const update = async (id, userId, role, recipe) => {
   const existError = new Error();
   existError.err = { code: 404, message: 'recipe not found' };
   const authError = new Error();
-  authError.err = { code: 401, message: 'missing auth token' };
+  authError.err = { code: 401, message: 'unauthorized' };
 
   const recipeExists = await models.getById(id);
   if (recipeExists === null) throw existError;
@@ -68,7 +68,7 @@ const update = async (id, userId, role, recipe) => {
   const validInputs = validateInputs(recipe);
   if (validInputs === false) throw error;
 
-  if (userId || role === 'admin') {
+  if (userId === recipeExists.userId || role === 'admin') {
     const updatedRecipe = await models.update(id, userId, recipe);
     return updatedRecipe;
   }
