@@ -37,12 +37,14 @@ const getById = async (req, res) => {
 const remove = async (req, res) => {
   try {
     const { id } = req.params;
+    const { _id, role } = await req.user;
+    const userId = _id;
 
-    await services.remove(id);
+    await services.remove(id, userId, role);
 
     return res.status(204).json();
   } catch (error) {
-    return res.status(error.err.code).json({ message: error.err.message });
+    return res.status(401).json({ message: 'missing auth token' });
   }
 };
 

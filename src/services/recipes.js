@@ -27,10 +27,22 @@ const getById = async (id) => {
   return recipe;
 };
 
-const remove = async (id) => {
-  const removedRecipe = await models.remove(id);
+const remove = async (id, userId, role) => {
+  const error = new Error();
+  error.err = {
+    code: 401,
+    message: 'missing auth token',
+  };
 
-  return removedRecipe;
+  const recipe = await models.getById(id);
+
+  if (userId === recipe.userId || role === 'admin') {
+    const removedRecipe = await models.remove(id);
+
+    return removedRecipe;
+  }
+
+  throw error;
 };
 
 module.exports = {
