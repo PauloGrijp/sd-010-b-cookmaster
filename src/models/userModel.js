@@ -11,7 +11,6 @@ const create = async (name, email, password) => {
 const findByEmail = async (email) => {
   const userEmail = await connection()
     .then((db) => db.collection('users').findOne({ email }));
-    console.log(userEmail);
 
   // Caso nenhum product seja encontrado, devolvemos null
   if (!userEmail) return null;

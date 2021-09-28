@@ -1,4 +1,4 @@
-module.exports = (req, res, next) => {
+ const create = (req, res, next) => {
   const { name, email, password } = req.body;
   const user = [name, email, password];
   user.forEach((value) => {
@@ -13,4 +13,21 @@ module.exports = (req, res, next) => {
     return res.status(400).json({ message: 'Invalid entries. Try again.' }); 
 }
   next();
+};
+
+const login = (req, res, next) => {
+  const { email, password } = req.body;
+  const user = [email, password];
+  user.forEach((value) => {
+    if (!value || value === '') { 
+      return res.status(401).json({ message: 'All fields must be filled' }); 
+    }
+  });
+
+  next();
+};
+
+module.exports = {
+  create,
+  login,
 };

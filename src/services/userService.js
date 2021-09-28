@@ -11,6 +11,20 @@ const createUser = async (name, email, password) => {
   return userModel.create(name, email, password);
 };
 
+const login = async (email, password) => {
+  const existingUser = await userModel.findByEmail(email);
+
+  const isAuthenticated = validations.authenticatedLogin(existingUser, password);
+
+  if (!isAuthenticated) {
+    const { role, _id } = existingUser;
+    return { role, _id };
+  }
+
+  return isAuthenticated;
+};
+
 module.exports = {
   createUser,
+  login,
 };

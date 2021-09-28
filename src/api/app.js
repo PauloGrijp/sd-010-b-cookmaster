@@ -14,7 +14,8 @@ app.get('/', (request, response) => {
 });
 // Não remover esse end-point, ele é necessário para o avaliador
 
-app.post('/users', validateMiddleware, userController.createUser);
+app.post('/users', validateMiddleware.create, userController.createUser);
+app.post('/login', validateMiddleware.login, userController.login);
 
 app.use(errorMiddleware);
 
