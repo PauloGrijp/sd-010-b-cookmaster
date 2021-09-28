@@ -7,7 +7,7 @@ const BAD_REQUEST = 400;
 const registerRecipe = async (req, res) => {
   const { name, ingredients, preparation } = req.body;
   const { _id: userId } = req.user;
-  const { message, id } = await recipeService.createRecipe({ 
+  const { message, id } = await recipeService.registerRecipeValidation({ 
     name, ingredients, preparation,
   });
 

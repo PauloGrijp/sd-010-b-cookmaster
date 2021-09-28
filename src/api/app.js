@@ -15,8 +15,8 @@ app.post('/login', loginController.userLogin); // req 2
 app.post('/recipes', jwtValidation, recipeController.registerRecipe); // req 3
 
 // Não remover esse end-point, ele é necessário para o avaliador
-app.get('/', (req, res) => {
-  res.send();
+app.get('/', (request, response) => {
+  response.send();
 });
 
 module.exports = app;
