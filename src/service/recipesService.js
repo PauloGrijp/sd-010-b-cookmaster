@@ -1,11 +1,11 @@
-const { createRecipes, auxGetAll, auxGetById } = require('../model/recipesModel');
+const { createRecipes, getAll, auxGetById } = require('../model/recipesModel');
 const { errorByIdRecipes } = require('../middleware/estructError');
 
-const getAll = async () => {
+/* const getAll = async () => {
   const result = await auxGetAll();
   return result;
 };
-
+ */
 const getById = async (id) => {
   const resultRecipesId = await auxGetById(id);
   if (!resultRecipesId) {

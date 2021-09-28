@@ -21,6 +21,7 @@ routerRecipes.post('/', validatedToken, validatedApi, async (req, res) => {
 
 routerRecipes.get('/', rescue(async (_req, res) => {
   const resultGetAll = await getAll();
+  console.log(resultGetAll);
   return res.status(200).json(resultGetAll);
 }));
 
