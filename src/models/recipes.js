@@ -39,20 +39,15 @@ const deleteRecipe = async (id) => {
   return deletedRecipe;
 };
 
-// I did that one, wiht Mari Mohr's help!! Thanks for that!
-// Source: https://stackoverflow.com/questions/35626040/how-to-get-updated-document-back-from-the-findoneandupdate-method 
+// I did that one, with Mari Mohr's help!! Thanks for that!
 
 const uploadImage = async ({ id, image }) => {
-  console.log(image);
-  console.log(id);
   if (!ObjectId.isValid(id)) return null;
   const db = await connect();
-  const { value } = await db.collection('recipes').findOneAndUpdate(
-    { _id: ObjectId(id) },
-    { $set: { image } },
-    { returnOriginal: false },
-  );
-    return value;
+  const [obj] = await db.collection('recipes').aggregate(
+    [{ $match: { _id: ObjectId(id) } }, { $addFields: { image } }],
+).toArray();
+    return obj;
 };
 
 module.exports = { 
