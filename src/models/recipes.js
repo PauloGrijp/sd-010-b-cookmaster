@@ -41,9 +41,24 @@ const remove = async (id) => {
   return removedRecipe;
 };
 
+const update = async (id, userId, recipe) => {
+  const db = await connection();
+
+  const updte = {
+    ...recipe,
+    _id: ObjectId(id),
+    userId,
+  };
+
+  await db.collection('recipes').updateOne({ _id: ObjectId(id) }, { $set: updte });
+
+  return updte;
+};
+
 module.exports = {
   create,
   getAll,
   getById,
   remove,
+  update,
 };

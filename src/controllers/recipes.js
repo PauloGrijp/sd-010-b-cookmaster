@@ -48,9 +48,26 @@ const remove = async (req, res) => {
   }
 };
 
+const update = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { _id, role } = req.user;
+    const recipe = req.body;
+
+    const userId = _id;
+
+    const updatedRecipe = await services.update(id, userId, role, recipe);
+
+    return res.status(200).json(updatedRecipe);
+  } catch (error) {
+    return res.status(error.err.code).json({ message: error.err.message });
+  }
+};
+
 module.exports = {
   create,
   getAll,
   getById,
   remove,
+  update,
 };
