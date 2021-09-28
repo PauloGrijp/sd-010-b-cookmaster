@@ -14,7 +14,6 @@ const create = async (req, res, next) => {
 const getAll = async (_req, res) => {
   try {
     const find = await recipesModel.getAll();
-    console.log(find);
     return res.status(200).json(find);
   } catch (err) {
     return err;
@@ -38,7 +37,6 @@ const updateId = async (req, res, next) => {
     return next({ status: 401, message: 'missing auth token' });
   }
   const data = await recipesService.updateId(id, body, token);
-  console.log(data, 'UPDATE');
   if (data.message) {
     return next(data);
   }
