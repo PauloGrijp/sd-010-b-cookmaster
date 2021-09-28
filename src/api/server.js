@@ -10,6 +10,7 @@ app.post('/users', validate.createUser, userController.createUser);
 app.post('/login', validate.login, userController.login);
 
 app.post('/recipes', authJWT, validate.createRecipe, recipeController.createRecipe);
+app.get('/recipes', recipeController.getAllRecipes);
 
 app.use(error);
 
