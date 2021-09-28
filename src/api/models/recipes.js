@@ -33,4 +33,12 @@ const editOne = async (id, name, ingredients, preparation) => {
             return out;
             };
 
-module.exports = { createOne, getAll, getRecipeID, editOne };
+const deleteOne = async (id) => {
+                const out = await connect()
+                    .then((db) => db.collection('recipes')
+                    .deleteOne({ _id: ObjectId(id) }))
+                    .then((result) => result);
+                return out;
+                };
+
+module.exports = { createOne, getAll, getRecipeID, editOne, deleteOne };
