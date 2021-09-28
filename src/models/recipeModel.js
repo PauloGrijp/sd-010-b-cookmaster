@@ -3,7 +3,6 @@ const connection = require('./connection');
 
 const create = async (recipeInfo, userId) => {
   const { name, ingredients, preparation } = recipeInfo;
-  console.log(userId);
   const db = await connection();
   const product = await db.collection('recipes')
     .insertOne({ name, ingredients, preparation });
