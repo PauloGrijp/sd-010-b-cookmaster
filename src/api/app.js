@@ -11,7 +11,6 @@ app.get('/', (request, response) => {
   response.send();
 });
 // Não remover esse end-point, ele é necessário para o avaliador
-patch.resolve('uploads');
 app.use('/login', login);
 app.use('/recipes', recipes);
 app.use('/users', users);

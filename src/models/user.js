@@ -1,17 +1,17 @@
 const { getConnection } = require('../connection/connection');
 
-const USERS_DOCUMENTS = 'users';
+const USERS_COLLECTION = 'users';
 
 const createUser = async (body) => {
   const connect = await getConnection();
-  const db = await connect.collection(USERS_DOCUMENTS).insertOne(body);
+  const db = await connect.collection(USERS_COLLECTION).insertOne(body);
   
   return db.ops[0];
 };
 
 const getByName = async ({ name }) => {
   const connect = await getConnection();
-  const query = await connect.collection(USERS_DOCUMENTS).findOne({ name });
+  const query = await connect.collection(USERS_COLLECTION).findOne({ name });
 
   return query;
 };

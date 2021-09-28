@@ -1,5 +1,12 @@
+const jwt = require('jsonwebtoken');
 const { loginModel } = require('../models');
 const { code, verifyLogin } = require('../schema');
+
+const secret = 'cookmasterprojecttoken';
+const jwtConfig = {
+  expiresIn: '4h',
+  algorithm: 'HS256',
+};
 /**
  * 
  * @param { object } user email, password
@@ -14,9 +21,13 @@ const getUser = async (user) => {
   
   const { _id, email, role } = returnDataBase;
 
+  const jwtToken = jwt.sign({ data: { _id, email, role } }, secret, jwtConfig);
+
   const result = {
     status: code.HTTP_OK_STATUS,
-    notification: { _id, email, role },
+    notification: {
+      token: jwtToken,
+    },
   };
 
   return result;
