@@ -11,7 +11,7 @@ const authValidation = (req, res, next) => {
   }
 };
 
-const authValidationWithAdmin = (req, res, next) => {
+const authValidation7 = (req, res, next) => {
   const { authorization } = req.headers;
   try {
     const payload = verifyJWT(authorization);
@@ -25,4 +25,15 @@ const authValidationWithAdmin = (req, res, next) => {
   }
 };
 
-module.exports = { authValidation, authValidationWithAdmin };
+const authValidation8 = (req, res, next) => {
+  const { authorization } = req.headers;
+  try {
+    const payload = verifyJWT(authorization);
+    req.payload = payload;
+    return next();
+  } catch (error) {
+    res.status(401).json({ message: 'missing auth token' });
+  }
+};
+
+module.exports = { authValidation, authValidation7, authValidation8 };

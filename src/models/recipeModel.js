@@ -22,7 +22,7 @@ const recipeIdExists = async (id) => {
   return recipe;
 };
 
-const updateRecipe = async ({ id, name, ingredients, preparation, userId }) => {
+const update = async ({ id, name, ingredients, preparation, userId }) => {
   if (!ObjectId.isValid(id)) return null;
   const db = await connection();
 
@@ -32,4 +32,11 @@ const updateRecipe = async ({ id, name, ingredients, preparation, userId }) => {
     return recipe;
 };
 
-module.exports = { create, getAll, recipeIdExists, updateRecipe };
+const exclude = async (id) => {
+  if (!ObjectId.isValid(id)) return null;
+  const db = await connection();
+
+  return db.collection('recipes').deleteOne({ _id: ObjectId(id) });
+};
+
+module.exports = { create, getAll, recipeIdExists, update, exclude };

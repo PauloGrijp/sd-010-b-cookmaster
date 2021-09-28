@@ -40,13 +40,13 @@ const getById = async (req, res) => {
   }
 };
 
-const updateRecipe = async (req, res) => {
+const update = async (req, res) => {
   try {
       const { name, ingredients, preparation } = req.body;
       const { id } = req.params;
       const userId = req.payload.idUser;
 
-      await recipeModel.updateRecipe({ id, name, ingredients, preparation, userId });
+      await recipeModel.update({ id, name, ingredients, preparation, userId });
 
       return res.status(200).json({ _id: id, name, ingredients, preparation, userId });
   } catch (error) {
@@ -54,4 +54,15 @@ const updateRecipe = async (req, res) => {
   }
 };
 
-module.exports = { create, getAll, getById, updateRecipe };
+const exclude = async (req, res) => {
+  try {
+    const { id } = req.params;
+    await recipeModel.exclude(id);
+
+    res.status(204).end();
+  } catch (error) {
+    return res.status(500).json({ message: 'Deu ruim' });
+  }
+};
+
+module.exports = { create, getAll, getById, update, exclude };

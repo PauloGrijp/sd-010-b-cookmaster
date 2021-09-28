@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 
-const { authValidation, authValidationWithAdmin } = require('../auth/authMiddleware');
+const { authValidation, authValidation7, authValidation8 } = require('../auth/authMiddleware');
 
 const userController = require('../controllers/userController');
 const loginController = require('../controllers/loginController');
@@ -28,6 +28,7 @@ app.route('/recipes')
 
 app.route('/recipes/:id')
   .get(recipeController.getById)
-  .put(authValidationWithAdmin, recipeController.updateRecipe);
+  .put(authValidation7, recipeController.update)
+  .delete(authValidation8, recipeController.exclude);
 
 module.exports = app;
