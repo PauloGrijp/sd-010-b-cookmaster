@@ -3,7 +3,8 @@ const { postRecipeService,
   getRecipesService,
   getRecipeByIdService,
   putRecipeByIdService,
-  deleteRecipeByIdService } = require('./recipes');
+  deleteRecipeByIdService,
+  putImageService } = require('./recipes');
 
 module.exports = {
   postUsersService,
@@ -12,4 +13,5 @@ module.exports = {
   getRecipesService,
   getRecipeByIdService,
   putRecipeByIdService,
-  deleteRecipeByIdService };
+  deleteRecipeByIdService,
+  putImageService };
