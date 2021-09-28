@@ -4,6 +4,7 @@ const {
   recipeBy,
   updateRecipe,
   deleteRecipe,
+  uploadImage,
 } = require('../services/recipes');
 
 const requestNewRecipe = async (req, res) => {
@@ -27,6 +28,17 @@ const requestEditRecipe = async (req, res) => {
   }
 
   return res.status(200).json(editedRecipe);
+};
+
+const requestUploadImage = async (req, res) => {
+  const { id } = req.params;
+  const { file } = req;
+
+  const imageSaved = await uploadImage(id, file);
+
+  console.log(imageSaved);
+
+  return res.status(200).json(imageSaved);
 };
 
 const requestDeleteRecipe = async (req, res) => {
@@ -61,4 +73,5 @@ module.exports = {
   requestRecipeById,
   requestEditRecipe,
   requestDeleteRecipe,
+  requestUploadImage,
 };

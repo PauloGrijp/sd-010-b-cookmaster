@@ -1,5 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const path = require('path');
+const multer = require('multer');
 
 const {
   requestNewUser,
@@ -12,6 +14,7 @@ const {
   requestRecipeById,
   requestEditRecipe,
   requestDeleteRecipe,
+  requestUploadImage,
 } = require('../Controllers/recipes');
 
 const {
@@ -29,6 +32,10 @@ const {
 } = require('../middlewares/tokenValidation');
 
 const app = express();
+
+app.use('/images', express.static(path.join(__dirname, '..', 'uploads')));
+
+const upload = multer({ dest: 'uploads' });
 
 // Não remover esse end-point, ele é necessário para o avaliador
 app.get('/', (request, response) => {
@@ -52,6 +59,12 @@ app.post('/recipes',
   isValidPreparation,
   isValidIngredients,
   requestNewRecipe);
+
+app.put('/recipes/:id/image/',
+  verifyToken,
+  isValidUpdate,
+  upload.single('image'),
+  requestUploadImage);
 
 app.put('/recipes/:id',
   verifyToken,

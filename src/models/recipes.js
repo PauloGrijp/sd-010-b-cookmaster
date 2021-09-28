@@ -40,6 +40,29 @@ const editRecipe = async (id, { name, ingredients, preparation }, userId) => {
   return { _id: id, name, ingredients, preparation, userId };
 };
 
+const uploadImg = async (id) => {
+  const db = await connection();
+
+  const { _id, name, ingredients, preparation, userId } = await db
+  .collection('recipes').findOne({ _id: ObjectId(id) });
+
+  await db.collection('recipes').updateOne(
+    { _id: ObjectId(id) },
+    { $set: {
+      image: `localhost:3000/src/uploads/${id}`.concat('.jpeg'),
+      },
+    },
+    );
+
+  return { 
+    _id,
+    name,
+    ingredients,
+    preparation,
+    userId,
+    image: `localhost:3000/src/uploads/${id}`.concat('.jpeg') };
+};
+
 const delRecipe = async (id) => {
   const db = await connection();
 
@@ -56,4 +79,5 @@ module.exports = {
   uniquiRecipe,
   editRecipe,
   delRecipe,
+  uploadImg,
 };

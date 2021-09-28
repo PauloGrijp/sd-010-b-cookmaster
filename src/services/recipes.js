@@ -1,5 +1,12 @@
 const { ObjectId } = require('mongodb');
-const { recipes, createRecipe, uniquiRecipe, editRecipe, delRecipe } = require('../models/recipes');
+const {
+  recipes,
+  createRecipe,
+  uniquiRecipe,
+  editRecipe,
+  delRecipe,
+  uploadImg,
+} = require('../models/recipes');
 
 const addRecipe = async (name, ingredients, preparation, userId) => {
   const recipe = await createRecipe(name, ingredients, preparation, userId);
@@ -11,6 +18,14 @@ const updateRecipe = async (id, body, { userId }) => {
   if (!ObjectId.isValid(id)) return null;
   const recipe = await editRecipe(id, body, userId);
   return recipe;
+};
+
+const uploadImage = async (id, { mimetype }) => {
+  if (!ObjectId.isValid(id) || !mimetype.includes('jpeg')) return null;
+
+  const imageEdited = await uploadImg(id);
+
+  return imageEdited;
 };
 
 const deleteRecipe = async (id) => {
@@ -40,4 +55,5 @@ module.exports = {
   recipeBy,
   updateRecipe,
   deleteRecipe,
+  uploadImage,
 };
