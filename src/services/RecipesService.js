@@ -4,6 +4,10 @@ const recipesModel = require('../models/RecipesModel');
 
 const secret = 'minhasupersenha';
 
+const invalidId = {
+    message: 'Invalid Id. try again',
+};
+
 const errorInvalidEntries = {
     message: 'Invalid entries. Try again.',
 };
@@ -90,6 +94,17 @@ const updateRecipe = async (id, name, ingredients, preparation) => {
     };
 };
 
+const deleteRecipe = async (id) => {
+    if (!ObjectId.isValid(id)) {
+        return null;
+    }
+    const recipeDeleted = await recipesModel.deleteRecipe(id);
+    if (!recipeDeleted) {
+        return invalidId;
+    }
+    return recipeDeleted;
+};
+
 module.exports = {
     validateIfFieldsExists,
     validateToken,
@@ -97,4 +112,5 @@ module.exports = {
     getAllRecipes,
     getRecipeById,
     updateRecipe,
+    deleteRecipe,
 };

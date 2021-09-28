@@ -45,9 +45,25 @@ const updateRecipe = async (req, res) => {
     return res.status(200).json(updatedRecipe);
 };
 
+const deleteRecipe = async (req, res) => {
+    const token = req.headers.authorization;
+    const validaTok = await recipesService.validateToken(token);
+    if (validaTok.message) {
+        return res.status(401).json(validaTok);
+    }
+    const { id } = req.params;
+    const recipeDeleted = await recipesService.deleteRecipe(id);
+    console.log(recipeDeleted);
+    if (recipeDeleted.message) {
+        return recipeDeleted;
+    }
+    return res.status(204).send();
+};
+
 module.exports = {
     addNewRecipe,
     getAllRecipes,
     getRecipeById,
     updateRecipe,
+    deleteRecipe,
 };
