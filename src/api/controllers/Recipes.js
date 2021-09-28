@@ -6,6 +6,7 @@ const {
     OK,
     NOT_FOUND,
     UNAUTHORIZED,
+    NO_CONTENT,
   },
 } = require('http-status-codes');
 const Recipes = require('../services/Recipes');
@@ -65,9 +66,24 @@ const updateRecipe = async (req, res) => {
   } 
 };
 
+const deleteRecipe = async (req, res) => {
+  try {
+    const { params: { id }, user } = req;
+    const deletedRecipe = await Recipes.deleteRecipe(id, user);
+
+    if (deletedRecipe.message) return res.status(UNAUTHORIZED).json(deletedRecipe);
+
+    return res.status(NO_CONTENT).json();
+  } catch (error) {
+    console.log(error);
+    return res.status(INTERNAL_SERVER_ERROR).json(ERROR_MESSAGE);
+  } 
+};
+
 module.exports = {
   createRecipe,
   getAllRecipes,
   getRecipeById,
   updateRecipe,
+  deleteRecipe,
 };

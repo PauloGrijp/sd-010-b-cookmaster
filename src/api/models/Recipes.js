@@ -50,9 +50,22 @@ const updateRecipe = async (recipeToBeUpdated, recipeId, user) => {
 return { accessError: true };
 };
 
+const deleteRecipe = async (recipeId, user) => {
+  const { _id: userId, role } = user;
+
+  const db = await connect();
+  const recipe = await getRecipeById(recipeId);
+
+  if (role === 'admin' || recipe.userId.toString() === userId.toString()) {
+    return db.collection(recipesCollection).findOneAndDelete({ _id: Object(recipeId) });
+  }
+  return { accessError: true };
+};
+
 module.exports = {
   createRecipe,
   getAllRecipes,
   getRecipeById,
   updateRecipe,
+  deleteRecipe,
 };

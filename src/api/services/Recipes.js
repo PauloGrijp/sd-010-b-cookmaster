@@ -32,9 +32,17 @@ const updateRecipe = async (recipeToBeUpdated, id, user) => {
   return recipe;
 };
 
+const deleteRecipe = async (id, user) => {
+  const deletedRecipe = await Recipes.deleteRecipe(id, user);
+  if (deletedRecipe.accessError) return { message: errors.accessDenied };
+
+  return {};
+};
+
 module.exports = {
   createRecipe,
   getAllRecipes,
   getRecipeById,
   updateRecipe,
+  deleteRecipe,
 };
