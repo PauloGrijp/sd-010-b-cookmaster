@@ -8,10 +8,8 @@ const { connection } = require('./connection');
  */
 const createRecipe = async (recipe, id) => {
   const create = { ...recipe, userId: id };
-  console.log(create);
   const db = await connection();
   const newRecipe = await db.collection('recipes').insertOne(create);
-  console.log(newRecipe);
   return {
     ...create,
     _id: newRecipe.insertedId,
@@ -38,8 +36,27 @@ const getRecipeById = async (id) => {
   return recipe;
 };
 
+const updateRecipe = async (recipe, id, recId) => {
+  const validId = ObjectId.isValid(recId);
+    if (!validId) {
+      return false;
+    }
+  const update = { ...recipe, userId: id };
+  const db = await connection();
+  const updatedRecipe = await db.collection('recipes')
+    .updateOne({ _id: ObjectId(recId) }, { $set: update });
+  if (!updatedRecipe) {
+    return false;
+  }
+  return {
+    _id: ObjectId(recId),
+    ...update,
+  };
+};
+
 module.exports = {
   createRecipe,
   getAllRecipes,
   getRecipeById,
+  updateRecipe,
 };

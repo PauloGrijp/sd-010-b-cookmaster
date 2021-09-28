@@ -43,8 +43,24 @@ const getRecipeById = async (req, res) => {
   }
 };
 
+const updateRecipe = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { name, ingredients, preparation } = req.body;
+    const { _id } = req.user;
+    const updatedRecipe = await service.updateRecipe({ name, ingredients, preparation }, _id, id);
+    if (!updatedRecipe) {
+      return res.status(StatusCodes.UNAUTHORIZED).json({ message: 'Invalid entries. Try again.' });
+    }
+    return res.status(StatusCodes.OK).json({ ...updatedRecipe });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 module.exports = {
   createRecipe,
   getAllRecipes,
   getRecipeById,
+  updateRecipe,
 };
