@@ -19,7 +19,6 @@ const login = async (req, res, next) => {
       message: 'All fields must be filled',
     });
   }  
-
   try {
     const result = await user.getUserByEmail('email', data.email);
     if (!result || result.password !== data.password) {
@@ -28,6 +27,7 @@ const login = async (req, res, next) => {
         message: 'Incorrect username or password',
       });
     }
+
     const secret = 'tokensupersecreto';
     const jwtconfig = {
       expiresIn: '1d',
