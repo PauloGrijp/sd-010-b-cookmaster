@@ -5,13 +5,12 @@ const getUserByEmail = async (email) => {
   const result = await connection.getConnection().then((db) =>
     db.collection('users').find({ email }).toArray());
   
-  console.log('resultGETUSER', result);
   return result;
 };
 
 const createUser = async ({ name, email, password }) => {
   const result = await connection.getConnection().then((db) =>
-    db.collection('users').insertOne({ name, email, password }));
+    db.collection('users').insertOne({ name, email, password, role: 'user' }));
 
   return {
     user: {
