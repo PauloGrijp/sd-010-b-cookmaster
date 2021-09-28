@@ -65,4 +65,16 @@ const exclude = async (req, res) => {
   }
 };
 
-module.exports = { create, getAll, getById, update, exclude };
+const addImage = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const image = `localhost:3000/src/uploads/${id}.jpeg`;
+    const recipe = await recipeModel.addImage({ id, image });
+
+    return res.status(200).json(recipe);
+  } catch (error) {
+    return res.status(500).json({ message: 'Deu ruim' });
+  }
+};
+
+module.exports = { create, getAll, getById, update, exclude, addImage };

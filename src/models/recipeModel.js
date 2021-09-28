@@ -29,7 +29,7 @@ const update = async ({ id, name, ingredients, preparation, userId }) => {
   const recipe = await db.collection('recipes').updateOne(
     { _id: ObjectId(id) }, { $set: { name, ingredients, preparation, userId } },
   );
-    return recipe;
+  return recipe;
 };
 
 const exclude = async (id) => {
@@ -39,4 +39,18 @@ const exclude = async (id) => {
   return db.collection('recipes').deleteOne({ _id: ObjectId(id) });
 };
 
-module.exports = { create, getAll, recipeIdExists, update, exclude };
+// Requisito 9 com ajuda de Fernanda Porto
+// Pesquisa: https://stackoverflow.com/questions/35626040/how-to-get-updated-document-back-from-the-findoneandupdate-method
+const addImage = async ({ id, image }) => {
+  if (!ObjectId.isValid(id)) return null;
+  const db = await connection();
+
+  const { value } = await db.collection('recipes').findOneAndUpdate(
+    { _id: ObjectId(id) },
+    { $set: { image } },
+    { returnOriginal: false },
+  );
+    return value;
+};
+
+module.exports = { create, getAll, recipeIdExists, update, exclude, addImage };
