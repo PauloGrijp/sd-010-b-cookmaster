@@ -12,5 +12,6 @@ app.get('/', (_request, response) => {
 app.use('/users', Users);
 app.use('/login', Login);
 app.use('/recipes', Recipes);
+app.use('/images', express.static('src/uploads/'));
 
 module.exports = app;
