@@ -1,11 +1,15 @@
- const create = (req, res, next) => {
-  const { name, email, password } = req.body;
-  const user = [name, email, password];
-  user.forEach((value) => {
+const existingFields = (entity, res) => {
+  entity.forEach((value) => {
     if (!value || value === '') { 
       return res.status(400).json({ message: 'Invalid entries. Try again.' }); 
     }
-  });
+});
+};
+
+const createUser = (req, res, next) => {
+  const { name, email, password } = req.body;
+  const user = [name, email, password];
+  existingFields(user, res);
 
   const emailRegex = new RegExp(/[a-z0-9]+@[a-z0-9]+\.[a-z0-9]{2,3}(\.[a-z0-9]+)?$/);
 
@@ -27,7 +31,16 @@ const login = (req, res, next) => {
   next();
 };
 
+const createRecipe = (req, res, next) => {
+  const { name, ingredients, preparation } = req.body;
+  const recipe = [name, ingredients, preparation];
+  existingFields(recipe, res);
+
+  next();
+};
+
 module.exports = {
-  create,
+  createUser,
   login,
+  createRecipe,
 };

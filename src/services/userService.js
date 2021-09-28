@@ -1,4 +1,4 @@
-const userModel = require('../models/userModel');
+const { userModel } = require('../models');
 const validations = require('../validations/validationService');
 
 const createUser = async (name, email, password) => {
@@ -18,7 +18,7 @@ const login = async (email, password) => {
 
   if (!isAuthenticated) {
     const { role, _id } = existingUser;
-    return { role, _id };
+    return { role, userId: _id, email };
   }
 
   return isAuthenticated;

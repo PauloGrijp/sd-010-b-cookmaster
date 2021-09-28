@@ -1,7 +1,7 @@
 const rescue = require('express-rescue');
 const jwt = require('jsonwebtoken');
 
-const userService = require('../services/userService');
+const { userService } = require('../services');
 
 const createUser = rescue(async (req, res, next) => {
   const { name, email, password } = req.body;
@@ -17,6 +17,7 @@ const createUser = rescue(async (req, res, next) => {
 
 const login = rescue(async (req, res, next) => {
   const { email, password } = req.body;
+  
   const secret = 'secret';
   const jwtConfig = {
     expiresIn: '7d',
@@ -28,7 +29,7 @@ const login = rescue(async (req, res, next) => {
   if (loggedUser.error) return next(loggedUser);
 
   const token = jwt.sign(loggedUser, secret, jwtConfig);
-
+  
   res.status(200).json({ token });
 });
 module.exports = {
