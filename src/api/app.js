@@ -23,5 +23,6 @@ app.route('/login')
   .post(loginController.login);
 
 app.post('/recipes', authValidation, recipeController.create);
+app.get('/recipes', recipeController.getAll);
 
 module.exports = app;
