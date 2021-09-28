@@ -6,7 +6,6 @@ const loginFieldsValidation = (email, password) => {
   if (!email || !password) {
     return false;
   }
-
   return true;
 };
 
@@ -21,7 +20,7 @@ const emailFormatValidation = (email) => {
 };
 
 // req 2
-const passwordValidation = (user, filledPassword) => {
+const passwordValidation = async (user, filledPassword) => {
   if (!user) {
     return false;
   }
@@ -31,7 +30,6 @@ const passwordValidation = (user, filledPassword) => {
   if (password !== filledPassword) {
     return false;
   }
-
   return true;
 };
 
@@ -39,6 +37,7 @@ const passwordValidation = (user, filledPassword) => {
 const findUserByLoginValidation = async ({ email, password }) => {
   const validatedLoginFields = loginFieldsValidation(email, password);
   const validatedEmail = emailFormatValidation(email);
+  const validatedPassword = await passwordValidation(password);
 
   if (!validatedLoginFields) {
     return { message: 'All fields must be filled' };
@@ -48,13 +47,11 @@ const findUserByLoginValidation = async ({ email, password }) => {
     return { message: 'Incorrect username or password' };
   }
 
-  const login = await loginModel.findUserByLogin({ email, password });
-  const validatedPassword = passwordValidation(login, password);
-
   if (!validatedPassword) {
     return { message: 'Incorrect username or password' };
   }
-
+  
+  const login = await loginModel.findUserByLogin({ email, password });
   return login;
 };
 

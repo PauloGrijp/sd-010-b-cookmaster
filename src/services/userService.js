@@ -39,8 +39,8 @@ const userCreateValidation = async ({ name, email, password, role }) => {
     return { message: 'Email already registered' };
   }
 
-  const createdUser = await userModel.userCreate({ name, email, password, role });
-  return createdUser;
+  const { id } = await userModel.userCreate({ name, email, password, role });
+  return { id, name, password, role };
 };
 
 module.exports = {
