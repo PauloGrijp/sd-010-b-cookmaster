@@ -433,8 +433,7 @@ describe('PUT /recipes/:id', () => {
   });
 
   describe('quando é possível editar receita com sucesso', () => {
-    let response;
-   
+    let response;   
 
     before(async () => {
       await chai
@@ -485,5 +484,117 @@ describe('PUT /recipes/:id', () => {
      }); 
     // it('', () => {});  
   });
+});
 
-})
+describe('DELETE /recipes/:id', () => {
+  let connectionMock;
+  let recipeId;
+
+  before(async () => {
+    connectionMock = await mockConnection();
+    sinon.stub(MongoClient, 'connect').resolves(connectionMock);
+
+    await connectionMock
+      .db('Cookmaster')
+      .collection('users')
+      .insertOne({
+        name: "name-fake",
+        email: "email@email.com",
+        password: "12345678",
+        role: "user",
+      });
+
+   const login = await chai
+    .request(app)
+    .post('/login')
+    .send({
+      email: 'email@email.com',
+      password: "12345678",
+    });
+
+   const token = login.body.token;
+
+   const recipe = await chai
+    .request(app)
+    .post('/recipes')
+    .set('authorization', token)
+    .send({
+      name: "fake-name",
+      ingredients: "fake-ing",
+      preparation: "fake-prep"
+    });
+    recipeId = recipe.body.recipe._id;    
+  });
+
+  after(async () => {
+    MongoClient.connect.restore();
+    await connectionMock
+      .db("Cookmaster")
+      .collection("users")
+      .deleteOne({ email: "email@email.com" });
+    await connectionMock
+      .db("Cookmaster")
+      .collection("recipes")
+      .deleteMany({});
+  });
+
+  describe('quando não é possível excluir receita sem estar autenticado', () => {  
+    let response;
+
+    before(async () => {
+      response = await chai.request(app).delete(`/recipes/${recipeId}`)      
+    });    
+
+    it('retorna status HTTP 401', () => {
+      expect(response).to.have.status(401);
+    });
+
+    it('retorna um objeto no body', () => {
+      expect(response).to.be.an('object');
+    });
+
+     it('objeto de resposta possui uma propriedade chamada "message"', () => {
+      expect(response.body).to.have.a.property('message');
+     });
+
+    it('a propriedade "message" possui uma mensagem de erro adequada', () => {
+      expect(response.body.message).to.be.equal('missing auth token');
+    });
+    // it('', () => {});  
+  });
+
+  describe('quando é possível excluir receita estando autenticado', () => {
+    let response;   
+
+    before(async () => {
+      await chai
+        .request(app)
+        .post('/users')
+        .send({
+          name: "fake-name",
+          email: "email@email.com",
+          password: "12345678",
+          role: "user",
+        });
+
+        const login = await chai
+        .request(app)
+        .post('/login')
+        .send({
+          email: 'email@email.com',
+          password: "12345678",
+        });
+
+        const token = login.body.token;
+
+      response = await chai
+        .request(app)
+        .delete(`/recipes/${recipeId}`)
+        .set('authorization', token)
+    });    
+
+    it('retorna status HTTP 204', () => {
+      expect(response).to.have.status(204);
+    });
+  });
+});
