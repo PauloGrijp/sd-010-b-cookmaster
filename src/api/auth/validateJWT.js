@@ -7,8 +7,7 @@ const secret = process.env.SECRET || 'notSoSecret';
 
 const validateJWT = async (req, res, next) => {
   const token = req.headers.authorization;
-  // esse if não é necessário
-  // if (!token) return res.status(UNAUTHORIZED).json({ message: 'jwt malformed' });
+  if (!token) return res.status(UNAUTHORIZED).json({ message: 'missing auth token' });
 
   try {
     const decoded = jwt.verify(token, secret);

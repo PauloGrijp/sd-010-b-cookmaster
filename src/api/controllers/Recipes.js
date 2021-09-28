@@ -5,6 +5,7 @@ const {
     INTERNAL_SERVER_ERROR,
     OK,
     NOT_FOUND,
+    UNAUTHORIZED,
   },
 } = require('http-status-codes');
 const Recipes = require('../services/Recipes');
@@ -50,8 +51,23 @@ const getRecipeById = async (req, res) => {
   }
 };
 
+const updateRecipe = async (req, res) => {
+  try {
+    const { body: recipeToBeUpdated, params: { id }, user } = req;
+    const recipe = await Recipes.updateRecipe(recipeToBeUpdated, id, user);
+
+    if (recipe.message) return res.status(UNAUTHORIZED).json(recipe);
+
+    return res.status(OK).json(recipe);
+  } catch (error) {
+    console.log(error);
+    return res.status(INTERNAL_SERVER_ERROR).json(ERROR_MESSAGE);
+  } 
+};
+
 module.exports = {
   createRecipe,
   getAllRecipes,
   getRecipeById,
+  updateRecipe,
 };

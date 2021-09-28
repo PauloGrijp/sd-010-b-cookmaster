@@ -31,8 +31,28 @@ const getRecipeById = async (id) => {
   return recipe;
 };
 
+const updateRecipe = async (recipeToBeUpdated, recipeId, user) => {
+  const { name, ingredients, preparation } = recipeToBeUpdated;
+  const { _id: userId, role } = user; 
+
+  const db = await connect();
+  const recipe = await getRecipeById(recipeId);
+
+  if (role === 'admin' || recipe.userId.toString() === userId.toString()) {
+    const { value: updatedRecipe } = await db.collection(recipesCollection).findOneAndUpdate(
+      { _id: ObjectId(recipeId) },
+      { $set: { name, ingredients, preparation } },
+      { returnOriginal: false },
+    );
+    return updatedRecipe;
+  }
+
+return { accessError: true };
+};
+
 module.exports = {
   createRecipe,
   getAllRecipes,
   getRecipeById,
+  updateRecipe,
 };

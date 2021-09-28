@@ -1,6 +1,11 @@
 const express = require('express');
 const { validateJWT } = require('../auth/validateJWT');
-const { createRecipe, getAllRecipes, getRecipeById } = require('../controllers/Recipes');
+const {
+  createRecipe,
+  getAllRecipes,
+  getRecipeById,
+  updateRecipe,
+} = require('../controllers/Recipes');
 
 const router = express.Router();
 
@@ -16,6 +21,10 @@ router.route('/')
 router.route('/:id')
   .get(
     getRecipeById,
+  )
+  .put(
+    validateJWT,
+    updateRecipe,
   );
 
 module.exports = router;

@@ -3,6 +3,7 @@ const Recipes = require('../models/Recipes');
 
 const errors = {
   notFound: 'recipe not found',
+  accessDenied: 'access denied',
 };
 
 const createRecipe = async (recipe, userId) => {
@@ -24,8 +25,16 @@ const getRecipeById = async (id) => {
   return recipe;
 };
 
+const updateRecipe = async (recipeToBeUpdated, id, user) => {
+  const recipe = await Recipes.updateRecipe(recipeToBeUpdated, id, user);
+  if (recipe.accessError) return { message: errors.accessDenied };
+
+  return recipe;
+};
+
 module.exports = {
   createRecipe,
   getAllRecipes,
   getRecipeById,
+  updateRecipe,
 };
