@@ -39,10 +39,18 @@ const deleteRecipe = async (id, user) => {
   return {};
 };
 
+const addImage = async (recipeId, userId, path, role) => {
+  const recipe = Recipes.addImage(recipeId, userId, path, role);
+  if (recipe.accessError) return { message: errors.accessDenied };
+
+  return recipe;
+};
+
 module.exports = {
   createRecipe,
   getAllRecipes,
   getRecipeById,
   updateRecipe,
   deleteRecipe,
+  addImage,
 };

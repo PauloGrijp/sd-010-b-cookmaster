@@ -62,10 +62,27 @@ const deleteRecipe = async (recipeId, user) => {
   return { accessError: true };
 };
 
+const addImage = async (recipeId, userId, path, role) => {
+  const db = await connect();
+  const recipe = await getRecipeById(recipeId);
+
+  if (role === 'admin' || recipe.userId.toString() === userId.toString()) { 
+    const recipeWithImage = await db.collection('recipes').findOneAndUpdate(
+      { _id: ObjectId(recipeId) },
+      { $set: { image: `localhost:3000/${path}` } },
+      { returnOriginal: false },
+    );
+    return recipeWithImage.value;
+  }
+
+  return { accessError: true };
+};
+
 module.exports = {
   createRecipe,
   getAllRecipes,
   getRecipeById,
   updateRecipe,
   deleteRecipe,
+  addImage,
 };
