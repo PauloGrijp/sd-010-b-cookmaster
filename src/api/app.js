@@ -5,7 +5,7 @@ const routes = require('../routes');
 const app = express();
 
 // Não remover esse end-point, ele é necessário para o avaliador
-app.get('/', (_request, response) => {
+app.get('/', (request, response) => {
   response.send();
 });
 // -------------------------------------------------------------
