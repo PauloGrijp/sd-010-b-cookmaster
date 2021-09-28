@@ -22,9 +22,22 @@ const updateRecipe = async ({ id, data, user }) => {
   return recipe;
 };
 
+const deleteRecipe = async ({ id, recipe, user }) => {
+  const { _id, role } = user;
+  
+  if (_id !== recipe.userId || role !== 'admin') {
+    return { code: UNAUTHORIZED, message: 'missing auth token' };
+  }
+  
+  const deletedRecipe = await Recipe.deleteRecipe({ id });
+
+  return deletedRecipe;
+};
+
 module.exports = {
   createRecipe: Recipe.createRecipe,
   getAllRecipes: Recipe.getAllRecipes,
   getRecipeById,
   updateRecipe,
+  deleteRecipe,
 };

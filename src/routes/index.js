@@ -15,5 +15,6 @@ router.post('/recipes', validateToken, Recipes.createRecipe);
 router.get('/recipes', Recipes.getAllRecipes);
 router.get('/recipes/:id', Recipes.getRecipeById);
 router.put('/recipes/:id', validateToken, Recipes.updateRecipe);
+router.delete('/recipes/:id', validateToken, Recipes.deleteRecipe);
 
 module.exports = router; 

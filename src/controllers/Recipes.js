@@ -1,5 +1,5 @@
 const Recipe = require('../services/Recipes');
-const { CREATE, BAD_REQUEST, SUCCESS, NOT_FOUND } = require('../utils/statusCodes');
+const { CREATE, BAD_REQUEST, SUCCESS, NOT_FOUND, NO_CONTENT } = require('../utils/statusCodes');
 const { recipeValidator, recipeIdValidator } = require('../validators/Recipes');
 
 const createRecipe = async (req, res) => {
@@ -40,9 +40,20 @@ const updateRecipe = async (req, res) => {
   res.status(SUCCESS).json(recipesUpdated);
 };
 
+const deleteRecipe = async (req, res) => {
+  const { id } = req.params;
+  const { user } = req;
+  const recipe = await Recipe.getRecipeById(id);
+
+  const deletedRecipe = await Recipe.deleteRecipe({ id, recipe, user });
+
+  return res.status(NO_CONTENT).json(deletedRecipe);
+};
+
 module.exports = {
   createRecipe,
   getAllRecipes,
   getRecipeById,
   updateRecipe,
+  deleteRecipe,
 };
