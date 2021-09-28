@@ -4,6 +4,7 @@ const {
     BAD_REQUEST,
     INTERNAL_SERVER_ERROR,
     OK,
+    NOT_FOUND,
   },
 } = require('http-status-codes');
 const Recipes = require('../services/Recipes');
@@ -35,7 +36,22 @@ const getAllRecipes = async (_req, res) => {
   }
 };
 
+const getRecipeById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const recipe = await Recipes.getRecipeById(id);
+
+    if (recipe.message) return res.status(NOT_FOUND).json(recipe);
+
+    return res.status(OK).json(recipe);
+  } catch (error) {
+    console.log(error);
+    return res.status(INTERNAL_SERVER_ERROR).json(ERROR_MESSAGE);
+  }
+};
+
 module.exports = {
   createRecipe,
   getAllRecipes,
+  getRecipeById,
 };
