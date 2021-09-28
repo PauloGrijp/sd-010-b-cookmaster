@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const User = require('./controllers/controllersUsers');
+// const validateJWT = require('./schema/validateJWT');
 
 const app = express();
 
@@ -13,5 +14,6 @@ app.get('/', (request, response) => {
 // Não remover esse end-point, ele é necessário para o avaliador
 
 app.post('/users', User.create);
+app.post('/login', User.login);
 
 module.exports = app;

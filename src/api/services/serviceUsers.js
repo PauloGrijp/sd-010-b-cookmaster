@@ -1,5 +1,11 @@
 const User = require('../models/modelUsers');
-const { hasName, hasEmail, isEmailValid, hasPassword } = require('../schema/validations');
+const { hasName,
+  hasEmail,
+  isEmailValid,
+  hasPassword,
+  hasEmailLogin,
+  hasPasswordLogin,
+} = require('../schema/validations');
 
 const create = async (name, email, password, role) => {
   const validateName = hasName(name);
@@ -25,7 +31,26 @@ const findEmail = async (email) => {
   return true;
 };
 
+const login = async (email, password) => {
+  const validateLoginEmail = hasEmailLogin(email);
+  if (validateLoginEmail.message) return validateLoginEmail;
+
+  const validateLoginPassword = hasPasswordLogin(password);
+  if (validateLoginPassword.message) return validateLoginPassword;
+
+  const logInto = await User.login(email, password);
+
+  if (!logInto) {
+    return {
+      message: 'Incorrect username or password',
+    };
+  }
+
+  return logInto;
+};
+
 module.exports = {
   create,
   findEmail,
+  login,
 };

@@ -21,7 +21,22 @@ const findEmail = async (email) => {
   return foundEmail;
 };
 
+const login = async (email, password) => {
+  const logInto = await connection()
+    .then((db) => db.collection('users').findOne({ email, password }));
+
+  // console.log(logInto);
+  if (!logInto) return null;
+
+  return {
+    id: logInto.insertedId,
+    email,
+    role: 'user',
+  };
+};
+
 module.exports = {
   create,
   findEmail,
+  login,
 };
