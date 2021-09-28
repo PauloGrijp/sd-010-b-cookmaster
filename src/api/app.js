@@ -9,6 +9,17 @@ const app = express();
 
 app.use(bodyParser);
 
+const storage = multer.diskStorage({
+  destination: (req, file, callback) => {
+    callback(null, 'src/uploads/');
+  },
+  filename: (req, file, callback) => {
+    callback(null, `${req.params.id}.jpeg`);
+  },
+});
+
+const upload = multer({ storage });
+
 // Não remover esse end-point, ele é necessário para o avaliador
 app.get('/', (request, response) => {
   response.send();
@@ -25,6 +36,7 @@ app.put('/recipes/:id', RecipVal, Recipes.rcpUpdate);
 app.delete('/recipes/:id', RecipVal, Recipes.rcpDelet);
 /* especifico e upload */
 app.get('/recipes/:id', Recipes.oneRecp);
+app.put('/recipes/:id/image/', upload.single('image'), RecipVal, Recipes.createImg);
 
 app.use(Err);
 
