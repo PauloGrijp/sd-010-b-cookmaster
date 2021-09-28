@@ -1,5 +1,5 @@
 const app = require('./app');
 
-const PORT = 'mongodb://mongodb:27017/Cookmaster';
+const PORT = '3000';
 
 app.listen(PORT, () => console.log(`Conectado na porta ${PORT}`));
