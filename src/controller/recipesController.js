@@ -34,4 +34,25 @@ const getById = async (req, res) => {
   }
 };
 
-module.exports = { add, getAll, getById };
+const update = async (req, res) => {
+    const updateRecipe = req.body;
+    const { id } = req.params;
+    const { authorization } = req.headers;
+    if (!authorization) return res.status(401).json({ message: 'missing auth token' });
+    const recipe = await recipesService.update(id, updateRecipe, authorization);
+    if (recipe.err) return res.status(401).json(recipe.err);
+    return res.status(200).json(recipe);
+};
+
+const remove = async (req, res) => {
+    const { id } = req.params;
+    const { authorization } = req.headers;
+    if (!authorization) return res.status(401).json({ message: 'missing auth token' });
+    const deleteRecipe = await recipesService.remove(id, authorization);
+    if (deleteRecipe.err) {
+      return res.status(401).json(deleteRecipe);
+    }
+    return res.status(204).json(deleteRecipe);
+};
+
+module.exports = { add, getAll, getById, update, remove };

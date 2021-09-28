@@ -19,7 +19,25 @@ const getById = async ({ id }) => {
   if (!ObjectId.isValid(id)) return null;
   const db = await connect();
   const recipeId = await db.collection('recipes').findOne({ _id: ObjectId(id) });
+
   return recipeId;
 };
 
-module.exports = { add, getAll, getById };
+const update = async (id, recipe) => {
+  const { name, ingredients, preparation } = recipe;
+  const db = await connect();
+  await db.collection('recipes')
+  .updateOne({ _id: ObjectId(id) }, { $set: { name, ingredients, preparation } });
+  const updateRecipe = await db.collection('recipes').findOne({ _id: ObjectId(id) });
+  return updateRecipe;
+};
+
+const remove = async (id) => {
+  if (!ObjectId.isValid(id)) return null;
+  const db = await connect();
+  const deleteRecipe = await db.collection('recipes').findOne({ _id: ObjectId(id) });
+  await db.collection('recipes').deleteOne({ _id: ObjectId(id) });
+  return deleteRecipe;
+};
+
+module.exports = { add, getAll, getById, update, remove };
