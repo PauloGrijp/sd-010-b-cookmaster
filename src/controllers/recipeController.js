@@ -40,4 +40,18 @@ const getById = async (req, res) => {
   }
 };
 
-module.exports = { create, getAll, getById };
+const updateRecipe = async (req, res) => {
+  try {
+      const { name, ingredients, preparation } = req.body;
+      const { id } = req.params;
+      const userId = req.payload.idUser;
+
+      await recipeModel.updateRecipe({ id, name, ingredients, preparation, userId });
+
+      return res.status(200).json({ _id: id, name, ingredients, preparation, userId });
+  } catch (error) {
+      return res.status(500).json({ message: 'Deu ruim' });
+  }
+};
+
+module.exports = { create, getAll, getById, updateRecipe };

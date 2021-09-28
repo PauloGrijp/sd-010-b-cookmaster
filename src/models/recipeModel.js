@@ -22,4 +22,14 @@ const recipeIdExists = async (id) => {
   return recipe;
 };
 
-module.exports = { create, getAll, recipeIdExists };
+const updateRecipe = async ({ id, name, ingredients, preparation, userId }) => {
+  if (!ObjectId.isValid(id)) return null;
+  const db = await connection();
+
+  const recipe = await db.collection('recipes').updateOne(
+    { _id: ObjectId(id) }, { $set: { name, ingredients, preparation, userId } },
+  );
+    return recipe;
+};
+
+module.exports = { create, getAll, recipeIdExists, updateRecipe };
