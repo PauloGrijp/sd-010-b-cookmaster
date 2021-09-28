@@ -33,8 +33,17 @@ const getById = async (id) => {
   return recipe;
 };
 
+const remove = async (id) => {
+  const db = await connection();
+
+  const removedRecipe = await db.collection('recipes').deleteOne({ _id: ObjectId(id) });
+
+  return removedRecipe;
+};
+
 module.exports = {
   create,
   getAll,
   getById,
+  remove,
 };

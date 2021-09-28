@@ -5,7 +5,7 @@ const secret = 'super-senha';
 const validateJWT = async (req, res, next) => {
   const token = req.headers.authorization;
 
-  if (!token) res.status(401).json({ message: 'jwt malformed' });
+  if (!token) res.status(401).json({ message: 'missing auth token' });
 
   try {
     const payload = await jwt.verify(token, secret);

@@ -27,8 +27,15 @@ const getById = async (id) => {
   return recipe;
 };
 
+const remove = async (id) => {
+  const removedRecipe = await models.remove(id);
+
+  return removedRecipe;
+};
+
 module.exports = {
   create,
   getAll,
   getById,
+  remove,
 };

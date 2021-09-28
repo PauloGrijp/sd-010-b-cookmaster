@@ -34,8 +34,21 @@ const getById = async (req, res) => {
   }
 };
 
+const remove = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    await services.remove(id);
+
+    return res.status(204).json();
+  } catch (error) {
+    return res.status(error.err.code).json({ message: error.err.message });
+  }
+};
+
 module.exports = {
   create,
   getAll,
   getById,
+  remove,
 };
