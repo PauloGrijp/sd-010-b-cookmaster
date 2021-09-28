@@ -11,30 +11,38 @@ const errorFields = {
     message: 'All fields must be filled',
 };
 
-const validateEmail = async (email) => {
+const validateEmailAndPassword = async (email, password) => {
+    const verifyEm = await loginModel.verifyEmailAndPassword(email, password);
     if (!email) {
+        console.log('entrei no email');
         return errorFields;
     }
-    const verifyEm = await loginModel.verifyEmail(email);
+    if (!password) {
+        console.log(`Passei aqui no ${errorFields}`);
+        return errorFields;
+    }
     if (!verifyEm) {
+        console.log('entrei no verify');
         return errorPasswordAndEmail;
     }
 };
 
-const validatePassword = async (email, password) => {
-    if (!password) {
-        return errorFields;
-    }
-    const verifyPass = await loginModel.verifyPassword(email, password);
-    if (!verifyPass) {
-        console.log(`Incorrect ${verifyPass}`);
-        return errorPasswordAndEmail;
-    }
-};
+// const validatePassword = async (password) => {
+//     if (!password) {
+//         console.log(`Passei aqui no ${errorFields}`);
+//         return errorFields;
+//     }
+//     const verifyPass = await loginModel.verifyPassword(password);
+//     if (!verifyPass) {
+//         console.log(`Incorrect ${verifyPass}`);
+//         console.log(`Error do password: ${errorPasswordAndEmail}`);
+//         return errorPasswordAndEmail;
+//     }
+// };
 
 const doLogin = async (userEmail, password) => {
     const { email, _id } = await loginModel.getUser(userEmail, password);
-    console.log(email, _id);
+    // console.log(email, _id);
 
     const jwtConfig = {
         expiresIn: '7d',
@@ -53,7 +61,7 @@ const doLogin = async (userEmail, password) => {
 };
 
 module.exports = {
-    validateEmail,
-    validatePassword,
+    validateEmailAndPassword,
+    // validatePassword,
     doLogin,
 };
