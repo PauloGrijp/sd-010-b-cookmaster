@@ -28,8 +28,7 @@ const create = rescue(async (req, res, next) => {
 
 const update = rescue(async (req, res, next) => {
   const { id } = req.params;
-  const data = req.file ? { image: `localhost:3000/src/uploads/${req.file.filename}` } : req.body;
-  console.log(data);
+  const data = req.file ? { image: req.file.filename } : req.body;
   const updatedRecipe = await service.update(id, data);
 
   if (updatedRecipe.error) return next(updatedRecipe.error);
