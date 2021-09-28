@@ -18,7 +18,7 @@ const editarReceita = async (id, receitaEditada, usuario) => {
   
   if (userId !== usuario.id && usuario.role !== 'admin') {
     return {
-      message: 'nada',
+      message: 'missing auth token',
       code: 401,
     };
   }
@@ -34,8 +34,24 @@ const deleteReceita = async (id) => {
   return result;
 };
 
+const adicionarImagem = async (id, usuario) => {
+  const { userId } = await model.buscarReceitasID(id);
+  
+  if (userId !== usuario.id && usuario.role !== 'admin') {
+    return {
+      message: 'missing auth token',
+      code: 401,
+    };
+  }
+
+  const result = await model.adicionarImagem(id);
+
+  return result;
+};
+
 module.exports = { 
   cadastrarReceitas,
   editarReceita,
   deleteReceita,
+  adicionarImagem,
 };

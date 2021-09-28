@@ -24,12 +24,10 @@ const buscarReceitas = async () => {
 
 const buscarReceitasID = async (id) => {
   if (!ObjectId.isValid(id)) return false;
-  console.log(id);
 
   const db = await connection();
 
   const receita = await db.collection('recipes').findOne({ _id: ObjectId(id) });
-  console.log(receita);
 
   return receita;
 };
@@ -60,10 +58,27 @@ const deleteReceita = async (id) => {
   return true;
 };
 
+const adicionarImagem = async (id) => {
+  if (!ObjectId.isValid(id)) return false;
+
+  const db = await connection();
+
+  await db.collection('recipes').updateOne(
+    { _id: ObjectId(id) }, { $set: 
+      { image: `localhost:3000/src/uploads/${id}.jpeg` },
+     },
+  );
+
+  const result = await buscarReceitasID(id);
+
+  return result;
+};
+
 module.exports = { 
   cadastrarReceitas,
   buscarReceitas,
   buscarReceitasID,
   editarReceita,
   deleteReceita,
+  adicionarImagem,
 };
