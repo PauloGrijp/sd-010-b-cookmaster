@@ -22,7 +22,7 @@ const userLogin = async (req, res) => {
 
   const loginUser = await loginService.findUserByLoginValidation({ email, password });
   const token = jwt.sign({ data: loginUser }, secret, jwtConfiguration);
-  
+
   return res.status(OK).json({ token });
 };
 
