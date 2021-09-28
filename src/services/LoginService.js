@@ -1,11 +1,13 @@
-// const LoginModel = require('../models/LoginModel');
+const LoginModel = require('../models/LoginModel');
 
-// const login = async ({ email, password }) => {
-//   const response = await LoginModel.login({ email, password });
-  
-//   return response;
-// };
+const UNAUTHORIZED = 401;
 
-// module.exports = {
-//   login,
-// };
+const login = async ({ email, password }) => {
+  const response = await LoginModel.login({ email, password });
+  if (!response) return UNAUTHORIZED;
+  return response;
+};
+
+module.exports = {
+  login,
+};
