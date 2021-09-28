@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 const { findEmail } = require('../services/users');
+const { getRecipe } = require('../services/recipes');
 
 const verifyEntries = async (req, res, next) => {
     const { name, password, email } = req.body;
@@ -30,7 +31,6 @@ const verifyLoginEntries = async (req, res, next) => {
 const validateLogin = async (req, res, next) => {
     const { email, password } = req.body;
     const foundEmail = await findEmail(email);
-    console.log(foundEmail);
     if (foundEmail === null || foundEmail.password !== password) {
         return res.status(401).json({ message: 'Incorrect username or password' });
     }
@@ -44,7 +44,8 @@ const validateJWT = async (req, res, next) => {
         jwt.verify(token, secret);
         next();
     } catch (err) {
-        res.status(401).json({ message: 'jwt malformed' });
+        if (token !== undefined) return res.status(401).json({ message: 'jwt malformed' });
+        next();
     }
 };
 
@@ -56,6 +57,23 @@ const verifyEntriesRecipes = async (req, res, next) => {
     next();
 };
 
+const validatePermissions = async (req, res, next) => {
+    const token = req.headers.authorization;
+    const { id } = req.params;
+    try {
+        const user = jwt.verify(token, secret);
+        const recipe = await getRecipe(id);
+        if (user.role !== 'admin' && user.id !== recipe.userId) {
+            return res
+                .status(401).json({ message: 'missing auth token' }); 
+        }
+    } catch (_err) {
+        return res
+        .status(401).json({ message: 'missing auth token' }); 
+    }
+    next();
+};
+
 module.exports = {
     verifyEntries,
     verifyEmail,
@@ -63,4 +81,5 @@ module.exports = {
     validateLogin,
     validateJWT,
     verifyEntriesRecipes,
+    validatePermissions,
 };

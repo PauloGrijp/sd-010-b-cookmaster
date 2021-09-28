@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const { createRecipe, getAllRecipes, getRecipe } = require('../services/recipes');
+const { createRecipe, getAllRecipes, getRecipe, editRecipe } = require('../services/recipes');
 
 const secret = '12345';
 
@@ -29,4 +29,12 @@ const getRecipeID = async (req, res) => {
     }
 };
 
-module.exports = { create, getRecipes, getRecipeID };
+const edit = async (req, res) => {
+    const { name, ingredients, preparation } = req.body;
+    const { id } = req.params;
+    await editRecipe(id, name, ingredients, preparation);
+    const recipe = await getRecipe(id);
+    res.status(200).json(recipe);
+};
+
+module.exports = { create, getRecipes, getRecipeID, edit };

@@ -2,7 +2,7 @@ const express = require('express');
 const middleware = require('../middlewares');
 
 const router = express.Router();
-const { create, getRecipes, getRecipeID } = require('../controlers/recipes');
+const { create, getRecipes, getRecipeID, edit } = require('../controlers/recipes');
 
 router.route('/')
     .post(
@@ -15,8 +15,11 @@ router.route('/')
     );
 
 router.route('/:id')
-        .get(
-            getRecipeID,
+        .get(getRecipeID)
+        .put(
+            middleware.validateJWT,
+            middleware.validatePermissions,
+            edit,
         );
 
 module.exports = router;

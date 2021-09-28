@@ -11,8 +11,8 @@ const jwtConfig = {
 const login = async (req, res) => {
     const { email, password } = req.body;
     const user = await findEmail(email);
-    const { _id } = user;
-    const token = jwt.sign({ email, password, id: _id }, secret, jwtConfig);
+    const { _id, role } = user;
+    const token = jwt.sign({ email, password, role, id: _id }, secret, jwtConfig);
 
     return res.status(200).json({ token });
 };
