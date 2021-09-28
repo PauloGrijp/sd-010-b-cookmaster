@@ -22,8 +22,18 @@ const getRecipeById = async (id) => {
   return recipe;
 };
 
+const updateRecipe = async (recipeInfo, id) => {
+  // Buscamos um produto com o mesmo nome que desejamos criar
+  const getRecipe = await getRecipeById(id);
+
+  if (getRecipe.error) return getRecipe;
+  
+  return recipeModel.updateRecipe(recipeInfo, id);
+};
+
 module.exports = {
   createRecipe,
   getAllRecipes,
   getRecipeById,
+  updateRecipe,
 };

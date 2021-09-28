@@ -17,9 +17,9 @@ module.exports = async (req, res, next) => {
 
   /* Caso o token não seja informado, simplesmente retornamos
      o código de status 401 - não autorizado. */
-  // if (!token) {
-    // return res.status(401).json({ message: 'jet malformed' });
-  // }
+  if (!token) {
+    return res.status(401).json({ message: 'missing auth token' });
+  }
 
   try {
     /* Através o método verify, podemos validar e decodificar o nosso JWT. */
