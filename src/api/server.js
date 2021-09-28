@@ -9,8 +9,9 @@ app.use(bodyParser.json());
 app.post('/users', validate.createUser, userController.createUser);
 app.post('/login', validate.login, userController.login);
 
-app.post('/recipes', authJWT, validate.createRecipe, recipeController.createRecipe);
 app.get('/recipes', recipeController.getAllRecipes);
+app.post('/recipes', authJWT, validate.createRecipe, recipeController.createRecipe);
+app.get('/recipes/:id', recipeController.getRecipeById);
 
 app.use(error);
 
