@@ -32,8 +32,22 @@ const getRecipeById = async (req, res) => {
     return res.status(200).json(getRecipe);
 };
 
+const updateRecipe = async (req, res) => {
+    console.log('entrei no controller');
+    const token = req.headers.authorization;
+    const validaTok = await recipesService.validateToken(token);
+    if (validaTok.message) {
+        return res.status(401).json(validaTok);
+    }
+    const { name, ingredients, preparation } = req.body;
+    const { id } = req.params;
+    const updatedRecipe = await recipesService.updateRecipe(id, name, ingredients, preparation);
+    return res.status(200).json(updatedRecipe);
+};
+
 module.exports = {
     addNewRecipe,
     getAllRecipes,
     getRecipeById,
+    updateRecipe,
 };

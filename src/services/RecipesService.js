@@ -16,6 +16,10 @@ const recipeNotFound = {
     message: 'recipe not found',
 };
 
+const missingToken = {
+    message: 'missing auth token',
+};
+
 const validateIfFieldsExists = async (name, ingredients, preparation) => {
     if (!name || !ingredients || !preparation) {
         return errorInvalidEntries;
@@ -25,6 +29,9 @@ const validateIfFieldsExists = async (name, ingredients, preparation) => {
 let getIdUser = ''; // Para jogar no objeto retornado da receita recém adicionada
 
 const validateToken = async (token) => {
+    if (!token) {
+        return missingToken;
+    }
     try {
         const { data: { id, email } } = jwt.verify(token, secret);
         // console.log(id);
@@ -68,10 +75,26 @@ const getRecipeById = async (id) => {
     return getRecipe;
 };
 
+const updateRecipe = async (id, name, ingredients, preparation) => {
+    if (!ObjectId.isValid(id)) {
+        return null;
+    }
+    await recipesModel.updateRecipe(id, name, ingredients, preparation);
+    // console.log(updatedRecipe);
+    return {
+        _id: id,
+        name,
+        ingredients,
+        preparation,
+        userId: getIdUser,
+    };
+};
+
 module.exports = {
     validateIfFieldsExists,
     validateToken,
     addRecipes,
     getAllRecipes,
     getRecipeById,
+    updateRecipe,
 };
