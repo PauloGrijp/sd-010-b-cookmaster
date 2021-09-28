@@ -2,7 +2,8 @@ const { getRecipesService,
   postRecipeService,
   getRecipeByIdService,
   putRecipeByIdService,
-  deleteRecipeByIdService } = require('../services');
+  deleteRecipeByIdService,
+  putImageService } = require('../services');
 
 const postRecipeController = async (req, res, next) => {
   const { name, ingredients, preparation } = req.body;
@@ -68,9 +69,22 @@ const deleteRecipeByIdController = async (req, res, _next) => {
   }
 };
 
+const putImageController = async (req, res, _next) => {
+  const { id } = req.params;
+  const { _id, role } = req.payload;
+  const recipe = await getRecipeByIdService(id);
+
+  if (recipe.userId === _id || role === 'admin') {
+    const { image } = req;
+    const recipeWithImage = await putImageService(id, image);
+    res.status(200).json(recipeWithImage);
+  }
+};
+
 module.exports = {
   getRecipesController,
   postRecipeController,
   getRecipeByIdController,
   putRecipeByIdController,
-  deleteRecipeByIdController };
+  deleteRecipeByIdController,
+  putImageController };
