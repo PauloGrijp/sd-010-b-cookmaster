@@ -34,7 +34,15 @@ const remove = async (id, userId, role) => {
     message: 'missing auth token',
   };
 
+  const recipeError = new Error();
+  recipeError.err = {
+    code: 404,
+    message: 'recipe not found',
+  };
+
   const recipe = await models.getById(id);
+
+  if (!recipe) throw recipeError;
 
   if (userId === recipe.userId || role === 'admin') {
     const removedRecipe = await models.remove(id);

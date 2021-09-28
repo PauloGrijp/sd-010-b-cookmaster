@@ -3,7 +3,7 @@ const services = require('../services/recipes');
 const create = async (req, res) => {
   try {
     const recipe = req.body;
-    const payload = await req.user;
+    const payload = req.user;
 
     const validRecipe = await services.create(recipe, payload);
 
@@ -37,14 +37,14 @@ const getById = async (req, res) => {
 const remove = async (req, res) => {
   try {
     const { id } = req.params;
-    const { _id, role } = await req.user;
+    const { _id, role } = req.user;
     const userId = _id;
 
     await services.remove(id, userId, role);
 
     return res.status(204).json();
   } catch (error) {
-    return res.status(401).json({ message: 'missing auth token' });
+    return res.status(401).json({ message: error.err.message });
   }
 };
 
