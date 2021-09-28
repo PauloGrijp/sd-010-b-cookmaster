@@ -1,5 +1,5 @@
 const { createRecipes,
-  getAll, auxGetById, updateOne, deleteOne } = require('../model/recipesModel');
+  getAll, auxGetById, updateOne, deleteOne, createImg } = require('../model/recipesModel');
 const { errorByIdRecipes } = require('../middleware/estructError');
 
 /* const getAll = async () => {
@@ -15,4 +15,4 @@ const getById = async (id) => {
   return resultRecipesId;
 };
 
-module.exports = { createRecipes, getAll, getById, updateOne, deleteOne };
+module.exports = { createRecipes, getAll, getById, updateOne, deleteOne, createImg };

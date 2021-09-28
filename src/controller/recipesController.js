@@ -2,7 +2,8 @@ const express = require('express');
 const rescue = require('express-rescue');
 const { validatedToken, validatedApi } = require('../middleware/validatedToken');
 const { createRecipes,
-  getAll, getById, updateOne, deleteOne } = require('../service/recipesService');
+  getAll, getById, updateOne, deleteOne, createImg } = require('../service/recipesService');
+const file = require('../middleware/updateOne');
 
 const routerRecipes = express.Router();
 
@@ -50,5 +51,18 @@ routerRecipes.delete('/:id', validatedToken, async (req, res) => {
   await deleteOne(id);
   return res.status(204).json();
 });
+
+routerRecipes.put('/:id/image/',
+  validatedToken, file.single('image'),
+  rescue(async (req, res) => {
+  const { id } = req.params;
+  const aux = await createImg(id);
+  const { _id } = req.userId;
+  const aoba = {
+    ...aux,
+    userId: _id,
+  };
+  return res.status(200).json(aoba);
+}));
 
 module.exports = routerRecipes;

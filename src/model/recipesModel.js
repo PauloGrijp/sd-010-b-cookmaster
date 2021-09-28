@@ -47,4 +47,17 @@ const deleteOne = async (id) => {
   return aux;
 };
 
-module.exports = { createRecipes, getAll, auxGetById, updateOne, deleteOne };
+const createImg = async (id) => {
+  if (!ObjectId.isValid(id)) {
+    return null;
+  }
+  const image = `localhost:3000/src/uploads/${id}.jpeg`;
+  const res = await auxGetById(id);
+  const updates = { ...res, image };
+  const auxConnection = await connection();
+  await auxConnection.collection('recipes')
+  .updateOne({ _id: ObjectId(id) }, { $set: updates });
+  return updates;
+};
+
+module.exports = { createRecipes, getAll, auxGetById, updateOne, deleteOne, createImg };
