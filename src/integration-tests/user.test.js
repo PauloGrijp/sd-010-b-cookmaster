@@ -254,7 +254,6 @@ describe('POST /login', () => {
           role: "admin",
         });
 
-
       response = await chai
         .request(app)
         .post("/login")
@@ -288,4 +287,142 @@ describe('POST /login', () => {
       expect(response.body.token).not.to.be.empty;
     });
   });
+
+  describe('quando não é possível cadastrar um usuário admin sem estar autenticado como admin', () => {
+    let response;
+    let connectionMock;
+
+    before(async () => {
+      connectionMock = await mockConnection();
+      sinon.stub(MongoClient, 'connect').resolves(connectionMock);
+      
+      await connectionMock
+        .db("Cookmaster")
+        .collection("users")
+        .insertOne({
+          name: "fake-name",
+          email: "email@email.com",
+          password: "12345678",
+          role: "user",
+        });
+
+        const login = await chai
+          .request(app)
+          .post('/login')
+          .send({
+            email: 'email@email.com',
+            password: "12345678",
+          });
+
+        const token = login.body.token;
+        // console.log(token);
+
+      response = await chai
+        .request(app)
+        .post("/users/admin")
+        .set('authorization', token)
+        .send({ 
+          name: 'admin',
+          email: "newAdmin@email.com",
+          password: "newAdmin",
+        });
+    });
+
+    after(async () => {
+      MongoClient.connect.restore();
+      await connectionMock
+        .db("Cookmaster")
+        .collection("users")
+        .deleteMany({});
+    });
+
+      it('retorna status HTTP 403', () => {
+        expect(response).to.have.status(403);
+      });
+
+      it('retorna um objeto no body', () => {
+        expect(response.body).to.be.an('object');
+      });
+
+      it('objeto de resposta possui uma propriedade chamada "message"', () => {
+        expect(response.body).to.have.a.property('message');
+      });
+
+      it('a propriedade "message" possui uma mensagem de erro adequada', () => {
+        expect(response.body.message).to.be.equal('Only admins can register new admins');
+      });
+  });
+
+  describe('quando é possível cadastrar um usuário admin', () => {
+    let response;
+    let authorization;
+
+    before(async () => {
+      connectionMock = await mockConnection();
+      sinon.stub(MongoClient, 'connect').resolves(connectionMock);
+      
+      await connectionMock
+        .db("Cookmaster")
+        .collection("users")
+        .insertOne({
+          name: "admin",
+          email: "root@email.com",
+          password: "admin",
+          role: "admin",
+        });
+
+        const login = await chai
+          .request(app)
+          .post('/login')
+          .send({
+            email: 'root@email.com',
+            password: "admin",
+          });
+
+        const token = login.body.token;
+        // console.log(token);
+
+      response = await chai
+        .request(app)
+        .post("/users/admin")
+        .set('authorization', token)
+        .send({ 
+          name: 'newAdmin',
+          email: "newAdmin@email.com",
+          password: "newAdmin",
+        });
+    });
+
+    after(async () => {
+      MongoClient.connect.restore();
+      await connectionMock
+        .db("Cookmaster")
+        .collection("users")
+        .deleteMany({});
+    });
+
+    it('retorna status HTTP 201', () => {
+      expect(response).to.have.status(201);
+    });
+
+    it('retorna um objeto no body', () => {
+      expect(response).to.be.an('object');
+    });
+
+    it('objeto de resposta possui uma propriedade chamada "user"', () => {
+      expect(response.body).to.have.a.property('user');
+    });
+
+    it('objeto "user" possui as propriedade "name", "email", "role", "_id"', () => {
+      expect(response.body.user).to.have.a.property('name');
+      expect(response.body.user).to.have.a.property('email');
+      expect(response.body.user).to.have.a.property('role');
+      expect(response.body.user).to.have.a.property('_id');
+    });
+
+    it('a propriedade role tem o valor de "admin', () => {
+      expect(response.body.user.role).to.be.equal('admin');
+    });
+    
+  })
 });
