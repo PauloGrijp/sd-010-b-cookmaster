@@ -26,8 +26,7 @@ const registerRecipeValidation = async ({ name, ingredients, preparation }) => {
 
 // req 5
 const findRecipeByIdValidation = async (id) => {
-  const verificatedId = await ObjectId.isValid(id);
-  if (!verificatedId) {
+  if (!ObjectId.isValid(id)) {
     return {
       message: 'recipe not found',
     };
@@ -64,9 +63,22 @@ const delRecipeValidation = async (id) => {
   return deletedRecipe;
 };
 
+// req 9
+const imgUploadValidation = async ({ id }) => {
+  const imgURL = `localhost:3000/src/uploads/${id}.jpeg`;
+  const updatedRecipe = await recipeModel.imgUpload({ imgURL, id });
+  if (!updatedRecipe) {
+    return {
+      message: 'recipe not found',
+    };
+  }
+  return updatedRecipe;
+};
+
 module.exports = {
   registerRecipeValidation,
   findRecipeByIdValidation,
   editRecipeValidation,
   delRecipeValidation,
+  imgUploadValidation,
 };

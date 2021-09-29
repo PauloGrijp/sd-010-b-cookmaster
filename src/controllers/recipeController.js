@@ -1,3 +1,5 @@
+// const multer = require('multer');
+// const jwtValidation = require('../middlewares/jwtValidation');
 const recipeService = require('../services/recipeService');
 const recipeModel = require('../models/recipeModel');
 
@@ -71,10 +73,29 @@ const delRecipe = async (req, res) => {
   return res.status(NO_CONTENT).json(id);
 };
 
+// req 9
+const imgUpload = async (req, res) => {
+  const { id } = req.params;
+  const { path: pathFile } = req.file;
+  const { _id: userId } = req.user;
+  const { _id, name, ingredients, preparation, message } = await recipeService
+    .findRecipeByIdValidation(id);
+
+    if (message) {
+      return res.status(BAD_REQUEST).json({ message });
+    }
+  
+    await recipeService.imgUploadValidation(id, `localhost:3000/${pathFile}`);
+    return res.status(OK).json(
+      { _id, name, ingredients, preparation, userId, image: `localhost:3000/${pathFile}` },
+    );
+  };
+
 module.exports = {
   registerRecipe,
   findAllRecipes,
   findRecipeById,
   editRecipe,
   delRecipe,
+  imgUpload,
 };
