@@ -39,8 +39,16 @@ const createRecipe = (req, res, next) => {
   next();
 };
 
+const validateImg = (req, res, next) => {
+  if (req.file.mimetype !== 'image/jpeg') {
+    return res.status(400).json({ message: 'Wrong file format' }); 
+  }
+  next();
+};
+
 module.exports = {
   createUser,
   login,
   createRecipe,
+  validateImg,
 };

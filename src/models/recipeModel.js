@@ -29,12 +29,11 @@ const getRecipeById = async (id) => {
 };
 
 const updateRecipe = async (recipeInfo, _id) => {
-  const { name, ingredients, preparation } = recipeInfo;
   const db = await connection();
-  await db.collection('recipes')
-    .updateOne({ _id: new ObjectId(_id) }, { $set: { name, ingredients, preparation } });
+  await db.collection('recipes').updateOne({ _id: new ObjectId(_id) }, { $set: { ...recipeInfo } });
 
   const editedRecipe = await getRecipeById(_id);
+
   return editedRecipe;
 };
 

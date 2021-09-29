@@ -11,7 +11,7 @@ const getRecipeById = async (id) => {
   // Caso nenhum autor seja encontrado, retornamos um objeto de erro.
   if (!recipe) {
     return {
-      number: 404,
+      number: 405,
       error: {
         message: 'recipe not found',
       },
