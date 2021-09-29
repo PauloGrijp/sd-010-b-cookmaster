@@ -1,5 +1,6 @@
 const recipeModel = require('../models/recipeModel');
 
+// req 3
 const recipeDataValidation = (name, ingredients, preparation) => {
   if (!name || !ingredients || !preparation) {
     return false;
@@ -7,6 +8,7 @@ const recipeDataValidation = (name, ingredients, preparation) => {
   return true;
 };
 
+// req 3
 const registerRecipeValidation = async ({ name, ingredients, preparation }) => {
   const validatedRecipe = recipeDataValidation(name, ingredients, preparation);
 
