@@ -1,4 +1,7 @@
-const userModel = require('../models/userModel')
+const jwt = require('jsonwebtoken');
+const userModel = require('../models/userModel');
+
+const secret = 'tigretigre';
 
 const err = {
   status: 400,
@@ -12,6 +15,10 @@ const err2 = {
 const err3 = {
   status: 401,
   message: 'Incorrect username or password',
+};
+const err4 = {
+  status: 401,
+  message: 'jwt malformed',
 };
 
 function validName(name) {
@@ -40,7 +47,28 @@ function checkCredentials(user, password) {
   if (!user || user.password !== password) throw err3;
 }
 
+function existsToken(token) {
+  if (!token) throw err4;
+}
+
+function checkToken(token) {
+  try {
+    const decodeToken = jwt.verify(token, secret);
+    return decodeToken;
+  } catch (error) {
+    throw err4;
+  }
+}
+
+function validRecipe(recipe) {
+  const { name, ingredients, preparation } = recipe;
+  if (!name || !ingredients || !preparation) throw err;
+}
+
 module.exports = {
+  validRecipe,
+  checkToken,
+  existsToken,
   checkCredentials,
   validCredentials,
   validName,
