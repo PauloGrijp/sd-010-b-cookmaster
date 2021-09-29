@@ -1,7 +1,9 @@
+const invalidEntries = 'Invalid entries. Try again.';
+
 const hasName = (name) => {
   if (!name) {
     return {
-      message: 'Invalid entries. Try again.',
+      message: invalidEntries,
     };
   }
 
@@ -11,7 +13,7 @@ const hasName = (name) => {
 const hasEmail = (email) => {
   if (!email) {
     return {
-      message: 'Invalid entries. Try again.',
+      message: invalidEntries,
     };
   }
 
@@ -23,7 +25,7 @@ const isEmailValid = (email) => {
 
   if (!reg.test(email)) {
     return {
-      message: 'Invalid entries. Try again.',
+      message: invalidEntries,
     };
   }
 
@@ -33,7 +35,7 @@ const isEmailValid = (email) => {
 const hasPassword = (password) => {
   if (!password) {
     return {
-      message: 'Invalid entries. Try again.',
+      message: invalidEntries,
     };
   }
 
@@ -60,17 +62,15 @@ const hasPasswordLogin = (password) => {
   return {};
 };
 
-// const isEmailLoginValid = (email) => {
-//   const reg = new RegExp(/^[\w.]+@[a-z]+.\w{2,3}$/g);
+const validateCreationOfRecipes = (name, ingredients, preparation) => {
+  if (!name || !ingredients || !preparation) {
+    return {
+      message: invalidEntries,
+    };
+  }
 
-//   if (!reg.test(email)) {
-//     return {
-//       message: 'Incorrect username or password',
-//     };
-//   }
-
-//   return {};
-// };
+  return {};
+};
 
 module.exports = {
   hasName,
@@ -79,5 +79,5 @@ module.exports = {
   hasPassword,
   hasEmailLogin,
   hasPasswordLogin,
-  // isEmailLoginValid,
+  validateCreationOfRecipes,
 };
