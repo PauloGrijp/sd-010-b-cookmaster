@@ -18,4 +18,6 @@ app.post('/users', User.create);
 app.post('/login', User.login);
 app.post('/recipes', validateToken, Recipe.createRecipe);
 
+app.get('/recipes', Recipe.getAll);
+
 module.exports = app;
