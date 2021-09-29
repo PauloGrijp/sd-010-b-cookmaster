@@ -31,4 +31,10 @@ const editRecipeImage = async (id, imagePath) => {
     return recipe;
 };
 
-module.exports = { createRecipe, getAllRecipes, getRecipe, editRecipe, deleteRecipe, editRecipeImage};
+module.exports = { 
+    createRecipe,
+    getAllRecipes,
+    getRecipe,
+    editRecipe,
+    deleteRecipe,
+    editRecipeImage };

@@ -1,4 +1,3 @@
-const { response } = require('express');
 const jwt = require('jsonwebtoken');
 const multer = require('multer');
 
@@ -53,7 +52,7 @@ const remove = async (req, res) => {
 
 const storage = multer.diskStorage({
     destination: (_req, _file, callback) => {
-        callback(null, './uploads/');
+        callback(null, 'src/uploads/');
     },
     filename: (req, _file, callback) => {
         const { id } = req.params;
@@ -66,7 +65,7 @@ const upload = multer({ storage });
 const uploadImage = async (req, res) => {
     const { id } = req.params;
     const { path } = req.file;
-    await editRecipeImage(id, `localhost:3000/src/${path}`);
+    await editRecipeImage(id, `localhost:3000/${path}.jpeg`);
     const recipe = await getRecipe(id);
     res.status(200).json(recipe);
 };
