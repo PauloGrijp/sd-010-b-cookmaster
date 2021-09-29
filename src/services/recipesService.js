@@ -68,7 +68,7 @@ const validAuthUser = async (id, { data }, newObj) => {
   const { userId } = await recipesModel.getById(id);
   const recipe = await recipesModel.getById(id);
   if (parseFloat(userId) !== parseFloat(_id)) {
-    return { status: 401, message: 'Unauthoration' };
+    return { status: 401, message: 'Unauthorized' };
   }
   if (!newObj) {
     return recipe;
@@ -119,8 +119,9 @@ const validateUser = async (id, token) => {
   }
 };
 // Desconsidere essa função abaixo
-const addImage = async (id, recipe) => {
+const addImage = async (id) => {
   const add = await recipesModel.insertImage(id);
+  return add;
 };
 
 module.exports = {

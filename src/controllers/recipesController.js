@@ -23,6 +23,7 @@ const getAll = async (_req, res) => {
 const getById = async (req, res, next) => {
   const { id } = req.params;
     const recipe = await recipesService.getById(id);
+    console.log(recipe);
     if (recipe.message) {
       return next(recipe);
     }
@@ -60,7 +61,6 @@ const validateUser = async (req, _res, next) => {
   const token = req.headers.authorization;
   const { id } = req.params;
   const result = await recipesService.validateUser(id, token);
-  console.log(result);
   if (result.message) {
     return next(result);
   }
@@ -68,11 +68,10 @@ const validateUser = async (req, _res, next) => {
   return next();
 };
 
-const addImage = async (req, res, _next) => {
+const addImage = async (req, _res, next) => {
   const { id } = req.params;
-  const { recipe } = req;
-  const add = await recipesService.addImage();
-  return res.status(200).json({ message: 'ok' });
+  await recipesService.addImage(id);
+  return next();
 };
 
 module.exports = {

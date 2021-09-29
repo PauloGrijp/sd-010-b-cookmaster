@@ -33,8 +33,10 @@ const deleteId = async (id) => {
 
 const insertImage = async (id) => {
   const data = await connection()
-  .then((db) => db.collection('recipes').updateOne({ _id: id }, { $set: { `` } })
-}
+  .then((db) => db.collection('recipes').updateOne({ _id: ObjectId(id) }, 
+    { $set: { image: `localhost:3000/src/uploads/${id}.jpeg` } }));
+  return data;
+};
 
 module.exports = {
   create,

@@ -22,7 +22,7 @@ app.post('/recipes', recipesController.create);
 app.get('/recipes', recipesController.getAll);
 app.get('/recipes/:id', recipesController.getById);
 app.put('/recipes/:id/image', recipesController.validateUser, 
-  upload.single('image'), recipesController.addImage);
+  upload.single('image'), recipesController.addImage, recipesController.getById);
 app.put('/recipes/:id', recipesController.updateId);
 app.delete('/recipes/:id', recipesController.deleteId);
 
