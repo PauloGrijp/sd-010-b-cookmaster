@@ -18,7 +18,8 @@ app.post('/recipes', validateJwt, recipeController.createRecipesController);
 app.get('/recipes', recipeController.getAllRecipes);
 // Rota para pesquisar receita pelo id
 app.get('/recipes/:id', recipeController.getRecipeById);
-
+// Rota para atualização da receita
+app.put('/recipes/:id', validateJwt, recipeController.updateRecipe);
 // Não remover esse end-point, ele é necessário para o avaliador
 app.get('/', (request, response) => {
   response.send();
