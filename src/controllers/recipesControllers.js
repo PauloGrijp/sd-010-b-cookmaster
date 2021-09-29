@@ -19,7 +19,14 @@ const getAllRecipes = async (_req, res) => {
   return res.status(200).json(allRecipes);
 };
 
+ const getRecipeById = async (req, res) => {
+   const { id } = req.params;
+   const recipeById = await recipesValidations.getRecipeById(id);
+   return res.status(200).json(recipeById);
+ };
+
 module.exports = {
   createRecipesController,
   getAllRecipes,
+  getRecipeById,
 };
