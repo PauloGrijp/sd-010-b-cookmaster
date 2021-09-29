@@ -30,8 +30,21 @@ const getAllRecipes = async (_req, res) => {
    return res.status(200).json(recipeById);
  };
 
+ const updateRecipe = async (req, res) => {
+  const { name, ingredients, preparation } = req.body;
+  const { _id: userId } = req.user;
+  const { id } = req.params;
+  const recipe = await recipesValidations.updateRecipe({ name, ingredients, preparation }, id);
+  const { message } = recipe;
+  if (message) {
+    return res.status(400).json({ message });
+  }
+  return { _id: id, name, ingredients, preparation, userId };
+ };
+
 module.exports = {
   createRecipesController,
   getAllRecipes,
   getRecipeById,
+  updateRecipe,
 };
