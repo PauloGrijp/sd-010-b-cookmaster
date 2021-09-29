@@ -31,9 +31,15 @@ const deleteId = async (id) => {
   return data;
 };
 
+const insertImage = async (id) => {
+  const data = await connection()
+  .then((db) => db.collection('recipes').updateOne({ _id: id }, { $set: { `` } })
+}
+
 module.exports = {
   create,
   getAll,
+  insertImage,
   deleteId,
   getById,
   update,

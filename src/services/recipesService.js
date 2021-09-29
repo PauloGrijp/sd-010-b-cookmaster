@@ -66,8 +66,12 @@ const getById = async (id) => {
 const validAuthUser = async (id, { data }, newObj) => {
   const { _id } = await userModel.getByEmail(data.email);
   const { userId } = await recipesModel.getById(id);
+  const recipe = await recipesModel.getById(id);
   if (parseFloat(userId) !== parseFloat(_id)) {
     return { status: 401, message: 'Unauthoration' };
+  }
+  if (!newObj) {
+    return recipe;
   }
   return { ...newObj, userId };
 };
@@ -105,9 +109,25 @@ const deleteId = async (id, token) => {
   }
 };
 
+const validateUser = async (id, token) => {
+  try {
+    const validateToken = await validToken(token);
+    const isValidUser = await validAuthUser(id, validateToken);
+    return isValidUser;
+  } catch (err) {
+    return err;
+  }
+};
+// Desconsidere essa função abaixo
+const addImage = async (id, recipe) => {
+  const add = await recipesModel.insertImage(id);
+};
+
 module.exports = {
   create,
   getById,
+  addImage,
+  validateUser,
   deleteId,
   updateId,
 };

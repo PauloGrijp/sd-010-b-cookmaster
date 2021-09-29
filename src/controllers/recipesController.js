@@ -56,10 +56,31 @@ const deleteId = async (req, res, next) => {
   return res.status(204).send(exclud);
 };
 
+const validateUser = async (req, _res, next) => {
+  const token = req.headers.authorization;
+  const { id } = req.params;
+  const result = await recipesService.validateUser(id, token);
+  console.log(result);
+  if (result.message) {
+    return next(result);
+  }
+  req.recipe = result;
+  return next();
+};
+
+const addImage = async (req, res, _next) => {
+  const { id } = req.params;
+  const { recipe } = req;
+  const add = await recipesService.addImage();
+  return res.status(200).json({ message: 'ok' });
+};
+
 module.exports = {
   create,
+  validateUser,
   getAll,
   updateId,
+  addImage,
   deleteId,
   getById,
 };
