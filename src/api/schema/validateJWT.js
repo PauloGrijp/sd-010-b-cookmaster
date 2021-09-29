@@ -8,7 +8,7 @@ const validateToken = async (req, res, next) => {
   const token = req.headers.authorization;
 
   if (!token) {
-    return res.status(401).json({ error: 'jwt malformed' });
+    return res.status(401).json({ message: 'jwt malformed' });
   }
 
   try {
@@ -21,7 +21,7 @@ const validateToken = async (req, res, next) => {
 
     next();
   } catch (err) {
-    return res.status(401).json({ error: 'jwt malformed' });
+    return res.status(401).json({ message: 'jwt malformed' });
   }
 };
 

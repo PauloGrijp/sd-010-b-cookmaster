@@ -72,6 +72,16 @@ const validateCreationOfRecipes = (name, ingredients, preparation) => {
   return {};
 };
 
+const validateIdFromToken = (id) => {
+  if (!id) {
+    return {
+      message: 'jwt malformed',
+    };
+  }
+
+  return {};
+};
+
 module.exports = {
   hasName,
   hasEmail,
@@ -80,4 +90,5 @@ module.exports = {
   hasEmailLogin,
   hasPasswordLogin,
   validateCreationOfRecipes,
+  validateIdFromToken,
 };

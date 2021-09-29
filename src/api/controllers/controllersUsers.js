@@ -31,7 +31,6 @@ const login = rescue(async (req, res, _next) => {
   const { email, password } = req.body;
 
   const user = await User.login(email, password);
-  console.log(user);
 
   const jwtConfig = {
     expiresIn: '7d',
@@ -39,8 +38,6 @@ const login = rescue(async (req, res, _next) => {
   };
 
   const token = jwt.sign({ data: user }, secret, jwtConfig);
-
-  // console.log(user);
 
   if (typeof user.message === 'string') return res.status(401).json(user);
 
