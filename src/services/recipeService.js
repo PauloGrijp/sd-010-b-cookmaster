@@ -27,12 +27,18 @@ const registerRecipeValidation = async ({ name, ingredients, preparation }) => {
 // req 5
 const findRecipeByIdValidation = async (id) => {
   const verificatedId = await ObjectId.isValid(id);
-  const recipeById = await recipeModel.findRecipeById(id);
-  
-  if (!verificatedId || !recipeById) {
-    return { message: 'recipe not found' };
+  if (!verificatedId) {
+    return {
+      message: 'recipe not found',
+    };
   }
-
+  
+  const recipeById = await recipeModel.findRecipeById(id);
+  if (!recipeById) {
+    return {
+      message: 'recipe not found.',
+    };
+  }
   return recipeById;
 };
 

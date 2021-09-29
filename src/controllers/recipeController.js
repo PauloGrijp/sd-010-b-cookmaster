@@ -27,10 +27,6 @@ const registerRecipe = async (req, res) => {
 const findAllRecipes = async (req, res) => {
   const recipes = await recipeModel.findAllRecipes();
 
-  // if (!recipes) {
-  //   return res.status(NOT_FOUND).json({ message: 'Nenhuma receita encontrada' });
-  // }
-
   return res.status(OK).json(recipes);
 };
 
