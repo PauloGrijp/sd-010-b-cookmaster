@@ -2,7 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const User = require('./controllers/controllersUsers');
 const Recipe = require('./controllers/controllersRecipes');
-// const validateJWT = require('./schema/validateJWT');
+const { validateToken } = require('./schema/validateJWT');
 
 const app = express();
 
@@ -16,6 +16,6 @@ app.get('/', (request, response) => {
 
 app.post('/users', User.create);
 app.post('/login', User.login);
-app.post('/recipes', Recipe.createRecipe);
+app.post('/recipes', validateToken, Recipe.createRecipe);
 
 module.exports = app;

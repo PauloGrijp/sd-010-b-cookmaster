@@ -28,10 +28,12 @@ const login = async (email, password) => {
   // console.log(logInto);
   if (!logInto) return null;
 
+  // console.log(logInto);
+
   return {
-    id: logInto.insertedId,
+    _id: Object.values(logInto)[0],
     email,
-    role: 'user',
+    role: Object.values(logInto)[4],
   };
 };
 

@@ -39,7 +39,7 @@ const login = async (email, password) => {
   if (validateLoginPassword.message) return validateLoginPassword;
 
   const logInto = await User.login(email, password);
-
+  // console.log(logInto);
   if (!logInto) {
     return {
       message: 'Incorrect username or password',
