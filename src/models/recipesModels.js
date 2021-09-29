@@ -11,13 +11,13 @@ const createRecipes = async ({ name, ingredients, preparation }) => {
 
 const getAllRecipes = async () => {
   const db = await connect();
-  const allRecipes = await db.collection('recipes').findOne().toArray();
+  const allRecipes = await db.collection('recipes').find().toArray();
   return allRecipes;
 };
 
 const getRecipeById = async (id) => {
   const db = await connect();
-  const recipeById = await db.collection('recipes').findOne({ _id: ObjectId(id) });
+  const recipeById = await db.collection('recipes').findOne(ObjectId(id));
   return recipeById;
 };
 

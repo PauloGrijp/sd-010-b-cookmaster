@@ -1,5 +1,5 @@
 const { ObjectId } = require('mongodb');
-const recipesValidations = require('../models/recipesModels');
+const recipesModel = require('../models/recipesModels');
 
 const validateRecipes = (name, ingredients, preparation) => {
   if (!name || !ingredients || !preparation) {
@@ -13,20 +13,21 @@ const createRecipes = async ({ name, ingredients, preparation }) => {
   if (!validRecipesFields) {
     return { message: 'Invalid entries. Try again.' };  
   }
-  const { id } = await recipesValidations.createRecipes({ name, ingredients, preparation });
+  const { id } = await recipesModel.createRecipes({ name, ingredients, preparation });
   return { name, ingredients, preparation, id };
 };
 
 const getAllRecipes = async () => {
-  const allRecipes = await recipesValidations.getAllRecipes();
+  const allRecipes = await recipesModel.getAllRecipes();
   return allRecipes;
 };
 
 const getRecipeById = async (id) => {
-  if (!ObjectId.isvalid(id)) {
+  if (!ObjectId.isValid(id)) {
     return { message: 'recipe not found' };
   }
-  const recipeById = await recipesValidations.getRecipeById(id);
+  const recipeById = await recipesModel.getRecipeById(id);
+  console.log(recipeById);
   if (!recipeById) {
     return { message: 'recipe not found' };
   }
