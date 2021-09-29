@@ -11,6 +11,12 @@ const createRecipesController = async (req, res) => {
   return res.status(201).json({ recipe: { name, ingredients, preparation, userId, _id: id } });
 };
 
+const getAllRecipes = async (_req, res) => {
+  const allRecipes = await recipesValidations.getAllRecipes();
+  return res.status(200).json(allRecipes);
+};
+
 module.exports = {
   createRecipesController,
+  getAllRecipes,
 };
