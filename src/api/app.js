@@ -1,4 +1,6 @@
 const express = require('express');
+const multer = require('multer');
+const path = require('path');
 const bodyParser = require('body-parser');
 const usersController = require('../controllers/usersController');
 const recipesController = require('../controllers/recipesController');
@@ -11,6 +13,18 @@ const {
 const { validToken } = require('../middlewares/validateJWT');
 
 const app = express();
+
+const storage = multer.diskStorage({
+  destination: (req, file, callback) => {
+    callback(null, path.join(__dirname, '..', 'uploads'));
+  },
+  filename: (req, file, callback) => {
+    const { id } = req.params;
+    callback(null, `${id}.jpeg`);
+  },
+});
+
+const upload = multer({ storage });
 
 app.use(bodyParser.json());
 
@@ -26,6 +40,7 @@ app.post('/login', usersController.userLogin);
 app.post('/recipes', validToken, validateRecipe, recipesController.createRecipe);
 
 app.put('/recipes/:id', validToken, validateRecipe, recipesController.updateRecipe);
+app.put('/recipes/:id/image/', validToken, upload.single('image'));
 
 app.delete('/recipes/:id', validToken, recipesController.deleteRecipe);
 
