@@ -11,16 +11,28 @@ const storage = multer.diskStorage({
   destination: (req, file, callback) => {
     callback(null, `${__dirname}/../uploads`);
   },
-  filename: (req, file, callback) => {
+  filename: (req, _file, callback) => {
     const { id } = req.params;
     callback(null, `${id}.jpeg`);
   },
 });
 
-const upload = multer({ storage });
+const fileFilter = (_req, file, cb) => {
+  // The function should call `cb` with a boolean
+  // to indicate if the file should be accepted
+
+  if (file.mimetype !== 'image/jpeg') {
+    return cb(null, false);
+  }
+
+  return cb(null, true);
+};
+
+const upload = multer({ storage, fileFilter });
 
 app.post('/users', validate.createUser, userController.createUser);
 app.post('/login', validate.login, userController.login);
+app.get('/images/:id.jpeg', recipeController.getImage);
 
 app.get('/recipes', recipeController.getAllRecipes);
 app.post('/recipes', authJWT, validate.createRecipe, recipeController.createRecipe);

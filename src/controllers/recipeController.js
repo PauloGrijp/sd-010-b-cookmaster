@@ -55,18 +55,15 @@ const deleteRecipe = rescue(async (req, res, next) => {
   return res.status(204).send();
 });
 
-// const uploadImage = rescue(async (req, res, next) => {
-//   const { id } = req.params;
-//   const { file, body } = req;
+const getImage = rescue(async (req, res, _next) => {
+  const { id } = req.params;
+  const path = `${__dirname}/../uploads/${id}.jpeg`;
 
-//   const updatedRecipe = await recipeService.uploadImage(file, body, id);
-//   // Caso haja erro na criação da receita, iniciamos o fluxo de erro
-//   if (updatedRecipe.error) return next(updatedRecipe);
+  // if (img.error) return next(img);
 
-//   // Caso esteja tudo certo, retornamos o status 201 Created, junto com as informações
-//   // da nova receita
-//   return res.status(200).json(updatedRecipe);
-// });
+  // Caso não haja nenhum erro, retornamos o product encontrado
+  res.status(200).download(path);
+});
 
 module.exports = {
   createRecipe,
@@ -74,5 +71,5 @@ module.exports = {
   getRecipeById,
   updateRecipe,
   deleteRecipe,
-  // uploadImage,
+  getImage,
 };
