@@ -2,6 +2,7 @@ const RecipeModel = require('../models/RecipeModel');
 const { validateId } = require('../middlewares/validations');
 
 const NOT_FOUND = 404;
+const RECIPE_NOT_FOUND = { message: 'recipe not found' };
 
 const createRecipe = async ({ name, ingredients, preparation, userId }) => {
   const response = await RecipeModel.createRecipe({ name, ingredients, preparation, userId });
@@ -22,9 +23,15 @@ const updateRecipe = async ({ id, name, ingredients, preparation, userId }) => {
   return response;
 };
 
+const deleteRecipe = async ({ id }) => {
+  if (!id) return RECIPE_NOT_FOUND;
+  return RecipeModel.deleteRecipe(id);
+};
+
 module.exports = {
   createRecipe,
   getAllRecipes,
   findRecipe,
   updateRecipe,
+  deleteRecipe,
 };
