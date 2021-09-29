@@ -14,6 +14,8 @@ app.post('/users', userController.createUser);
 app.post('/login', loginController.loginUser);
 // Rota de criação da receita
 app.post('/recipes', validateJwt, recipeController.createRecipesController);
+// Rota para listar todas as receitas
+app.get('/recipes', recipeController.getAllRecipes);
 
 // Não remover esse end-point, ele é necessário para o avaliador
 app.get('/', (request, response) => {
