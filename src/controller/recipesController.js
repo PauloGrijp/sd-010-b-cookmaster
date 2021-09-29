@@ -55,4 +55,16 @@ const remove = async (req, res) => {
     return res.status(204).json(deleteRecipe);
 };
 
-module.exports = { add, getAll, getById, update, remove };
+const recipeImage = async (req, res) => {
+  try {
+  const { id } = req.params;
+  const { path } = req.file;
+  const recipeUp = `localhost:3000/${path}`;
+  const addImage = await recipesService.recipeImage(id, recipeUp);
+  return res.status(200).json(addImage);
+  } catch (error) {
+    return res.status(500).json({ message: error });
+  }
+};
+
+module.exports = { add, getAll, getById, update, remove, recipeImage };

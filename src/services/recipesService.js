@@ -54,6 +54,17 @@ const update = async (id, recipe, authorization) => {
    return recipesModel.remove(id);
  }
 
-/*  const remove = async (id) => { return recipesModel.remove(id); }; */
+ const getRecipeId = async ({ id }) => {
+  const recipe = await recipesModel.getById({ id });
+  if (!recipe) return null;
+  return recipe;
+ };
 
-module.exports = { add, getAll, getById, update, remove };
+ const recipeImage = async (id, image) => {
+ const recipe = await getRecipeId({ id });
+ const imagem = { ...recipe, image };
+  await recipesModel.recipeImage(id, { image });
+  return imagem;
+ };
+
+module.exports = { add, getAll, getById, update, remove, recipeImage };

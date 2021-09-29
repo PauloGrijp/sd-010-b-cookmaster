@@ -40,4 +40,13 @@ const remove = async (id) => {
   return deleteRecipe;
 };
 
-module.exports = { add, getAll, getById, update, remove };
+const recipeImage = async (id, image) => {
+  const db = await connect();
+  await db
+    .collection('recipes').updateOne({ _id: ObjectId(id) }, { $set: image });
+    const getRecipe = await db
+    .collection('recipes').findOne({ _id: ObjectId(id) });
+  return getRecipe;
+};
+
+module.exports = { add, getAll, getById, update, remove, recipeImage };
