@@ -35,7 +35,7 @@ const update = async (id, recipe, userId) => {
     { _id: recipeID },
     { $set: { ...recipe } },
   );
-
+  
   return {
     _id: recipeID,
     ...recipe,
@@ -43,17 +43,9 @@ const update = async (id, recipe, userId) => {
   };
 };
 
-const deleteRecipe = async (id) => {
-  const db = await connection();
-  const { deletedCount } = await db.collection(RECIPES).deleteOne({ _id: ObjectId(id) });
-
-  return deletedCount;
-};
-
 module.exports = {
   create,
   getAll,
   getById,
   update,
-  deleteRecipe,
 };

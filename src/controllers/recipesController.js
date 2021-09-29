@@ -32,22 +32,9 @@ const update = async (req, res) => {
   res.status(code).json(recipeUpdated);
 };
 
-const deleteRecipe = async (req, res) => {
-  const { id } = req.params;
-  // const { _id } = req.user;
-  
-  try {
-    const { code } = await RecipesService.deleteRecipe(id);
-    res.status(code).send();
-  } catch (error) {
-    res.status(401).json({ message: error.message });
-  }
-};
-
 module.exports = {
   create,
   getAll,
   getById,
   update,
-  deleteRecipe,
 };
