@@ -13,6 +13,9 @@ const createRecipesController = async (req, res) => {
 
 const getAllRecipes = async (_req, res) => {
   const allRecipes = await recipesValidations.getAllRecipes();
+  if (!allRecipes) {
+    return res.status(404).json({ message: 'Recipes not found' });
+  }
   return res.status(200).json(allRecipes);
 };
 
