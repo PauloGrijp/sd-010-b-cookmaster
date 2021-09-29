@@ -1,3 +1,4 @@
+const { ObjectId } = require('mongodb');
 const recipeModel = require('../models/recipeModel');
 
 // req 3
@@ -23,6 +24,19 @@ const registerRecipeValidation = async ({ name, ingredients, preparation }) => {
    return { name, ingredients, preparation, id };
 };
 
+// req 5
+const findRecipeByIdValidation = async (id) => {
+  const verificatedId = await ObjectId.isValid(id);
+  const recipeById = await recipeModel.findRecipeById(id);
+  
+  if (!verificatedId || !recipeById) {
+    return { message: 'recipe not found' };
+  }
+
+  return recipeById;
+};
+
 module.exports = {
   registerRecipeValidation,
+  findRecipeByIdValidation,
 };

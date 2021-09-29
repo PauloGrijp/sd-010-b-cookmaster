@@ -16,6 +16,8 @@ app.post('/recipes', jwtValidation, recipeController.registerRecipe); // req 3
 
 app.get('/recipes', recipeController.findAllRecipes); // req 4
 
+app.get('/recipes/:id', recipeController.findRecipeById);
+
 // Não remover esse end-point, ele é necessário para o avaliador
 app.get('/', (request, response) => {
   response.send();

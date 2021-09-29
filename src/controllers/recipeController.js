@@ -27,14 +27,28 @@ const registerRecipe = async (req, res) => {
 const findAllRecipes = async (req, res) => {
   const recipes = await recipeModel.findAllRecipes();
 
-  if (!recipes) {
-    return res.status(NOT_FOUND).json({ message: 'Nenhuma receita encontrada' });
-  }
+  // if (!recipes) {
+  //   return res.status(NOT_FOUND).json({ message: 'Nenhuma receita encontrada' });
+  // }
 
   return res.status(OK).json(recipes);
+};
+
+// req 5
+const findRecipeById = async (req, res) => {
+  const { id } = req.params;
+  const { message } = await recipeService.findRecipeByIdValidation(id);
+  const recipeById = await recipeService.findRecipeByIdValidation(id);
+
+  if (message) {
+    return res.status(NOT_FOUND).json({ message: 'recipe not found' });
+  }
+
+  return res.status(OK).json(recipeById);
 };
 
 module.exports = {
   registerRecipe,
   findAllRecipes,
+  findRecipeById,
 };
