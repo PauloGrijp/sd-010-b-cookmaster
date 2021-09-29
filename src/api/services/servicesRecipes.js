@@ -22,5 +22,14 @@ const getById = async ({ id }) => {
     throw err;
   }
 }; 
+
+const updateById = async ({ id }, { name, ingredients, preparation }, userId) => {
+  validations.recipesName(name);
+  validations.recipesIngredients(ingredients);
+  validations.recipesPreparation(preparation);
+  const recipe = { _id: id, name, ingredients, preparation, userId };
+  return models.updateById(id, name, ingredients, preparation)
+    .then(() => ({ status: 200, recipe }));
+};
   
-module.exports = { create, getAll, getById };
+module.exports = { create, getAll, getById, updateById };
