@@ -36,4 +36,25 @@ const getAllRecipes = async () => {
   return recipesList;
 };
 
-module.exports = { createRecipe, getAllRecipes, getRecipeById };
+const updateRecipeById = async (recipeId, { _id, role }, recipe) => {
+  let updatedRecipe;
+  const existsRecipe = await getRecipeById(recipeId);
+
+  if (!existsRecipe) {
+    recipesError.message = 'recipe not found';
+    return recipesError;
+  }
+
+  if (_id === existsRecipe.userId || role === 'admin') {
+    updatedRecipe = await recipesModel.updateRecipeById(recipeId, recipe, _id);
+  }
+
+  return updatedRecipe;
+};
+
+module.exports = {
+  createRecipe,
+  getAllRecipes,
+  getRecipeById,
+  updateRecipeById,
+ };
