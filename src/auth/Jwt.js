@@ -14,7 +14,6 @@ module.exports = async (req, res, next) => {
 
   try {
     const decode = jwt.verify(token, secret);
-    console.log(decode);
     const { email, password } = decode.data;
 
     const user = await JwtModel.findUser({ email, password });
