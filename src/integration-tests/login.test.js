@@ -1,10 +1,10 @@
 const chai = require('chai');
 const sinon = require('sinon');
 const chaiHttp = require('chai-http');
+const { expect } = chai;
 
 chai.use(chaiHttp);
 
-const { expect } = chai;
 const DB_NAME = 'Cookmaster';
 const USERS_COLLECTION = 'users';
 
@@ -23,7 +23,7 @@ describe('POST /login', () => {
 
   after(async () => await dbDisconnect());
 
-  describe('Quando não é passada a pessoa email e password', () => {
+  describe('Quando não é passada o email e password', () => {
     let response;
 
     before(async () => {

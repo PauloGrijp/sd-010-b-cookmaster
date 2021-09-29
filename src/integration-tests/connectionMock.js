@@ -11,7 +11,6 @@ const dbConnect = async () => {
 
 const dbDisconnect = async () => {
   await MongoClient.connect.restore();
-  // await DBServer.stop();
 };
 
 module.exports = { dbConnect, dbDisconnect };
