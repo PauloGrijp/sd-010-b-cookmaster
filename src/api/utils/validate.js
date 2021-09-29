@@ -16,9 +16,15 @@ const err3 = {
   status: 401,
   message: 'Incorrect username or password',
 };
+
 const err4 = {
   status: 401,
   message: 'jwt malformed',
+};
+
+const err5 = {
+  status: 404,
+  message: 'recipe not found',
 };
 
 function validName(name) {
@@ -65,7 +71,12 @@ function validRecipe(recipe) {
   if (!name || !ingredients || !preparation) throw err;
 }
 
+function checkRecipe(recipe) {
+  if (!recipe) throw err5;
+}
+
 module.exports = {
+  checkRecipe,
   validRecipe,
   checkToken,
   existsToken,
