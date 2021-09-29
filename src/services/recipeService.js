@@ -42,7 +42,18 @@ const findRecipeByIdValidation = async (id) => {
   return recipeById;
 };
 
+// req 7
+const editRecipeValidation = async ({ name, ingredients, preparation }, id) => {
+  const updatedRecipe = await recipeModel.editRecipe({ name, ingredients, preparation }, id);
+  if (!updatedRecipe) {
+    return { message: 'recipe not found' };
+  }
+
+  return { name, ingredients, preparation, id };
+};
+
 module.exports = {
   registerRecipeValidation,
   findRecipeByIdValidation,
+  editRecipeValidation,
 };

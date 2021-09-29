@@ -43,8 +43,24 @@ const findRecipeById = async (req, res) => {
   return res.status(OK).json(recipeById);
 };
 
+// req 7
+const editRecipe = async (req, res) => {
+  const { name, ingredients, preparation } = req.body;
+  const { _id: userId } = req.user;
+  const { id } = req.params;
+  const { message } = await recipeService
+    .editRecipeValidation({ name, ingredients, preparation }, id);
+
+  if (message) {
+    return res.status(BAD_REQUEST).json({ message });
+  }
+
+  return res.status(OK).json({ _id: id, name, ingredients, preparation, userId });
+};
+
 module.exports = {
   registerRecipe,
   findAllRecipes,
   findRecipeById,
+  editRecipe,
 };
