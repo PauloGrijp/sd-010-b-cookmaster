@@ -15,7 +15,7 @@ module.exports = (req, res, next) => {
 
     const { user } = decoded;
 
-    req.body.user = user;
+    req.user = user;
 
     return next();
   } catch (err) {

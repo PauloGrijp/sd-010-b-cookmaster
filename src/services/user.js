@@ -29,7 +29,11 @@ const login = async (email, password) => {
   if (validation) return validation;
 
   const user = await userModel.getUserByEmail(email);
-
+  if (user.password !== password) {
+    return {
+      error: { code: codes.unhautorized, message: 'Incorrect username or password' },
+    };
+  }
   return userWithoutPassword(user);
 };
 

@@ -30,7 +30,7 @@ const login = async (req, res) => {
 };
 
 const createAdminUser = async (req, res) => {
-  const { user: { role } } = req.body;
+  const { role } = req.user;
 
   if (role !== 'admin') {
     return res.status(codes.forbidden).json({

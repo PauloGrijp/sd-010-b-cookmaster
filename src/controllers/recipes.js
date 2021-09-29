@@ -3,8 +3,8 @@ const recipesService = require('../services/recipes');
 const codes = require('../httpcodes');
 
 const createRecipe = async (req, res) => {
-  const { name, ingredients, preparation, user } = req.body;
-  const { _id: userId } = user;
+  const { name, ingredients, preparation } = req.body;
+  const { _id: userId } = req.user;
   const { error, recipe } = await recipesService
     .createRecipe(name, ingredients, preparation, userId);
   if (error) return res.status(error.code).json({ message: error.message });
@@ -29,8 +29,8 @@ const getRecipeById = async (req, res) => {
 
 const editRecipe = async (req, res) => {
   const { id } = req.params;
-  const { name, ingredients, preparation, user } = req.body;
-  const { _id: userId } = user;
+  const { name, ingredients, preparation } = req.body;
+  const { _id: userId } = req.user;
 
   const ids = {
     recipeId: id,
@@ -44,7 +44,7 @@ const editRecipe = async (req, res) => {
 
 const deleteRecipe = async (req, res) => {
   const { id: recipeId } = req.params;
-  const { user: { _id: userId } } = req.body;
+  const { user: { _id: userId } } = req;
 
   await recipesService.deleteRecipe(recipeId, userId);
 

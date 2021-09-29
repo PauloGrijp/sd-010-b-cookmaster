@@ -9,7 +9,7 @@ const recipesRouter = require('./recipesRouter');
 
 const app = express();
 
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 app.use('/images', express.static(path.join(__dirname, '..', 'uploads')));
