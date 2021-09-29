@@ -11,8 +11,10 @@ app.get('/', (request, response) => {
 
 const userRouter = require('../controllers/userController');
 const loginRouter = require('../controllers/loginController');
+const recipesRouter = require('../controllers/recipesController');
 
 app.use('/users', userRouter);
 app.use('/login', loginRouter);
+app.use('/recipes', recipesRouter);
 
 module.exports = app;

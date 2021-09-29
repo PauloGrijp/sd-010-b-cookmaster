@@ -2,12 +2,12 @@ const express = require('express');
 const { StatusCodes } = require('http-status-codes');
 const jwt = require('jsonwebtoken');
 const loginService = require('../services/loginService');
+const secret = require('./superpassword');
 
 const loginRouter = express.Router();
 
-const secret = 'super-senha';
 const jwtConfig = {
-  expiresIn: '15m',
+  expiresIn: '7d',
   algorithm: 'HS256',
 };
 
