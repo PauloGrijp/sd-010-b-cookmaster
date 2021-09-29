@@ -1,3 +1,4 @@
+const path = require('path');
 const services = require('../services/recipes');
 
 const create = async (req, res) => {
@@ -64,10 +65,28 @@ const update = async (req, res) => {
   }
 };
 
+const uploadImg = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const { _id, role } = req.user;
+    const userId = _id;
+
+    const picture = path.join('localhost:3000', 'src', 'uploads', `${id}.jpeg`);
+
+    const service = await services.uploadImg(id, picture, userId, role);
+
+    return res.status(200).json(service);
+  } catch (error) {
+    return res.status(error.err.code).json({ message: error.err.message });
+  }
+};
+
 module.exports = {
   create,
   getAll,
   getById,
   remove,
   update,
+  uploadImg,
 };

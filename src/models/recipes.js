@@ -55,10 +55,26 @@ const update = async (id, userId, recipe) => {
   return updte;
 };
 
+const uploadImg = async (id, picture) => {
+  const db = await connection();
+
+  const pictureUploaded = await db.collection('recipes').findOneAndUpdate(
+    { _id: ObjectId(id) },
+    { $set: { picture } },
+    { returnOriginal: false },
+  );
+
+  // https://stackoverflow.com/questions/35626040/how-to-get-updated-document-back-from-the-findoneandupdate-method
+  // lógica do model baseada em Mari Mohr
+
+  return pictureUploaded.value;
+};
+
 module.exports = {
   create,
   getAll,
   getById,
   remove,
   update,
+  uploadImg,
 };

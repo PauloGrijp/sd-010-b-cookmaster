@@ -59,6 +59,7 @@ const update = async (id, userId, role, recipe) => {
 
   const existError = new Error();
   existError.err = { code: 404, message: 'recipe not found' };
+
   const authError = new Error();
   authError.err = { code: 401, message: 'unauthorized' };
 
@@ -75,10 +76,29 @@ const update = async (id, userId, role, recipe) => {
   throw authError;
 };
 
+const uploadImg = async (id, picture, userId, role) => {
+  const authError = new Error();
+  authError.err = { code: 401, message: 'unauthorized' };
+
+  const existError = new Error();
+  existError.err = { code: 404, message: 'recipe not found' };
+
+  const recipeExists = await models.getById(id);
+  if (recipeExists === null) throw existError;
+
+  if (userId === recipeExists.userId || role === 'admin') {
+  const model = await models.uploadImg(id, picture);
+  return model;
+  }
+
+  throw authError;
+};
+
 module.exports = {
   create,
   getAll,
   getById,
   remove,
   update,
+  uploadImg,
 };
