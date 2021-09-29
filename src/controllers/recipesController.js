@@ -19,15 +19,22 @@ recipesRouter.post('/', async (req, res) => {
 
   const result = await recipesService.createRecipe({ recipe, verifiedToken });
 
-  if (result.message) {
-    return res.status(StatusCodes.BAD_REQUEST).json(result);
-  }
+  if (result.message) return res.status(StatusCodes.BAD_REQUEST).json(result);
 
   return res.status(StatusCodes.CREATED).json(result);
 });
 
 recipesRouter.get('/', async (req, res) => {
   const result = await recipesService.getAllRecipes();
+
+  return res.status(StatusCodes.OK).json(result);
+});
+
+recipesRouter.get('/:id', async (req, res) => {
+  const { id } = req.params;
+  const result = await recipesService.getRecipeById(id);
+
+  if (result.message) return res.status(StatusCodes.NOT_FOUND).json(result);
 
   return res.status(StatusCodes.OK).json(result);
 });

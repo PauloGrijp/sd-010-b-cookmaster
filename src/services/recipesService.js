@@ -10,13 +10,18 @@ const validateNewRecipe = async ({ name, ingredients, preparation }) => {
   return 'SUCCESS';
 };
 
-// const getUserByEmail = async ({ email }) => {
-//   const existsUser = await userModel.getUserByEmail(email);
-//   return existsUser;
-// };
+const getRecipeById = async (id) => {
+  const existsRecipe = await recipesModel.getRecipeById(id);
+
+  if (!existsRecipe) {
+    recipesError.message = 'recipe not found';
+    return recipesError;
+  }
+
+  return existsRecipe;
+};
 
 const createRecipe = async ({ recipe, verifiedToken }) => {
-  // const buff = JSON.parse(Buffer.from(code, 'base64')); // https://www.tutorialguruji.com/javascript/how-to-decode-base64-encoded-json-object-string-in-node-js/
   const validationResult = await validateNewRecipe(recipe);
   if (validationResult !== 'SUCCESS') return validationResult;
 
@@ -31,4 +36,4 @@ const getAllRecipes = async () => {
   return recipesList;
 };
 
-module.exports = { createRecipe, getAllRecipes };
+module.exports = { createRecipe, getAllRecipes, getRecipeById };
