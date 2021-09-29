@@ -1,7 +1,8 @@
 const { findByEmail } = require('../models/userModel');
 
+// source: https://ui.dev/validate-email-address-javascript/
 const emailIsValid = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-const noHaveCase = (email, password) => !email || !password;
+const areEmpty = (email, password) => !email || !password;
 
 const validateLogin = async ({ email, password }) => {
   const code = 401;
@@ -9,7 +10,7 @@ const validateLogin = async ({ email, password }) => {
   const messageIncorrect = 'Incorrect username or password';
   const user = await findByEmail({ email });
 
-  if (noHaveCase(email, password)) return { code, message: messageFilled };
+  if (areEmpty(email, password)) return { code, message: messageFilled };
   if (!user || user.password !== password) return { code, message: messageIncorrect };
   if (!emailIsValid(email)) return { code: 409, message: messageIncorrect };
   return {};
