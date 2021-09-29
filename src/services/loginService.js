@@ -14,7 +14,7 @@ const validateFields = async (userEmail, userPassword) => {
   }
 
   const validateEmail = new RegExp(/^[\w.]+@[a-z]+.\w{2,3}$/g);
-  if (!validateEmail.test(userEmail) || userPassword.length < 8) {
+  if (!validateEmail.test(userEmail)) {
     loginError.message = 'Incorrect username or password';
     return loginError;
   }
