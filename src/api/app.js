@@ -8,6 +8,7 @@ const jwt = require('../auth/Jwt');
 const app = express();
 app.use(bodyParser.json());
 
+app.put('/recipes/:id', jwt, RecipeController.updateRecipe);
 app.get('/recipes/:id', RecipeController.findRecipe);
 app.get('/recipes', RecipeController.getAllRecipes);
 
