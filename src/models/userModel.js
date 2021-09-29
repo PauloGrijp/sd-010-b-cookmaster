@@ -1,6 +1,6 @@
 const { getConnection } = require('./connection');
 
-const registerUser = async ({ name, email, password }) => {
+const createUser = async ({ name, email, password }) => {
   const db = await getConnection();
   const role = 'user';
   const userCreated = await db.collection('users').insertOne({ name, email, password, role });
@@ -14,6 +14,6 @@ const findByEmail = async ({ email }) => {
 };
 
 module.exports = { 
-  registerUser,
+  createUser,
   findByEmail,
 };
