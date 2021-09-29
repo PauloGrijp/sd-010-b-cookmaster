@@ -27,6 +27,11 @@ const err5 = {
   message: 'recipe not found',
 };
 
+const err6 = {
+  status: 401,
+  message: 'missing auth token',
+}
+
 function validName(name) {
   if (!name) throw err;
 }
@@ -54,7 +59,7 @@ function checkCredentials(user, password) {
 }
 
 function existsToken(token) {
-  if (!token) throw err4;
+  if (!token) throw err6;
 }
 
 function checkToken(token) {

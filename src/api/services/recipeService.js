@@ -13,6 +13,17 @@ async function createRecipe(body, headers) {
   return recipe;
 }
 
+async function updateRecipe(req) {
+  const { params: { id }, headers, body } = req;
+  const { authorization: token } = headers;
+  existsToken(token);
+  checkToken(token);
+
+  const result = await model.updateRecipe(id, body);
+  return result;
+}
+
 module.exports = {
   createRecipe,
+  updateRecipe,
 };

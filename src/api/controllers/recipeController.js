@@ -14,14 +14,19 @@ async function getAllRecipes(req, res) {
 
 async function getRecipe(req, res) {
   const { id } = req.params;
-  console.log(id);
   const recipe = await model.getRecipe(id);
   checkRecipe(recipe);
   return res.status(200).json(recipe);
+}
+
+async function updateRecipe(req, res) {
+  const result = await service.updateRecipe(req);
+  return res.status(200).json(result);
 }
 
 module.exports = {
   createRecipe,
   getAllRecipes,
   getRecipe,
+  updateRecipe,
 };
