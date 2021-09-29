@@ -2,7 +2,9 @@ const express = require('express');
 const middleware = require('../middlewares');
 
 const router = express.Router();
-const { create, getRecipes, getRecipeID, edit, remove } = require('../controlers/recipes');
+const { create,
+    getRecipes,
+    getRecipeID, edit, remove, upload, uploadImage } = require('../controlers/recipes');
 
 router.route('/')
     .post(
@@ -26,5 +28,13 @@ router.route('/:id')
             middleware.validatePermissions,
             remove,
         );
+
+router.route('/:id/image')
+            .put(
+                middleware.validateJWT,
+                middleware.validatePermissions,
+                upload.single('image'),
+                uploadImage,
+            );
 
 module.exports = router;

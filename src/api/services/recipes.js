@@ -1,4 +1,5 @@
-const { createOne, getAll, getRecipeID, editOne, deleteOne } = require('../models/recipes');
+const { createOne,
+        getAll, getRecipeID, editOne, deleteOne, editImage } = require('../models/recipes');
 
 const createRecipe = async (name, ingredients, preparation, userId) => {
     const created = await createOne(name, ingredients, preparation, userId);
@@ -25,4 +26,9 @@ const deleteRecipe = async (id, name, ingredients, preparation) => {
     return recipe;
 };
 
-module.exports = { createRecipe, getAllRecipes, getRecipe, editRecipe, deleteRecipe };
+const editRecipeImage = async (id, imagePath) => {
+    const recipe = await editImage(id, imagePath);
+    return recipe;
+};
+
+module.exports = { createRecipe, getAllRecipes, getRecipe, editRecipe, deleteRecipe, editRecipeImage};

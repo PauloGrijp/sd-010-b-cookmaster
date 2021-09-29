@@ -41,4 +41,12 @@ const deleteOne = async (id) => {
                 return out;
                 };
 
-module.exports = { createOne, getAll, getRecipeID, editOne, deleteOne };
+const editImage = async (id, image) => {
+                const out = await connect()
+                    .then((db) => db.collection('recipes')
+                    .updateOne({ _id: ObjectId(id) }, { $set: { image } }))
+                    .then((result) => result);
+                return out;
+                };
+
+module.exports = { createOne, getAll, getRecipeID, editOne, deleteOne, editImage };

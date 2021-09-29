@@ -1,9 +1,13 @@
+const { response } = require('express');
 const jwt = require('jsonwebtoken');
+const multer = require('multer');
+
 const { createRecipe,
         getAllRecipes,
         getRecipe,
         editRecipe,
-        deleteRecipe } = require('../services/recipes');
+        deleteRecipe,
+        editRecipeImage } = require('../services/recipes');
 
 const secret = '12345';
 
@@ -47,4 +51,24 @@ const remove = async (req, res) => {
     res.status(204).send();
 };
 
-module.exports = { create, getRecipes, getRecipeID, edit, remove };
+const storage = multer.diskStorage({
+    destination: (_req, _file, callback) => {
+        callback(null, './uploads/');
+    },
+    filename: (req, _file, callback) => {
+        const { id } = req.params;
+        callback(null, id);
+    },
+});
+
+const upload = multer({ storage });
+
+const uploadImage = async (req, res) => {
+    const { id } = req.params;
+    const { path } = req.file;
+    await editRecipeImage(id, `localhost:3000/src/${path}`);
+    const recipe = await getRecipe(id);
+    res.status(200).json(recipe);
+};
+
+module.exports = { create, getRecipes, getRecipeID, edit, remove, upload, uploadImage };
