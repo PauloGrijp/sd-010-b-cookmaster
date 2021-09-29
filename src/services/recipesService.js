@@ -52,9 +52,26 @@ const updateRecipeById = async (recipeId, { _id, role }, recipe) => {
   return updatedRecipe;
 };
 
+const excludeRecipeById = async (recipeId, { _id, role }) => {
+  let excludedRecipe;
+  const existsRecipe = await getRecipeById(recipeId);
+
+  if (!existsRecipe) {
+    recipesError.message = 'recipe not found';
+    return recipesError;
+  }
+
+  if (_id === existsRecipe.userId || role === 'admin') {
+    excludedRecipe = await recipesModel.excludeRecipeById(recipeId);
+  }
+
+  return excludedRecipe;
+}; 
+
 module.exports = {
   createRecipe,
   getAllRecipes,
   getRecipeById,
   updateRecipeById,
+  excludeRecipeById,
  };

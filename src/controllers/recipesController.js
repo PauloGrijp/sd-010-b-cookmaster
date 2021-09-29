@@ -59,4 +59,23 @@ recipesRouter.put('/:id', async (req, res) => {
   return res.status(StatusCodes.OK).json(result);
 });
 
+recipesRouter.delete('/:id', async (req, res) => {
+  const { id } = req.params;
+
+  const token = req.headers.authorization;
+  if (!token) return res.status(StatusCodes.UNAUTHORIZED).json({ message: 'missing auth token' });
+
+  let verifiedToken;
+
+  try {
+    verifiedToken = jwt.verify(token, secret);
+  } catch (error) {
+    return res.status(StatusCodes.UNAUTHORIZED).json({ message: 'jwt malformed' });
+  }
+
+  await recipesService.excludeRecipeById(id, verifiedToken);
+
+  return res.status(StatusCodes.NO_CONTENT).json();
+});
+
 module.exports = recipesRouter;
