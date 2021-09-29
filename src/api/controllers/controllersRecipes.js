@@ -9,7 +9,7 @@ const createRecipe = rescue(async (req, res, _next) => {
     const { _id } = req.user;
     // console.log(_id);
     const newRecipe = await Recipe.createRecipe(name, ingredients, preparation, _id);
-    console.log(newRecipe);
+    // console.log(newRecipe);
     if (!newRecipe) return res.status(401).json({ message: 'jwt malformed' });
 
     if (typeof newRecipe.message === 'string') return res.status(400).json(newRecipe);
@@ -37,8 +37,19 @@ const getRecipeById = rescue(async (req, res, _next) => {
   return res.status(200).json(recipeById);
 });
 
+const updateRecipe = rescue(async (req, res, _next) => {
+  const { id } = req.params;
+  const { name, ingredients, preparation } = req.body;
+  const { _id } = req.user;
+  const newUpdatedRecipe = { name, ingredients, preparation };
+  const updatedRecipe = await Recipe.updateRecipe(id, newUpdatedRecipe, _id);
+
+  return res.status(200).json(updatedRecipe);
+});
+
 module.exports = {
   createRecipe,
   getAll,
   getRecipeById,
+  updateRecipe,
 };
