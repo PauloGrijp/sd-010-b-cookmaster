@@ -3,6 +3,7 @@ const recipeModel = require('../models/recipeModel');
 
 const OK = 200;
 const CREATED = 201;
+const NO_CONTENT = 204;
 const BAD_REQUEST = 400;
 const NOT_FOUND = 404;
 
@@ -58,9 +59,22 @@ const editRecipe = async (req, res) => {
   return res.status(OK).json({ _id: id, name, ingredients, preparation, userId });
 };
 
+// req 8
+const delRecipe = async (req, res) => {
+  const { id } = req.params;
+  const { message } = await recipeService.delRecipeValidation(id);
+  
+  if (message) {
+    return res.status(BAD_REQUEST).json({ message });
+  }
+
+  return res.status(NO_CONTENT).json(id);
+};
+
 module.exports = {
   registerRecipe,
   findAllRecipes,
   findRecipeById,
   editRecipe,
+  delRecipe,
 };

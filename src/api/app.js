@@ -20,6 +20,8 @@ app.get('/recipes/:id', recipeController.findRecipeById); // req 5
 
 app.put('/recipes/:id', jwtValidation, recipeController.editRecipe); // req 7
 
+app.delete('/recipes/:id', jwtValidation, recipeController.delRecipe); // req 8
+
 // Não remover esse end-point, ele é necessário para o avaliador
 app.get('/', (request, response) => {
   response.send();

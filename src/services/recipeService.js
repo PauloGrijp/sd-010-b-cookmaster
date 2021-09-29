@@ -52,8 +52,21 @@ const editRecipeValidation = async ({ name, ingredients, preparation }, id) => {
   return { name, ingredients, preparation, id };
 };
 
+// req 8
+const delRecipeValidation = async (id) => {
+  const deletedRecipe = await recipeModel.delRecipe(id);
+  if (!deletedRecipe) {
+    return {
+      message: 'recipe not found',
+    };
+  }
+
+  return deletedRecipe;
+};
+
 module.exports = {
   registerRecipeValidation,
   findRecipeByIdValidation,
   editRecipeValidation,
+  delRecipeValidation,
 };
