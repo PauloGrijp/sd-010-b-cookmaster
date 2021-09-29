@@ -22,6 +22,10 @@ const getAllRecipes = async (_req, res) => {
  const getRecipeById = async (req, res) => {
    const { id } = req.params;
    const recipeById = await recipesValidations.getRecipeById(id);
+   const { message } = recipeById;
+   if (message) {
+     return res.status(404).json(message);
+   }
    return res.status(200).json(recipeById);
  };
 
