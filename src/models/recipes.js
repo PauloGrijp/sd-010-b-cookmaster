@@ -55,12 +55,12 @@ const update = async (id, userId, recipe) => {
   return updte;
 };
 
-const uploadImg = async (id, picture) => {
+const uploadImg = async (id, image) => {
   const db = await connection();
 
   const pictureUploaded = await db.collection('recipes').findOneAndUpdate(
     { _id: ObjectId(id) },
-    { $set: { picture } },
+    { $set: { image } },
     { returnOriginal: false },
   );
 

@@ -2,8 +2,8 @@ const express = require('express');
 
 const router = express.Router();
 
-const upload = require('../middleweres/upload');
 const authJWT = require('../middleweres/validateJWT');
+const upload = require('../middleweres/upload');
 
 const { create, getAll, getById, remove, update, uploadImg } = require('../controllers/recipes');
 
@@ -17,6 +17,6 @@ router.route('/:id')
   .delete(authJWT, remove);
 
 router.route('/:id/image')
-  .post(authJWT, upload.single('image'), uploadImg);
+  .put(authJWT, upload.single('image'), uploadImg);
 
 module.exports = router;

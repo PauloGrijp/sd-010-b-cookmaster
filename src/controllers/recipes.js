@@ -1,4 +1,3 @@
-const path = require('path');
 const services = require('../services/recipes');
 
 const create = async (req, res) => {
@@ -72,7 +71,7 @@ const uploadImg = async (req, res) => {
     const { _id, role } = req.user;
     const userId = _id;
 
-    const picture = path.join('localhost:3000', 'src', 'uploads', `${id}.jpeg`);
+    const picture = `localhost:3000/${req.file.path}`;
 
     const service = await services.uploadImg(id, picture, userId, role);
 

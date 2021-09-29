@@ -1,5 +1,10 @@
 const multer = require('multer');
 
-const upload = multer({ dest: '../sd-010-b-cookmaster/src/uploads/' });
+const storage = multer.diskStorage({
+  destination: (req, file, callback) => { callback(null, 'src/uploads'); },
+  filename: (req, file, callback) => { callback(null, `${req.params.id}.jpeg`); },
+});
+
+const upload = multer({ storage });
 
 module.exports = upload;
