@@ -30,6 +30,15 @@ const updateRecipe = async (recipe, id, recId) => {
   return updatedRecipe;
 };
 
+const updateImg = async (id, image) => {
+  console.log('passou no service');
+  const addImg = await model.updateImg(id, image);
+  if (!addImg) {
+    return false;
+  }
+  return addImg;
+};
+
 const deleteRecipe = async (id) => {
   const deletedRecipe = await model.deleteRecipe(id);
   if (deletedRecipe) {
@@ -43,5 +52,6 @@ module.exports = {
   getAllRecipes,
   getRecipeById,
   updateRecipe,
+  updateImg,
   deleteRecipe,
 };

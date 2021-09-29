@@ -1,4 +1,5 @@
 const { StatusCodes } = require('http-status-codes');
+const path = require('path');
 const service = require('../services/recipesService');
 
 const createRecipe = async (req, res) => {
@@ -58,6 +59,19 @@ const updateRecipe = async (req, res) => {
   }
 };
 
+const updateImg = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const image = path.join('localhost:3000', 'src', 'uploads', `${id}.jpeg`);
+    // const urlImg = `localhost:3000/src/uploads/${id}.jpeg`;
+    console.log('passou no controller');
+    const recipeImg = await service.updateImg(id, image);
+    return res.status(StatusCodes.OK).json(recipeImg);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 const deleteRecipe = async (req, res) => {
   try {
     const { id } = req.params;
@@ -76,5 +90,6 @@ module.exports = {
   getAllRecipes,
   getRecipeById,
   updateRecipe,
+  updateImg,
   deleteRecipe,
 };

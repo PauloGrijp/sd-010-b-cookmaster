@@ -54,6 +54,21 @@ const updateRecipe = async (recipe, id, recId) => {
   };
 };
 
+const updateImg = async (id, image) => {
+  console.log('passou no model');
+  const validId = ObjectId.isValid(id);
+  if (!validId) {
+    return false;
+  }
+  const db = await connection();
+  const addImg = await db.collection('recipes')
+    .findOneAndUpdate({ _id: ObjectId(id) }, { $set: { image } }, { returnOriginal: false });
+  if (addImg.value.image === image) {
+    return addImg.value;
+  }
+  return false;
+};
+
 const deleteRecipe = async (id) => {
   const validId = ObjectId.isValid(id);
   if (!validId) {
@@ -69,5 +84,6 @@ module.exports = {
   getAllRecipes,
   getRecipeById,
   updateRecipe,
+  updateImg,
   deleteRecipe,
 };

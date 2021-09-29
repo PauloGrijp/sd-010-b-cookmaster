@@ -40,9 +40,10 @@ app.post('/login', usersController.userLogin);
 app.post('/recipes', validToken, validateRecipe, recipesController.createRecipe);
 
 app.put('/recipes/:id', validToken, validateRecipe, recipesController.updateRecipe);
-app.put('/recipes/:id/image/', validToken, upload.single('image'));
 
 app.delete('/recipes/:id', validToken, recipesController.deleteRecipe);
+
+app.put('/recipes/:id/image', validToken, upload.single('image'), recipesController.updateImg);
 
 // Não remover esse end-point, ele é necessário para o avaliador
 app.get('/', (request, response) => {
