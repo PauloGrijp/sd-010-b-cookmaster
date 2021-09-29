@@ -31,7 +31,6 @@ const updateRecipe = async (recipe, id, recId) => {
 };
 
 const updateImg = async (id, image) => {
-  console.log('passou no service');
   const addImg = await model.updateImg(id, image);
   if (!addImg) {
     return false;

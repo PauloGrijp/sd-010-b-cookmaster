@@ -55,7 +55,6 @@ const updateRecipe = async (recipe, id, recId) => {
 };
 
 const updateImg = async (id, image) => {
-  console.log('passou no model');
   const validId = ObjectId.isValid(id);
   if (!validId) {
     return false;
