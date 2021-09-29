@@ -84,7 +84,7 @@ const uploadImg = async (id, picture, userId, role) => {
   existError.err = { code: 404, message: 'recipe not found' };
 
   const recipeExists = await models.getById(id);
-  if (recipeExists === null) throw existError;
+  // if (recipeExists === null) throw existError;
 
   if (userId === recipeExists.userId || role === 'admin') {
   const model = await models.uploadImg(id, picture);
