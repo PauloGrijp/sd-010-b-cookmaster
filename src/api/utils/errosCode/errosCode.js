@@ -28,4 +28,9 @@ module.exports = {
     status: 401,
     message: 'jwt malformed',
   },
+
+  recipeNotFound: {
+    status: 404,
+    message: 'recipe not found',
+  },
 };

@@ -13,4 +13,14 @@ const create = async ({ name, ingredients, preparation }, userId) => {
 const getAll = async () => models.getAll()
   .then((data) => ({ status: 200, data }));
 
-module.exports = { create, getAll };
+const getById = async ({ id }) => {
+  try {
+    const data = await models.getById(id);
+    return ({ status: 200, data });
+  } catch (erro) {
+    const err = { statusCode: 'recipeNotFound' };
+    throw err;
+  }
+}; 
+  
+module.exports = { create, getAll, getById };
