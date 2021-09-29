@@ -21,8 +21,16 @@ const getRecipeById = async (id) => {
   return recipeById;
 };
 
+const updateRecipe = async ({ name, ingredients, preparation }, id) => {
+  const db = await connect();
+  const collection = await db.collection('recipes');
+  await collection.updateOne(ObjectId(id), { $set: { name, ingredients, preparation } });
+  return { name, ingredients, preparation, id };
+};
+
 module.exports = {
   createRecipes,
   getAllRecipes,
   getRecipeById,
+  updateRecipe,
 };
