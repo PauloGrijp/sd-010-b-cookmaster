@@ -39,9 +39,19 @@ const update = async (id, recipe, userId) => {
   };
 };
 
+const deleteRecipe = async (id, _userId) => {
+  if (!idValidator(id)) return recipeNotFound;
+  const itemsDeleted = await RecipesModel.deleteRecipe(id);
+
+  if (!itemsDeleted) return { code: 404 };
+
+  return { code: 204 };
+};
+
 module.exports = {
   create,
   getAll,
   getById,
   update,
+  deleteRecipe,
 };
