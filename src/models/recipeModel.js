@@ -27,4 +27,12 @@ const update = async ({ recipeId, name, ingredients, preparation, user }) => {
   return { _id: recipeId, name, ingredients, preparation, userId: user };
 };
 
-module.exports = { create, getAll, getOne, update };
+const deleteOne = async (id) => {
+  if (!ObjectId.isValid(id)) {
+    return null;
+  }
+  const db = await connection();
+  await db.collection('recipes').deleteOne({ _id: new ObjectId(id) });
+};
+
+module.exports = { create, getAll, getOne, update, deleteOne };
