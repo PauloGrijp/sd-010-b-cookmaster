@@ -10,4 +10,7 @@ const create = async ({ name, ingredients, preparation }, userId) => {
     .then((data) => ({ status: 201, recipe: data.ops[0] }));
 };
 
-module.exports = { create };
+const getAll = async () => models.getAll()
+  .then((data) => ({ status: 200, data }));
+
+module.exports = { create, getAll };

@@ -6,4 +6,7 @@ const collection = async () => connection()
 const create = async (name, ingredients, preparation, userId) => collection()
   .then((col) => col.insertOne({ name, ingredients, preparation, userId }));
 
-module.exports = { create };
+const getAll = async () => collection()
+  .then((col) => col.find().toArray());
+
+module.exports = { create, getAll };
