@@ -55,7 +55,6 @@ const insertImage = async (id) => {
     { _id: ObjectId(id) }, { $set: { image: `localhost:3000/src/uploads/${id}.jpeg` } },
   );
   const updatedRecipe = await findById(id);
-  console.log(updatedRecipe);
   return updatedRecipe;
 };
 
