@@ -24,6 +24,7 @@ const addUrlImage = (id, image) => collection()
   .then((col) => col.findOneAndUpdate(
     { _id: ObjectId(id) },
     { $set: { image } },
+    { returnOriginal: false },
   ));
 
 module.exports = { create, getAll, getById, updateById, deleteById, addUrlImage };
