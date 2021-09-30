@@ -1,4 +1,5 @@
-// Validation of my users
+// This file validates my user info
+
 const { dbCaller } = require('../models/db');
 
 const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -12,7 +13,7 @@ const emailCheck = async ({ email }) => {
     return alreadyExist;
 };
 
-// doing all of the user validations
+// doing all of the user validations defined above
 const userCheck = async ({ name, email, password }) => {
     if (cogitoErgoSum(name, email, password)) {
     return { 
@@ -20,7 +21,7 @@ const userCheck = async ({ name, email, password }) => {
         message: 'Invalid entries. Try again.',
         };
     }
-    if (await emailCheck({ email })) return { code: 409, message: 'Email already registered' }; // if true return code, else nothing
+    if (await emailCheck({ email })) return { code: 409, message: 'Email already registered' }; // if true return oject, else nothing
     if (!regexCheck(email)) return { code: 400, message: 'Invalid entries. Try again.' };
 };
 
