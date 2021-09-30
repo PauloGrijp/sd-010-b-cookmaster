@@ -72,7 +72,10 @@ const updateImg = async (id, image) => {
   const db = await connection();
   const addImg = await db.collection('recipes')
     .findOneAndUpdate({ _id: ObjectId(id) }, { $set: { image } }, { returnOriginal: false });
-  return addImg.value;
+  // if (addImg.value.image === image) {
+    return addImg.value;
+  // }
+  // return false;
 };
 
 module.exports = {
