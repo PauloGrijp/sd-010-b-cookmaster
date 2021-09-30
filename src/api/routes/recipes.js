@@ -2,7 +2,7 @@ const route = require('express').Router();
 const rescue = require('express-rescue');
 const validationToken = require('../utils/validations/validationsToken');
 const controllers = require('../controllers/controllersRecipes');
-const uploadImage = require('../middlewares/upload');
+const uploadFile = require('../middlewares/upload');
 
 route.post('/', rescue(validationToken), rescue(controllers.create));
 route.get('/', rescue(controllers.getAll));
@@ -11,7 +11,7 @@ route.put('/:id', rescue(validationToken), rescue(controllers.updateById));
 route.delete('/:id', rescue(validationToken), rescue(controllers.deleteById));
 route.put('/:id/image',
   rescue(validationToken),
-  rescue(uploadImage),
+  rescue(uploadFile),
   rescue(controllers.addUrlImage));
 
 module.exports = route;
