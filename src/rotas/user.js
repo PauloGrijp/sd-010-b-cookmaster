@@ -1,9 +1,9 @@
 const express = require('express');
-const { validadesUsers } = require('../midd/validade');
+const { validatesUsers } = require('../midd/validate');
 const Users = require('../controllers/user');
 
 const UsersRouter = express.Router();
 
-UsersRouter.post('/', validadesUsers, Users.createUser);
+UsersRouter.post('/', validatesUsers, Users.createUser);
 
 module.exports = UsersRouter;
