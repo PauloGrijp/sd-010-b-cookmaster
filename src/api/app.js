@@ -20,6 +20,9 @@ app.get('/recipes', recipeController.getAllRecipes);
 app.get('/recipes/:id', recipeController.getRecipeById);
 // Rota para atualização da receita
 app.put('/recipes/:id', validateJwt, recipeController.updateRecipe);
+// Rota para deletar receita
+app.delete('/recipes/:id', validateJwt, recipeController.deleteRecipe);
+
 // Não remover esse end-point, ele é necessário para o avaliador
 app.get('/', (request, response) => {
   response.send();
