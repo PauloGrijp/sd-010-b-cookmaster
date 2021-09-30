@@ -2,6 +2,13 @@ const UserModel = require('../models/UserModel');
 
 const message = 'Invalid entries. Try again.';
 
+const verifyRole = (role, path) => {
+  if (role === 'admin') {
+    return path === 'admin';
+  }
+  return path === 'user';
+};
+
 const requiredFields = (name, email, password) => {
   if (!name || !email || !password) {
     return false;
@@ -17,7 +24,7 @@ const isValidEmail = (email) => {
   return true;
 };
 
-const createUser = async ({ name, email, password, role }) => {
+const createUser = async ({ name, email, password, role }, path) => {
   const fieldValid = requiredFields(name, email, password);
   const emailValid = isValidEmail(email);
   
@@ -31,10 +38,12 @@ const createUser = async ({ name, email, password, role }) => {
       status: 400,
     };
   }
+  const userRole = verifyRole(role, path);
+
   const { id } = await UserModel.createUser({
     name, email, password, role,
   });
-  return { id, name, email, password, role };
+  return { id, name, email, password, userRole };
 };
 
 module.exports = {

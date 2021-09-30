@@ -13,15 +13,7 @@ const findByEmail = async (email) => {
   const user = await userCollection.findOne({ email });
   return user;
 };
-
-const createAdmin = async () => {
-  const userCollection = await connection()
-  .then((db) => db.collection('users'));
-
-  const admin = await userCollection.insertOne({ role: 'admin' });
   
-  
-
 module.exports = {
   createUser,
   findByEmail,
