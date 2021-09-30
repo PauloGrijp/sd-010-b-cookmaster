@@ -50,10 +50,25 @@ const deleteRecipe = async (id) => {
   return deletedCount;
 };
 
+const uploadPhoto = async (id, path) => {
+  const db = await connection();
+  const { modifiedCount } = await db.collection(RECIPES).updateOne(
+    { _id: ObjectId(id) },
+    { $set: { image: path } },
+  );
+  const recipeWithImage = await db.collection(RECIPES).findOne({ _id: ObjectId(id) });
+
+  return {
+    modifiedCount,
+    recipeWithImage,
+  };
+};
+
 module.exports = {
   create,
   getAll,
   getById,
   update,
   deleteRecipe,
+  uploadPhoto,
 };
