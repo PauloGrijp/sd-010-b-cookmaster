@@ -8,6 +8,7 @@ const recipesRoute = require('../routes/recipesRoute');
 const app = express();
 
 app.use(bodyParser.json());
+app.use('/images', express.static(`${__dirname}/../uploads`));
 app.use('/users', usersRoute);
 app.use('/login', loginRoute);
 app.use('/recipes', recipesRoute);
