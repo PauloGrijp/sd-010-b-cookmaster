@@ -314,7 +314,7 @@ Inicialmente todos os testes falharão:
 Especialmente no início, quando a maioria dos testes está falhando, a saída após executar os testes é bastante poluída. Você pode desabilitar temporariamente um teste utilizando a função `skip` junto à função `it`. Como o nome indica, esta função "pula" um teste:
 
 ```js
-  it.skip('Será validado que o campo "email" é obrigatório', async () => {
+  it('Será validado que o campo "email" é obrigatório', async () => {
     await frisby
       .post(`${url}/users/`,
         {
