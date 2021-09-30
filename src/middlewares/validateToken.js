@@ -12,7 +12,7 @@ module.exports = (req, res, next) => {
 
     req.payload = { _id, role };
   
-    return next();
+    next();
   } catch (_err) {
     return next({ status: 401, message: 'jwt malformed' });
   }
