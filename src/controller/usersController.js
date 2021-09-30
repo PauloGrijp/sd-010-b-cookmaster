@@ -63,8 +63,9 @@ usersRouter.post('/users/admin', validateJWT, async (req, res) => {
     role: 'admin',
     reqUserRole: role });
   
-  if (!newAdmin) res.status(403).json({ message: 'Only admins can register new admins' });
-  console.log(newAdmin);
+  if (!newAdmin) {
+    return res.status(403).json({ message: 'Only admins can register new admins' });
+  } 
 
   return res.status(201).json({ user: newAdmin });
 });
