@@ -31,9 +31,16 @@ const updateRecipe = async (recipeData) => {
     ));
 };
 
+const deleteRecipe = async (id) => 
+  connection()
+    .then((db) => db.collection('recipes').deleteOne(
+      { _id: ObjectId(id) },
+    ));
+
 module.exports = {
   createRecipe,
   getAllRecipes,
   getRecipeById,
   updateRecipe,
+  deleteRecipe,
 };
