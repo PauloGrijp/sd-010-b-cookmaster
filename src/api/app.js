@@ -19,5 +19,5 @@ app.get('/', (request, response) => {
 app.post('/users', userController.create);
 app.post('/login', loginController.login);
 app.use('/recipes', recipesRouter);
-app.post('/users/admin', validateJWT, loginController.admin);
+app.post('/users/admin', validateJWT, userController.createAdmin);
 module.exports = app;
