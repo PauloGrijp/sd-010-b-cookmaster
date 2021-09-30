@@ -15,10 +15,7 @@ const updateById = async (req, res) => services.updateById(req.params, req.body,
 const deleteById = async (req, res) => services.deleteById(req.params)
   .then(({ status }) => res.status(status).json());
 
-const addUrlImage = async (req, res) => {
-  console.log('não mostra');
-  return services.addUrlImage(req.params, req.file)
+const addUrlImage = async (req, res) => services.addUrlImage(req.params, req.file)
   .then(({ status, data }) => res.status(status).json(data));
-};
 
 module.exports = { create, getAll, getById, updateById, deleteById, addUrlImage };
