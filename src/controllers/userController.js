@@ -24,6 +24,22 @@ const createUser = async (req, res) => {
   return res.status(CODE_HTTP.CREATE_SUCCESS).json(resultServices);
 };
 
+const createAdmin = async (req, res) => {
+  const { name, email, password } = req.body;
+  const { role } = req.user;
+
+  if (!role) return res.status(CODE_HTTP.FORBIDDEN).json(MESSAGE.DENIAL_NEW_ADMIN);
+
+  const responseService = await userServices.createAdmin({ name, email, password, role });
+
+  if (!responseService) {
+    return res.status(CODE_HTTP.FORBIDDEN).json(MESSAGE.DENIAL_NEW_ADMIN);
+}
+
+  return res.status(CODE_HTTP.CREATE_SUCCESS).json(responseService);
+};
+
 module.exports = {
   createUser,
+  createAdmin,
 };

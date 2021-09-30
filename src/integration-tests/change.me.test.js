@@ -10,7 +10,7 @@ chai.use(chaiHttp);
 
 const { expect } = chai;
 
-describe('Requisito 11', () => {
+describe('Requisito 11, verifica o endpoint "/users"', () => {
    describe('quando é criado com sucesso', () => {
        let response = {};
         const DBServer = new MongoMemoryServer();
@@ -66,4 +66,6 @@ describe('Requisito 11', () => {
              () => {expect(response.body.user.name).to.be.equal('Janaina')}
        );
    });
+
+   describe('', () => {})
 });
