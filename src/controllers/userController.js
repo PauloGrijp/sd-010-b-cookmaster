@@ -23,14 +23,15 @@ const create = async (req, res) => {
 
 const createAdmin = async (req, res) => {
    const { name, email, password, role } = req.body;
-   console.log(req.path);
-   const { path } = req.path;
-   const userAdmin = await userService.createAdmin({ name, email, password, role }, path);
+   console.log(req.user);
+   const { path } = req;
+   const { role: logUser } = req.user;
+   const userAdmin = await userService.createAdmin({ name, email, password, role }, path, logUser);
    const { id } = userAdmin;
    if (userAdmin.message) {
 	return res.status(statusCode.FORBIDDEN).json({ message: userAdmin.message });
    } 	
-   return res.status(statusCode.CREATED).json({ user: { name, email, role, _id: id } });	
+   return res.status(statusCode.CREATED).json({ user: { name, email, role: 'admin', _id: id } });	
 };
 
 module.exports = { create, createAdmin };
