@@ -24,7 +24,7 @@ const getById = async (id) => {
   const recipe = await RecipesModel.getById(id);
 
   if (!recipe) return recipeNotFound;
-  
+
   return {
     code: 200,
     recipe,
@@ -43,9 +43,23 @@ const deleteRecipe = async (id, _userId) => {
   if (!idValidator(id)) return recipeNotFound;
   const itemsDeleted = await RecipesModel.deleteRecipe(id);
 
-  if (!itemsDeleted) return { code: 404 };
+  if (!itemsDeleted) return recipeNotFound;
 
   return { code: 204 };
+};
+
+const uploadPhoto = async (id, path) => {
+  if (!idValidator(id)) return recipeNotFound;
+
+  const fullPath = `localhost:3000/${path}`;
+  const { modifiedCount, recipeWithImage } = await RecipesModel.uploadPhoto(id, fullPath);
+
+  if (!modifiedCount) return recipeNotFound;
+
+  return {
+    code: 200,
+    recipeWithImage,
+  };
 };
 
 module.exports = {
@@ -54,4 +68,5 @@ module.exports = {
   getById,
   update,
   deleteRecipe,
+  uploadPhoto,
 };
