@@ -4,7 +4,6 @@ module.exports = (req, res, next) => {
   const token = req.headers.authorization;
   if (!token) return next({ status: 401, message: 'missing auth token' });
   try {
-
     const SECRET = 'superSenha';
     
     const payload = jwt.verify(token, SECRET);
