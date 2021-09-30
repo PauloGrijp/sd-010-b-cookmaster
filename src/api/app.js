@@ -14,6 +14,8 @@ const { validToken } = require('../middlewares/validateJWT');
 
 const app = express();
 
+app.use(bodyParser.json());
+
 const storage = multer.diskStorage({
   destination: (req, file, callback) => {
     callback(null, path.join(__dirname, '..', 'uploads'));
@@ -25,8 +27,6 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({ storage });
-
-app.use(bodyParser.json());
 
 app.get('/recipes', recipesController.getAllRecipes);
 app.get('/recipes/:id', recipesController.getRecipeById);
