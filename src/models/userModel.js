@@ -34,4 +34,17 @@ const findUser = async ({ email, password }) => {
   return userCollection;  
 };
 
-  module.exports = { create, findByEmail, findUser, findById };
+const createAdmin = async ({ name, email, password, role }) => {
+  const usersCollection = await mongoConnection.getConnection()
+      .then((db) => db.collection('users'));
+  const userAdmin = await usersCollection.insertOne({ name, email, password, role });
+  return {
+    name,
+      email,
+      password,
+      role,
+      id: userAdmin.insertedId,
+  };
+}; 
+
+module.exports = { create, findByEmail, findUser, findById, createAdmin };
