@@ -23,8 +23,10 @@ const getRecipeById = async (id) => {
 
 const updateRecipe = async ({ name, ingredients, preparation }, id) => {
   const db = await connect();
-  const collection = await db.collection('recipes');
-  await collection.updateOne(ObjectId(id), { $set: { name, ingredients, preparation } });
+  await db.collection('recipes').updateOne(
+    { _id: ObjectId(id) },
+    { $set: { name, ingredients, preparation } },
+  );
   return { name, ingredients, preparation, id };
 };
 

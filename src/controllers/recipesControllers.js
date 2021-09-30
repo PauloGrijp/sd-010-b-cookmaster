@@ -39,7 +39,7 @@ const getAllRecipes = async (_req, res) => {
   if (message) {
     return res.status(400).json({ message });
   }
-  return { _id: id, name, ingredients, preparation, userId };
+  return res.status(200).json({ _id: id, name, ingredients, preparation, userId });
  };
 
 module.exports = {
