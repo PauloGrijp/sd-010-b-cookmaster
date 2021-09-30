@@ -1,10 +1,25 @@
 const express = require('express');
 const { StatusCodes } = require('http-status-codes');
 const jwt = require('jsonwebtoken');
+const multer = require('multer');
+const path = require('path');
+
 const recipesService = require('../services/recipesService');
 const secret = require('./superpassword');
 
 const recipesRouter = express.Router();
+
+const staticDestination = path.join(__dirname, '..', 'uploads');
+
+const storage = multer.diskStorage({
+  destination: (req, file, callback) => callback(null, staticDestination),
+  filename: (req, file, callback) => {
+    const { id } = req.params;
+    return callback(null, `${id}.jpeg`);
+  },
+});
+
+const imageUpload = multer({ storage });
 
 recipesRouter.post('/', async (req, res) => {
   const recipe = req.body;
@@ -55,6 +70,25 @@ recipesRouter.put('/:id', async (req, res) => {
   }
 
   const result = await recipesService.updateRecipeById(id, verifiedToken, updatedRecipe);
+
+  return res.status(StatusCodes.OK).json(result);
+});
+
+recipesRouter.put('/:id/image', imageUpload.single('image'), async (req, res) => {
+  const { id } = req.params;
+
+  const token = req.headers.authorization;
+  if (!token) return res.status(StatusCodes.UNAUTHORIZED).json({ message: 'missing auth token' });
+
+  let verifiedToken;
+
+  try {
+    verifiedToken = jwt.verify(token, secret);
+  } catch (error) {
+    return res.status(StatusCodes.UNAUTHORIZED).json({ message: 'jwt malformed' });
+  }
+
+  const result = await recipesService.addRecipeImage(id, verifiedToken);
 
   return res.status(StatusCodes.OK).json(result);
 });

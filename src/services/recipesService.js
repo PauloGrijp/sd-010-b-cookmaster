@@ -68,10 +68,28 @@ const excludeRecipeById = async (recipeId, { _id, role }) => {
   return excludedRecipe;
 }; 
 
+const addRecipeImage = async (recipeId, { _id, role }) => {
+  const existsRecipe = await getRecipeById(recipeId);
+  let recipeInfos;
+
+  if (!existsRecipe) {
+    recipesError.message = 'recipe not found';
+    return recipesError;
+  }
+
+  if (_id === existsRecipe.userId || role === 'admin') {
+    const imageUrl = `localhost:3000/src/uploads/${recipeId}.jpeg`;
+    recipeInfos = await recipesModel.addRecipeImage(recipeId, imageUrl);
+  }
+
+  return recipeInfos.value;
+};
+
 module.exports = {
   createRecipe,
   getAllRecipes,
   getRecipeById,
   updateRecipeById,
   excludeRecipeById,
+  addRecipeImage,
  };
