@@ -14,6 +14,13 @@ const isValidEmail = (email) => {
     return true;
 };
 
+const valideAdmin = (role, path) => {
+  if (path.includes('/admin')) {
+    return role === 'admin';
+  } 
+  return role === 'user';
+};
+
 const create = async ({ name, email, password, role }) => {
     const existFields = existField(name, email, password);
     const validEmail = isValidEmail(email);
@@ -26,4 +33,12 @@ const create = async ({ name, email, password, role }) => {
     return { id, name, email, password, role };
 };
 
-module.exports = { create };
+const createAdmin = async ({ name, email, password, role }) => {
+  if (valideAdmin === 'user') {
+    return { message: 'Only admins can register new admins' };
+  }
+  const { id } = await usersModel.createAdmin({ name, email, password, role });
+  return { id, name, email, password, role };
+};
+
+module.exports = { create, createAdmin };
