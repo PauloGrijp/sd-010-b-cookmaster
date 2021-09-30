@@ -37,7 +37,7 @@ const getAllRecipes = async (_req, res) => {
   const recipe = await recipesValidations.updateRecipe({ name, ingredients, preparation }, id);
   const { message } = recipe;
   if (message) {
-    return res.status(400).json({ message });
+    return res.status(401).json({ message });
   }
   return res.status(200).json({ _id: id, name, ingredients, preparation, userId });
  };
