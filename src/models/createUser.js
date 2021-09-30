@@ -9,4 +9,4 @@ const createUser = async ({ name, email, password }) => {
 
 module.exports = {
     createUser,
-}
+};
