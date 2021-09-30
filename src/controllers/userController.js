@@ -18,7 +18,19 @@ const create = async (req, res) => {
 		);
     }
     
-	return res.status(statusCode.CREATED).json({ user: { name, email, role: 'user', _id: id } });
+	return res.status(statusCode.CREATED).json({ user: { name, email, role, _id: id } });
 };
 
-module.exports = { create };
+const createAdmin = async (req, res) => {
+   const { name, email, password, role } = req.body;
+   console.log(req.path);
+   const { path } = req.path;
+   const userAdmin = await userService.createAdmin({ name, email, password, role }, path);
+   const { id } = userAdmin;
+   if (userAdmin.message) {
+	return res.status(statusCode.FORBIDDEN).json({ message: userAdmin.message });
+   } 	
+   return res.status(statusCode.CREATED).json({ user: { name, email, role, _id: id } });	
+};
+
+module.exports = { create, createAdmin };
