@@ -1,5 +1,5 @@
 const express = require('express');
-// const path = require('path');
+const path = require('path');
 
 const erro = require('./middlewares/erro');
 
@@ -20,7 +20,8 @@ app.get('/', (request, response) => {
 app.use('/users', users);
 app.use('/login', login);
 app.use('/recipes', recipes);
-app.use('/images', express.static('src/uploads'));
+// app.use('/images', express.static('src/uploads'));
+app.use('/images', express.static(path.join(__dirname, 'uploads')));
 app.use(erro);
 
 module.exports = app;
