@@ -31,9 +31,16 @@ async function updateRecipe(id, recipe) {
   const { name, ingredients, preparation } = recipe;
   const db = await connection();
   const result = await db.collection('recipes')
-    .findOneAndUpdate({ _id: ObjectId(id) }, { $set: { name, ingredients, preparation } }, { returnOriginal: false });
+    .findOneAndUpdate({ _id: ObjectId(id) },
+    { $set: { name, ingredients, preparation } }, { returnOriginal: false });
   
   return result.value;
+}
+
+async function removeRecipe(id) {
+  const db = await connection();
+  await db.collection('recipes').deleteOne({ _id: ObjectId(id) });
+  return null;
 }
 
 module.exports = {
@@ -41,4 +48,5 @@ module.exports = {
   getAllRecipes,
   getRecipe,
   updateRecipe,
+  removeRecipe,
 };

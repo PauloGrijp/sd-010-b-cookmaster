@@ -8,5 +8,6 @@ route.get('/', rescue(controller.getAllRecipes));
 route.get('/:id', rescue(controller.getRecipe));
 route.post('/', rescue(controller.createRecipe));
 route.put('/:id', rescue(controller.updateRecipe));
+route.delete('/:id', rescue(controller.removeRecipe));
 
 module.exports = route;

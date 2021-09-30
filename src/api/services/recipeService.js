@@ -23,7 +23,15 @@ async function updateRecipe(req) {
   return result;
 }
 
+async function removeRecipe(id, token) {
+  existsToken(token);
+  checkToken(token);
+  await model.removeRecipe(id);
+  return null;
+}
+
 module.exports = {
   createRecipe,
   updateRecipe,
+  removeRecipe,
 };
