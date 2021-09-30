@@ -31,5 +31,8 @@ const updateById = async ({ id }, { name, ingredients, preparation }, userId) =>
   return models.updateById(id, name, ingredients, preparation)
     .then(() => ({ status: 200, recipe }));
 };
+
+const deleteById = async ({ id }) => models.deleteById(id)
+  .then(() => ({ status: 204 }));
   
-module.exports = { create, getAll, getById, updateById };
+module.exports = { create, getAll, getById, updateById, deleteById };

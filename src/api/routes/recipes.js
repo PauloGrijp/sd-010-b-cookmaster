@@ -3,10 +3,10 @@ const rescue = require('express-rescue');
 const validationToken = require('../utils/validations/validationsToken');
 const controllers = require('../controllers/controllersRecipes');
 
-route.post('/', rescue(validationToken, controllers.create));
+route.post('/', rescue(validationToken), rescue(controllers.create));
 route.get('/', rescue(controllers.getAll));
 route.get('/:id', rescue(controllers.getById));
-route.put('/:id', rescue(validationToken, controllers.updateById));
-// route.delete('/:id', rescue())
+route.put('/:id', rescue(validationToken), rescue(controllers.updateById));
+route.delete('/:id', rescue(validationToken), rescue(controllers.deleteById));
 
 module.exports = route;

@@ -12,4 +12,7 @@ const getById = async (req, res) => services.getById(req.params)
 const updateById = async (req, res) => services.updateById(req.params, req.body, req.user)
   .then(({ status, recipe }) => res.status(status).json(recipe));
 
-module.exports = { create, getAll, getById, updateById };
+const deleteById = async (req, res) => services.deleteById(req.params)
+  .then(({ status }) => res.status(status).json());
+
+module.exports = { create, getAll, getById, updateById, deleteById };
