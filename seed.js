@@ -1,4 +1,4 @@
-const { use } = require("./src/routes/users")
+const { use } = require("./src/routes/user")
 
 // colocar query do MongoDB
 use('Cookmaster');
