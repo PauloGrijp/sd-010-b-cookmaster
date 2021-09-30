@@ -15,9 +15,10 @@ app.get('/', (request, response) => {
 app.use('/users', rotas.Users);
 app.use('/login', rotas.Login);
 app.use('/recipes', rotas.Recipes);
-
+app.use('/images', express.static('src/uploads'));
 app.use(erroMidd);
 
 module.exports = app;
 
-// este projeto esta sendo executado com ajuda de colegas e pesquisas em repositórios
+// este projeto esta sendo executado com ajuda de colegas e pesquisas em repositórios, principalmente da turma 9 e 8;
+// essa materia ainda esta bem confusa pra mim, por isso além da explicações que estou recebendo, estou tentando enteder atraves das consultas;
