@@ -75,7 +75,7 @@ const deleteRecipe = async (req, res) => {
 const updateImg = async (req, res) => {
   try {
     const { id } = req.params;
-    const image = path.join('localhost:3000', 'src', 'uploads', `${id}.jpeg`);
+    const image = path.join('localhost:3000', 'src', 'uploads');
     const recipeImg = await service.updateImg(id, image);
     return res.status(StatusCodes.OK).json(recipeImg);
   } catch (error) {

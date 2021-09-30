@@ -24,6 +24,9 @@ const storage = multer.diskStorage({
     const { id } = req.params;
     callback(null, `${id}.jpeg`);
   },
+  mimetype: (req, file, callback) => {
+    callback(null, 'image/jpeg');
+  },
 });
 
 const upload = multer({ storage });
