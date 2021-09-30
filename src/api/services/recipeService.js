@@ -30,8 +30,14 @@ async function removeRecipe(id, token) {
   return null;
 }
 
+async function multerValidation(token) {
+  existsToken(token);
+  checkToken(token);
+}
+
 module.exports = {
   createRecipe,
   updateRecipe,
   removeRecipe,
+  multerValidation,
 };

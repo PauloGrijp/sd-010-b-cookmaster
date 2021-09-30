@@ -1,3 +1,4 @@
+const multer = require('multer');
 const service = require('../services/recipeService');
 const model = require('../models/recipeModel');
 const { checkRecipe } = require('../utils/validate');
@@ -31,10 +32,32 @@ async function removeRecipe(req, res) {
   return res.status(204).json();
 }
 
+async function multerValidation(req, res, next) {
+  const { authorization: token } = req.headers;
+  await service.multerValidation(token);
+  next();
+}
+
+const storage = multer.diskStorage({
+  destination: (req, file, callback) => callback(null, 'src/uploads'),
+  filename: (req, file, callback) => callback(null, `${req.params.id}.jpeg`),
+});
+
+const uploadFile = multer({ storage });
+
+async function saveImage(req, res) {
+  const { id } = req.params;
+  const result = await model.saveImage(id);
+  return res.status(200).json(result);
+}
+
 module.exports = {
   createRecipe,
   getAllRecipes,
   getRecipe,
   updateRecipe,
   removeRecipe,
+  multerValidation,
+  uploadFile,
+  saveImage,
 };

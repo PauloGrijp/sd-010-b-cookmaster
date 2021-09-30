@@ -43,10 +43,19 @@ async function removeRecipe(id) {
   return null;
 }
 
+async function saveImage(id) {
+  const db = await connection();
+  const result = await db.collection('recipes')
+    .findOneAndUpdate({ _id: ObjectId(id) },
+    { $set: { image: `localhost:3000/src/uploads/${id}.jpeg` } }, { returnOriginal: false });
+  return result.value;
+}
+
 module.exports = {
   createRecipe,
   getAllRecipes,
   getRecipe,
   updateRecipe,
   removeRecipe,
+  saveImage,
 };
