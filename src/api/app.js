@@ -20,7 +20,7 @@ app.get('/', (request, response) => {
 app.use('/users', users);
 app.use('/login', login);
 app.use('/recipes', recipes);
-app.use('/images', express.static(path.join(__dirname, '..', 'uploads')));
+app.use('/images', express.static('src/uploads'));
 app.use(erro);
 
 module.exports = app;

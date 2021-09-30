@@ -9,9 +9,6 @@ route.get('/', rescue(controllers.getAll));
 route.get('/:id', rescue(controllers.getById));
 route.put('/:id', rescue(validationToken), rescue(controllers.updateById));
 route.delete('/:id', rescue(validationToken), rescue(controllers.deleteById));
-route.put('/:id/image',
-  rescue(validationToken),
-  rescue(uploadFile),
-  rescue(controllers.addUrlImage));
+route.put('/:id/image', rescue(validationToken), uploadFile, rescue(controllers.addUrlImage));
 
 module.exports = route;
