@@ -1,0 +1,15 @@
+const getConnection = require('./connection');
+
+const collection = 'recipes';
+
+async function create({ name, ingredients, preparation, userId }) {
+  const db = await getConnection();
+  const result = await db
+    .collection(collection)
+    .insertOne({ name, ingredients, preparation });
+  return { recipe: { _id: result.insertedId, name, ingredients, preparation, userId } };
+}
+
+module.exports = {
+  create,
+};

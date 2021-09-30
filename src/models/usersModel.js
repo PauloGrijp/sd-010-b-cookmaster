@@ -2,11 +2,11 @@ const getConnection = require('./connection');
 
 const collection = 'users';
 
-const checkLogin = async ({ email, password }) => {
+async function checkLogin({ email, password }) {
   const db = await getConnection();
   const user = await db.collection(collection).findOne({ email, password });
   return user;  
-};
+}
 
 async function getByEmail(email) {
   const db = await getConnection();
