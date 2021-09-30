@@ -4,6 +4,7 @@ const path = require('path');
 const userController = require('../controllers/userController');
 const loginController = require('../controllers/loginController');
 const recipesRouter = require('../controllers/recipeController'); 
+const validateJWT = require('../middlewares/validateJWT');
 
 const app = express();
 app.use('/images', express.static(path.join(__dirname, '..', 'uploads')));
@@ -18,5 +19,5 @@ app.get('/', (request, response) => {
 app.post('/users', userController.create);
 app.post('/login', loginController.login);
 app.use('/recipes', recipesRouter);
-app.post('/users/admin', loginController.admin);
+app.post('/users/admin', validateJWT, loginController.admin);
 module.exports = app;
