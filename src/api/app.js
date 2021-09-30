@@ -13,6 +13,7 @@ app.get('/', (request, response) => {
 });
 // Não remover esse end-point, ele é necessário para o avaliador
 app.use('/users', rotas.Users);
+app.use('/login', rotas.Login);
 app.use(erroMidd);
 
 module.exports = app;
