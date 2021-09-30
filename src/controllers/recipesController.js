@@ -6,6 +6,15 @@ async function getAll(_req, res) {
   return res.status(200).json(recipes);
 }
 
+async function getById(req, res) {
+  const { id } = req.params;
+  const recipe = await recipesService.getById({ id });
+
+  if (recipe === 'wrong id') res.status(404).json({ message: 'recipe not found' });
+
+  return res.status(200).json(recipe);
+}
+
 async function create(req, res) {
   const { name, ingredients, preparation } = req.body;
   const { email } = req.user;
@@ -21,5 +30,6 @@ async function create(req, res) {
 
 module.exports = {
   getAll,
+  getById,
   create,
 };

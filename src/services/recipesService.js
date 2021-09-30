@@ -6,6 +6,16 @@ async function getAll() {
   return recipes;
 }
 
+async function getById({ id }) {
+  if (id.length < 24) return 'wrong id';
+  
+  const recipe = await recipesModel.getById({ id });
+
+  if (!recipe) return 'wrong id';
+  
+  return recipe;
+}
+
 async function create({ name, ingredients, preparation, email }) {
   if (!name || !ingredients || !preparation) return 'invalid entries';
 
@@ -17,5 +27,6 @@ async function create({ name, ingredients, preparation, email }) {
 
 module.exports = {
   getAll,
+  getById,
   create,
 };
