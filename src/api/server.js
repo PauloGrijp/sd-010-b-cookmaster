@@ -1,7 +1,13 @@
 const bodyParser = require('body-parser');
 const app = require('./app');
-const { isValidEmail, isValidNameAndPassword } = require('../middlewares/user.middlewares');
+const logIn = require('../controllers/login.controllers');
 const { newUser } = require('../controllers/user.controllers');
+// MIDDLEWARES
+const {
+  isValidEmail,
+  isValidNameAndPassword,
+  validateLogin,
+} = require('../middlewares/user.middlewares');
 
 app.use(bodyParser.json());
 
@@ -10,6 +16,12 @@ app.post(
   isValidNameAndPassword,
   isValidEmail,
   newUser,
+);
+
+app.post(
+  '/login',
+  validateLogin,
+  logIn,
 );
 
 const PORT = 3000;

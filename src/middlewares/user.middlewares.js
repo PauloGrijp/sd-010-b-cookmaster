@@ -1,5 +1,15 @@
 const { getUserByEmail } = require('../models/user.model');
 
+const validateLogin = async (req, res, next) => {
+  const { email, password } = req.body;
+
+  if (!email || !password) {
+    return res.status(401).json({ message: 'All fields must be filled' });
+  }
+
+  next();
+};
+
 const isValidNameAndPassword = (req, res, next) => {
   const { name, password } = req.body;
 
@@ -35,4 +45,5 @@ const isValidEmail = async (req, res, next) => {
 module.exports = {
   isValidNameAndPassword,
   isValidEmail,
+  validateLogin,
 };
