@@ -15,10 +15,12 @@ const isValidEmail = (email) => {
 };
 
 const valideAdmin = (role, path) => {
-  if (path.includes('/admin')) {
-    return role === 'admin';
+  if (path.includes('/admin') && role === 'admin') {
+    const roleUser = role;
+    return roleUser;
   } 
-  return role === 'user';
+  const roleUser = 'user';
+  return roleUser;
 };
 
 const create = async ({ name, email, password, role }) => {
@@ -33,8 +35,9 @@ const create = async ({ name, email, password, role }) => {
     return { id, name, email, password, role };
 };
 
-const createAdmin = async ({ name, email, password, role }) => {
-  if (valideAdmin === 'user') {
+const createAdmin = async ({ name, email, password, role }, path) => {
+  const admin = valideAdmin(role, path);
+  if (admin === 'user') {
     return { message: 'Only admins can register new admins' };
   }
   const { id } = await usersModel.createAdmin({ name, email, password, role });
