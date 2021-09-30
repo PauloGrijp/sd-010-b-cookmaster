@@ -36,12 +36,14 @@ const create = async ({ name, email, password, role }) => {
 };
 
 const createAdmin = async ({ name, email, password, role }, path, logUser) => {
+  console.log(role);
+  console.log(logUser);
   const admin = valideAdmin(logUser, path);
   if (admin === 'user') {
     return { message: 'Only admins can register new admins' };
   }
   const { id } = await usersModel.createAdmin({ name, email, password, role });
-  return { id, name, email, password, role };
+  return { id, name, email, password, role: logUser };
 };
 
 module.exports = { create, createAdmin };
