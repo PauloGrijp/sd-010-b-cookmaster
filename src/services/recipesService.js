@@ -30,14 +30,6 @@ const updateRecipe = async (recipe, id, recId) => {
   return updatedRecipe;
 };
 
-const updateImg = async (id, image) => {
-  const addImg = await model.updateImg(id, image);
-  if (!addImg) {
-    return false;
-  }
-  return addImg;
-};
-
 const deleteRecipe = async (id) => {
   const deletedRecipe = await model.deleteRecipe(id);
   if (deletedRecipe) {
@@ -46,11 +38,19 @@ const deleteRecipe = async (id) => {
   return false;
 };
 
+const updateImg = async (id, image) => {
+  const addImg = await model.updateImg(id, image);
+  if (!addImg) {
+    return false;
+  }
+  return addImg;
+};
+
 module.exports = {
   createRecipe,
   getAllRecipes,
   getRecipeById,
   updateRecipe,
-  updateImg,
   deleteRecipe,
+  updateImg,
 };

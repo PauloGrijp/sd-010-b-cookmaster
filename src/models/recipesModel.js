@@ -54,6 +54,16 @@ const updateRecipe = async (recipe, id, recId) => {
   };
 };
 
+const deleteRecipe = async (id) => {
+  const validId = ObjectId.isValid(id);
+  if (!validId) {
+    return false;
+  }
+  const db = await connection();
+  const deletedRecipe = await db.collection('recipes').deleteOne({ _id: ObjectId(id) });
+  return deletedRecipe;
+};
+
 const updateImg = async (id, image) => {
   const validId = ObjectId.isValid(id);
   if (!validId) {
@@ -68,21 +78,11 @@ const updateImg = async (id, image) => {
   return false;
 };
 
-const deleteRecipe = async (id) => {
-  const validId = ObjectId.isValid(id);
-  if (!validId) {
-    return false;
-  }
-  const db = await connection();
-  const deletedRecipe = await db.collection('recipes').deleteOne({ _id: ObjectId(id) });
-  return deletedRecipe;
-};
-
 module.exports = {
   createRecipe,
   getAllRecipes,
   getRecipeById,
   updateRecipe,
-  updateImg,
   deleteRecipe,
+  updateImg,
 };
