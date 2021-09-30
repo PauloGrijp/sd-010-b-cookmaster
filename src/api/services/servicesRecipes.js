@@ -34,5 +34,8 @@ const updateById = async ({ id }, { name, ingredients, preparation }, userId) =>
 
 const deleteById = async ({ id }) => models.deleteById(id)
   .then(() => ({ status: 204 }));
+
+  const putImage = (id, path) => models.putImage(id, `localhost:3000/${path}`)
+  .then(() => models.getById(id).then((data) => ({ status: 200, data })));
   
-module.exports = { create, getAll, getById, updateById, deleteById };
+module.exports = { create, getAll, getById, updateById, deleteById, putImage };

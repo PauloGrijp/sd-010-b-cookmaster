@@ -20,4 +20,7 @@ const updateById = async (id, name, ingredients, preparation) => collection()
 const deleteById = async (id) => collection()
   .then((col) => col.deleteOne({ _id: ObjectId(id) }));
 
-module.exports = { create, getAll, getById, updateById, deleteById };
+const putImage = (id, image) => collection()
+  .then((col) => col.updateOne({ _id: ObjectId(id) }, { $set: { image } }));
+
+module.exports = { create, getAll, getById, updateById, deleteById, putImage };
