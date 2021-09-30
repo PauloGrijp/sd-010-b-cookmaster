@@ -38,7 +38,7 @@ const deleteById = async ({ id }) => models.deleteById(id)
 
 const addUrlImage = ({ id }, { filename }) => {
   const pathImage = join('localhost:3000', 'src', 'uploads', filename);
-  return models.addUrlImage(id, pathImage).then((data) => ({ status: 200, data }));
+  return models.addUrlImage(id, pathImage).then(({ value }) => ({ status: 200, value }));
 };
   
 module.exports = { create, getAll, getById, updateById, deleteById, addUrlImage };
