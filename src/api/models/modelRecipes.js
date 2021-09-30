@@ -18,6 +18,6 @@ const updateById = async (id, name, ingredients, preparation) => collection()
     { $set: { name, ingredients, preparation } }));
 
 const deleteById = async (id) => collection()
-  .then((col) => col.deleteOne(ObjectId(id)));
+  .then((col) => col.deleteOne({ _id: ObjectId(id) }));
 
 module.exports = { create, getAll, getById, updateById, deleteById };
