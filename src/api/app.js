@@ -4,6 +4,8 @@ const loginRoute = require('./routes/loginRoute');
 const recipeRoute = require('./routes/recipeRoute');
 const errorMid = require('./middlewares/error');
 
+// Projeto desenvolvido com auxílio do colega Flávio Andrade Turma 10 B
+
 const app = express();
 app.use(express.json());
 app.use('/users', usersRoute);

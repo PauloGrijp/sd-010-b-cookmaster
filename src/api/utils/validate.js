@@ -30,7 +30,7 @@ const err5 = {
 const err6 = {
   status: 401,
   message: 'missing auth token',
-}
+};
 
 function validName(name) {
   if (!name) throw err;
