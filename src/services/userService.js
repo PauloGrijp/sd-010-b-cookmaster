@@ -36,8 +36,6 @@ const create = async ({ name, email, password, role }) => {
 };
 
 const createAdmin = async ({ name, email, password, role }, path, logUser) => {
-  console.log(role);
-  console.log(logUser);
   const admin = valideAdmin(logUser, path);
   if (admin === 'user') {
     return { message: 'Only admins can register new admins' };
