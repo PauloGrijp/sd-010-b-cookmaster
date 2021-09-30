@@ -42,9 +42,16 @@ const getAllRecipes = async (_req, res) => {
   return res.status(200).json({ _id: id, name, ingredients, preparation, userId });
  };
 
+ const deleteRecipe = async (req, res) => {
+   const { id } = req.params;
+   await recipesValidations.deleteRecipe(id);
+   res.status(204).json();
+ };
+
 module.exports = {
   createRecipesController,
   getAllRecipes,
   getRecipeById,
   updateRecipe,
+  deleteRecipe,
 };
