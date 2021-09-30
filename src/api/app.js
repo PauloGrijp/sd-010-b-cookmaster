@@ -1,8 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-
-const { createAction } = require('../controller/createUser');
 const { userCheck } = require('../controller/userValidation');
+const { createAction } = require('../controller/createUser');
 
 const app = express();
 app.use(bodyParser.json());

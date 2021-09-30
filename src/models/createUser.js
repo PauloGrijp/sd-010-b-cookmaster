@@ -7,4 +7,6 @@ const createUser = async ({ name, email, password }) => {
     return create.ops[0]; // refer to mongo manual in case of doubt
 };
 
-module.exports = createUser;
+module.exports = {
+    createUser,
+}

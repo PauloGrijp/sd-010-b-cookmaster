@@ -6,4 +6,6 @@ const createAction = async (req, res) => {
     return res.status(201).json({ user: result });
 };
 
-module.exports = createAction;
+module.exports = {
+    createAction,
+};
