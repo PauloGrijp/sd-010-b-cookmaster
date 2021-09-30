@@ -37,6 +37,7 @@ const deleteById = async ({ id }) => models.deleteById(id)
   .then(() => ({ status: 204 }));
 
 const addUrlImage = ({ id }, { filename }) => {
+  console.log(id, filename);
   const pathImage = join('localhost:3000', 'src', 'uploads', filename);
   return models.addUrlImage(id, pathImage).then(({ value }) => ({ status: 200, value }));
 };
