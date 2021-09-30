@@ -58,8 +58,12 @@ const deleteRecipe = async (id) => {
     return null;
   }
 
-  connection()
-    .then((db) => db.collection('recipes').deleteOne({ _id: ObjectId(id) }));
+  const deleted = await connection()
+    .then((db) => db.collection('recipes').findOneAndDelete({ _id: ObjectId(id) }));
+
+  if (!deleted.value) return null;
+
+  return deleted;
 };
 
 module.exports = {

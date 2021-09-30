@@ -31,7 +31,7 @@ const login = rescue(async (req, res, _next) => {
   const { email, password } = req.body;
 
   const user = await User.login(email, password);
-  console.log(user);
+  // console.log(user);
 
   const jwtConfig = {
     expiresIn: '7d',
