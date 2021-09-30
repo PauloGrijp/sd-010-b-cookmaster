@@ -1,4 +1,4 @@
-const { validateCredentials } = require('./utils/validateCredentials');
+const { validateCredentials } = require('../utils/index');
 
 const userModel = require('../models/users');
 

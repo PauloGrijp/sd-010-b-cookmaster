@@ -10,6 +10,14 @@ const validateCredentials = (userData) => {
   }).validate(userData);
 };
 
+const validateRecipe = (recipeData) =>
+  Joi.object({
+    name: Joi.string().required(),
+    ingredients: Joi.string().required(),
+    preparation: Joi.string().required(),
+  }).validate(recipeData);
+
 module.exports = {
   validateCredentials,
+  validateRecipe,
 };
