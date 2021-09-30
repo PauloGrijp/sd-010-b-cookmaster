@@ -23,4 +23,6 @@ app.get('/recipes/:id', Recipe.getRecipeById);
 
 app.put('/recipes/:id', validateToken, Recipe.updateRecipe);
 
+app.delete('/recipes/:id', validateToken, Recipe.deleteRecipe);
+
 module.exports = app;

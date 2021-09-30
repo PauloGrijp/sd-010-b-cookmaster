@@ -7,7 +7,7 @@ const create = async (name, email, password, role) => {
   return {
     name,
     email,
-    role: 'user',
+    role,
     id: createUser.insertedId,
   };
 };

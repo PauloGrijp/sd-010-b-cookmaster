@@ -6,6 +6,7 @@ const secret = 'tokensecreto';
 
 const validateToken = async (req, res, next) => {
   const token = req.headers.authorization;
+  console.log(token);
 
   if (!token) {
     return res.status(401).json({ message: 'missing auth token' });
@@ -28,23 +29,3 @@ const validateToken = async (req, res, next) => {
 module.exports = {
   validateToken,
 };
-
-// const validateJWT = async (token) => {
-//   if (!token) {
-//     return { message: 'jwt malformed' };
-//   }
-
-//   const decoded = jwt.verify(token, secret);
-
-//   // console.log(decoded);
-
-//   const user = await model.findEmail(decoded.data.email);
-//   // console.log(user);
-//   if (!user) {
-//     return { message: 'Erro ao procurar email' };
-//   }
-
-//   return user;
-// };
-
-// module.exports = validateJWT;

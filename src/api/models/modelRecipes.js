@@ -32,11 +32,8 @@ const getRecipeById = async (id) => {
   return recipeById;
 };
 
-const getRecipeByUserId = async (userId) => connection()
-  .then((db) => db.collection('recipes').findOne(userId));
-
 const updateRecipe = async (id, newUpdatedRecipe, userId) => {
-  console.log(id, newUpdatedRecipe, userId);
+  // console.log(id, newUpdatedRecipe, userId);
   if (!ObjectId.isValid(id)) {
     return null;
   }
@@ -56,10 +53,19 @@ const updateRecipe = async (id, newUpdatedRecipe, userId) => {
   };
 };
 
+const deleteRecipe = async (id) => {
+  if (!ObjectId.isValid(id)) {
+    return null;
+  }
+
+  connection()
+    .then((db) => db.collection('recipes').deleteOne({ _id: ObjectId(id) }));
+};
+
 module.exports = {
   createRecipe,
   getAll,
   getRecipeById,
-  getRecipeByUserId,
   updateRecipe,
+  deleteRecipe,
 };
