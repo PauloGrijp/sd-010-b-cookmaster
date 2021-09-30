@@ -60,10 +60,20 @@ const deleteRecipe = async (req, res) => {
     return res.status(204).send();
 };
 
+const addImageToRecipe = async (req, res) => {
+    const myFile = req.file;
+    const urlImage = myFile.filename;
+    const fullUrlImage = `localhost:3000/src/uploads/${urlImage}`;
+    const { id } = req.params;
+    const addImage = await recipesService.addImageToRecipe(id, fullUrlImage);
+    return res.status(200).json(addImage);
+};
+
 module.exports = {
     addNewRecipe,
     getAllRecipes,
     getRecipeById,
     updateRecipe,
     deleteRecipe,
+    addImageToRecipe,
 };

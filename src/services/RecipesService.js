@@ -105,6 +105,13 @@ const deleteRecipe = async (id) => {
     return recipeDeleted;
 };
 
+const addImageToRecipe = async (id, urlImage) => {
+    const addImage = await recipesModel.addImageToRecipe(id, urlImage);
+    console.log(addImage);
+    const getImage = await recipesModel.getRecipeById(id);
+    return getImage;
+};
+
 module.exports = {
     validateIfFieldsExists,
     validateToken,
@@ -113,4 +120,5 @@ module.exports = {
     getRecipeById,
     updateRecipe,
     deleteRecipe,
+    addImageToRecipe,
 };
