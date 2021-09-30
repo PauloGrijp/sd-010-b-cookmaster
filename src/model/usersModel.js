@@ -41,5 +41,5 @@ module.exports = {
     getAll,
     create,
     userExists,
-    getPasswdByEmail
+    getPasswdByEmail,
 };
