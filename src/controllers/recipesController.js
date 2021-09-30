@@ -34,11 +34,22 @@ const update = async (req, res) => {
 
 const deleteRecipe = async (req, res) => {
   const { id } = req.params;
-  // const { _id } = req.user;
-  
+
   try {
     const { code } = await RecipesService.deleteRecipe(id);
     res.status(code).send();
+  } catch (error) {
+    res.status(401).json({ message: error.message });
+  }
+};
+
+const uploadPhoto = async (req, res) => {
+  const { id } = req.params;
+  const { path } = req.file;
+
+  try {
+    const { code, recipeWithImage } = await RecipesService.uploadPhoto(id, path);
+    res.status(code).json(recipeWithImage);
   } catch (error) {
     res.status(401).json({ message: error.message });
   }
@@ -50,4 +61,5 @@ module.exports = {
   getById,
   update,
   deleteRecipe,
+  uploadPhoto,
 };
