@@ -21,6 +21,9 @@ const deleteById = async (id) => collection()
   .then((col) => col.deleteOne({ _id: ObjectId(id) }));
 
 const addUrlImage = (id, image) => collection()
-  .then((col) => col.updateOne({ _id: ObjectId(id) }, { $set: { image } }));
+  .then((col) => col.findOneAndUpdate(
+    { _id: ObjectId(id) },
+    { $set: { image } },
+  ));
 
 module.exports = { create, getAll, getById, updateById, deleteById, addUrlImage };

@@ -36,8 +36,8 @@ const updateById = async ({ id }, { name, ingredients, preparation }, userId) =>
 const deleteById = async ({ id }) => models.deleteById(id)
   .then(() => ({ status: 204 }));
 
-const addUrlImage = ({ id }, { filename }) => {
-  const pathImage = join('localhost:3000', 'src', 'uploads', filename);
+const addUrlImage = ({ id }, { path }) => {
+  const pathImage = join('localhost:3000', path);
   return models.addUrlImage(id, pathImage).then(({ value }) => ({ status: 200, value }));
 };
   
