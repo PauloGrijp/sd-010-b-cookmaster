@@ -1,4 +1,5 @@
 const rescue = require('express-rescue');
+const path = require('path');
 const Recipe = require('../services/serviceRecipes');
 // const validateJWT = require('../schema/validateJWT');
 
@@ -47,6 +48,7 @@ const updateRecipe = rescue(async (req, res, _next) => {
   return res.status(200).json(updatedRecipe);
 });
 
+// Fiz com a ajuda do colega Rodolfo Oliveira
 const deleteRecipe = rescue(async (req, res, _next) => {
   const { id } = req.params;
   const deleteRec = await Recipe.deleteRecipe(id);
@@ -57,10 +59,19 @@ const deleteRecipe = rescue(async (req, res, _next) => {
   res.sendStatus(204);
 });
 
+const updateImage = rescue(async (req, res, _next) => {
+  const { id } = req.params;
+  const image = path.join('localhost:3000', 'src', 'uploads');
+  const newImage = Recipe.updateImage(id, image);
+
+  return res.status(200).json(newImage);
+});
+
 module.exports = {
   createRecipe,
   getAll,
   getRecipeById,
   updateRecipe,
   deleteRecipe,
+  updateImage,
 };

@@ -41,10 +41,18 @@ const deleteRecipe = async (id) => {
   return deleted;
 };
 
+const updateImage = async (id, image) => {
+  const newImage = await Recipe.updateImage(id, image);
+  if (!newImage) return null;
+
+  return newImage;
+};
+
 module.exports = {
   createRecipe,
   getAll,
   getRecipeById,
   updateRecipe,
   deleteRecipe,
+  updateImage,
 };
