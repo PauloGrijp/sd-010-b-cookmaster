@@ -4,9 +4,8 @@ const sinon = require('sinon');
 
 const fs = require('fs');
 const path = require('path');
-const multer = require('multer');
 
-const server = require('../api/server');
+const server = require('../api/app');
 
 const { MongoClient, ObjectId } = require('mongodb');
 const { getConnection } = require('./mockConnection');
@@ -37,7 +36,6 @@ describe('Testa o endpoint de cadastro de imagem de receita', () => {
       before(async () => {
         mockConnection = await getConnection();
         sinon.stub(MongoClient, 'connect').resolves(mockConnection);
-        // sinon.stub(multer, 'diskStorage')
         await mockConnection.db('Cookmaster').collection('users').insertOne(user);
         const { body: { token } } = await chai.request(server).post('/login').send(userLoginInfo);
         const { insertedId } = await mockConnection.db('Cookmaster').collection('recipe').insertOne(recipe);
@@ -45,7 +43,7 @@ describe('Testa o endpoint de cadastro de imagem de receita', () => {
           .request(server)
           .put(`/recipes/${insertedId}/image`)
           .set({ authorization: token })
-          .attach('image', fs.readFileSync(path.join(__dirname, '..', 'uploads', 'ratinho.jpg')), `${insertedId}.jpg`);
+          .attach('image', fs.readFileSync(path.join(__dirname, '..', 'uploads', 'ratinho.jpg')), `${insertedId}.jpg`)
       });
 
       after(async () => {
@@ -55,6 +53,7 @@ describe('Testa o endpoint de cadastro de imagem de receita', () => {
       });
 
       it('retorna o status 200', async () => {
+        console.log(response.body);
         expect(response).to.have.status(200);
       });
     });   
