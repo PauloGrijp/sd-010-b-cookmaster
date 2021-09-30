@@ -18,7 +18,7 @@ app.use(bodyParser.json());
 
 const storage = multer.diskStorage({
   destination: (req, file, callback) => {
-    callback(null, path.join(__dirname, '..', 'uploads'));
+    callback(null, 'src/uploads');
   },
   filename: (req, file, callback) => {
     const { id } = req.params;
