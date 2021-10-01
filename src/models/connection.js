@@ -7,7 +7,7 @@ const DB_NAME = 'Cookmaster';
 
 const connection = () => MongoClient
     .connect(MONGO_DB_URL, {
-    //   urlNewParser: true,
+      useNewUrlParser: true,
       useUnifiedTopology: true,
     })
     .then((conn) => conn.db(DB_NAME)) // nome do banco de dados

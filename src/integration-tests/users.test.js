@@ -4,7 +4,7 @@ const chaiHttp = require('chai-http');
 chai.use(chaiHttp);
 const {expect} = chai
 const { MongoClient } = require('mongodb');
-const { getConnection } = require('./connectionMock');
+const { getConnection, DBServer } = require('./connectionMock');
 const server = require('../api/app');
 
 
@@ -16,15 +16,15 @@ describe('POST /users', () => {
     connectionMock = await getConnection();
     sinon.stub(MongoClient, 'connect').resolves(connectionMock);
   });
-
+  
   after(async () => {
     MongoClient.connect.restore();
   });
-
+  
   /* CADASTRO DE USUÁRIO COM SUCESSO */
   describe('cadastro de usuários com sucesso ', () => {
     let response = {};
-
+    
     before(async () => {
       response = await chai.request(server).post('/users').send({
         name: 'Rafael',
@@ -33,17 +33,25 @@ describe('POST /users', () => {
       });
     });
 
-    it('retorna o código de status 200', () => {
+    
+    it('retorna o código de status "201"', () => {
       expect(response).to.have.status(201);
     });
+
+    it('o objeto possui a propriedade "user"', () => {
+      expect(response.body).to.have.property('user');
+  });
 
     it('retorna um objeto', () => {
       expect(response.body).to.be.a('object');
     });
 
-    it('a resposta possui a propriedade "id, name, email, role"', () => {
-      expect(response.body).to.have.property('user');
-    });     
+    // it('a resposta possui a propriedade "id, name, email, role"', () => {
+    //   expect(response.body.user).to.have.property("name");
+    //   expect(response.body.user).to.have.property("email");
+    //   expect(response.body.user).to.have.property("role");
+    //   expect(response.body.user).to.have.property("_id");
+    // });     
   });
 
 

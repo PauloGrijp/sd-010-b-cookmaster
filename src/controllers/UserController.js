@@ -2,7 +2,6 @@ const StatusCodes = require('http-status-codes');
 const UserService = require('../services/UserService');
 
 const verifyRole = (_role, path) => {
-  console.log(path, 'verificação');
   if (path.includes('admin')) {
       return 'admin';
   }
@@ -12,8 +11,7 @@ const verifyRole = (_role, path) => {
 const createUser = async (req, res) => {
   const { name, email, password, role } = req.body;
   const { path } = req;
-  console.log(path);
-  
+    
   const { id, message } = await UserService.createUser({ name, email, password, role });
   
   if (message === 'Invalid entries. Try again.') {
