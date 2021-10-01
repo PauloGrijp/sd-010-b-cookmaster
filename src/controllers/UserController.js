@@ -1,7 +1,7 @@
 const StatusCodes = require('http-status-codes');
 const UserService = require('../services/UserService');
 
-const verifyRole = (role, path) => {
+const verifyRole = (_role, path) => {
   console.log(path, 'verificação');
   if (path.includes('admin')) {
       return 'admin';
