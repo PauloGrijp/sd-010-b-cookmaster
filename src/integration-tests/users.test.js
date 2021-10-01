@@ -46,12 +46,12 @@ describe('POST /users', () => {
       expect(response.body).to.be.a('object');
     });
 
-    // it('a resposta possui a propriedade "id, name, email, role"', () => {
-    //   expect(response.body.user).to.have.property("name");
-    //   expect(response.body.user).to.have.property("email");
-    //   expect(response.body.user).to.have.property("role");
-    //   expect(response.body.user).to.have.property("_id");
-    // });     
+    it('a resposta possui a propriedade "id, name, email, role"', () => {
+      expect(response.body.user).to.have.property("name");
+      expect(response.body.user).to.have.property("email");
+      expect(response.body.user).to.have.property("role");
+      expect(response.body.user).to.have.property("_id");
+    });     
   });
 
 
@@ -125,4 +125,7 @@ describe('POST /users', () => {
   });
 });
 
-describe('POST /users/admin', () => {});
+describe('POST /users/admin', () => {
+
+  
+});
