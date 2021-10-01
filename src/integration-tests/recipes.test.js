@@ -348,6 +348,21 @@ describe('PUT /recipes/:id', () => {
       });      
     })
     
+    it('retorna o código de status "400"', () => {
+      expect(response).to.have.status(400)
+    });
+    
+    it('retorna um objeto', () => {
+      expect(response.body).to.be.an('object');
+    });
+
+    it('o objeto retorna uma propriedade "message" ', () => {
+      expect(response.body).to.have.property('message');
+    });
+
+    it('a propriedade message tem valor "Invalid entries. Try again." ', () => {
+      expect(response.body.message).to.have.equal('Invalid entries. Try again.');      
+    });
   })
   
   describe('Falta da propriedade ingredients do campo do body inválido', () => {
