@@ -11,31 +11,35 @@ chai.use(chaiHttp);
 const { expect } = chai;
 
 describe('Requisito 11, verifica o endpoint "/users"', () => {
+    let response = {};
+     const DBServer = new MongoMemoryServer();
+
+    before(async () => {
+         const URLMock = await DBServer.getUri();
+         const connectionMock = await MongoClient.connect(URLMock,
+             { useNewUrlParser: true, useUnifiedTopology: true }
+         );
+
+         sinon.stub(MongoClient, 'connect')
+             .resolves(connectionMock);
+    });
+
+     after(async () => {
+         MongoClient.connect.restore();
+         await DBServer.stop();
+     });
+
+
+
    describe('quando é criado com sucesso', () => {
-       let response = {};
-        const DBServer = new MongoMemoryServer();
-
-       before(async () => {
-            const URLMock = await DBServer.getUri();
-            const connectionMock = await MongoClient.connect(URLMock,
-                { useNewUrlParser: true, useUnifiedTopology: true }
-            );
-
-            sinon.stub(MongoClient, 'connect')
-                .resolves(connectionMock);
-
-           response = await chai.request(server)
-               .post('/users')
-               .send({
-                   name: 'Janaina',
-                   email: 'Jana@gmail.com',
-                   password: 'senha123'
-               });
-       });
-
-        after(async () => {
-            MongoClient.connect.restore();
-            await DBServer.stop();
+        before(async () => {
+            response = await chai.request(server)
+                .post('/users')
+                .send({
+                    name: 'Janaina',
+                    email: 'Jana@gmail.com',
+                    password: 'senha123'
+                });
         });
 
        it('retorna o código de status 201', () => {
@@ -66,19 +70,11 @@ describe('Requisito 11, verifica o endpoint "/users"', () => {
              () => {expect(response.body.user.name).to.be.equal('Janaina')}
        );
    });
+
+
    describe('Quando não são passados os campos "name", "email", "password" no endpoint "/users"', () => {
-        let response = {};
-        const DBServer = new MongoMemoryServer();
 
-        before(async () => {
-                const URLMock = await DBServer.getUri();
-                const connectionMock = await MongoClient.connect(URLMock,
-                    { useNewUrlParser: true, useUnifiedTopology: true }
-                );
-
-            sinon.stub(MongoClient, 'connect')
-                .resolves(connectionMock);
-
+    before(async () => {
         response = await chai.request(server)
             .post('/users')
             .send({
@@ -88,53 +84,34 @@ describe('Requisito 11, verifica o endpoint "/users"', () => {
             });
     });
 
-        after(async () => {
-            MongoClient.connect.restore();
-            await DBServer.stop();
-        });
+    it('Retorna o código de status 400', () => {
+        expect(response).to.have.status(400)
+    })
 
-        it('Retorna o código de status 400', () => {
-            expect(response).to.have.status(400)
-        })
+    it('Retorna um objeto', () => {
+        expect(response).to.be.a('object');
+    })
 
-        it('Retorna um objeto', () => {
-            expect(response).to.be.a('object');
-        })
+    it('Verifica se não existe a propriedade "message"', () => {
+        expect(response.body).to.have.property('message');
+    })
 
-        it('Verifica se não existe a propriedade "message"', () => {
-            expect(response.body).to.have.property('message');
-        })
+    it('Verifica se não existe a propriedade "message"', () => {
+        expect(response.body.message).to.be.equal('Invalid entries. Try again.');
+    })
 
-        it('Verifica se não existe a propriedade "message"', () => {
-            expect(response.body.message).to.be.equal('Invalid entries. Try again.');
-        })
+})
 
-   })
 
-   describe('verifica o endpoint "/login", em caso de falhas', () => {
-        let response = {};
-        const DBServer = new MongoMemoryServer();
+   describe('verifica o endpoint "/login", em caso de não receber email ou password', () => {
 
         before(async () => {
-                const URLMock = await DBServer.getUri();
-                const connectionMock = await MongoClient.connect(URLMock,
-                    { useNewUrlParser: true, useUnifiedTopology: true }
-                );
-
-                sinon.stub(MongoClient, 'connect')
-                    .resolves(connectionMock);
-
             response = await chai.request(server)
                 .post('/login')
                 .send({
                     email: '',
                     password: ''
                 });
-        });
-
-        after(async () => {
-            MongoClient.connect.restore();
-            await DBServer.stop();
         });
 
         it('Retorna o status 401',() => {
@@ -161,4 +138,37 @@ describe('Requisito 11, verifica o endpoint "/users"', () => {
             expect(response.body.message).to.be.equal('All fields must be filled')
         })
    })
+
+
+   describe('verifica o endpoint "/login", em caso de sucesso', () => {
+
+    before(async () => {
+
+        
+
+        response = await chai.request(server)
+            .post('/login')
+            .send({
+                email: 'Lucas',
+                password: 'lucas@gmail.com'
+            });
+    });
+
+    it('Retorna o status 200',() => {
+        expect(response).to.have.status(200);
+    })
+
+    it('Retorna um objeto',() => {
+        expect(response).to.be.a('object');
+    })
+
+    it('Verifica se retorna Token',() => {
+        expect(response.body).to.have.property('token');
+    })
+    
+
+    // it('V',() => {
+    //     expect(response.body.message).to.be.equal('All fields must be filled')
+    // })
+})
 });
