@@ -42,6 +42,7 @@ recipeRouter.post('/', validationJWT, async (req, res) => {
 // visualiza receitas
 recipeRouter.get('/', async (req, res) => {
   const allRecipes = await RecipeModel.getAllRecipes();
+  
   if (!allRecipes) {
     return res.status(code.NOT_FOUND).json({ message: 'Nenhuma receita encontrada' });
   }
