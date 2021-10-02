@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const multer = require('multer');
+const path = require('path');
 const usersController = require('../controllers/UsersController');
 const loginController = require('../controllers/LoginController');
 const recipesController = require('../controllers/RecipesController');
@@ -22,6 +23,8 @@ const app = express();
 app.use(bodyParser.json());
 
 const upload = multer({ storage });
+
+app.use('/images', express.static(path.join(__dirname, '..', 'uploads')));
 
 // Não remover esse end-point, ele é necessário para o avaliador
 app.get('/', (request, response) => {
@@ -45,5 +48,7 @@ upload.single('image'), recipesController.addImageToRecipe);
 app.put('/recipes/:id', recipesController.updateRecipe);
 
 app.delete('/recipes/:id', recipesController.deleteRecipe);
+
+// app.get('/images/:id', recipesController.getImageById);
 
 module.exports = app;
