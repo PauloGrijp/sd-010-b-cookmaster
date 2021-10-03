@@ -32,7 +32,6 @@ const getRecipeById = async (req, res) => {
     
     return res.status(status).json(notification);
   } catch (e) {
-    console.log(e);
     return res.status(code.HTTP_INTERNAL_SERVER_ERROR).json({ message: error.unexpectedError });
   }
 };
