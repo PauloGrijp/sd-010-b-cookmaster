@@ -26,14 +26,6 @@ const login = async (password, email) => {
     return resp;
   }
 
-  // const respEmail = validateEmail(email);
-  // const user = await UsersModel.findEmail(email);
-
-  // if (!user || respEmail || user.password !== password ) {
-  //   const resp = { message: 'Incorrect username or password' };
-  //   return resp;
-  // }
-
   const response = await validatePasswordAndEmail(email, password);
   return response;
 };

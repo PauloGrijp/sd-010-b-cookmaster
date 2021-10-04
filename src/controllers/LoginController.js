@@ -17,6 +17,8 @@ const loginUser = async (req, res) => {
     algorithm: 'HS256',
   };
 
+  delete loginValidate.password; 
+
   const token = jwt.sign({ data: loginValidate }, secret, jwtConfig);
 
   return res.status(200).json({ token });

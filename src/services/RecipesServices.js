@@ -29,6 +29,13 @@ const findById = async (id) => {
 };
 
 const update = async (id, name, ingredients, preparation) => {
+  const recipeIdExists = await RecipesModel.findById(id);
+
+  if (!recipeIdExists) {
+    const resp = { message: 'recipe not found' };
+    return resp;
+  }
+
   const updateRecipe = await RecipesModel.update(id, name, ingredients, preparation);
 
   return updateRecipe;
