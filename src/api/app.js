@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const multer = require('multer');
+const path = require('path');
 const validateJWT = require('./auth/validateJWT');
 const UsersController = require('../controllers/UsersController');
 const LoginController = require('../controllers/LoginController');
@@ -12,8 +13,10 @@ app.use(bodyParser.json());
 
 const URL = 'localhost:3000/src/uploads/';
 
+app.use('/images', express.static(path.join(__dirname, '..', 'uploads')));
+
 const storage = multer.diskStorage({
-  distination: (req, file, callback) => {
+  destination: (req, file, callback) => {
     callback(null, './src/uploads');
   },
   filename: (req, file, callback) => {
@@ -50,5 +53,7 @@ app.put('/recipes/:id/image', validateJWT, upload.single('image'), async (req, r
   
   res.status(200).json(newRecipe);
 });
+
+// app.get('/images/:idRecipe') // endpoint para acessar a imagem de uma receita
 
 module.exports = app;
