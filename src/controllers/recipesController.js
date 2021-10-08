@@ -10,7 +10,7 @@ async function getById(req, res) {
   const { id } = req.params;
   const recipe = await recipesService.getById({ id });
 
-  if (recipe === 'wrong id') res.status(404).json({ message: 'recipe not found' });
+  if (recipe === 'wrong id') return res.status(404).json({ message: 'recipe not found' });
 
   return res.status(200).json(recipe);
 }
