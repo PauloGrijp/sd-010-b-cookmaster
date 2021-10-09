@@ -29,7 +29,6 @@ async function validateLogin({ email, password }) {
   const checkLogin = await usersModel.checkLogin({ email, password });
   
   if (!email || !password) return 'missing fields';
-  console.log(checkLogin);
   if (!checkLogin) return 'wrong data';
 }
 

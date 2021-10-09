@@ -25,8 +25,18 @@ async function create({ name, ingredients, preparation, email }) {
   return recipesModel.create({ name, ingredients, preparation, userId: _id });
 }
 
+async function update({ name, ingredients, preparation, email }) {
+  if (!name || !ingredients || !preparation) return 'invalid entries';
+
+  const user = await usersModel.getByEmail(email);
+  const { _id } = user;
+   
+  return recipesModel.update({ name, ingredients, preparation, userId: _id });
+}
+
 module.exports = {
   getAll,
   getById,
   create,
+  update,
 };

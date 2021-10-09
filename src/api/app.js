@@ -3,6 +3,7 @@ const express = require('express');
 const usersController = require('../controllers/usersController');
 const recipesController = require('../controllers/recipesController');
 const validateJWT = require('./auth/validateJWT');
+const validateJWTUpdate = require('./auth/validateJWTUpdate');
 
 const app = express();
 app.use(bodyParser.json());
@@ -20,6 +21,8 @@ app.post('/login', usersController.login);
 app.post('/recipes', validateJWT, recipesController.create);
 
 app.get('/recipes', recipesController.getAll);
+
+app.put('/recipes/:id', validateJWTUpdate, recipesController.update);
 
 app.get('/recipes/:id', recipesController.getById);
 

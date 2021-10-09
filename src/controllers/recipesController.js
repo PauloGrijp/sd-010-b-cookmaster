@@ -28,8 +28,23 @@ async function create(req, res) {
   return res.status(201).json(user);
 }
 
+async function update(req, res) {
+  const { name, ingredients, preparation } = req.body;
+  const { email } = req.user;
+  
+  const user = await recipesService.update({ name, ingredients, preparation, email });
+  console.log(user);
+  
+  if (user === 'invalid entries') {
+    return res.status(400).json({ message: 'Invalid entries. Try again.' });
+  }
+ 
+  return res.status(200).json(user);
+}
+
 module.exports = {
   getAll,
   getById,
   create,
+  update,
 };
