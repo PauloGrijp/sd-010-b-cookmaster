@@ -34,6 +34,7 @@ const login = async (email, password) => {
       error: { code: codes.unhautorized, message: 'Incorrect username or password' },
     };
   }
+
   return userWithoutPassword(user);
 };
 

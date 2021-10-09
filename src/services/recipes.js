@@ -30,10 +30,20 @@ const getRecipeById = async (id) => {
   return { recipe };
 };
 
-const editRecipe = async (name, ingredients, preparation, ids) => {
-  const recipe = await recipesModel.editRecipe(name, ingredients, preparation, ids);
+const editRecipe = async (updateInfo, ids, role) => {
+  const { userId, recipeId } = ids;
 
-  return recipe;
+  const recipe = await recipesModel.getRecipeById(recipeId);
+
+  const { userId: ownerId } = recipe;
+
+  if (userId !== ownerId && role !== 'admin') {
+    return { error: { code: codes.unhautorized, message: 'you are not the owner of this recipe' } };
+  }
+
+  const editedRecipe = await recipesModel.editRecipe(updateInfo, ids);
+
+  return editedRecipe;
 };
 
 const deleteRecipe = async (recipeId, userId) => {
@@ -48,11 +58,23 @@ const deleteRecipe = async (recipeId, userId) => {
   return null;
 };
 
-const uploadImage = async (id, path) => {
-  const completePath = `localhost:3000/${path}`;
-  const recipe = await recipesModel.uploadImage(id, completePath);
+const uploadImage = async (recipeId, path, userId, userRole) => {
+  const recipe = await recipesModel.getRecipeById(recipeId);
 
-  return recipe;
+  if (!recipe) {
+    return { error: { code: codes.notFound, message: 'recipe note found' } };
+  }
+
+  const { userId: ownerId } = recipe;
+
+  if (userId !== ownerId && userRole !== 'admin') {
+    return { error: { code: codes.unhautorized, message: 'you are not the owner of this recipe' } };
+  }
+
+  const completePath = `localhost:3000/${path}`;
+  const editedRecipe = await recipesModel.uploadImage(recipeId, completePath);
+
+  return editedRecipe;
 };
 
 module.exports = {

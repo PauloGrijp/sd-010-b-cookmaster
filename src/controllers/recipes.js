@@ -29,15 +29,15 @@ const getRecipeById = async (req, res) => {
 
 const editRecipe = async (req, res) => {
   const { id } = req.params;
-  const { name, ingredients, preparation } = req.body;
-  const { _id: userId } = req.user;
+  const updateInfo = req.body;
+  const { _id: userId, role: userRole } = req.user;
 
   const ids = {
     recipeId: id,
     userId,
   };
 
-  const recipe = await recipesService.editRecipe(name, ingredients, preparation, ids);
+  const recipe = await recipesService.editRecipe(updateInfo, ids, userRole);
 
   return res.status(codes.ok).json(recipe);
 };
@@ -52,10 +52,11 @@ const deleteRecipe = async (req, res) => {
 };
 
 const uploadImage = async (req, res) => {
-  const { filename, path } = req.file;
-  const id = filename.split('.')[0];
+  const { id: recipeId } = req.params;
+  const { path } = req.file;
+  const { user: { _id: userId, role } } = req;
 
-  const recipe = await recipesService.uploadImage(id, path);
+  const recipe = await recipesService.uploadImage(recipeId, path, userId, role);
 
   return res.status(200).json(recipe);
 };

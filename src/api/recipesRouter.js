@@ -2,7 +2,6 @@ const router = require('express').Router();
 const multer = require('multer');
 
 const validateToken = require('../middlewares/tokenValidation');
-// const uploadPermission = require('../middlewares/uploadPermission');
 const recipesController = require('../controllers/recipes');
 
 const storage = multer.diskStorage({

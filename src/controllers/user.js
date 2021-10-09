@@ -8,6 +8,7 @@ const createUser = async (req, res) => {
   const { name, email, password } = req.body;
 
   const { user, error } = await userService.createUser(name, email, password);
+
   if (error) return res.status(error.code).json({ message: error.message });
 
   return res.status(codes.created).json({ user });
@@ -41,7 +42,7 @@ const createAdminUser = async (req, res) => {
   const { name, email, password } = req.body;
 
   const user = await userService.createAdminUser(name, email, password, role);
-  console.log(user);
+
   return res.status(codes.created).json(user);
 };
 

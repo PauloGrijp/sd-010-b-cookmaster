@@ -4,8 +4,6 @@ const sinon = require('sinon');
 const { MongoClient } = require('mongodb');
 const { MongoMemoryServer } = require('mongodb-memory-server');
 
-const userModel = require('../models/user');
-
 const server = require('../api/app');
 
 chai.use(chaiHttp);
@@ -15,7 +13,7 @@ const { expect } = chai;
 describe('POST /login', () => {
   let response;
 
-  describe('campo email vazio', () => {
+  describe('campo "email" vazio', () => {
     before(async () => {
       response = await chai.request(server)
         .post('/login');

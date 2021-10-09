@@ -24,8 +24,9 @@ const getRecipeById = async (id) => {
   return recipe;
 };
 
-const editRecipe = async (name, ingredients, preparation, ids) => {
+const editRecipe = async (updateInfo, ids) => {
   const { recipeId, userId } = ids;
+  const { name, ingredients, preparation } = updateInfo;
 
   await getConnection()
     .then((db) => db.collection('recipes').updateOne(

@@ -3,7 +3,6 @@ const chaiHttp = require('chai-http');
 const sinon = require('sinon');
 const { MongoClient } = require('mongodb');
 const { MongoMemoryServer } = require('mongodb-memory-server');
-const mongoConnection = require('../models/connection');
 
 const server = require('../api/app');
 
@@ -73,7 +72,6 @@ describe('POST /users', () => {
           useNewUrlParser: true,
           useUnifiedTopology: true
         });
-      // .then((conn) => conn.db('Cookmaster'));
 
       sinon.stub(MongoClient, 'connect').resolves(connectionMock);
 
@@ -126,7 +124,6 @@ describe('POST /users', () => {
           useNewUrlParser: true,
           useUnifiedTopology: true
         });
-      // .then((conn) => console.log(conn));
 
       sinon.stub(MongoClient, 'connect').resolves(connectionMock);
 
