@@ -2,17 +2,17 @@ const chai = require("chai");
 const chaiHttp = require('chai-http');
 const sinon = require('sinon');
 const { MongoClient } = require('mongodb');
-const { MongoMemoryServer } = require('mongodb-memory-server');
 
 const server = require('../api/app');
+const { getConnection } = require('./connectionMock');
 
 chai.use(chaiHttp);
 
 const { expect } = chai;
 
-const correctToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjYxNTQ1Njk2NjBhYmU1NjcxYWRmOGIxOCIsIm5hbWUiOiJ0ZXN0ZSIsImVtYWlsIjoidGVzdGVAc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3NzLmNvbSIsInJvbGUiOiJ1c2VyIn0sImlhdCI6MTYzMjkxNzE2NCwiZXhwIjoxNjMzMDAzNTY0fQ.JZIjztpMso_qs1mho756EW73QLi3T_kDmaaI6sxsWHU';
+const correctToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjYxNjJmNWQ3NjdmMzVmNDU3NGVkOTBhZCIsIm5hbWUiOiJtYXJjb3MiLCJlbWFpbCI6Im1hcmNvc0BnbWFpbC5jb20iLCJyb2xlIjoidXNlciJ9LCJpYXQiOjE2MzM4NzU0MTksImV4cCI6MTYzMzk2MTgxOX0.w-zrA_nQ9EZFn5y7hmodgHE6ofTUk_HazvCJjTJDozM';
 
-const incorrectToken = 'tokenErrado'
+const incorrectToken = 'incorrectToken'
 
 describe('POST /recipes', () => {
   let response;
@@ -29,7 +29,6 @@ describe('POST /recipes', () => {
     });
 
     it('retorna o status 400 - bad request', () => {
-      console.log(response.status);
       expect(response).to.have.status(400);
     });
 
@@ -100,15 +99,9 @@ describe('POST /recipes', () => {
   });
 
   describe('cria uma receita com sucesso', () => {
-    const DBServer = new MongoMemoryServer();
-
+    let connectionMock;
     before(async () => {
-      const URLMock = await DBServer.getUri();
-      const connectionMock = await MongoClient
-        .connect(URLMock, {
-          useNewUrlParser: true,
-          useUnifiedTopology: true
-        });
+      connectionMock = await getConnection();
 
       sinon.stub(MongoClient, 'connect').resolves(connectionMock);
 
@@ -122,9 +115,9 @@ describe('POST /recipes', () => {
         });
     });
 
-    after(() => {
+    after(async () => {
       MongoClient.connect.restore();
-      DBServer.stop();
+      await connectionMock.db('Cookmaster').collection('recipes').drop();
     });
 
     it('retorna o status 201 - created', () => {

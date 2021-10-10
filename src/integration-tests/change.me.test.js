@@ -2,18 +2,17 @@ const chai = require("chai");
 const chaiHttp = require('chai-http');
 const sinon = require('sinon');
 const { MongoClient } = require('mongodb');
-const { MongoMemoryServer } = require('mongodb-memory-server');
-
-const server = require('../api/app');
 
 chai.use(chaiHttp);
+
+const server = require('../api/app');
+const { getConnection } = require('./connectionMock');
 
 const { expect } = chai;
 
 describe('POST /users', () => {
   let response;
   describe('quando o campo name está vazio', () => {
-
     before(async () => {
       response = await chai.request(server)
         .post('/users')
@@ -63,16 +62,10 @@ describe('POST /users', () => {
   });
 
   describe('quando o email ja existe', () => {
-    const DBServer = new MongoMemoryServer();
+    let connectionMock;
 
     before(async () => {
-      const URLMock = await DBServer.getUri();
-      const connectionMock = await MongoClient
-        .connect(URLMock, {
-          useNewUrlParser: true,
-          useUnifiedTopology: true
-        });
-
+      connectionMock = await getConnection();
       sinon.stub(MongoClient, 'connect').resolves(connectionMock);
 
       await chai.request(server)
@@ -86,7 +79,6 @@ describe('POST /users', () => {
 
     after(async () => {
       MongoClient.connect.restore();
-      // await DBServer.stop();
     });
 
     it('retorna status 409', () => {
@@ -115,16 +107,9 @@ describe('POST /users', () => {
   });
 
   describe('Cria-se um usuário com sucesso', () => {
-    const DBServer = new MongoMemoryServer();
-
+    let connectionMock;
     before(async () => {
-      const URLMock = await DBServer.getUri();
-      const connectionMock = await MongoClient
-        .connect(URLMock, {
-          useNewUrlParser: true,
-          useUnifiedTopology: true
-        });
-
+      connectionMock = await getConnection();
       sinon.stub(MongoClient, 'connect').resolves(connectionMock);
 
       response = await chai.request(server)
@@ -134,7 +119,7 @@ describe('POST /users', () => {
 
     after(async () => {
       MongoClient.connect.restore();
-      await DBServer.stop();
+      await connectionMock.db('Cookmaster').collection('users').drop();
     });
 
     it('retorna status 201', () => {

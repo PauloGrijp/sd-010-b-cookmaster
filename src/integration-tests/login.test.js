@@ -2,9 +2,9 @@ const chai = require("chai");
 const chaiHttp = require('chai-http');
 const sinon = require('sinon');
 const { MongoClient } = require('mongodb');
-const { MongoMemoryServer } = require('mongodb-memory-server');
 
 const server = require('../api/app');
+const { getConnection } = require('./connectionMock');
 
 chai.use(chaiHttp);
 
@@ -60,15 +60,8 @@ describe('POST /login', () => {
   });
 
   describe('campo senha incorreto', () => {
-    const DBServer = new MongoMemoryServer();
-
     before(async () => {
-      const URLMock = await DBServer.getUri();
-      const connectionMock = await MongoClient
-        .connect(URLMock, {
-          useNewUrlParser: true,
-          useUnifiedTopology: true
-        });
+      const connectionMock = await getConnection();
 
       sinon.stub(MongoClient, 'connect').resolves(connectionMock);
 
@@ -99,16 +92,9 @@ describe('POST /login', () => {
   });
 
   describe('é possível fazer login com sucesso', () => {
-    const DBServer = new MongoMemoryServer();
-
+    let connectionMock;
     before(async () => {
-      const URLMock = await DBServer.getUri();
-      const connectionMock = await MongoClient
-        .connect(URLMock, {
-          useNewUrlParser: true,
-          useUnifiedTopology: true
-        });
-
+      connectionMock = await getConnection();
       sinon.stub(MongoClient, 'connect').resolves(connectionMock);
 
       await chai.request(server)
@@ -126,6 +112,7 @@ describe('POST /login', () => {
 
     after(async () => {
       MongoClient.connect.restore();
+      await connectionMock.db('Cookmaster').collection('users').drop();
     });
 
     it('retorna o status 200', () => {

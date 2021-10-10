@@ -2,9 +2,9 @@ const chai = require("chai");
 const chaiHttp = require('chai-http');
 const sinon = require('sinon');
 const { MongoClient } = require('mongodb');
-const { MongoMemoryServer } = require('mongodb-memory-server');
 
 const server = require('../api/app');
+const { getConnection } = require('./connectionMock');
 
 chai.use(chaiHttp);
 
@@ -31,29 +31,21 @@ describe('GET /recipes', () => {
   let response;
 
   describe('retorna todas as receitas do banco', () => {
-    const DBServer = new MongoMemoryServer();
-
+    let connectionMock;
     before(async () => {
-      const URLMock = await DBServer.getUri();
-      const connectionMock = await MongoClient
-        .connect(URLMock, {
-          useNewUrlParser: true,
-          useUnifiedTopology: true
-        });
-
+      const connectionMock = await getConnection();
       sinon.stub(MongoClient, 'connect').resolves(connectionMock);
 
       await connectionMock.db('Cookmaster').collection('recipes').deleteMany({});
-
       await connectionMock.db('Cookmaster').collection('recipes').insertMany(recipes);
-      const newRecipes = await connectionMock.db('Cookmaster').collection('recipes').find().toArray();
-      console.log('aquiiiiiiiiiiiiiiiiiiiiiiiiiiii', newRecipes);
+
       response = await chai.request(server)
         .get('/recipes');
     });
 
-    after(() => {
+    after(async () => {
       MongoClient.connect.restore();
+      // await connectionMock.db('Cookmaster').collection('recipes').drop();
     });
 
     it('retorna o status 200 - ok', () => {
@@ -68,6 +60,4 @@ describe('GET /recipes', () => {
       expect(response.body.length).to.be.equal(2);
     });
   });
-
-
 });
