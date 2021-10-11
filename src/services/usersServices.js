@@ -1,17 +1,31 @@
+const jwt = require('jsonwebtoken');
+// https://www.npmjs.com/package/jsonwebtoken
+require('dotenv').config();
+
 const usersModel = require('../models/usersModel');
 
 const validate = async (name, email, password) => {
   if (!name || !email || !password) {
     return {
-      err: { status: 400, message: 'Invalid. Try again.' } };
+      err: { status: 400, message: 'Invalid entries. Try again.' } };
     }
 
-  const emailValidation = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/;
-
-  if (emailValidation.test(email) === false) {
+  const emailPattern = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/;
+  if (emailPattern.test(email) === false) {
     return {
-      err: { status: 400, message: 'Invalid. Try again.' } };
+      err: { status: 400, message: 'Invalid entries. Try again.' } };
   }
+};
+
+const secret = process.env.SECRET || 'secret';
+const createToken = (user) => {
+  const { password: _, ...payload } = user;
+  const jwtConfig = {
+    algorithm: 'HS256',
+    expiresIn: '15d',
+  };
+  const token = jwt.sign(payload, secret, jwtConfig);
+  return { token };
 };
 
 const create = async (name, email, password) => {
@@ -30,6 +44,24 @@ const create = async (name, email, password) => {
   return { user };
 };
 
+const login = async (email, password) => {
+  if (!email || !password) {
+    return {
+      err: { status: 401, message: 'All fields must be filled' } };
+  }
+
+  const findByEmail = await usersModel.findByEmail(email);
+  if (!findByEmail || password !== findByEmail.password) {
+    return {
+      err: { status: 401, message: 'Incorrect username or password' } };
+  }
+
+  const token = createToken(findByEmail);
+  return token;
+};
+
 module.exports = {
   create,
+  login,
 };
+// teste 2 aqui
