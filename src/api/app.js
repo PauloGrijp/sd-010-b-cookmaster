@@ -2,6 +2,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 
 const userController = require('../controllers/usersController');
+const recipesController = require('../controllers/recipesController');
+const authenticator = require('../services/authenticator');
 
 const app = express();
 app.use(bodyParser.json());
@@ -13,6 +15,7 @@ app.get('/', (request, response) => {
 // Não remover esse end-point, ele é necessário para o avaliador
 app.post('/users', userController.create);
 app.post('/login', userController.login);
+app.post('/recipes', authenticator, recipesController.create);
 
 module.exports = app;
 // iniciando o projeto, commit inicial, 2
