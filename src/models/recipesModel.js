@@ -32,9 +32,17 @@ async function update({ name, ingredients, preparation, userId }) {
   return { _id: ObjectId(userId), name, ingredients, preparation, userId };
 }
 
+async function remove({ id }) {
+  const db = await getConnection();
+  await db
+    .collection(collection)
+    .deleteOne({ _id: ObjectId(id) });
+}
+
 module.exports = {
   getAll,
   getById,
   create,
   update,
+  remove,
 };

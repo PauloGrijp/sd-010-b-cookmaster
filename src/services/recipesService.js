@@ -34,9 +34,16 @@ async function update({ name, ingredients, preparation, email }) {
   return recipesModel.update({ name, ingredients, preparation, userId: _id });
 }
 
+async function remove({ id, email }) {
+  const user = await usersModel.getByEmail(email);
+  const { _id } = user;
+  if (_id === id) return recipesModel.update({ userId: _id });
+}
+
 module.exports = {
   getAll,
   getById,
   create,
   update,
+  remove,
 };

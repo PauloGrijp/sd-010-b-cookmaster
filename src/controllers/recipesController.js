@@ -42,9 +42,23 @@ async function update(req, res) {
   return res.status(200).json(user);
 }
 
+async function remove(req, res) {
+  const { id } = req.params;
+  const { email } = req.user;
+  
+  const user = await recipesService.remove({ id, email });
+
+  if (user === 'invalid entries') {
+    return res.status(400).json({ message: 'Invalid entries. Try again.' });
+  }
+ 
+  return res.status(204).json(user);
+}
+
 module.exports = {
   getAll,
   getById,
   create,
   update,
+  remove,
 };
