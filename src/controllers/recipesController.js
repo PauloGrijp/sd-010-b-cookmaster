@@ -11,13 +11,26 @@ async function registeringRecipes(req, res) {
   return res.status(201).json(newRecipes);
 }
 
-const getAllRecipes = async (req, res) => {
+const getAllRecipes = async (_req, res) => {
   const allRecipes = await recipesService.getAllRecipes();
 
   return res.status(200).json(allRecipes);
 };
 
+const getRecipeId = async (req, res) => {
+  const { id } = req.params;
+
+  if (id.length < 24) {
+    return res.status(404).json({ message: 'recipe not found' });
+  }
+
+  const recipeId = await recipesService.getRecipeId(id);
+
+  return res.status(200).json(recipeId);
+};
+
 module.exports = {
   registeringRecipes,
   getAllRecipes,
+  getRecipeId,
 };
