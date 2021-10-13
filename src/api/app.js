@@ -31,4 +31,6 @@ app.put('/recipes/:id', validateJWTUpdate, recipesController.update);
 
 app.get('/recipes/:id', recipesController.getById);
 
+app.use('/images', express.static('src/uploads/'));
+
 module.exports = app;
