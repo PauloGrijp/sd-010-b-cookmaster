@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 
 require('dotenv').config();
 
-const secret = 'secret';
+const secret = process.env.SECRET;
 
 const verifyToken = (token) => {
   const payload = jwt.verify(token, secret);
@@ -11,9 +11,8 @@ const verifyToken = (token) => {
 
 const authenticator = (req, res, next) => {
   const { authorization } = req.headers;
-// console.log(authorization);
   if (!authorization) {
-  return res.status(401)
+ return res.status(401)
   .json({ message: 'missing auth token' }); 
 }
   try {
@@ -21,8 +20,7 @@ const authenticator = (req, res, next) => {
     req.payload = payload;
     return next();
   } catch (error) {
-    return res.status(401)
-    .json({ message: 'jwt malformed' });
+    res.status(401).json({ message: 'jwt malformed' });
   }
 };
 
