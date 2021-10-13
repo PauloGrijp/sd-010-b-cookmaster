@@ -1,27 +1,30 @@
 const jwt = require('jsonwebtoken');
 const loginService = require('../services/loginService');
 
-const secret = 'vida-loca';
+const secret = 'secrettoken';
 
-async function login(req, res) {
+const jwtConfig = {
+  expiresIn: '7d',
+  algorithm: 'HS256',
+};
+
+async function userLogin(req, res) {
   const { email, password } = req.body;
   const loginData = await loginService.login(email, password);
-  console.log(loginData);
+
+  if (loginData === 'error_required_field') {
+    return res.status(401).json({ message: 'All fields must be filled' });
+  }
   
-  if (loginData.err) {
-    return res.status(loginData.err.status).json(loginData.err.message);
+  if (loginData === 'error_invalid_field') {
+    return res.status(401).json({ message: 'Incorrect username or password' });
   }
 
-  const jwtConfig = {
-    expiresIn: '7d',
-    algorithm: 'HS256',
-  };
-
-  const token = jwt.sign({ data: email }, secret, jwtConfig);
+  const token = jwt.sign({ data: email, password }, secret, jwtConfig);
 
   return res.status(200).json({ token });
 }
 
 module.exports = {
-  login,
+  userLogin,
 };

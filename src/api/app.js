@@ -1,7 +1,9 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const validateJWT = require('../authentication/validateJWT');
 const userController = require('../controllers/userController');
 const loginController = require('../controllers/loginController');
+const recipesController = require('../controllers/recipesController');
 
 const app = express();
 
@@ -15,6 +17,8 @@ app.get('/', (request, response) => {
 
 app.post('/users', userController.registerUser);
 
-app.post('/login', loginController.login);
+app.post('/login', loginController.userLogin);
+
+app.post('/recipes', validateJWT, recipesController.registeringRecipes);
 
 module.exports = app;

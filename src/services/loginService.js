@@ -1,61 +1,31 @@
 const loginModel = require('../models/loginModel');
-const userModel = require('../models/userModel');
 
 const loginRequired = (email, password) => {
   if (!email || !password) {
-    return {
-      err: {
-        status: 401,
-        message: { message: 'All fields must be filled' },
-      },
-    };
+    return 'error_required_field';
   }
 };
 
-/* const existEmail = async (email) => {
-  const filterEmail = await userModel.getByUser(email);
-
-  if (filterEmail) { 
-    return {
-      err: {
-        status: 401,
-        message: { message: 'Email already registered' },
-      },
-    };
-  }
-}; */
-
-const validateEmail = async (email) => {
-  const regexEmail = new RegExp(/\S+@\S+\.\S+/);
+const validateEmail = (email) => {
+  const regexEmail = new RegExp(/^[\w.]+@[a-z]+.\w{2,3}$/g);
   const validEmail = regexEmail.test(email);
-  const filterEmail = await userModel.getByUser(email);
 
-  if (!validEmail || !filterEmail) {
-    return {
-      err: {
-        status: 401,
-        message: { message: 'Incorrect username or password' },
-      },
-    };
+  if (!validEmail) {
+    return 'error_invalid_field';
   }
 };
 
 const validatePassword = (password) => {
-  if (typeof password !== 'string' || password.length < 7) {
-    return {
-      err: {
-        status: 401,
-        message: { message: 'Incorrect username or password' },
-      },
-    };
+  if (password.length < 7) {
+    return 'error_invalid_field';
   }
 };
 
 async function login(email, password) {
   if (loginRequired(email, password)) return loginRequired(email, password);
-  if (await validateEmail(email)) return validateEmail(email);
+  if (validateEmail(email)) return validateEmail(email);
   if (validatePassword(password)) return validatePassword(password);
-  
+
   const newUser = await loginModel.login(email, password);
   return newUser;
 }
