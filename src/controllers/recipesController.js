@@ -11,6 +11,13 @@ async function registeringRecipes(req, res) {
   return res.status(201).json(newRecipes);
 }
 
+const getAllRecipes = async (req, res) => {
+  const allRecipes = await recipesService.getAllRecipes();
+
+  return res.status(200).json(allRecipes);
+};
+
 module.exports = {
   registeringRecipes,
+  getAllRecipes,
 };

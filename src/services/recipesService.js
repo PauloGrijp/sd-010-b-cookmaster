@@ -22,6 +22,13 @@ async function registeringRecipes(name, ingredients, preparation) {
   return newUser;
 }
 
+const getAllRecipes = async () => {
+  const allRecipes = await recipesModel.getAllRecipes();
+
+  return allRecipes;
+};
+
 module.exports = {
   registeringRecipes,
+  getAllRecipes,
 };
