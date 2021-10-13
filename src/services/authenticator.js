@@ -18,11 +18,11 @@ const authenticator = (req, res, next) => {
   try {
     const payload = verifyToken(authorization);
     req.payload = payload;
+    return next();
   } catch (error) {
     return res.status(401)
     .json({ message: 'jwt malformed' });
   }
-  return next();
 };
 
 module.exports = { authenticator }; 
