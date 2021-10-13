@@ -40,10 +40,17 @@ async function remove({ id, email }) {
   if (_id === id) return recipesModel.update({ userId: _id });
 }
 
+async function image({ id, email, file }) {
+  const user = await usersModel.getByEmail(email);
+  const { _id } = user;
+  if (user) return recipesModel.image({ id, file, userId: _id });
+}
+
 module.exports = {
   getAll,
   getById,
   create,
   update,
   remove,
+  image,
 };

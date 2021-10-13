@@ -33,7 +33,6 @@ async function update(req, res) {
   const { email } = req.user;
   
   const user = await recipesService.update({ name, ingredients, preparation, email });
-  console.log(user);
   
   if (user === 'invalid entries') {
     return res.status(400).json({ message: 'Invalid entries. Try again.' });
@@ -55,10 +54,21 @@ async function remove(req, res) {
   return res.status(204).json(user);
 }
 
+async function image(req, res) {
+  const { file } = req;
+  const { id } = req.params;
+  const { email } = req.user;
+
+  const user = await recipesService.image({ id, email, file });
+
+  return res.status(200).json(user);
+}
+
 module.exports = {
   getAll,
   getById,
   create,
   update,
   remove,
+  image,
 };

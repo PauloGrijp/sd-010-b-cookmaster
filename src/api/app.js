@@ -4,6 +4,7 @@ const usersController = require('../controllers/usersController');
 const recipesController = require('../controllers/recipesController');
 const validateJWT = require('./auth/validateJWT');
 const validateJWTUpdate = require('./auth/validateJWTUpdate');
+const upload = require('../services/uploads');
 
 const app = express();
 app.use(bodyParser.json());
@@ -21,6 +22,8 @@ app.post('/login', usersController.login);
 app.post('/recipes', validateJWT, recipesController.create);
 
 app.get('/recipes', recipesController.getAll);
+
+app.put('/recipes/:id/image', validateJWTUpdate, upload.single('image'), recipesController.image);
 
 app.delete('/recipes/:id', validateJWTUpdate, recipesController.remove);
 
