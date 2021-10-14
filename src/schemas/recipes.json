@@ -1,0 +1,20 @@
+{
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string"
+    },
+    "ingredients": {
+      "type": "string"
+    },
+    "preparation": {
+      "type": "string"
+    },
+    "userId": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "required": ["name", "ingredients", "preparation"],
+  "errorMessage": "Invalid entries. Try again."
+}
