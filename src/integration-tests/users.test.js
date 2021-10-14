@@ -2,14 +2,12 @@ const chai = require('chai');
 const sinon = require('sinon');
 
 const chaiHttp = require('chai-http');
-const sinonChai = require('sinon-chai');
 
 const app = require('../api/app');
 const { getConnection } = require('./connectionMock');
 const { MongoClient } = require('mongodb');
 
 chai.use(chaiHttp);
-chai.use(sinonChai);
 
 const { expect } = chai;
 
@@ -51,7 +49,8 @@ describe('POST /users', () => {
       response = await chai.request(app).post('/users').send({ name: 'teste', email: 'teste@teste.com', password: 'teste1234' });
     });
 
-    after(() => {
+    after(async () => {
+      await connectionMock.db('Cookmaster').collection('users').deleteOne({ name: 'teste' });
       MongoClient.connect.restore();
     });
     
@@ -100,7 +99,7 @@ describe('POST /users/admin', () => {
 
   })
 
-  describe.only('quando está autenticado como admin', () => {
+  describe('quando está autenticado como admin', () => {
     let response;
     let connectionMock;
 
@@ -121,7 +120,6 @@ describe('POST /users/admin', () => {
     });
     
     it('retorna status 201', () => {
-      console.log('AAAaquiiiii ', response);
       expect(response).to.have.status(201);
     });
 
