@@ -1,0 +1,172 @@
+Criar um middleware de autenticação para não repetir várias vezes
+  se não possuir o token
+    status(401)
+    Resposta: { message: "missing auth token" }
+  se possuir o token
+    adiciona os dados do usuário na req.auth (é no auth mesmo??)
+    chama o next()
+
+Criar arquivo seeds.js para criação do usuário admin
+  use('Cookmaster');
+  db.users.insertOne({ name: 'admin', email: 'root@email.com', password: 'admin', role: 'admin' })
+
+Criar model users e recipes
+  users
+    criação de usuários
+      Precisa de:
+        (name, e-mail, password, role = user)
+        o valor "user" é o padrão, só muda na rota de criação de administradores
+      Resposta: 
+        _id (gerado automáticamente), name, email, password, role
+
+  recipes
+    Criação de receitas
+      Precisa de:
+        name, ingredients, preparation, userId
+      Resposta:
+        _id, name, ingredients, preparation, userId
+    Consulta todas as receitas
+      Resposta:
+        Array com todas as receitas
+    Consulta receita especifica
+      Resposta:
+        objeto com dados da receita
+    Atualização de receitas
+      Precisa de:
+        name, ingredients, preparation
+      Resposta:
+        objeto da receita atualizada
+
+Endpoints
+
+  Criação de usuário em /users
+    Recebe:
+      email: unique string
+      name: string
+      password: string (não encriptar)
+      role: não será enviado para o endpoint, neste endpoint = user
+      
+    Erro de criação de usuário: 
+      name, email ou password em branco / email inválido
+        status(400)
+        Resposta: { message: "Invalid entries. Try again." }
+      email não é único
+        status(400)
+        Resposta: { message: "Email already registered" }
+      usuário cadastrado com sucesso
+        status(201)
+        Resposta: { user: {name, email, role, _id } }
+
+  Login de usuários em /login
+    Recebe e valida no bando de dados:
+      email
+      password
+    Se os dados estiverem corretos, gera e retorna token JWT
+      Na configuração do JWT não use variáveis de ambientes para não ter conflito com o avaliador.
+      status(200)
+      Resposta: { token: "token gerado pelo JWT" }
+    email ou password em branco
+      status(401)
+      Resposta: { message: "All fields must be filled" }
+    email ou password inválido
+      status(401)
+      Resposta: { message: "Incorrect username or password" }
+
+  Cadastro de receitas em /recipes
+    Só cria a receita se o usuário estiver logado (token JWT válido)
+    Precisa de:
+      name: string (nome da receita)
+      ingredients: string
+      preparation: string
+      userId (pegar do token na hora de validar o token)
+    Retorna:
+      se name, ingredients ou preparation estiver em branco
+        status(400)
+        Resposta: { message: "Invalid entrie. Try again." }
+      token inválido:
+        status(401)
+        Resposta: { message: "jwt malformed" }
+      sucesso:
+        status(201)
+        Resposta: { recipe: {name, ingredients, preparation, userId, _id}}
+      
+    Consulta todas as receitas em /recipes
+      Retorna logado ou não:
+        status(200)
+        Resposta: array com todas as receitas
+
+    Consulta receita especifica em /recipes/:id
+      Retorna logado ou não:
+        se não encontrar a receita:
+          status(404)
+          Resposta: { message: "recipe not found" }
+        sucesso
+          status(200)
+          Resposta: { recipe }
+
+  Edição de receitas em /recipes/:id
+    Só pode editar se o usuário estiver logado (token JWT válido)
+    Só pode editar se for o criador da receita ou um ADM
+    Recebe
+      name, ingredients, preparation, token
+    Retorna
+      sem o token jwt
+        status(401)
+        Resposta: { message: "missing auth token" }
+      com token inválido
+        status(401)
+        Resposta: { message: "jwt malformed" }
+      se o usuário está logado, a receita é dele ou é admin
+        status(200)
+        Resposta: { _id, name, ingredients, preparation, userId}
+
+  Exclusão de uma receita em /recipes/:id
+    Só pode ser excluida com
+      token jwt, sendo o criador da receita ou sendo adm
+    Retorna
+      se não estiver autenticado ou não for admin
+        status(401)
+        Resposta: { message: "missing auth token" }
+      exlui se for adm ou logado/criador
+        status(204)
+        Resposta: nem uma (em branco, vazio)
+
+  Adição de uma imagem para a receita em /recipes/:id/image/
+    Deve utilizar o Multer
+    Salvar na pasta uploads
+    Só pode ser atualizada se o usuário for o criador e estiver autenticado ou for admin
+    O endpoint deve aceitar requisições no formato multipart/form-data
+    A extensão do arquivo deve ser .jpeg
+    altera o nome da imagem para o _id.jpeg da receita
+    adiciona o campo image a receita no banco de dados com a url para acessar a imagem
+    Recebe
+      multipart Imagem
+      token de autenticação
+    Retorna
+      se não esiver autenticado
+        status(401)
+        Resposta: { message: "missing auth token" }
+      se autenticado e criador da receita ou admin
+        status(200)
+        Resposta: objeto da receita atualizado com o campo image
+  
+  Acessar as imagens que estão armazenadas em /images/<id-da-receita>.jpeg
+    const path = require('path');
+    // /images é o caminho/end-point da API onde as imagens estarão disponíveis
+    // path.join(__dirname, '..', 'uploads') é o caminho da pasta onde o multer deve salvar suas imagens ao realizar o upload
+    // a pasta `uploads` está em `./src/uploads` e não deve ser renomeada ou removida (assim como o arquivo `ratinho.jpg`)
+    app.use('/images', express.static(path.join(__dirname, '..', 'uploads')));
+
+  Criar contas de administrador em /users/admin
+    Só pode ser criado por outro administrador
+    Recebe:
+      name, emmail, password
+    Retorna:
+      Se o usuário não for admin
+        status(403)
+        Resposta: { message: "Only admins can register new admins" }
+      Se o usuário for um admin
+        status(201)
+        Resposta: { user: name, email, role, _id}
+
+Criar teste de integração que cubram ao menos 60% dos arquivos em /src
