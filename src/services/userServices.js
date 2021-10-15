@@ -25,4 +25,5 @@ module.exports = {
   inValidUserData,
   emailAlreadyRegistered,
   createNewUser,
+  validString,
 };
