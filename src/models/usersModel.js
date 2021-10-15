@@ -8,11 +8,12 @@ const createUser = async (name, email, password, role = 'user') => {
   const { insertedId: id } = await usersCollection.insertOne({ name, email, password, role });
 
   return {
-    _id: id,
-    name,
-    email,
-    password,
-    role,
+    user: {
+      _id: id,
+      name,
+      email,
+      role,
+    },
   };
 };
 
