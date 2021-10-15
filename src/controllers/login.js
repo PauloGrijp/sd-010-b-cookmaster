@@ -31,7 +31,7 @@ const login = async (req, res) => {
     .json({ message: 'Incorrect username or password' }); 
   }
 
-  const token = generateToken(user);
+  const token = await generateToken(user);
 
   return res.status(200).json({ token });
 };
