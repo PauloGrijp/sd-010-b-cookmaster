@@ -12,10 +12,10 @@ const auth = async (req, res, next) => {
 
   try {
     const decoded = jwt.verify(token, jwtSecretForThisProject);
+    
+    const user = await UsersModel.findUserByEmail(decoded.email);
 
-    const user = await UsersModel.findUserByEmail(decoded.user.email);
-
-    if (!user || decoded.user.password !== user.password) {
+    if (!user || decoded.password !== user.password) {
       return res.status(401).json({
         message: 'Não foi possível encontrar usuário informado no token',
       }); 
