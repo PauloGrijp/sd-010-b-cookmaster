@@ -8,11 +8,11 @@ const validEmail = (email) => {
 };
 
 const validPassword = (password) => {
-  if (!password || typeof password !== 'string') return false;
+  if (password && typeof password === 'string') return true;
 };
 
 const validName = (name) => {
-  if (!name || typeof name !== 'string') return false;
+  if (name && typeof name === 'string') return true;
 };
 
 const inValidUserData = (email, name, password) => {
