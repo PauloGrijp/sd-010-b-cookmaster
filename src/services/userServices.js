@@ -19,7 +19,7 @@ const emailAlreadyRegistered = async (email) => {
   if (alreadyRegistered) return true;
 };
 
-const createNewUser = (name, email, password) => createUser(name, email, password);
+const createNewUser = (name, email, password, role) => createUser(name, email, password, role);
 
 module.exports = {
   inValidUserData,

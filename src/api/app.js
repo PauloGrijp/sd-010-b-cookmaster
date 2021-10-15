@@ -1,7 +1,7 @@
 const express = require('express');
 const path = require('path');
 const { login } = require('../controllers/login');
-const { registerUser } = require('../controllers/usersController');
+const { registerUser, registerNewAdmin } = require('../controllers/usersController');
 const { auth } = require('../middlewares/auth');
 const { newRecipe, getAllRecipes, getRecipe, 
   editRecipe, deleteRecipe, insertRecipeImage } = require('../controllers/recipesController');
@@ -20,6 +20,8 @@ app.get('/', (request, response) => {
 // Não remover esse end-point, ele é necessário para o avaliador
 
 app.post('/users', registerUser);
+
+app.post('/users/admin', auth, registerNewAdmin);
 
 app.post('/login', login);
 
