@@ -36,9 +36,13 @@ const findRecipeById = async (id) => {
   const recipesCollection = await mongoConnection.connection()
   .then((db) => db.collection('recipes'));
 
-  const found = await recipesCollection.findOne({ _id: ObjectID(id) });
-
-  return found;
+  try {
+    const found = await recipesCollection.findOne({ _id: ObjectID(id) });
+  
+    return found;
+  } catch (err) {
+     return null;
+  }
 };
 
 const getAllRecipes = async () => {
