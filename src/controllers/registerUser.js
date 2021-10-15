@@ -2,9 +2,9 @@ const { inValidUserData, emailAlreadyRegistered,
   createNewUser } = require('../services/userServices');
 
 const registerUser = async (req, res) => {
-  const { email, name, password } = req.body;
+  const { name, email, password } = req.body;
 
-  if (inValidUserData(email, name, password)) {
+  if (inValidUserData(name, email, password)) {
     return res.status(400).json({ message: 'Invalid entries. Try again.' }); 
   }
 
@@ -13,7 +13,7 @@ const registerUser = async (req, res) => {
     return res.status(400).json({ message: 'Email already registered' }); 
   }
 
-  const newUser = await createNewUser(email, name, password);
+  const newUser = await createNewUser(name, email, password);
 
   return res.status(201).json(newUser);
 };

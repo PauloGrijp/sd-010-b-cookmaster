@@ -15,7 +15,7 @@ const validName = (name) => {
   if (name && typeof name === 'string') return true;
 };
 
-const inValidUserData = (email, name, password) => {
+const inValidUserData = (name, email, password) => {
   if (!validEmail(email) || !validName(name) || !validPassword(password)) return true;
 };
 
@@ -24,7 +24,7 @@ const emailAlreadyRegistered = async (email) => {
   if (alreadyRegistered) return true;
 };
 
-const createNewUser = (email, name, password) => createUser(email, name, password);
+const createNewUser = (name, email, password) => createUser(name, email, password);
 
 module.exports = {
   inValidUserData,
