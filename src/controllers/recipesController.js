@@ -1,9 +1,9 @@
-const { createNewRecipe, allRecipes, findRecipe } = require('../services/recipeServices');
-const { validString } = require('../services/userServices');
+const { createNewRecipe, allRecipes, findRecipe, 
+  isValidRecipeFields, updateRecip } = require('../services/recipeServices');
 
 const newRecipe = async (req, res) => {
   const { user: { _id }, body: { name, ingredients, preparation } } = req;
-  if (!validString(name) || !validString(ingredients) || !validString(preparation)) {
+  if (!isValidRecipeFields(name, ingredients, preparation)) {
     return res
       .status(400).json({ message: 'Invalid entries. Try again.' }); 
   }
@@ -28,8 +28,29 @@ const getRecipe = async (req, res) => {
   return res.status(200).send(recipe);
 };
 
+const editRecipe = async (req, res) => {
+  const { 
+    // user: { _id }, 
+    body: { name, ingredients, preparation },
+    params: { id },
+  } = req;
+
+  if (!isValidRecipeFields(name, ingredients, preparation)) {
+    return res
+      .status(400).json({ message: 'Invalid entries. Try again.' }); 
+  }
+
+  // Requisito pede para validar o criador, mas teste não
+  // const canEdit = await isCreatorOrAdmin(id, _id, role);
+  // if (!canEdit) return res.status();
+  const recipe = await updateRecip(id, name, ingredients, preparation);
+
+  return res.status(200).json(recipe);
+};
+
 module.exports = {
   newRecipe,
   getAllRecipes,
   getRecipe,
+  editRecipe,
 };

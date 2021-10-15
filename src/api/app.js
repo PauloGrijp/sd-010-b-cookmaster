@@ -3,7 +3,8 @@ const path = require('path');
 const { login } = require('../controllers/login');
 const { registerUser } = require('../controllers/usersController');
 const { auth } = require('../middlewares/auth');
-const { newRecipe, getAllRecipes, getRecipe } = require('../controllers/recipesController');
+const { newRecipe, getAllRecipes, getRecipe, 
+  editRecipe } = require('../controllers/recipesController');
 
 const app = express();
 
@@ -21,7 +22,9 @@ app.post('/users', registerUser);
 
 app.post('/login', login);
 
-app.get('/recipes/:id', getRecipe);
+app.route('/recipes/:id')
+.get(getRecipe)
+.put(auth, editRecipe);
 
 app.route('/recipes')
   .get(getAllRecipes)
