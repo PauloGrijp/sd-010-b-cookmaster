@@ -34,6 +34,15 @@ const findUserById = async (id) => {
   return user;
 };
 
+const findUserByEmail = async (email) => {
+  const usersCollection = await mongoConnection.connection()
+  .then((db) => db.collection('users'));
+
+  const user = await usersCollection.findOne({ email });
+
+  return user;
+};
+
 const getAllUsers = async () => {
   const usersCollection = await mongoConnection.connection()
   .then((db) => db.collection('users'));
@@ -59,4 +68,5 @@ module.exports = {
   findUserById,
   getAllUsers,
   deleteUserById,
+  findUserByEmail,
 };
