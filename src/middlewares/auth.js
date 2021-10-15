@@ -12,7 +12,7 @@ const auth = async (req, res, next) => {
 
   try {
     const decoded = jwt.verify(token, jwtSecretForThisProject);
-    
+
     const user = await UsersModel.findUserByEmail(decoded.email);
 
     if (!user || decoded.password !== user.password) {
@@ -24,9 +24,8 @@ const auth = async (req, res, next) => {
     req.user = user;
 
     next();
-  } catch (err) {
-    // Ou { message: 'jwt malformed'} se o token for inválido e essa não for a resposta do jwt
-    return res.status(401).json({ message: err.message });
+  } catch (_err) {
+    return res.status(401).json({ message: 'jwt malformed' });
   }
 };
 
