@@ -1,22 +1,29 @@
+// Source: Transcrito e adaptado do projeto Store Manager
+
 const { MongoClient } = require('mongodb');
 
-// require('dotenv').config();
-
-// const MONGO_DB_URL = process.env.MONGO_DB_URL || 'mongodb://mongodb:27017/Cookmaster';
-
-// const DB_NAME = process.env.DB_NAME || 'Cookmaster';
-
+// Dados servidor para AVALIADOR
 const MONGO_DB_URL = 'mongodb://mongodb:27017/Cookmaster';
 const DB_NAME = 'Cookmaster';
 
-const connection = () => MongoClient
-    .connect(MONGO_DB_URL, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,        
-    })
-    .then((conn) => conn.db(DB_NAME))
-    .catch((err) => {
-      console.error('É aqui que está dando erro', err);
-    });
+// Dados servidor para uso LOCAL
+// const MONGO_DB_URL = 'mongodb://localhost:27017/Cookmaster';
+// const DB_NAME = 'Cookmaster';
 
+const OPTIONS = {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+};
+
+let db = null;
+
+const connection = () => (db
+    ? Promise.resolve(db)
+    : MongoClient.connect(MONGO_DB_URL, OPTIONS)
+    .then((conn) => {
+    db = conn.db(DB_NAME);
+    return db;
+    }));
+
+// Exportado entre {} para viabilizar o MOCH nomomento dos testes
 module.exports = { connection };
