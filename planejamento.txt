@@ -1,46 +1,4 @@
-Criar um middleware de autenticação para não repetir várias vezes
-  se não possuir o token
-    status(401)
-    Resposta: { message: "missing auth token" }
-  se possuir o token
-    adiciona os dados do usuário na req.auth (é no auth mesmo??)
-    chama o next()
-
 Endpoints
-
-  Criação de usuário em /users
-    Recebe:
-      email: unique string
-      name: string
-      password: string (não encriptar)
-      role: não será enviado para o endpoint, neste endpoint = user
-      
-    Erro de criação de usuário: 
-      name, email ou password em branco / email inválido
-        status(400)
-        Resposta: { message: "Invalid entries. Try again." }
-      email não é único
-        status(400)
-        Resposta: { message: "Email already registered" }
-      usuário cadastrado com sucesso
-        status(201)
-        Resposta: { user: {name, email, role, _id } }
-
-  Login de usuários em /login
-    Recebe e valida no bando de dados:
-      email
-      password
-    Se os dados estiverem corretos, gera e retorna token JWT
-      Na configuração do JWT não use variáveis de ambientes para não ter conflito com o avaliador.
-      status(200)
-      Resposta: { token: "token gerado pelo JWT" }
-    email ou password em branco
-      status(401)
-      Resposta: { message: "All fields must be filled" }
-    email ou password inválido
-      status(401)
-      Resposta: { message: "Incorrect username or password" }
-
   Cadastro de receitas em /recipes
     Só cria a receita se o usuário estiver logado (token JWT válido)
     Precisa de:
@@ -179,3 +137,44 @@ Criar model users e recipes
         name, ingredients, preparation
       Resposta:
         objeto da receita atualizada
+
+Criar um middleware de autenticação para não repetir várias vezes
+  se não possuir o token
+    status(401)
+    Resposta: { message: "missing auth token" }
+  se possuir o token
+    adiciona os dados do usuário na req.userData
+    chama o next()
+
+  Login de usuários em /login
+    Recebe e valida no banco de dados:
+      email
+      password
+    Se os dados estiverem corretos, gera e retorna token JWT
+      Na configuração do JWT não use variáveis de ambientes para não ter conflito com o avaliador.
+      status(200)
+      Resposta: { token: "token gerado pelo JWT" }
+    email ou password em branco
+      status(401)
+      Resposta: { message: "All fields must be filled" }
+    email ou password inválido
+      status(401)
+      Resposta: { message: "Incorrect username or password" }
+
+Criação de usuário em /users
+    Recebe:
+      email: unique string
+      name: string
+      password: string (não encriptar)
+      role: não será enviado para o endpoint, neste endpoint = user
+      
+    Erro de criação de usuário: 
+      name, email ou password em branco / email inválido
+        status(400)
+        Resposta: { message: "Invalid entries. Try again." }
+      email não é único
+        status(400)
+        Resposta: { message: "Email already registered" }
+      usuário cadastrado com sucesso
+        status(201)
+        Resposta: { user: {name, email, role, _id } }
