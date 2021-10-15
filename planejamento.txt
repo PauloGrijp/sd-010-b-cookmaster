@@ -1,22 +1,4 @@
-Endpoints
-  Cadastro de receitas em /recipes
-    Só cria a receita se o usuário estiver logado (token JWT válido)
-    Precisa de:
-      name: string (nome da receita)
-      ingredients: string
-      preparation: string
-      userId (pegar do token na hora de validar o token)
-    Retorna:
-      se name, ingredients ou preparation estiver em branco
-        status(400)
-        Resposta: { message: "Invalid entrie. Try again." }
-      token inválido:
-        status(401)
-        Resposta: { message: "jwt malformed" }
-      sucesso:
-        status(201)
-        Resposta: { recipe: {name, ingredients, preparation, userId, _id}}
-      
+Endpoints      
     Consulta todas as receitas em /recipes
       Retorna logado ou não:
         status(200)
@@ -178,3 +160,21 @@ Criação de usuário em /users
       usuário cadastrado com sucesso
         status(201)
         Resposta: { user: {name, email, role, _id } }
+
+Cadastro de receitas em /recipes
+    Só cria a receita se o usuário estiver logado (token JWT válido)
+    Precisa de:
+      name: string (nome da receita)
+      ingredients: string
+      preparation: string
+      userId (pegar do token na hora de validar o token)
+    Retorna:
+      se name, ingredients ou preparation estiver em branco
+        status(400)
+        Resposta: { message: "Invalid entrie. Try again." }
+      token inválido:
+        status(401)
+        Resposta: { message: "jwt malformed" }
+      sucesso:
+        status(201)
+        Resposta: { recipe: {name, ingredients, preparation, userId, _id}}

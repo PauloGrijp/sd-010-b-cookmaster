@@ -48,9 +48,7 @@ const getAllRecipes = async () => {
   const allrecipes = await recipesCollection.find()
   .toArray();
 
-  return {
-    recipes: allrecipes,
-  };
+  return allrecipes;
 };
 
 const updateRecipe = async (id, name, ingredients, preparation) => {
