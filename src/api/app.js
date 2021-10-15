@@ -1,7 +1,7 @@
 const express = require('express');
 const path = require('path');
-const Login = require('../controllers/login');
-const RegisterUser = require('../controllers/registerUser');
+const { login } = require('../controllers/login');
+const { registerUser } = require('../controllers/registerUser');
 
 const app = express();
 
@@ -16,8 +16,8 @@ app.get('/', (request, response) => {
 });
 // Não remover esse end-point, ele é necessário para o avaliador
 
-app.post('/users', RegisterUser);
+app.post('/users', registerUser);
 
-app.post('/login', Login);
+app.post('/login', login);
 
 module.exports = app;
