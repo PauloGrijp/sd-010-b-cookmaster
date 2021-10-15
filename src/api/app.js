@@ -1,7 +1,9 @@
 const express = require('express');
 const path = require('path');
 const { login } = require('../controllers/login');
-const { registerUser } = require('../controllers/registerUser');
+const { registerUser } = require('../controllers/usersController');
+const { auth } = require('../middlewares/auth');
+const { createNewRecipe } = require('../controllers/recipesController');
 
 const app = express();
 
@@ -19,5 +21,7 @@ app.get('/', (request, response) => {
 app.post('/users', registerUser);
 
 app.post('/login', login);
+
+app.post('/recipes', auth, createNewRecipe);
 
 module.exports = app;
