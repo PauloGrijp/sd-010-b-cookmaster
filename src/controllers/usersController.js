@@ -10,7 +10,7 @@ const registerUser = async (req, res) => {
 
   const alreadyRegistered = await emailAlreadyRegistered(email);
   if (alreadyRegistered) {
-    return res.status(400).json({ message: 'Email already registered' }); 
+    return res.status(409).json({ message: 'Email already registered' }); 
   }
 
   const newUser = await createNewUser(name, email, password);
