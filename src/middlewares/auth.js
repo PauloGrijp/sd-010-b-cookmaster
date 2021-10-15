@@ -3,7 +3,7 @@ const UsersModel = require('../models/usersModel');
 
 const jwtSecretForThisProject = 'xablauzadaDaGalera';
 
-module.exports = async (req, res, next) => {
+const auth = async (req, res, next) => {
   const token = req.headers.authorization;
 
   if (!token) {
@@ -28,4 +28,8 @@ module.exports = async (req, res, next) => {
     // Ou { message: 'jwt malformed'} se o token for inválido e essa não for a resposta do jwt
     return res.status(401).json({ message: err.message });
   }
+};
+
+module.exports = {
+  auth,
 };
