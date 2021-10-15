@@ -2,9 +2,9 @@ const { MongoClient } = require('mongodb');
 
 require('dotenv').config();
 
-const MONGO_DB_URL = process.env.MONGO_DB_URL || 'mongodb://mongodb:27017/StoreManager';
+const MONGO_DB_URL = process.env.MONGO_DB_URL || 'mongodb://mongodb:27017/Cookmaster';
 
-const DB_NAME = 'StoreManager';
+const DB_NAME = process.env.DB_NAME || 'Cookmaster';
 
 const connection = (URL = MONGO_DB_URL) => MongoClient
     .connect(URL, {
