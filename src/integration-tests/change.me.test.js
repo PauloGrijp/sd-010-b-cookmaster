@@ -11,3 +11,37 @@ const { getConnection } = require('./connectionMock');
 const server = require('../api/app');
 
 const {user, recipe, anotherRecipe, admin, newAdmin} = require('./mockData')
+
+describe('Testes para a estrutura do /users', () => {
+  describe('Testando a criação de usuario', () => {
+    let connectionMock;
+
+    before(async () => {
+      const {name, email, password} = user;
+      connectionMock = await getConnection();
+		  sinon.stub(MongoClient, 'connect').resolves(connectionMock);
+      db = connectionMock.db('Cookmaster');
+      await db.collection('users').deleteMany({});
+      response = await chai.request(server)
+        .post('/users')
+        .send({name, email, password});
+    });
+
+    after(async () => {
+      MongoClient.connect.restore();
+      await DBServer.stop();
+    });
+
+    it('retornando status 201', () => {
+      expect(response).to.have.status(201);
+    });
+
+    it('O objeto tem a propriedade USER', () => {
+      expect(response.body).to.have.property('user');
+    });
+
+    it('O objeto retornado não esta vazio', () => {
+      expect(response.body).to.be.not.empty;
+    });
+  })
+})
