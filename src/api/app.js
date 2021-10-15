@@ -8,7 +8,6 @@ const { newRecipe, getAllRecipes, getRecipe } = require('../controllers/recipesC
 const app = express();
 
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
 
 app.use('/images', express.static(path.join(__dirname, '..', 'uploads')));
 
