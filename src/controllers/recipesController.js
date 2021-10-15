@@ -15,14 +15,14 @@ const newRecipe = async (req, res) => {
 const getAllRecipes = async (_req, res) => {
   const recipes = await allRecipes();
 
-  return res.status(201).send(recipes);
+  return res.status(200).send(recipes);
 };
 
 const getRecipe = async (req, res) => {
   const { id } = req.params;
   const recipe = await findRecipe(id);
 
-  return res.status(201).send(recipe);
+  return res.status(200).send(recipe);
 };
 
 module.exports = {
