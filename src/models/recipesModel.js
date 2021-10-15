@@ -1,7 +1,7 @@
 const { ObjectID } = require('mongodb');
 const mongoConnection = require('./connection');
 
-const createRecipe = async (name, ingredients, preparation, userId) => {
+const createRecipe = async (_id, name, ingredients, preparation) => {
   const recipesCollection = await mongoConnection.connection()
   .then((db) => db.collection('recipes'));
 
@@ -9,16 +9,16 @@ const createRecipe = async (name, ingredients, preparation, userId) => {
     name,
     ingredients,
     preparation,
-    userId: ObjectID(userId),
+    userId: _id,
   });
 
   return {
     recipe: {
-      _id: id,
       name,
       ingredients,
       preparation,
-      userId,
+      userId: _id,
+      _id: id,
     },
   };
 };
