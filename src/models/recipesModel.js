@@ -6,15 +6,20 @@ const createRecipe = async (name, ingredients, preparation, userId) => {
   .then((db) => db.collection('recipes'));
 
   const { insertedId: id } = await recipesCollection.insertOne({ 
-    name, ingredients, preparation, userId, 
-  });
-
-  return {
-    _id: id,
     name,
     ingredients,
     preparation,
-    userId,
+    userId: ObjectID(userId),
+  });
+
+  return {
+    recipe: {
+      _id: id,
+      name,
+      ingredients,
+      preparation,
+      userId,
+    },
   };
 };
 
