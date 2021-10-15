@@ -45,3 +45,39 @@ describe('Testes para a estrutura do /users', () => {
     });
   })
 })
+
+describe('Testes para a estrutura do /users', () => {
+  describe('Testando quando um usuario ja existe', () => {
+    let connectionMock;
+
+    before(async () => {
+      const {name, email, password} = user;
+      connectionMock = await getConnection();
+		  sinon.stub(MongoClient, 'connect').resolves(connectionMock);
+      db = connectionMock.db('Cookmaster');
+      response = await chai.request(server)
+        .post('/users')
+        .send({name, email, password});
+      response = await chai.request(server)
+        .post('/users')
+        .send({name, email, password});
+    });
+
+    after(async () => {
+      MongoClient.connect.restore();
+      await DBServer.stop();
+    });
+
+    it('retornando status 409', () => {
+      expect(response).to.have.status(409);
+    });
+
+    it('O objeto tem a propriedade MESSAGE', () => {
+      expect(response.body).to.have.property('message');
+    });
+
+    it('A propriedade "MESSAGE" retorna "Email já registrado"', () => {
+      expect(response.body.message).to.be.equals('Email already registered');
+    });
+  })
+})
