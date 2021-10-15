@@ -1,5 +1,5 @@
 const { createNewRecipe, allRecipes, findRecipe, 
-  isValidRecipeFields, updateRecip } = require('../services/recipeServices');
+  isValidRecipeFields, updateRecip, deleteOneRecipe } = require('../services/recipeServices');
 
 const newRecipe = async (req, res) => {
   const { user: { _id }, body: { name, ingredients, preparation } } = req;
@@ -48,9 +48,18 @@ const editRecipe = async (req, res) => {
   return res.status(200).json(recipe);
 };
 
+const deleteRecipe = async (req, res) => {
+  const { params: { id } } = req;
+
+  await deleteOneRecipe(id);
+
+  return res.status(204).json();
+};
+
 module.exports = {
   newRecipe,
   getAllRecipes,
   getRecipe,
   editRecipe,
+  deleteRecipe,
 };

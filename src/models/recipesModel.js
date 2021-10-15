@@ -73,13 +73,17 @@ const updateRecipe = async (id, name, ingredients, preparation) => {
   return modifiedCount;
 };
 
-const deleteRecipe = async (id) => {
+const deleteRecipeById = async (id) => {
   const recipesCollection = await mongoConnection.connection()
   .then((db) => db.collection('recipes'));
 
-  const { deletedCount } = await recipesCollection.deleteOne({ _id: ObjectID(id) });
-
-  return deletedCount;
+  try {
+    const { deletedCount } = await recipesCollection.deleteOne({ _id: ObjectID(id) });
+  
+    return deletedCount;
+  } catch (err) {
+    return null;
+  }
 };
 
 module.exports = {
@@ -88,5 +92,5 @@ module.exports = {
   findRecipeById,
   getAllRecipes,
   updateRecipe,
-  deleteRecipe,
+  deleteRecipeById,
 };

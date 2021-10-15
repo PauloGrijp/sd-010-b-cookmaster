@@ -4,7 +4,7 @@ const { login } = require('../controllers/login');
 const { registerUser } = require('../controllers/usersController');
 const { auth } = require('../middlewares/auth');
 const { newRecipe, getAllRecipes, getRecipe, 
-  editRecipe } = require('../controllers/recipesController');
+  editRecipe, deleteRecipe } = require('../controllers/recipesController');
 
 const app = express();
 
@@ -24,7 +24,8 @@ app.post('/login', login);
 
 app.route('/recipes/:id')
 .get(getRecipe)
-.put(auth, editRecipe);
+.put(auth, editRecipe)
+.delete(auth, deleteRecipe);
 
 app.route('/recipes')
   .get(getAllRecipes)
