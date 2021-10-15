@@ -16,7 +16,7 @@ const connection = () => MongoClient
     })
     .then((conn) => conn.db(DB_NAME))
     .catch((err) => {
-      console.error(err);
+      console.error('É aqui que está dando erro', err);
     });
 
 module.exports = { connection };
