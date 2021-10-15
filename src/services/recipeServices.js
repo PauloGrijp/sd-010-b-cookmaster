@@ -1,7 +1,7 @@
 const { createRecipe } = require('../models/recipesModel');
 
-const createNewRecipe = async (user, name, ingredients, preparation) => {
-  const newRecipe = await createRecipe(user, name, ingredients, preparation);
+const createNewRecipe = async (_id, name, ingredients, preparation) => {
+  const newRecipe = await createRecipe(_id, name, ingredients, preparation);
 
   return newRecipe;
 };
