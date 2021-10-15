@@ -22,8 +22,8 @@ const updateRecip = async (id, name, ingredients, preparation) => {
   return updated;
 };
 
-const addRecipeImage = async (id, filename) => {
-  await updateRecipeImage(id, filename);
+const addRecipeImage = async (id, fileDir) => {
+  await updateRecipeImage(id, fileDir);
 
   const updated = await findRecipe(id);
 

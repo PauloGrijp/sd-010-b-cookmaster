@@ -59,7 +59,9 @@ const deleteRecipe = async (req, res) => {
 const insertRecipeImage = async (req, res) => {
   const { params: { id }, file: { filename } } = req;
 
-  const updatedRecipe = await addRecipeImage(id, filename);
+  const fileDir = `localhost:3000/src/uploads/${filename}`;
+
+  const updatedRecipe = await addRecipeImage(id, fileDir);
 
   return res.status(200).json(updatedRecipe);
 };

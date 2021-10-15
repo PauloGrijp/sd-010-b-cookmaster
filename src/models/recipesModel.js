@@ -73,7 +73,7 @@ const updateRecipe = async (id, name, ingredients, preparation) => {
   return modifiedCount;
 };
 
-const updateRecipeImage = async (id, filename) => {
+const updateRecipeImage = async (id, fileDir) => {
   const recipesCollection = await mongoConnection.connection()
   .then((db) => db.collection('recipes'));
 
@@ -81,7 +81,7 @@ const updateRecipeImage = async (id, filename) => {
     { _id: ObjectID(id) },
     {
       $set: {
-        image: filename,
+        image: fileDir,
       },
     },
   );
