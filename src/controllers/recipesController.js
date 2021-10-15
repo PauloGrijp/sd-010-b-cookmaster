@@ -1,10 +1,11 @@
 const { createNewRecipe, allRecipes, findRecipe } = require('../services/recipeServices');
+const { validString } = require('../services/userServices');
 
 const newRecipe = async (req, res) => {
   const { user: { _id }, body: { name, ingredients, preparation } } = req;
-  if (!name || !ingredients || !preparation) {
+  if (!validString(name) || !validString(ingredients) || !validString(preparation)) {
     return res
-      .status(400).json({ message: 'Invalid entrie. Try again.' }); 
+      .status(400).json({ message: 'Invalid entries. Try again.' }); 
   }
 
   const recipe = await createNewRecipe(_id, name, ingredients, preparation);
