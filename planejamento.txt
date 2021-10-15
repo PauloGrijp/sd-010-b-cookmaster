@@ -1,17 +1,4 @@
 Endpoints      
-    Consulta todas as receitas em /recipes
-      Retorna logado ou não:
-        status(200)
-        Resposta: array com todas as receitas
-
-    Consulta receita especifica em /recipes/:id
-      Retorna logado ou não:
-        se não encontrar a receita:
-          status(404)
-          Resposta: { message: "recipe not found" }
-        sucesso
-          status(200)
-          Resposta: { recipe }
 
   Edição de receitas em /recipes/:id
     Só pode editar se o usuário estiver logado (token JWT válido)
@@ -178,3 +165,17 @@ Cadastro de receitas em /recipes
       sucesso:
         status(201)
         Resposta: { recipe: {name, ingredients, preparation, userId, _id}}
+
+    Consulta todas as receitas em /recipes
+      Retorna logado ou não:
+        status(200)
+        Resposta: array com todas as receitas
+
+          Consulta receita especifica em /recipes/:id
+    Retorna logado ou não:
+      se não encontrar a receita:
+        status(404)
+        Resposta: { message: "recipe not found" }
+      sucesso
+        status(200)
+        Resposta: { recipe }
