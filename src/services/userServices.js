@@ -7,16 +7,11 @@ const validEmail = (email) => {
   return re.test(email);
 };
 
-const validPassword = (password) => {
-  if (password && typeof password === 'string') return true;
+const validString = (word) => {
+  if (word && typeof word === 'string') return true;
 };
-
-const validName = (name) => {
-  if (name && typeof name === 'string') return true;
-};
-
 const inValidUserData = (name, email, password) => {
-  if (!validEmail(email) || !validName(name) || !validPassword(password)) return true;
+  if (!validEmail(email) || !validString(name) || !validString(password)) return true;
 };
 
 const emailAlreadyRegistered = async (email) => {
