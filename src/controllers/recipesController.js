@@ -1,4 +1,4 @@
-const { createNewRecipe, allRecipes, findRecipe, 
+const { createNewRecipe, allRecipes, findRecipe, addRecipeImage,
   isValidRecipeFields, updateRecip, deleteOneRecipe } = require('../services/recipeServices');
 
 const newRecipe = async (req, res) => {
@@ -56,10 +56,19 @@ const deleteRecipe = async (req, res) => {
   return res.status(204).json();
 };
 
+const insertRecipeImage = async (req, res) => {
+  const { params: { id }, file: { filename } } = req;
+
+  const updatedRecipe = await addRecipeImage(id, filename);
+
+  return res.status(200).json(updatedRecipe);
+};
+
 module.exports = {
   newRecipe,
   getAllRecipes,
   getRecipe,
   editRecipe,
   deleteRecipe,
+  insertRecipeImage,
 };

@@ -4,7 +4,8 @@ const { login } = require('../controllers/login');
 const { registerUser } = require('../controllers/usersController');
 const { auth } = require('../middlewares/auth');
 const { newRecipe, getAllRecipes, getRecipe, 
-  editRecipe, deleteRecipe } = require('../controllers/recipesController');
+  editRecipe, deleteRecipe, insertRecipeImage } = require('../controllers/recipesController');
+const { uploadWithMulter } = require('../middlewares/multerSetup');
 
 const app = express();
 
@@ -21,6 +22,9 @@ app.get('/', (request, response) => {
 app.post('/users', registerUser);
 
 app.post('/login', login);
+
+app.route('/recipes/:id/image/')
+.put(auth, uploadWithMulter.single('image'), insertRecipeImage);
 
 app.route('/recipes/:id')
 .get(getRecipe)

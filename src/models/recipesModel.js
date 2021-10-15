@@ -73,6 +73,22 @@ const updateRecipe = async (id, name, ingredients, preparation) => {
   return modifiedCount;
 };
 
+const updateRecipeImage = async (id, filename) => {
+  const recipesCollection = await mongoConnection.connection()
+  .then((db) => db.collection('recipes'));
+
+  const { modifiedCount } = await recipesCollection.updateOne(
+    { _id: ObjectID(id) },
+    {
+      $set: {
+        image: filename,
+      },
+    },
+  );
+  
+  return modifiedCount;
+};
+
 const deleteRecipeById = async (id) => {
   const recipesCollection = await mongoConnection.connection()
   .then((db) => db.collection('recipes'));
@@ -93,4 +109,5 @@ module.exports = {
   getAllRecipes,
   updateRecipe,
   deleteRecipeById,
+  updateRecipeImage,
 };

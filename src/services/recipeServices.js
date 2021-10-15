@@ -1,4 +1,4 @@
-const { createRecipe, getAllRecipes, findRecipeById, 
+const { createRecipe, getAllRecipes, findRecipeById, updateRecipeImage, 
   updateRecipe, deleteRecipeById } = require('../models/recipesModel');
 const { validString } = require('./userServices');
 
@@ -16,6 +16,14 @@ const deleteOneRecipe = async (id) => deleteRecipeById(id);
 
 const updateRecip = async (id, name, ingredients, preparation) => {
   await updateRecipe(id, name, ingredients, preparation);
+
+  const updated = await findRecipe(id);
+
+  return updated;
+};
+
+const addRecipeImage = async (id, filename) => {
+  await updateRecipeImage(id, filename);
 
   const updated = await findRecipe(id);
 
@@ -44,4 +52,5 @@ module.exports = {
   isCreatorOrAdmin,
   updateRecip,
   deleteOneRecipe,
+  addRecipeImage,
 };
