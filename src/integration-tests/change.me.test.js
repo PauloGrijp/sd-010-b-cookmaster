@@ -120,3 +120,40 @@ describe('Testes para a estrutura do /users', () => {
   })
 })
 
+describe('Testes para a estrutura do /login', () => {
+  describe('Usuario logando com sucesso', () => {
+    let connectionMock;
+
+    before(async () => {
+      const {name, email, password, role} = user;
+      connectionMock = await getConnection();
+		  sinon.stub(MongoClient, 'connect').resolves(connectionMock);
+      db = connectionMock.db('Cookmaster');
+      await db.collection('users').insertOne({name, email, password, role });
+      response = await chai.request(server)
+        .post('/login')
+        .send({email, password});
+    });
+
+    after(async () => {
+      MongoClient.connect.restore();
+      await DBServer.stop();
+    });
+
+    it('Restornando status 200', () => {
+      expect(response).to.have.status(200);
+    });
+
+    it('Retorna um objeto no corpo', () => {
+      expect(response.body).to.be.an('object');
+    });
+
+    it('O objeto tem a propriedade TOKEN', () => {
+      expect(response.body).to.have.property('token');
+    });
+
+    it('O objeto retornado no corpo não esta vazio', () => {
+      expect(response.body).to.be.not.empty;
+    });
+  })
+})
