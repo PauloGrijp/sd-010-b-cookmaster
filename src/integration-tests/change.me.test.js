@@ -81,3 +81,42 @@ describe('Testes para a estrutura do /users', () => {
     });
   })
 })
+
+describe('Testes para a estrutura do /users', () => {
+  describe('Quando o usuario não é fornecido', () => {
+    let connectionMock;
+
+    before(async () => {
+      const {email, password} = user;
+      connectionMock = await getConnection();
+		  sinon.stub(MongoClient, 'connect').resolves(connectionMock);
+      db = connectionMock.db('Cookmaster');
+      await db.collection('users').deleteMany({});
+      response = await chai.request(server)
+        .post('/users')
+        .send({email, password});
+    });
+
+    after(async () => {
+      MongoClient.connect.restore();
+      await DBServer.stop();
+    });
+
+    it('Retornando status 400', () => {
+      expect(response).to.have.status(400);
+    });
+
+    it('Retorna um objeto no corpo', () => {
+      expect(response.body).to.be.an('object');
+    });
+
+    it('O objeto tem a propriedade MESSAGE', () => {
+      expect(response.body).to.have.property('message');
+    });
+
+    it('A propriedade "MESSAGE" retorna "Entrada invalida, tente novamente"', () => {
+      expect(response.body.message).to.be.equals('Invalid entries. Try again.');
+    });
+  })
+})
+
