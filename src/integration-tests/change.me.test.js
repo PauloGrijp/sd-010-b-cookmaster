@@ -10,7 +10,7 @@ const { MongoClient } = require('mongodb');
 const { getConnection } = require('./connectionMock');
 const server = require('../api/app');
 
-const {user, recipe, anotherRecipe, admin, newAdmin} = require('./mockData')
+const {user} = require('./mockData')
 
 describe('Testes para a estrutura do /users', () => {
   describe('Testando a criação de usuario', () => {
