@@ -1,5 +1,5 @@
 const { ObjectId } = require('mongodb');
-const connection = require('../ connections/dbConnection');
+const connection = require('../connections/dbConnection');
 
 const createRecipe = async (name, ingredients, preparation, userId) => {
   const database = await connection();
@@ -19,9 +19,37 @@ const getById = async (id) => {
   const recipe = await database.collection('recipes').findOne({ _id: ObjectId(id) });
   return recipe;
 };
+const updateRecipe = async (id, name, ingredients, preparation) => {
+  const database = await connection();
+  const updatedRecipe = await database.collection('recipes').findOneAndUpdate(
+    { _id: ObjectId(id) },
+    { $set: { name, ingredients, preparation } },
+    { returnOriginal: false },
+  );
+  return updatedRecipe.value;
+};
+
+const deleteRecipe = async (id) => {
+  const database = await connection();
+  return database.collection('recipes').deleteOne({ _id: ObjectId(id) });
+};
+
+const insertImageUrl = async (id, imagePath) => {
+  const database = await connection();
+  const updatedRecipe = await database.collection('recipes').findOneAndUpdate(
+    { _id: ObjectId(id) },
+    { $set: { image: imagePath } },
+    { returnOriginal: false },
+);
+  console.log(updatedRecipe.value);
+  return updatedRecipe.value;  
+};
 
 module.exports = {
   createRecipe,
   getAll,
   getById,
+  updateRecipe,
+  deleteRecipe,
+  insertImageUrl,
 };
