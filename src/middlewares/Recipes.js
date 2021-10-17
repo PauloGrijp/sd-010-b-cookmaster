@@ -6,11 +6,7 @@ const validateRecipeBody = (name, ingredients, preparation) => {
     name: Joi.string().required(),
     ingredients: Joi.string().required(),
     preparation: Joi.string().required(),
-  }).validate({
-    name,
-    ingredients,
-    preparation,
-  });
+  }).validate({ name, ingredients, preparation });
 
   if (error) throw error;
 };
