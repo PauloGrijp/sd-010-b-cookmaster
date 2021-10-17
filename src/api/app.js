@@ -16,5 +16,6 @@ app.get('/', (request, response) => {
 
 route.users(app);
 app.use(error);
+route.recipes(app);
 
 module.exports = app;
