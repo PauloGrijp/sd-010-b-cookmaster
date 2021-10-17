@@ -33,4 +33,6 @@ app.get('/recipes/:id', recipesController.getById);
 
 app.use('/images', express.static('src/uploads/'));
 
+app.post('/users/admin', validateJWTUpdate, usersController.newAdmin);
+
 module.exports = app;
