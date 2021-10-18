@@ -5,8 +5,8 @@ const OPTIONS = {
     useUnifiedTopology: true,
 };
 
-// const MONGO_DB_URL = 'mongodb://localhost:27017/Cookmaster'; /* testes locais */
-const MONGO_DB_URL = 'mongodb://mongodb:27017/Cookmaster'; /* avaliador */
+const MONGO_DB_URL = 'mongodb://localhost:27017/Cookmaster'; /* testes locais */
+// const MONGO_DB_URL = 'mongodb://mongodb:27017/Cookmaster'; /* avaliador */
 
 const DB_NAME = 'Cookmaster';
 
