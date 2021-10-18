@@ -6,6 +6,7 @@ const errors = {
 };
 
 const EMAIL_REG = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+// referencia:  https://stackoverflow.com/questions/46155/how-to-validate-an-email-address-in-javascript
 
 const isValidEntries = (name, email, password) => {
     if (!name || !email || !password) return { message: errors.invalidEntries };
