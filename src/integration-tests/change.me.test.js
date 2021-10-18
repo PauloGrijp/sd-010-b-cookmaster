@@ -44,11 +44,19 @@ describe('Teste de integração', () => {
 
     it('Retorna um objeto', () => {
         expect(response).to.be.an('object');
-      });
+    });
 
-      it('Objeto contém chave "user"', () => {
+    it('Objeto contém chave "user"', () => {
         expect(response.body).to.have.property('user');
-      });
+    });
+
+    it('A chave "user" contem as propriedades "name", "email", "role" e "_id"', () => {
+        expect(response.body.user).to.have.all.keys('name', 'email', 'role', '_id');
+    });
+
+    it('A chave "role" deve possuir o valor "user"', () => {
+        expect(response.body.user.role).to.be.equal('user');
+    });
 
     it('Permite efetuar login com o usuário criado anteriormente', async () => {
       response = await chai.request(server)
@@ -204,6 +212,5 @@ describe('Teste de integração', () => {
 
       expect(response).to.have.status(204);
     });
-
   });
 });
