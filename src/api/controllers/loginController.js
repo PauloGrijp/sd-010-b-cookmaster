@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 const { StatusCodes: { UNAUTHORIZED, OK, INTERNAL_SERVER_ERROR } } = require('http-status-codes');
 
 const loginService = require('../services/loginService');
-// 
+
 const INTERNAL_SERVER_ERROR_MSG = 'Something went wrong';
 
 const secret = process.env.SECRET || 'notSoSecret';
