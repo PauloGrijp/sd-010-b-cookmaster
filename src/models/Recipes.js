@@ -4,7 +4,11 @@ const connection = require('../ connections/dbConnection');
 const createRecipe = async (name, ingredients, preparation, userId) => {
   const database = await connection();
   const recipe = await database.collection('recipes').insertOne({ 
-    name, ingredients, preparation, userId });
+    name,
+    ingredients,
+    preparation,
+    userId,
+  });
   return recipe.ops[0];
 };
 
@@ -16,9 +20,12 @@ const getAll = async () => {
 
 const getById = async (id) => {
   const database = await connection();
-  const recipe = await database.collection('recipes').findOne({ _id: ObjectId(id) });
+  const recipe = await database.collection('recipes').findOne({
+    _id: ObjectId(id),
+  });
   return recipe;
 };
+
 const updateRecipe = async (id, name, ingredients, preparation) => {
   const database = await connection();
   const updatedRecipe = await database.collection('recipes').findOneAndUpdate(
@@ -31,7 +38,9 @@ const updateRecipe = async (id, name, ingredients, preparation) => {
 
 const deleteRecipe = async (id) => {
   const database = await connection();
-  return database.collection('recipes').deleteOne({ _id: ObjectId(id) });
+  return database.collection('recipes').deleteOne({
+    _id: ObjectId(id),
+  });
 };
 
 const insertImageUrl = async (id, imagePath) => {
