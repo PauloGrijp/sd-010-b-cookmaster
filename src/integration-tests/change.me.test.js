@@ -24,16 +24,6 @@ describe('Teste de integração', () => {
 
       sinon.stub(MongoClient, 'connect').resolves(connectionMock);
 
-      const LOGINUSER = {
-        email: 'whind@tests.com.br',
-        password: 'senhaSuperForte'
-      };
-      const RECIPE = {
-        name: 'Burguer',
-        ingredients: 'Blend bovino 120g, cheddar, bacon',
-        preparation: 'Frie everything'
-      };
-
       response = await chai.request(server)
         .post('/users')
         .send({
@@ -63,7 +53,10 @@ describe('Teste de integração', () => {
     it('Permite efetuar login com o usuário criado anteriormente', async () => {
       response = await chai.request(server)
       .post('/login')
-      .send(LOGINUSER);
+      .send({
+          email: 'whind@tests.com.br',
+          password: 'senhaSuperForte'
+      });
 
       expect(response).to.have.status(200);
       expect(response.body).to.be.a('object');
@@ -83,6 +76,10 @@ describe('Teste de integração', () => {
       expect(response.body).to.have.property('message');
     });
 
+    it('"message" possui o valor "Incorrect username or password"', () => {
+        expect(response.body.message).to.be.equal('Incorrect username or password');
+    });
+
     it('Não permite realizar o login com o email errado', async () => {
       response = await chai.request(server)
       .post('/login')
@@ -96,10 +93,17 @@ describe('Teste de integração', () => {
       expect(response.body).to.have.property('message');
     });
 
+    it('"message" possui o valor "Incorrect username or password"', () => {
+        expect(response.body.message).to.be.equal('Incorrect username or password');
+    });
+
     it('Não permite criar um novo admin se o usuário não for admin', async () => {
       response = await chai.request(server)
       .post('/login')
-      .send(LOGINUSER);
+      .send({
+          email: 'whind@tests.com.br',
+          password: 'senhaSuperForte'
+      });
 
       response = await chai.request(server)
       .post('/users/admin')
@@ -120,12 +124,19 @@ describe('Teste de integração', () => {
     it('Permite criar uma receita se estiver logado', async () => {
       response = await chai.request(server)
       .post('/login')
-      .send(LOGINUSER);
+      .send({
+          email: 'whind@tests.com.br',
+          password: 'senhaSuperForte'
+      });
 
       response = await chai.request(server)
       .post('/recipes')
       .set('authorization', response.body.token)
-      .send(RECIPE);
+      .send({
+        name: 'Burguer',
+        ingredients: 'Blend bovino 120g, cheddar, bacon',
+        preparation: 'Frie everything'
+      });
 
       expect(response).to.have.status(201);
       expect(response.body).to.be.a('object');
@@ -145,12 +156,19 @@ describe('Teste de integração', () => {
     it('Permite buscar uma receita por id sem estar logado', async () => {
       response = await chai.request(server)
       .post('/login')
-      .send(LOGINUSER);
+      .send({
+          email: 'whind@tests.com.br',
+          password: 'senhaSuperForte'
+      });
 
       response = await chai.request(server)
       .post('/recipes')
       .set('authorization', response.body.token)
-      .send(RECIPE);
+      .send({
+        name: 'Burguer',
+        ingredients: 'Blend bovino 120g, cheddar, bacon',
+        preparation: 'Frie everything'
+      });
 
       response = await chai.request(server)
       .get(`/recipes/${response.body.recipe._id}`)
@@ -164,14 +182,21 @@ describe('Teste de integração', () => {
     it('Permite deletar uma receita se estiver logado', async () => {
       response = await chai.request(server)
       .post('/login')
-      .send(LOGINUSER);
+      .send({
+          email: 'whind@tests.com.br',
+          password: 'senhaSuperForte'
+      });
 
       const token = response.body.token;
 
       response = await chai.request(server)
       .post('/recipes')
       .set('authorization', token)
-      .send(RECIPE);
+      .send({
+        name: 'Burguer',
+        ingredients: 'Blend bovino 120g, cheddar, bacon',
+        preparation: 'Frie everything'
+      });
 
       response = await chai.request(server)
       .delete(`/recipes/${response.body.recipe._id}`)
