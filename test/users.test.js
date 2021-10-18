@@ -20,7 +20,8 @@ describe('1 - Crie um endpoint para o cadastro de usuários', () => {
     await db.collection('users').deleteMany({});
     await db.collection('recipes').deleteMany({});
     const users = {
-      name: 'admin', email: 'root@email.com', password: 'admin', role: 'admin' };
+      name: 'admin', email: 'root@email.com', password: 'admin', role: 'admin'
+    };
     await db.collection('users').insertOne(users);
   });
 
@@ -168,7 +169,8 @@ describe('2 - Crie um endpoint para o login de usuários', () => {
     await db.collection('users').deleteMany({});
     await db.collection('recipes').deleteMany({});
     const users = {
-      name: 'admin', email: 'root@email.com', password: 'admin', role: 'admin' };
+      name: 'admin', email: 'root@email.com', password: 'admin', role: 'admin'
+    };
     await db.collection('users').insertOne(users);
   });
 
