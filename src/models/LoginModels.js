@@ -8,8 +8,8 @@ const login = async (email, password) => {
         .findOne({ email, password }));
     
     return getLogin;
-}
+};
 
 module.exports = {
     login,
-}
+};

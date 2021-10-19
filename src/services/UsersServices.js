@@ -4,15 +4,15 @@ const INVALID_ERROR = {
     err: {
         status: 401,
         message: 'Invalid entries. Try again.',
-    }
-}
+    },
+};
 
 const EXISTS_ERROR = {
     err: {
         status: 401,
         message: 'Email already registered',
-    }
-}
+    },
+};
 
 const createValidator = (name, email, password) => {
     if (!name || !email || !password) {
@@ -22,7 +22,7 @@ const createValidator = (name, email, password) => {
 
 const emailValidator = (email) => {
     const emailRegex = /(.+)@(.+){2,}\.(.+){2,}/;
-    return  emailRegex.test(email);
+    return emailRegex.test(email);
 };
 
 const alreadyValidator = async (email) => {
@@ -35,7 +35,7 @@ const createItem = async (name, email, password) => {
 
     if (!emailValidator(email)) return INVALID_ERROR;
 
-    if (await alreadyValidator(email)) return EXISTS_ERROR;;
+    if (await alreadyValidator(email)) return EXISTS_ERROR;
 
     const user = await Model.users.createItem(name, email, password);
 

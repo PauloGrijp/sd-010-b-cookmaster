@@ -5,7 +5,7 @@ const createItem = async (req, res) => {
 
     const user = await Service.users.createItem(name, email, password);
 
-    if (user.err){
+    if (user.err) {
     return res.status(user.err.status).json(user.err.message);
     } 
 

@@ -7,7 +7,6 @@ const login = async (req, res) => {
   const { email, password } = req.body;
 
   const user = await Service.login.login(email, password);
-
   
   if (user.err) {
     return res.status(user.err.status).json(user.err.message);
@@ -21,7 +20,7 @@ const login = async (req, res) => {
   const token = jwt.sign({ data: email }, secret, jwtConfig);
 
   return res.status(200).json({ token });
-}
+};
 
 module.exports = {
   login,
