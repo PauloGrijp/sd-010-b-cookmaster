@@ -5,6 +5,8 @@ const {
         CREATED,
         OK,
         NOT_FOUND,
+        UNAUTHORIZED,
+        NO_CONTENT,
     } } = require('http-status-codes');
 
 const recipesService = require('../services/recipeService');
@@ -51,8 +53,57 @@ const findRecipeById = async (req, res) => {
     }
 };
 
+const editRecipe = async (req, res) => {
+    try {
+        const { name, ingredients, preparation } = req.body;
+        const { _id: userId, role } = req.user;
+        const { id: recipeId } = req.params;
+
+        const recipe = await recipesService.editRecipe(
+            [name, ingredients, preparation, recipeId],
+            [userId, role],
+        );
+        if (recipe.message) return res.status(UNAUTHORIZED).json(recipe);
+
+        return res.status(OK).json(recipe);
+    } catch (err) {
+        console.log(err.message);
+        return res.status(INTERNAL_SERVER_ERROR).json(INTERNAL_SERVER_ERROR_MSG);
+    }
+};
+
+const removeRecipe = async (req, res) => {
+    try {
+        const { id: recipeId } = req.params;
+        const { _id: userId, role } = req.user;
+
+        const removedRecipe = await recipesService.removeRecipe(recipeId, userId, role);
+
+        if (removedRecipe.message) return res.status(UNAUTHORIZED).json(removedRecipe);
+
+        return res.status(NO_CONTENT).json();
+    } catch (err) {
+        console.log(err.message);
+        return res.status(INTERNAL_SERVER_ERROR).json(INTERNAL_SERVER_ERROR_MSG);
+    }
+};
+
+const addImage = async (req, res) => {
+    const { path } = req.file;
+    const { id: recipeId } = req.params;
+    const { _id: userId, role } = req.user;
+
+    const recipe = await recipesService.addImage(recipeId, userId, path, role);
+    if (recipe.message) return res.status(UNAUTHORIZED).json(recipe);
+
+    return res.status(OK).json(recipe);
+};
+
 module.exports = {
     createRecipe,
     getAllRecipes,
     findRecipeById,
+    editRecipe,
+    removeRecipe,
+    addImage,
 };

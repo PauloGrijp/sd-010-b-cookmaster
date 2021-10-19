@@ -14,5 +14,6 @@ app.get('/', (_request, response) => {
 app.use('/users', usersRoute);
 app.use('/login', loginRoute);
 app.use('/recipes', recipesRoute);
+app.use('/images', express.static('src/uploads/'));
 
 module.exports = app;
