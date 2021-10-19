@@ -1,43 +1,41 @@
 const Model = require('../models');
 
+const INVALID_ERROR = {
+    err: {
+        status: 401,
+        message: 'Invalid entries. Try again.',
+    }
+}
+
+const EXISTS_ERROR = {
+    err: {
+        status: 401,
+        message: 'Email already registered',
+    }
+}
+
 const createValidator = (name, email, password) => {
     if (!name || !email || !password) {
-        return {
-            status: 400,
-            message: 'Invalid entries. Trye again.',
-        };
+        return true;
     }
 };
 
 const emailValidator = (email) => {
-    const emailRegex = /^[a-z0-9.]+@[a-z0-9]+\.[a-z]+\.([a-z]+)?$/i;
-    const validate = emailRegex.test(email);
-
-    if (!validate) {
-        return {
-            status: 400,
-            message: 'Invalid entries. Try again.',
-        };
-    }
+    const emailRegex = /(.+)@(.+){2,}\.(.+){2,}/;
+    return  emailRegex.test(email);
 };
 
 const alreadyValidator = async (email) => {
     const user = await Model.users.getByEmail(email);
-
-    if (user) {
-        return {
-            status: 409,
-            message: 'Email already registered',
-        };
-    }
+    return user;
 };
 
 const createItem = async (name, email, password) => {
-    if (createValidator(name, email, password)) return createValidator(name, email, password);
+    if (createValidator(name, email, password)) return INVALID_ERROR;
 
-    if (emailValidator(email)) return emailValidator(email);
+    if (!emailValidator(email)) return INVALID_ERROR;
 
-    if (alreadyValidator(email)) return alreadyValidator(email);
+    if (await alreadyValidator(email)) return EXISTS_ERROR;;
 
     const user = await Model.users.createItem(name, email, password);
 
