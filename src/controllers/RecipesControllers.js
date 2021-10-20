@@ -24,7 +24,7 @@ const getRecipesById = async (req, res) => {
     if (id.length < 24) return res.status(404).json({ message: 'recipe not found' });
 
     return res.status(200).json(recipe);
-}
+};
 
 module.exports = {
     createItem,

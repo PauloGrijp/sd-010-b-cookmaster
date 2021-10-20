@@ -33,7 +33,7 @@ const getRecipesById = async (id) => {
         .findOne({ _id: ObjectId(id) }));
 
     return recipe;
-}
+};
 
 module.exports = {
     createItem,
