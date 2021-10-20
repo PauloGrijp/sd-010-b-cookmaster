@@ -1,80 +1,75 @@
-const Model = require('../models/RecipesModels');
+const { recipe } = require('../models');
 
-const validateRecipes = (name, ingredients, preparation) => {
-    if (!name || !ingredients || !preparation) {
-      return {
-        err: {
-          status: 400,
-          message: { message: 'Invalid entries. Try again.' },
-        },
-      };
-    }
+const HTTP_UNAUTHORIZED_STATUS = 401;
+
+const NOT_YOUR_RECIPE_ERROR = 'You can only modify your own recipes';
+
+const addRecipe = (recipeData, userData) => {
+  const newRecipe = {
+    name: recipeData.name,
+    ingredients: recipeData.ingredients,
+    preparation: recipeData.preparation,
+    userId: userData.userId,
+  };
+
+  return recipe.addRecipe(newRecipe);
 };
 
-const idValidator = (id) => {
-  const idRegex = /^.{24}$/;
-  const validId = idRegex.test(id);
-  
-  if (!validId) {
-    return {
-      err: {
-        status: 404,
-        message: { message: 'recipe not found' },
-      },
-    };
+const getRecipes = () => recipe.getRecipes();
+
+const getRecipeById = (id) => recipe.getRecipeById(id);
+
+const updateRecipe = async (newRecipeData, userData, id) => {
+  const foundRecipe = await getRecipeById(id);
+
+  if (foundRecipe.userId.toString() !== userData.userId && userData.role !== 'admin') {
+    const err = new Error(NOT_YOUR_RECIPE_ERROR);
+
+    err.statusCode = HTTP_UNAUTHORIZED_STATUS;
+
+    return err;
   }
+
+  const newRecipe = { ...foundRecipe, ...newRecipeData };
+
+  await recipe.updateRecipe(newRecipeData, id);
+
+  return newRecipe;
 };
 
-const createItem = async (name, ingredients, preparation) => {
-    if (validateRecipes(name, ingredients, preparation)) {
-      return validateRecipes(name, ingredients, preparation);
-    }     
+const deleteRecipe = async (userData, id) => {
+  const foundRecipe = await getRecipeById(id);
 
-    const recipes = await Model.createItem(name, ingredients, preparation);
+  if (foundRecipe.userId.toString() !== userData.userId && userData.role !== 'admin') {
+    const err = new Error(NOT_YOUR_RECIPE_ERROR);
 
-    return recipes;
+    err.statusCode = HTTP_UNAUTHORIZED_STATUS;
+
+    return err;
+  }
+
+  return recipe.deleteRecipe(id);
 };
 
-const getAll = async () => {
-  const recipes = await Model.getAll();
+const addImage = async (userData, id, image) => {
+  const foundRecipe = await getRecipeById(id);
 
-  return recipes;
-};
+  if (foundRecipe.userId.toString() !== userData.userId && userData.role !== 'admin') {
+    const err = new Error(NOT_YOUR_RECIPE_ERROR);
 
-const getRecipesById = async (id) => {
-  if (idValidator(id)) return idValidator(id);
+    err.statusCode = HTTP_UNAUTHORIZED_STATUS;
 
-  const recipe = await Model.getRecipesById(id);
+    return err;
+  }
 
-  if (!recipe) return idValidator(id);
-
-  return recipe;
-};
-
-const updateRecipe = async (id, name, ingredients, preparation) => {
-  if (idValidator(id)) return idValidator(id);
-
-  if (validateRecipes(name, ingredients, preparation)) {
-    return validateRecipes(name, ingredients, preparation);
-  } 
-
-  const recipe = await Model.updateRecipe(id, name, ingredients, preparation);
-
-  return recipe;
-};
-
-const deleteRecipe = async (id) => {
-  if (idValidator(id)) return idValidator(id);
-  
-  const recipe = await Model.deleteRecipe(id);
-
-  return recipe;
+  return recipe.addImage(id, image);
 };
 
 module.exports = {
-    createItem,
-    getAll,
-    getRecipesById,
-    updateRecipe,
-    deleteRecipe,
+  addRecipe,
+  getRecipes,
+  getRecipeById,
+  updateRecipe,
+  deleteRecipe,
+  addImage,
 };

@@ -1,62 +1,90 @@
-const Model = require('../models/UsersModels');
+const jwt = require('jsonwebtoken');
+const { user } = require('../models');
 
-const validateLogin = (name, email, password) => {
-  if (!name || !email || !password) {
-    return {
-      err: {
-        status: 400,
-        message: { message: 'Invalid entries. Try again.' },
-      },
-    };
-  }
+const HTTP_BAD_REQUEST_STATUS = 400;
+const HTTP_UNAUTHORIZED_STATUS = 401;
+const HTTP_FORBIDDEN_STATUS = 403;
+const HTTP_CONFLICT_STATUS = 409;
+
+const ENTRIES_ERROR = 'Invalid entries. Try again.';
+const EMAIL_CONFLICT_ERROR = 'Email already registered';
+const LOGIN_INCORRECT_ERROR = 'Incorrect username or password';
+const ADMIN_ERROR = 'Only admins can register new admins';
+
+const ID = '_id';
+
+const emailValidator = (email) => {
+  const emailRegex = /^[0-9a-zA-Z._-]+@[a-z]*mail\.com(\.[a-z]{2})?$/;
+
+  return emailRegex.test(email);
 };
 
-const validateEmail = (email) => {
-  const regexEmail = new RegExp(/\S+@\S+\.\S+/);
-  const validEmail = regexEmail.test(email);
+const addUser = async (userData) => {
+  if (!emailValidator(userData.email)) {
+    const err = new Error(ENTRIES_ERROR);
 
-  if (!validEmail) {
-    return {
-      err: {
-        status: 400,
-        message: { message: 'Invalid entries. Try again.' },
-      },
-    };
+    err.statusCode = HTTP_BAD_REQUEST_STATUS;
+
+    return err;
   }
+
+  const usedEmail = await user.findByEmail(userData.email);
+
+  if (usedEmail) {
+    const err = new Error(EMAIL_CONFLICT_ERROR);
+
+    err.statusCode = HTTP_CONFLICT_STATUS;
+
+    return err;
+  }
+
+  return user.addUser(userData);
 };
 
-const existEmail = async (email) => {
-  const filterEmail = await Model.getByEmail(email);
+const login = async (userData) => {
+  if (!emailValidator(userData.email)) {
+    const err = new Error(LOGIN_INCORRECT_ERROR);
 
-  if (filterEmail) { 
-    return {
-      err: {
-        status: 409,
-        message: { message: 'Email already registered' },
-      },
-    };
+    err.statusCode = HTTP_UNAUTHORIZED_STATUS;
+
+    return err;
   }
+
+  const loginSuccessful = await user.findUser(userData);
+
+  if (!loginSuccessful) {
+    const err = new Error(LOGIN_INCORRECT_ERROR);
+
+    err.statusCode = HTTP_UNAUTHORIZED_STATUS;
+
+    return err;
+  }
+
+  const payload = {
+    userId: loginSuccessful[ID],
+    email: userData.email,
+    role: loginSuccessful.role,
+  };
+
+  const token = jwt.sign(payload, 'MySecret');
+
+  return { token };
 };
 
-async function createItem(name, email, password) {
-  if (validateLogin(name, email, password)) return validateLogin(name, email, password);
-  if (await existEmail(email)) return existEmail(email);
-  if (validateEmail(email)) return validateEmail(email);
+const addAdmin = async (newAdminData, userData) => {
+  if (userData.role !== 'admin') {
+    const err = new Error(ADMIN_ERROR);
 
-  const user = await Model.createItem(name, email, password);
-  return user;
-}
+    err.statusCode = HTTP_FORBIDDEN_STATUS;
 
-const createAdm = async (name, email, password) => {
-  if (validateLogin(name, email, password)) return validateLogin(name, email, password);
-  if (await existEmail(email)) return existEmail(email);
-  if (validateEmail(email)) return validateEmail(email);
+    return err;
+  }
 
-  const user = await Model.createAdm(name, email, password);
-  return user;
+  return user.addAdmin(newAdminData);
 };
 
 module.exports = {
-  createItem,
-  createAdm,
-}; 
+  addUser,
+  login,
+  addAdmin,
+};

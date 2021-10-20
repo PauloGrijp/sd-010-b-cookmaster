@@ -3,61 +3,49 @@ const connection = require('./connection');
 
 const COLLECTION = 'recipes';
 
-const createItem = async (name, ingredients, preparation) => {
-    const recipes = await connection()
-        .then((db) => db.collection(COLLECTION)
-        .insertOne({ name, ingredients, preparation }));
-    
-    return {
-        recipe: {
-            name,
-            ingredients,
-            preparation,
-            _id: recipes.insertedId,
-        },
-    };
+const addRecipe = async (recipeData) => {
+  const recipeCollection = await connection().then((db) => db.collection(COLLECTION));
+
+  const { insertedId: _id } = await recipeCollection.insertOne({ ...recipeData });
+
+  return { recipe: { _id, ...recipeData } };
 };
 
-const getAll = async () => {
-    const recipes = await connection()
-        .then((db) => db.collection(COLLECTION)
-        .find()
-        .toArray());
-    
-    return recipes;
+const getRecipes = async () => {
+  const recipeCollection = await connection().then((db) => db.collection(COLLECTION));
+
+  return recipeCollection.find().toArray();
 };
 
-const getRecipesById = async (id) => {
-    const recipe = await connection()
-        .then((db) => db.collection(COLLECTION)
-        .findOne({ _id: ObjectId(id) }));
+const getRecipeById = async (id) => {
+  const recipeCollection = await connection().then((db) => db.collection(COLLECTION));
 
-    return recipe;
+  return recipeCollection.findOne({ _id: ObjectId(id) });
 };
 
-const updateRecipe = async (id, name, ingredients, preparation) => {
-    const recipe = await connection()
-        .then((db) => db.collection(COLLECTION)
-        .updateOne(
-            { _id: ObjectId(id) },
-            { $set: { name, ingredients, preparation } },
-        ));
+const updateRecipe = async (recipeData, id) => {
+  const recipeCollection = await connection().then((db) => db.collection(COLLECTION));
 
-    return recipe;
+  return recipeCollection.updateOne({ _id: ObjectId(id) }, { $set: { ...recipeData } });
 };
 
 const deleteRecipe = async (id) => {
-    const recipe = await connection()
-    .then((db) => db.collection(COLLECTION)
-    .deleteOne({ _id: ObjectId(id) }));
+  const recipeCollection = await connection().then((db) => db.collection(COLLECTION));
 
-    return recipe;
+  return recipeCollection.deleteOne({ _id: ObjectId(id) });
+};
+
+const addImage = async (id, image) => {
+  const recipeCollection = await connection().then((db) => db.collection(COLLECTION));
+
+  return recipeCollection.updateOne({ _id: ObjectId(id) }, { $set: { image } });
 };
 
 module.exports = {
-    createItem,
-    getAll,
-    getRecipesById,
-    updateRecipe,
-    deleteRecipe,
+  addRecipe,
+  getRecipes,
+  getRecipeById,
+  updateRecipe,
+  deleteRecipe,
+  addImage,
 };

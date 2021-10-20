@@ -1,65 +1,151 @@
-const Service = require('../services/RecipesServices');
+const path = require('path');
 
-const createItem = async (req, res) => {
-    const { name, ingredients, preparation } = req.body;
+const { recipe } = require('../services');
 
-    const recipes = await Service.createItem(name, ingredients, preparation);
+const HTTP_OK_STATUS = 200;
+const HTTP_CREATED_STATUS = 201;
+const HTTP_NO_CONTENT_STATUS = 204;
+const HTTP_BAD_REQUEST_STATUS = 400;
+const HTTP_NOT_FOUND_STATUS = 404;
 
-    if (recipes.err) return res.status(recipes.err.status).json(recipes.err.message);
+const ENTRIES_ERROR = 'Invalid entries. Try again.';
+const RECIPE_NOT_FOUND_ERROR = 'recipe not found';
 
-    return res.status(201).json(recipes);
+const badRequest = () => {
+  const err = new Error(ENTRIES_ERROR);
+
+  err.statusCode = HTTP_BAD_REQUEST_STATUS;
+
+  return err;
 };
 
-const getAll = async (_req, res) => {
-    const recipes = await Service.getAll();
+const idValidator = (id) => {
+  const idRegex = /^.{24}$/;
 
-    return res.status(200).json(recipes);
+  const test = idRegex.test(id);
+
+  if (!test) {
+    const err = new Error(RECIPE_NOT_FOUND_ERROR);
+
+    err.statusCode = HTTP_NOT_FOUND_STATUS;
+
+    return err;
+  }
+
+  return test;
 };
 
-const getRecipesById = async (req, res) => {
-    const { id } = req.params;
+const addRecipe = async (req, res, next) => {
+  const { name, ingredients, preparation } = req.body;
+  const { userId, email, role } = req.user;
 
-    const recipe = await Service.getRecipesById(id);
+  if (!name || !ingredients || !preparation) return next(badRequest());
 
-    if (recipe.err) return res.status(recipe.err.status).json(recipe.err.message);
+  const newRecipe = await recipe.addRecipe(
+    { name, ingredients, preparation },
+    { userId, email, role },
+  );
 
-    return res.status(200).json(recipe);
+  if (newRecipe.statusCode) return next(newRecipe);
+  
+  res.status(HTTP_CREATED_STATUS).json(newRecipe);
 };
 
-const updateRecipe = async (req, res) => {
-    const { id } = req.params;
+const getRecipes = async (_req, res, _next) => {
+  const recipes = await recipe.getRecipes();
 
-    const { name, ingredients, preparation } = req.body;
-
-    const recipes = await Service.updateRecipe(id, name, ingredients, preparation);
-
-    if (recipes.err) return res.status(recipes.err.status).json(recipes.err.message);
-
-    return res.status(200).json(recipes);
+  res.status(HTTP_OK_STATUS).send(recipes);
 };
 
-const deleteRecipe = async (req, res) => {
-    const { id } = req.params;
+const findRecipe = async (id) => {
+  const foundRecipe = await recipe.getRecipeById(id);
 
-    const recipes = await Service.deleteRecipe(id);
+  if (!foundRecipe) {
+    const err = new Error(RECIPE_NOT_FOUND_ERROR);
 
-    if (recipes.err) return res.status(recipes.err.status).json(recipes.err.message);
+    err.statusCode = HTTP_NOT_FOUND_STATUS;
 
-    return res.status(200).json(recipes);
+    return err;
+  }
+
+  return foundRecipe;
 };
 
-const storeImage = async (req, res) => {
-    const { id } = req.params;
-    const { path } = req.file;
-    const recipe = await Service.getRecipesById(id);
-    res.status(200).json({ ...recipe, image: `localhost:3000/${path}` });
+const getRecipeById = async (req, res, next) => {
+  const { id } = req.params;
+
+  if (idValidator(id).statusCode) return next(idValidator(id));
+
+  const foundRecipe = await findRecipe(id);
+
+  if (foundRecipe.statusCode) return next(foundRecipe);
+
+  res.status(HTTP_OK_STATUS).json(foundRecipe);
+};
+
+const updateRecipe = async (req, res, next) => {
+  const { id } = req.params;
+  const { name, ingredients, preparation } = req.body;
+  const { userId, email, role } = req.user;
+
+  if (idValidator(id).statusCode) return next(idValidator(id));
+
+  const foundRecipe = await findRecipe(id);
+
+  if (foundRecipe.statusCode) return next(foundRecipe);
+
+  const updatedRecipe = await recipe.updateRecipe(
+    { name, ingredients, preparation },
+    { userId, email, role },
+    id,
+  );
+
+  if (updatedRecipe.statusCode) return next(updatedRecipe);
+
+  res.status(HTTP_OK_STATUS).json(updatedRecipe);
+};
+
+const deleteRecipe = async (req, res, next) => {
+  const { id } = req.params;
+  const { userId, email, role } = req.user;
+
+  if (idValidator(id).statusCode) return next(idValidator(id));
+
+  const foundRecipe = await findRecipe(id);
+
+  if (foundRecipe.statusCode) return next(foundRecipe);
+
+  const deletedRecipe = await recipe.deleteRecipe({ userId, email, role }, id);
+
+  if (deletedRecipe.statusCode) return next(deletedRecipe);
+
+  res.status(HTTP_NO_CONTENT_STATUS).end();
+};
+
+const addImage = async (req, res, next) => {
+  const { id } = req.params;
+  const { userId, email, role } = req.user;
+
+  if (idValidator(id).statusCode) return next(idValidator(id));
+
+  const foundRecipe = await findRecipe(id);
+
+  if (foundRecipe.statusCode) return next(foundRecipe);
+
+  const image = path.join('localhost:3000/src', 'uploads', `${id}.jpeg`);
+
+  const recipeImage = await recipe.addImage({ userId, email, role }, id, image);
+
+  if (recipeImage.statusCode) return next(recipeImage);
+
+  res.status(HTTP_OK_STATUS).json({ ...foundRecipe, image });
 };
 
 module.exports = {
-    createItem,
-    getAll,
-    getRecipesById,
-    updateRecipe,
-    deleteRecipe,
-    storeImage,
+  addRecipe,
+  getRecipes,
+  getRecipeById,
+  updateRecipe,
+  deleteRecipe,
+  addImage,
 };

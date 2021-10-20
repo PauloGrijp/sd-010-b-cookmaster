@@ -1,42 +1,44 @@
 const connection = require('./connection');
 
-async function createItem(name, email, password) {
-  const user = await connection()
-    .then((db) => db.collection('users').insertOne({ name, email, password, role: 'user' }));
+const COLLECTION = 'users';
 
-    return {
-      user: {
-        name,
-        email,
-        role: 'user',
-        _id: user.insertedId,
-      },
-    };
-}
+const findByEmail = async (email) => {
+  const usersCollection = await connection().then((db) => db.collection(COLLECTION));
 
-async function getByEmail(email) {
-  const user = await connection()
-    .then((db) => db.collection('users').findOne({ email }));
+  return usersCollection.findOne({ email });
+};
 
-    return user;
-}
+const addUser = async (userData) => {
+  const { name, email } = userData;
 
-const createAdm = async (name, email, password) => {
-  const user = await connection()
-    .then((db) => db.collection('users').insertOne({ name, email, password, role: 'admin' }));
+  const role = 'user';
 
-    return {
-      user: {
-        name,
-        email,
-        role: 'admin',
-        _id: user.insertedId,
-      },
-    };
+  const usersCollection = await connection().then((db) => db.collection(COLLECTION));
+
+  const { insertedId: _id } = await usersCollection.insertOne({ ...userData, role });
+
+  return { user: { _id, role, name, email } };
+};
+
+const findUser = async (userData) => {
+  const usersCollection = await connection().then((db) => db.collection(COLLECTION));
+
+  return usersCollection.findOne({ ...userData });
+};
+
+const addAdmin = async (adminData) => {
+  const role = 'admin';
+
+  const usersCollection = await connection().then((db) => db.collection(COLLECTION));
+
+  const { insertedId: _id } = await usersCollection.insertOne({ ...adminData, role });
+
+  return { user: { _id, role, ...adminData } };
 };
 
 module.exports = {
-  createItem,
-  getByEmail,
-  createAdm,
+  addUser,
+  findByEmail,
+  findUser,
+  addAdmin,
 };
