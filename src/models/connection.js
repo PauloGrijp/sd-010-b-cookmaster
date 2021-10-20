@@ -1,7 +1,7 @@
 const { MongoClient } = require('mongodb');
 
-// const MONGO_DB = 'mongodb://localhost:27017/Cookmaster';
-const MONGO_DB = 'mongodb://mongodb:27017Cookmaster';
+const MONGO_DB = 'mongodb://localhost:27017/Cookmaster';
+// const MONGO_DB = 'mongodb://mongodb:27017Cookmaster';
 const NAME_DB = 'Cookmaster';
 
 const OPTIONS = {
