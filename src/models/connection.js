@@ -1,22 +1,20 @@
-const { MongoClient } = require('mongodb');
+const mongoClient = require('mongodb').MongoClient;
 
-// const MONGO_DB_URL = `mongodb://mongodb:27017/${DB_NAME}`;
-const MONGO_DB_URL = 'mongodb://localhost:27017/Cookmaster';
+const DB_NAME = 'Cookmaster';
 
-const OPTIONS = {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-};
-
-let db = null;
+const MONGO_DB_URL = `mongodb://mongodb:27017/${DB_NAME}`;
+// const MONGO_DB_URL = `mongodb://localhost:27017/${DB_NAME}`;
 
 const connection = () =>
-  db
-    ? Promise.resolve(db)
-    : MongoClient.connect(MONGO_DB_URL, OPTIONS)
-      .then((conn) => {
-        db = conn.db('Cookmaster');
-        return db;
-      });
+  mongoClient
+    .connect(MONGO_DB_URL, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    })
+    .then((conn) => conn.db(DB_NAME))
+    .catch((err) => {
+      console.error(err);
+      process.exit(1);
+    });
 
 module.exports = connection;
