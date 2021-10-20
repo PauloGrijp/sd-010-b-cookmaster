@@ -1,11 +1,11 @@
 const error = require('./error');
 const authorization = require('./authorization');
 const userValidation = require('./userValidation');
-const recipeValidation = require('./recipeValidation');
+const upload = require('./upload');
 
 module.exports = {
   error,
   authorization,
   userValidation,
-  recipeValidation,
+  upload,
 };
