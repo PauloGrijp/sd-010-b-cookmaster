@@ -32,7 +32,16 @@ const login = (req, res, next) => {
   next();
 };
 
+const createRecipe = (req, res, next) => {
+  const { name, ingredients, preparation } = req.body;
+  const recipe = [name, ingredients, preparation];
+  existingFields(recipe, res);
+
+  next();
+};
+
 module.exports = {
   createUser,
   login,
+  createRecipe,
 };
