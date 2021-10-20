@@ -1,5 +1,4 @@
 const express = require('express');
-const bodyParser = require('body-parser');
 const path = require('path');
 
 const {
@@ -8,12 +7,11 @@ const {
   recipesRoutes,
 } = require('../routes');
 
+const error = require('../middlewares/error');
+
 const app = express();
 
 app.use(express.json());
-
-app.use(bodyParser.json());
-app.route(bodyParser.urlencoded({ extended: true }));
 
 app.use('/login', loginRoutes);
 app.use('/users', usersRoutes);
@@ -23,5 +21,7 @@ app.use('/images', express.static(path.join(__dirname, '../uploads')));
 app.get('/', (request, response) => {
   response.send();
 });
+
+app.use(error);
 
 module.exports = app;

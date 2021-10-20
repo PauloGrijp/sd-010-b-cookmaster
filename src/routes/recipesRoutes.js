@@ -1,21 +1,21 @@
 const express = require('express');
+const { recipesControllers } = require('../controllers');
+const {
+  authorization,
+  upload,
+ } = require('../middlewares');
 
 const recipesRoutes = express.Router();
 
-const {
-  registerRecipesController,
-  listAllRecipesController,
-  findRecipesController,
-  updateRecipesController,
-  deleteRecipesController,
-  addImageRecipesController,
-} = require('../controllers/recipesControllers');
-
-// recipesRoutes.post('/', registerRecipesController);
-// recipesRoutes.get('/:id', findRecipesController);
-// recipesRoutes.get('/', listAllRecipesController);
-// recipesRoutes.put('/:id', updateRecipesController);
-// recipesRoutes.delete('/:id', deleteRecipesController);
-// recipesRoutes.put('/:id/image', addImageRecipesController);
+recipesRoutes.put('/:id/image',
+  authorization,
+  recipesControllers.upload,
+  upload.single('image'),
+  (req, res) => res.status(200).json(req.recipe));
+recipesRoutes.get('/:id', recipesControllers.getById);
+recipesRoutes.put('/:id', authorization, recipesControllers.update);
+recipesRoutes.delete('/:id', authorization, recipesControllers.remove);
+recipesRoutes.get('/', recipesControllers.get);
+recipesRoutes.post('/', authorization, recipesControllers.create);
 
 module.exports = recipesRoutes;
