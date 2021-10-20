@@ -27,7 +27,7 @@ const createAdmin = async (name, email, password) => {
       { email, password, name, role: 'admin' },
     ))
     .then((data) => {
-      const user = { name, email, role: 'admin', id: data.insertedId };
+      const user = { name, email, role: 'admin', _id: data.insertedId };
       return response(user, 201);
     });
   return result;
