@@ -1,8 +1,6 @@
 const jwt = require('jsonwebtoken');
 const Service = require('../services/LoginServices');
 
-
-
 async function login(req, res) {
   const { email, password } = req.body;
   const user = await Service.login(email, password);

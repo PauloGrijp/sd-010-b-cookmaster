@@ -12,20 +12,22 @@ const validateRecipes = (name, ingredients, preparation) => {
 };
 
 const createItem = async (name, ingredients, preparation) => {
-    if (validateRecipes(name, ingredients, preparation)) return validateRecipes(name, ingredients, preparation);
+    if (validateRecipes(name, ingredients, preparation)) {
+      return validateRecipes(name, ingredients, preparation);
+    }     
 
     const recipes = await Model.createItem(name, ingredients, preparation);
 
     return recipes;
-}
+};
 
 const getAll = async () => {
   const recipes = await Model.getAll();
 
   return recipes;
-}
+};
 
 module.exports = {
     createItem,
     getAll,
-}
+};

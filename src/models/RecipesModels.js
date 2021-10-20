@@ -1,6 +1,6 @@
 const connection = require('./connection');
 
-const COLLECTION = 'recipes'
+const COLLECTION = 'recipes';
 
 const createItem = async (name, ingredients, preparation) => {
     const recipes = await connection()
@@ -13,9 +13,9 @@ const createItem = async (name, ingredients, preparation) => {
             ingredients,
             preparation,
             _id: recipes.insertedId,
-        }
-    }
-}
+        },
+    };
+};
 
 const getAll = async () => {
     const recipes = await connection()
@@ -24,9 +24,9 @@ const getAll = async () => {
         .toArray());
     
     return recipes;
-}
+};
 
 module.exports = {
     createItem,
     getAll,
-}
+};
