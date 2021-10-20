@@ -1,38 +1,20 @@
-const {
-  findOne,
-  register,
-} = require('../models/usersModels');
+const { usersModels } = require('../models');
 
-const { error } = require('../middlewares/error');
-
-const {
-  created,
-  conflict,
-} = error.codeStatus;
-const {
-  alreadyRegistered,
-} = error.errorMessage;
-
-const usersServices = async ({ name, email, password, role }) => {
-  const user = await findOne(email);
-  if (user) {
-    return ({
-      statusCode: conflict,
-      infos: {
-        err: {
-          code: conflict,
-          message: alreadyRegistered,
-        },
+const create = async (user) => {
+  const { email } = user;
+  
+  const emailExists = await usersModels.findByEmail(email);
+  
+  if (emailExists) {
+    return {
+      error: {
+        code: 409,
+        message: 'Email already registered',
       },
-    });
+    };
   }
-  const result = await register({ name, email, password, role });
-  return {
-    statusCode: created,
-    infos: result,
-  };
+  
+  return usersModels.create(user);
 };
 
-module.exports = {
-  usersServices,
-};
+module.exports = create;
