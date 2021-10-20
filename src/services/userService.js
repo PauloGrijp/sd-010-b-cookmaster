@@ -50,6 +50,13 @@ async function registerUser(name, email, password) {
   return newUser;
 }
 
+/* const registerAdmin = async (email) => {
+  const userAdmin = await userModel.registerAdmin(email);
+
+  return userAdmin;
+}; */
+
 module.exports = {
   registerUser,
+  // registerAdmin,
 };

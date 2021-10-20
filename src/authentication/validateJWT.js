@@ -12,12 +12,13 @@ module.exports = async (req, res, next) => {
   try {
     const decode = jwt.verify(token, secret);
     const user = decode.data;
-    // console.log(user);
+
     if (!user) {
       return res.status(404).json({ message: 'user not found' });
     }
     
     req.user = user;
+    console.log(user);
     next();
   } catch (err) {
     return res.status(401).json({ message: 'jwt malformed' });

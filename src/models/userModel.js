@@ -15,6 +15,20 @@ async function registerUser(name, email, password) {
     };
 }
 
+/* const registerAdmin = async (name, email, password) => {
+  const userAdmin = await connection()
+    .then((db) => db.collection('users').insertOne({ name, email, password, role: 'admin' }));
+
+    return {
+      user: {
+        name,
+        email,
+        role: 'admin',
+        _id: userAdmin.insertedId,
+      },
+    };
+}; */
+
 async function getByUser(email) {
   const findUser = await connection()
     .then((db) => db.collection('users').findOne({ email }));
@@ -24,5 +38,6 @@ async function getByUser(email) {
 
 module.exports = {
   registerUser,
+  // registerAdmin,
   getByUser,
 };

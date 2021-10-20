@@ -13,6 +13,19 @@ async function registerUser(req, res) {
   return res.status(HTML_STATUS_CREATED).json(newUser);
 }
 
+/* const registerAdmin = async (req, res) => {
+  console.log(req.user);
+  const { email } = req.user;
+  const newUser = await userService.registerAdmin(email);
+  
+  if (newUser.err) {
+    return res.status(newUser.err.status).json(newUser.err.message);
+  }
+
+  return res.status(HTML_STATUS_CREATED).json(newUser);
+}; */
+
 module.exports = {
   registerUser,
+  // registerAdmin,
 };

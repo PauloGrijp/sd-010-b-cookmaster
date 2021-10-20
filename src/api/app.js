@@ -17,6 +17,8 @@ app.get('/', (request, response) => {
 
 app.post('/users', userController.registerUser);
 
+app.post('/users/admin', userController.registerAdmin);
+
 app.post('/login', loginController.userLogin);
 
 app.post('/recipes', validateJWT, recipesController.registeringRecipes);

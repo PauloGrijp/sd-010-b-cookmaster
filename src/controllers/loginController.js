@@ -20,7 +20,7 @@ async function userLogin(req, res) {
     return res.status(401).json({ message: 'Incorrect username or password' });
   }
 
-  const token = jwt.sign({ data: email, password }, secret, jwtConfig);
+  const token = jwt.sign({ data: { email, password } }, secret, jwtConfig);
 
   return res.status(200).json({ token });
 }
