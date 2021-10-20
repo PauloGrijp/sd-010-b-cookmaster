@@ -1,21 +1,34 @@
-const Utils = require('../utils');
-const Model = require('../models');
-
-const invalidEntries = 'Invalid entries. Try again.';
-const emailRegistered = 'Email already registered';
+const UserModel = require('../models/Users');
+const UserSchemas = require('../schemas/Users');
 
 const createUser = async (name, email, password) => {
-  // console.log('SERVICE createUser req.body', name, email, password);
-
-  const { error } = Utils.validateCredentialsData({ name, email, password });
-  if (error) throw Error(invalidEntries);
-
-  const userAlreadyExist = await Model.findUser(email);
-  if (userAlreadyExist) throw Error(emailRegistered);
-
-  return Model.createUser(name, email, password);
-};
+  const isValid = UserSchemas.ValidateUser(name, email, password);
+  const getEmail = await UserModel.getUserByEmail(email);
+  const emailExists = await UserSchemas.emailAlreadyExists(getEmail);
   
-module.exports = {
-  createUser,
+  if (isValid.result) return isValid;
+  if (emailExists.result) return emailExists;
+
+  const created = await UserModel.createUser(name, email, password);
+
+  return created;
 };
+
+const createAdmin = async (name, email, password, role) => {
+  const isAdmin = UserSchemas.validateAdmin(role);
+  
+  if (isAdmin.result) return isAdmin;
+
+  const isValid = UserSchemas.ValidateUser(name, email, password);
+  const getEmail = await UserModel.getUserByEmail(email);
+  const emailExists = await UserSchemas.emailAlreadyExists(getEmail);
+  
+  if (isValid.result) return isValid;
+  if (emailExists.result) return emailExists;
+
+  const created = await UserModel.createAdmin(name, email, password);
+
+  return created;
+};
+
+module.exports = { createUser, createAdmin };
