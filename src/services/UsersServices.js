@@ -47,6 +47,16 @@ async function createItem(name, email, password) {
   return user;
 }
 
+const createAdm = async (name, email, password) => {
+  if (validateLogin(name, email, password)) return validateLogin(name, email, password);
+  if (await existEmail(email)) return existEmail(email);
+  if (validateEmail(email)) return validateEmail(email);
+
+  const user = await Model.createAdm(name, email, password);
+  return user;
+};
+
 module.exports = {
   createItem,
+  createAdm,
 }; 
