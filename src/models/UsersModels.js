@@ -1,29 +1,25 @@
 const connection = require('./connection');
 
-const COLLECTION = 'users';
-
-const createItem = async (name, email, password) => {
+async function createItem(name, email, password) {
   const user = await connection()
-    .then((db) => db.collection(COLLECTION)
-      .insertOne({ name, email, password, role: 'user' }));
+    .then((db) => db.collection('users').insertOne({ name, email, password, role: 'user' }));
 
-  return {
-    user: {
-      name,
-      email,
-      role: 'user',
-      _id: user.insertedId,
-    },
-  };
-};
+    return {
+      user: {
+        name,
+        email,
+        role: 'user',
+        _id: user.insertedId,
+      },
+    };
+}
 
-const getByEmail = async (email) => {
+async function getByEmail(email) {
   const user = await connection()
-    .then((db) => db.collection(COLLECTION)
-    .findOne({ email }));
+    .then((db) => db.collection('users').findOne({ email }));
 
-  return user;
-};
+    return user;
+}
 
 module.exports = {
   createItem,

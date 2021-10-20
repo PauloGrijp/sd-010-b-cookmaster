@@ -1,39 +1,52 @@
-const Model = require('../models');
+const ModelLogin = require('../models/LoginModels');
+const ModelUser = require('../models/UsersModels');
 
-const FIELDS_ERROR = {
-    err: { 
+const loginRequired = (email, password) => {
+  if (!email || !password) {
+    return {
+      err: {
         status: 401,
-        message: 'All fields must be filled',
-    },
+        message: { message: 'All fields must be filled' },
+      },
+    };
+  }
 };
 
-const INCORRECT_CODE = {
-    err: { 
+const validateEmail = async (email) => {
+  const regexEmail = /\S+@\S+\.\S+/;
+  const validEmail = regexEmail.test(email);
+  const filterEmail = await ModelUser.getByEmail(email);
+
+  if (!validEmail || !filterEmail) {
+    return {
+      err: {
         status: 401,
-        message: 'Incorrect username or password',
-    },
+        message: { message: 'Incorrect username or password' },
+      },
+    };
+  }
 };
 
-const loginValidator = (email, password) => {
-    if (!email || !password) return true;
+const validatePassword = (password) => {
+  if (typeof password !== 'string' || password.length < 7) {
+    return {
+      err: {
+        status: 401,
+        message: { message: 'Incorrect username or password' },
+      },
+    };
+  }
 };
 
-const emailValidator = async (email, password) => {
-    const getEmail = await Model.users.getByEmail(email);
+async function login(email, password) {
+  if (loginRequired(email, password)) return loginRequired(email, password);
+  if (await validateEmail(email)) return validateEmail(email);
+  if (validatePassword(password)) return validatePassword(password);
 
-    if (email !== getEmail || password !== getEmail.password) return true;
-};
-
-const login = async (email, password) => {
-    if (loginValidator(email, password)) return FIELDS_ERROR;
-
-    if (await emailValidator(email, password)) return INCORRECT_CODE;
-
-    const user = await Model.login.login(email, password);
-
-    return user;
-};
+  const user = await ModelLogin.login(email, password);
+  return user;
+}
 
 module.exports = {
-    login,
+  login,
 };

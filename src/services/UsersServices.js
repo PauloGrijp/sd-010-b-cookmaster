@@ -1,47 +1,52 @@
-const Model = require('../models');
+const Model = require('../models/UsersModels');
 
-const INVALID_ERROR = {
-    err: {
-        status: 401,
-        message: 'Invalid entries. Try again.',
-    },
+const validateLogin = (name, email, password) => {
+  if (!name || !email || !password) {
+    return {
+      err: {
+        status: 400,
+        message: { message: 'Invalid entries. Try again.' },
+      },
+    };
+  }
 };
 
-const EXISTS_ERROR = {
-    err: {
-        status: 401,
-        message: 'Email already registered',
-    },
+const validateEmail = (email) => {
+  const regexEmail = new RegExp(/\S+@\S+\.\S+/);
+  const validEmail = regexEmail.test(email);
+
+  if (!validEmail) {
+    return {
+      err: {
+        status: 400,
+        message: { message: 'Invalid entries. Try again.' },
+      },
+    };
+  }
 };
 
-const createValidator = (name, email, password) => {
-    if (!name || !email || !password) {
-        return true;
-    }
+const existEmail = async (email) => {
+  const filterEmail = await Model.getByEmail(email);
+
+  if (filterEmail) { 
+    return {
+      err: {
+        status: 409,
+        message: { message: 'Email already registered' },
+      },
+    };
+  }
 };
 
-const emailValidator = (email) => {
-    const emailRegex = /(.+)@(.+){2,}\.(.+){2,}/;
-    return emailRegex.test(email);
-};
+async function createItem(name, email, password) {
+  if (validateLogin(name, email, password)) return validateLogin(name, email, password);
+  if (await existEmail(email)) return existEmail(email);
+  if (validateEmail(email)) return validateEmail(email);
 
-const alreadyValidator = async (email) => {
-    const user = await Model.users.getByEmail(email);
-    return user;
-};
-
-const createItem = async (name, email, password) => {
-    if (createValidator(name, email, password)) return INVALID_ERROR;
-
-    if (!emailValidator(email)) return INVALID_ERROR;
-
-    if (await alreadyValidator(email)) return EXISTS_ERROR;
-
-    const user = await Model.users.createItem(name, email, password);
-
-    return user;
-};
+  const user = await Model.createItem(name, email, password);
+  return user;
+}
 
 module.exports = {
-    createItem,
-};
+  createItem,
+}; 
