@@ -1,61 +1,20 @@
 const jwt = require('jsonwebtoken');
+const Users = require('../models/usersModels');
 
-const recipesModel = require('../models/recipesModels');
-
-const secretKey = 'forever wakanda';
-const message = 'jwt malformed';
-
-const validateJWT = async (req, res, next) => {
+const authorization = async (req, res, next) => {
   const token = req.headers.authorization;
-
-  if (!token) return res.status(401).json({ message });
-
+  if (!token) {
+    return res.status(401).json({ message: 'missing auth token' });
+  }
   try {
-    const decoded = jwt.decode(token, secretKey);
-    const { email, role, _id: userId } = decoded;
-
-    req.user = { email, role, userId };
+    const decoded = jwt.verify(token, process.env.SECRET);
+    const user = await Users.findByEmail(decoded.email);
+    delete user.password;
+    req.user = user;
     next();
   } catch (err) {
-    return res.status(401).json({ message });
+    return res.status(401).json({ message: 'jwt malformed' });
   }
 };
 
-const isAdminOrUser = async (req, res, next) => {
-  const token = req.headers.authorization;
-  if (!token) return res.status(401).json({ message: 'missing auth token' });
-
-  try {
-    const decoded = jwt.decode(token, secretKey);
-    const { email, role, _id: userId } = decoded;
-
-    const { id } = req.params;
-    const recipe = await recipesModel.getById(id);
-
-    if (role === 'admin' || recipe.userId === userId) {
-      req.user = { email, role, userId: recipe.userId };
-      req.recipe = recipe;
-      return next();
-    }
-
-    return res.status(401).json({ message });
-  } catch (err) {
-    return res.status(401).json({ message });
-  }
-};
-
-const isAdmin = async (req, res, next) => {
-  const { role } = req.user;
-
-  if (role !== 'admin') {
-    return res.status(403).json({ message: 'Only admins can register new admins' });
-  }
-
-  next();
-};
-
-module.exports = {
-  validateJWT,
-  isAdminOrUser,
-  isAdmin,
-};
+module.exports = authorization;
