@@ -1,37 +1,43 @@
-// const RecipesModel = require('../models/Recipes');
-// const RecipeSchemas = require('../schemas/Recipes');
+// const UserModel = require('../models/Users');
+// const UserSchemas = require('../schemas/Users');
 
-const UserModel = require('../models/Users');
-const UserSchemas = require('../schemas/Users');
+const RecipesModel = require('../models/Recipes');
+const RecipeSchemas = require('../schemas/Recipes');
 
-const createUser = async (name, email, password) => {
-  const isValid = UserSchemas.ValidateUser(name, email, password);
-  const getEmail = await UserModel.getUserByEmail(email);
-  const emailExists = await UserSchemas.emailAlreadyExists(getEmail);
-  
+const createRecipe = async (name, ingredients, preparation, userId) => {
+  const isValid = RecipeSchemas.recipeValidator(name, ingredients, preparation);
   if (isValid.result) return isValid;
-  if (emailExists.result) return emailExists;
 
-  const created = await UserModel.createUser(name, email, password);
-
+  const created = await RecipesModel.createRecipe(name, ingredients, preparation, userId);
   return created;
 };
 
-const createAdmin = async (name, email, password, role) => {
-  const isAdmin = UserSchemas.validateAdmin(role);
-  
-  if (isAdmin.result) return isAdmin;
+const getAllRecipes = async () => RecipesModel.getAllRecipes();
 
-  const isValid = UserSchemas.ValidateUser(name, email, password);
-  const getEmail = await UserModel.getUserByEmail(email);
-  const emailExists = await UserSchemas.emailAlreadyExists(getEmail);
-  
-  if (isValid.result) return isValid;
-  if (emailExists.result) return emailExists;
-
-  const created = await UserModel.createAdmin(name, email, password);
-
-  return created;
+const getRecipeById = async (id) => {
+  const isValid = await RecipeSchemas.idValidator(id);
+  return isValid;
 };
 
-module.exports = { createUser, createAdmin };
+const editRecipe = async (userID, recipe) => RecipesModel.editRecipe(userID, recipe);
+
+const deleteRecipe = async (recipeId, userID, role) => {
+  const deleted = await RecipesModel.deleteRecipe(recipeId, userID, role);
+  return deleted;
+};
+
+const insertRecipe = async (id, userId, path, role) => RecipesModel.insertImage(
+  id,
+  userId,
+  `localhost:3000/${path}`,
+  role,
+);
+
+module.exports = {
+  createRecipe,
+  getAllRecipes,
+  getRecipeById,
+  editRecipe,
+  deleteRecipe,
+  insertRecipe,
+};
