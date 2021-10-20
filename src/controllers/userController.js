@@ -32,7 +32,6 @@ const login = rescue(async (req, res, next) => {
 
   res.status(200).json({ token });
 });
-
 module.exports = {
   createUser,
   login,
