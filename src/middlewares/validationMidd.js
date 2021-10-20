@@ -1,5 +1,4 @@
-// middlewares de validação - antes de consulta ao banco
-
+// middlewares de validação 
 const existingFields = (entity, res) => {
   entity.forEach((value) => {
     if (!value || value === '') { 
@@ -21,6 +20,19 @@ const createUser = (req, res, next) => {
   next();
 };
 
+const login = (req, res, next) => {
+  const { email, password } = req.body;
+  const user = [email, password];
+  user.forEach((value) => {
+    if (!value || value === '') { 
+      return res.status(401).json({ message: 'All fields must be filled' }); 
+    }
+  });
+
+  next();
+};
+
 module.exports = {
   createUser,
+  login,
 };

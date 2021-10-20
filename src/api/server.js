@@ -8,7 +8,7 @@ app.use(bodyParser.json());
 
 // rotas
 app.post('/users', validate.createUser, userController.createUser);
-
+app.post('/login', validate.login, userController.login);
 app.use(error);
 
 const PORT = 3000;
