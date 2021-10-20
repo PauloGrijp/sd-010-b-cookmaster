@@ -1,32 +1,21 @@
 const connection = require('./connection');
 
-const register = async ({ name, email, password, role }) => {
- const db = await connection();
- const newUser = await db.collection('users')
-  .insertOne({
-    name,
-    email,
-    password,
-    role,
-  }); 
- const { _id } = newUser.ops[0];
- return {
-   user: {
-     name,
-     email,
-     role,
-     _id,
-   },
- };
+const create = async (user) => {
+  const { insertedId } = await connection()
+    .then((db) => db.collection('users')
+      .insertOne({ ...user }))
+      .delete(user.password);
+  return { user: { ...user, _id: insertedId } };
 };
 
-const findOne = async (email) => {
-  const db = await connection();
-  const userEmail = await db.collection('users').findOne({ email });
-  return userEmail;
+const findByEmail = async (email) => {
+  const user = await connection()
+    .then((db) => db.collection('users').findOne({ email }));
+  if (!user) return null;
+  return user;
 };
-
+  
 module.exports = {
-  register,
-  findOne,
+  create,
+  findByEmail,
 };
