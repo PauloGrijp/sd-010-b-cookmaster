@@ -1,6 +1,6 @@
 const express = require('express');
 
-const usersRoutes = express.Routes();
+const usersRoutes = express.Router();
 
 const {
   registerCommonUserController,

@@ -6,6 +6,6 @@ const {
   registerLoginController,
 } = require('../controllers/loginControllers');
 
-loginRoutes.post('/', registerLoginController);
+// loginRoutes.post('/', registerLoginController);
 
 module.exports = loginRoutes;
