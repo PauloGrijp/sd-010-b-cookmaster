@@ -4,11 +4,13 @@ const create = async (user) => {
   const { insertedId } = await connection()
     .then((db) => db.collection('users')
       .insertOne({ ...user }));
-    /* eslint no-param-reassign: "error" */
-    delete user.password;
+  const {
+    password,
+    ...userPublicData
+  } = user;
   return {
     user: {
-      ...user,
+      ...userPublicData,
       _id: insertedId,
     },
   };

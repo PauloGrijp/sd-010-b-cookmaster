@@ -9,8 +9,11 @@ const validateJWT = async (req, res, next) => {
   try {
     const decoded = jwt.verify(token, SECRET);
     const user = await usersModels.findByEmail(decoded.email);
-    delete user.password;
-    req.user = user;
+    const {
+      password,
+      ...userPublicData
+    } = user;
+    req.user = userPublicData;
     next();
   } catch (err) {
     return res.status(401).json({ message: 'jwt malformed' });

@@ -17,11 +17,10 @@ const getById = async (id) => {
   return recipe;
 };
 
-const update = async (updatedRecipe, recipeId, user) => {
+const update = async (updatedRecipe, recipeId, { _id, role }) => {
   const { userId: ownerId } = await recipesModels.getById(recipeId);
-  /* eslint no-underscore-dangle: 0 */
-  const userId = user._id;
-  if (!(ownerId.equals(userId)) && user.role !== 'admin') {
+  const userId = _id;
+  if (!(ownerId.equals(userId)) && role !== 'admin') {
     return {
       error: {
         code: 403,
