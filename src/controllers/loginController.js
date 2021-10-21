@@ -1,30 +1,17 @@
-const jwt = require('jsonwebtoken');
-const loginService = require('../services/loginService');
+const express = require('express');
+const validateLogin = require('../middleware/validateLogin');
+const { LoginService } = require('../services/loginService');
 
-const secret = 'secrettoken';
+const LoginRouter = express.Router();
 
-const jwtConfig = {
-  expiresIn: '7d',
-  algorithm: 'HS256',
-};
+LoginRouter.post('/', validateLogin, async (req, res) => {
+    const { email } = req.body;
+    try {
+        const token = await LoginService(email);
+        res.status(200).json({ token });
+    } catch (err) {
+        res.status(500).json(err.message);
+    }
+});
 
-async function userLogin(req, res) {
-  const { email, password } = req.body;
-  const loginData = await loginService.login(email, password);
-
-  if (loginData === 'error_required_field') {
-    return res.status(401).json({ message: 'All fields must be filled' });
-  }
-  
-  if (loginData === 'error_invalid_field') {
-    return res.status(401).json({ message: 'Incorrect username or password' });
-  }
-
-  const token = jwt.sign({ data: { email, password } }, secret, jwtConfig);
-
-  return res.status(200).json({ token });
-}
-
-module.exports = {
-  userLogin,
-};
+module.exports = LoginRouter;

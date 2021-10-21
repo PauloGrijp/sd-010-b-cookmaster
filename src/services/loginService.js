@@ -1,35 +1,19 @@
-const loginModel = require('../models/loginModel');
+const jwt = require('jsonwebtoken');
+const { findByEmail } = require('../models/userModel');
 
-const loginRequired = (email, password) => {
-  if (!email || !password) {
-    return 'error_required_field';
-  }
+const SECRET = 'essaédificil';
+
+const LoginService = async (email) => {
+    const userDataDB = await findByEmail(email);
+
+    const jwtConfig = {
+        expiresIn: '1h',
+        algorithm: 'HS256',
+    };
+    const token = jwt.sign(userDataDB, SECRET, jwtConfig);
+    return token;
 };
-
-const validateEmail = (email) => {
-  const regexEmail = new RegExp(/^[\w.]+@[a-z]+.\w{2,3}$/g);
-  const validEmail = regexEmail.test(email);
-
-  if (!validEmail) {
-    return 'error_invalid_field';
-  }
-};
-
-const validatePassword = (password) => {
-  if (password.length < 7) {
-    return 'error_invalid_field';
-  }
-};
-
-async function login(email, password) {
-  if (loginRequired(email, password)) return loginRequired(email, password);
-  if (validateEmail(email)) return validateEmail(email);
-  if (validatePassword(password)) return validatePassword(password);
-
-  const newUser = await loginModel.login(email, password);
-  return newUser;
-}
 
 module.exports = {
-  login,
+    LoginService,
 };

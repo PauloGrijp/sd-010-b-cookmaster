@@ -1,41 +1,48 @@
-const recipesModel = require('../models/recipesModel');
+const { createRecipesModel } = require('../models/recipesModel');
+const { getAllRecipesModel } = require('../models/recipesModel');
+const { getRecipeByIdModel } = require('../models/recipesModel');
+const { editRecipeModel } = require('../models/recipesModel');
+const { deleteRecipeModel } = require('../models/recipesModel');
+const { updateWithImageModel } = require('../models/recipesModel');
 
-const STATUS_BAD_REQUEST = 400;
-
-const validateRecipeRegistration = (name, ingredients, preparation) => {
-  if (!name || !ingredients || !preparation) {
-    return {
-      err: {
-        status: STATUS_BAD_REQUEST,
-        message: { message: 'Invalid entries. Try again.' },
-      },
-    };
-  }
+const createRecipesService = async (name, email, password, id) => {
+    const newRecipe = await createRecipesModel(name, email, password, id);
+    return newRecipe;
 };
 
-async function registeringRecipes(name, ingredients, preparation) {
-  if (validateRecipeRegistration(name, ingredients, preparation)) {
-    return validateRecipeRegistration(name, ingredients, preparation);
-  }
-  const newUser = await recipesModel.registeringRecipes(name, ingredients, preparation);
-
-  return newUser;
-}
-
-const getAllRecipes = async () => {
-  const allRecipes = await recipesModel.getAllRecipes();
-
-  return allRecipes;
+const getAllRecipesService = async () => {
+    const allRecipes = await getAllRecipesModel();
+    return allRecipes;
 };
 
-const getRecipeId = async (id) => {
-  const recipeId = await recipesModel.getRecipeId(id);
+const getRecipeByIdService = async (id) => {
+    const recipe = await getRecipeByIdModel(id);
 
-  return recipeId;
+    if (!recipe) throw new Error('recipe not found');
+
+    return recipe;
 };
 
+const editRecipeService = async (name, ingredients, preparation, id) => {
+    const updatedRecipe = await editRecipeModel(name, ingredients, preparation, id);
+    if (!updatedRecipe) throw new Error('recipe not found');
+    return updatedRecipe;
+};
+
+const updateWithImageService = async (id, file) => {
+    const recipe = await updateWithImageModel(id, file);
+    return recipe;
+};
+
+const deleteRecipeService = async (id) => {
+    const deletedRecipe = await deleteRecipeModel(id);
+    return deletedRecipe;
+};
 module.exports = {
-  registeringRecipes,
-  getAllRecipes,
-  getRecipeId,
+    createRecipesService,
+    getAllRecipesService,
+    getRecipeByIdService,
+    editRecipeService,
+    deleteRecipeService,
+    updateWithImageService,
 };

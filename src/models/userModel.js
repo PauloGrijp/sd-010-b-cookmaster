@@ -1,43 +1,30 @@
-// const { ObjectId } = require('mongodb');
 const connection = require('./connection');
 
-async function registerUser(name, email, password) {
-  const newUser = await connection()
-    .then((db) => db.collection('users').insertOne({ name, email, password, role: 'user' }));
+const findByEmail = async (email) => {
+  const isThereEmail = await connection()
+    .then((db) => db.collection('users').findOne({ email }))
+    .then((data) => data);
 
-    return {
-      user: {
-        name,
-        email,
-        role: 'user',
-        _id: newUser.insertedId,
-      },
-    };
-}
+  if (isThereEmail) return isThereEmail;
 
-/* const registerAdmin = async (name, email, password) => {
-  const userAdmin = await connection()
-    .then((db) => db.collection('users').insertOne({ name, email, password, role: 'admin' }));
+  return false;
+};
 
-    return {
-      user: {
-        name,
-        email,
-        role: 'admin',
-        _id: userAdmin.insertedId,
-      },
-    };
-}; */
+const createUserModel = async (name, email, password) => connection().then((db) =>
+    db.collection('users').insertOne({ name, email, password, role: 'user' }))
+    .then(({ insertedId }) => ({
+      _id: insertedId,
+      name,
+      email,
+      role: 'user',
+    }));
 
-async function getByUser(email) {
-  const findUser = await connection()
-    .then((db) => db.collection('users').findOne({ email }));
-
-    return findUser;
-}
+    const createNewUserModel = async (name, email, password) => connection()
+    .then((db) => db.collection('users').insertOne({ name, email, password, role: 'admin' }))
+    .then((result) => result.ops[0]);
 
 module.exports = {
-  registerUser,
-  // registerAdmin,
-  getByUser,
+  createUserModel,
+  findByEmail,
+  createNewUserModel,
 };

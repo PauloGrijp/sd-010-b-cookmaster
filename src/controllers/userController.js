@@ -1,31 +1,28 @@
-const userService = require('../services/userService');
+const express = require('express');
+const { createUserService, createNewAdminService } = require('../services/userService');
+const validateUsersInputToCreate = require('../middleware/validateUser');
+const isAdminUser = require('../middleware/userAdmin');
 
-const HTML_STATUS_CREATED = 201;
+const UsersRouter = express.Router();
 
-async function registerUser(req, res) {
-  const { name, email, password } = req.body;
-  const newUser = await userService.registerUser(name, email, password);
-  
-  if (newUser.err) {
-    return res.status(newUser.err.status).json(newUser.err.message);
-  }
+UsersRouter.post('/', validateUsersInputToCreate, async (req, res) => {
+    try {
+        const { name, email, password } = req.body;
+        const user = await createUserService(name, email, password);
+        const newUser = {
+            user,
+        };
+        res.status(201).json(newUser);
+    } catch (err) {
+        res.status(err.stateCode).json(err.message);
+    }
+});
 
-  return res.status(HTML_STATUS_CREATED).json(newUser);
-}
+UsersRouter.post('/admin', isAdminUser, async (req, res) => {
+    const { name, email, password } = req.body;
 
-/* const registerAdmin = async (req, res) => {
-  console.log(req.user);
-  const { email } = req.user;
-  const newUser = await userService.registerAdmin(email);
-  
-  if (newUser.err) {
-    return res.status(newUser.err.status).json(newUser.err.message);
-  }
+    const newAdmin = await createNewAdminService(name, email, password);
+    res.status(201).json({ user: newAdmin });
+});
 
-  return res.status(HTML_STATUS_CREATED).json(newUser);
-}; */
-
-module.exports = {
-  registerUser,
-  // registerAdmin,
-};
+module.exports = UsersRouter;

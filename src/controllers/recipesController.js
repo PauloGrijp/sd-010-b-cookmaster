@@ -1,36 +1,72 @@
-const recipesService = require('../services/recipesService');
+const express = require('express');
+const jwt = require('jsonwebtoken');
+const uploadImage = require('../middleware/uploadImage');
 
-async function registeringRecipes(req, res) {
-  const { name, ingredients, preparation } = req.body;
-  const newRecipes = await recipesService.registeringRecipes(name, ingredients, preparation);
+const validateRecipesInputToCreate = require('../middleware/validateRecipes');
+const validateToken = require('../middleware/validateToken');
+const { 
+    createRecipesService,
+    editRecipeService,
+    deleteRecipeService,
+    updateWithImageService,
+    getRecipeByIdService,
+    getAllRecipesService,
+} = require('../services/recipesService');
 
-  if (newRecipes.err) {
-    return res.status(newRecipes.err.status).json(newRecipes.err.message);
-  }
+const RecipesRouter = express.Router();
+const SECRET = 'essaédificil';
 
-  return res.status(201).json(newRecipes);
-}
+RecipesRouter.post('/', validateToken, validateRecipesInputToCreate, async (req, res) => {
+    const token = req.headers.authorization;
+    const { name, ingredients, preparation } = req.body;
 
-const getAllRecipes = async (_req, res) => {
-  const allRecipes = await recipesService.getAllRecipes();
+    const decoded = jwt.verify(token, SECRET);
+    const { _id } = decoded;
+    const newRecipe = await createRecipesService(name, ingredients, preparation, _id);
 
-  return res.status(200).json(allRecipes);
-};
+    res.status(201).json({ recipe: newRecipe });
+});
 
-const getRecipeId = async (req, res) => {
-  const { id } = req.params;
+RecipesRouter.get('/', async (req, res) => {
+    const allRecipes = await getAllRecipesService();
 
-  if (id.length < 24) {
-    return res.status(404).json({ message: 'recipe not found' });
-  }
+    res.status(200).json(allRecipes);
+});
 
-  const recipeId = await recipesService.getRecipeId(id);
+RecipesRouter.get('/:id', async (req, res) => {
+    const { id } = req.params;
 
-  return res.status(200).json(recipeId);
-};
+    try {
+        const recipe = await getRecipeByIdService(id);
+        res.status(200).json(recipe);
+    } catch (err) {
+        res.status(404).json({ message: err.message });
+    }
+});
 
-module.exports = {
-  registeringRecipes,
-  getAllRecipes,
-  getRecipeId,
-};
+RecipesRouter.put('/:id', validateToken, async (req, res) => {
+    const { id } = req.params;
+    const { name, ingredients, preparation } = req.body;
+
+    try {
+        const result = await editRecipeService(name, ingredients, preparation, id);
+        res.status(200).json(result);
+    } catch (err) {
+        res.status(404).json(err.message);
+    }
+});
+
+RecipesRouter.put('/:id/image/', validateToken, uploadImage, async (req, res) => {
+   const { id } = req.params;
+   const { file } = req;
+   const resultRecipes = await updateWithImageService(id, file);
+   res.status(200).json(resultRecipes);
+});
+
+RecipesRouter.delete('/:id', validateToken, async (req, res) => {
+    const { id } = req.params;
+    const deletedRecipe = await deleteRecipeService(id);
+    res.status(204).json(deletedRecipe);
+});
+
+module.exports = RecipesRouter;
