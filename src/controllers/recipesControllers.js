@@ -1,6 +1,5 @@
 const rescue = require('express-rescue');
 const Joi = require('@hapi/joi');
-
 const { recipesServices } = require('../services');
 
 const recipeSchema = Joi.object({
@@ -13,23 +12,18 @@ const recipeSchema = Joi.object({
   preparation: Joi
     .string()
     .required(),
-}).messages({ 'any.required': 'Invalid entries. Try again.' });
+})
+  .messages({ 'any.required': 'Invalid entries. Try again.' });
 
-module.exports = recipeSchema;
 const create = rescue(async (req, res, next) => {
   const { error } = recipeSchema.validate(req.body);
   if (error) return next(error);
+
   const { name, ingredients, preparation } = req.body;
   const { _id: userId } = req.user;
-  const recipe = await recipesServices.create(
-    {
-      name,
-      ingredients,
-      preparation,
-    },
-    userId,
-  );
+  const recipe = await recipesServices.create({ name, ingredients, preparation }, userId);
   if (recipe.error) return next(recipe.error);
+
   res.status(201).json(recipe);
 });
 
