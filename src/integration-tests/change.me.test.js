@@ -4,7 +4,7 @@ const chaiHttp = require('chai-http');
 const fs = require('fs');
 const path = require('path');
 const getConnection = require('./connectionMock');
-const { MongoClient } = require('mongodb');
+const MongoClient = require("mongodb").MongoClient;
 const { expect } = chai;
 
 const DB_NAME = 'Cookmaster';
