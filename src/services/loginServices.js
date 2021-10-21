@@ -1,6 +1,6 @@
 const { usersModels } = require('../models');
 
-const loginServices = async (credentials) => {
+const login = async (credentials) => {
   const { email, password } = credentials;
   const user = await usersModels.findByEmail(email);
   if (!user || (user.password !== password)) {
@@ -14,4 +14,6 @@ const loginServices = async (credentials) => {
   return user;
 };
 
-module.exports = loginServices;
+module.exports = {
+  login,
+};

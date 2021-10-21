@@ -2,9 +2,7 @@ const { usersModels } = require('../models');
 
 const create = async (user) => {
   const { email } = user;
-  
   const emailExists = await usersModels.findByEmail(email);
-  
   if (emailExists) {
     return {
       error: {
@@ -13,8 +11,9 @@ const create = async (user) => {
       },
     };
   }
-  
   return usersModels.create(user);
 };
 
-module.exports = create;
+module.exports = {
+  create,
+};
