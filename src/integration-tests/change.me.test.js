@@ -254,9 +254,27 @@ describe('Testando a rota /recipes', () => {
 
       expect(response).to.have.status(204);
     });
+  });
+});
 
-    it('retorna status 400', () => {
-      expect(response).to.have.status(400);
+describe('GET /recipes/:id', () => {
+  describe('quando não encontrada', () => {
+    let response;
+
+    before(async () => {
+      const connectionMock = await getConnection();
+
+      sinon.stub(MongoClient, 'connect').resolves(connectionMock);
+
+      response = await chai.request(server).get(`/recipes/${ID_EXAMPLE}`);
+    });
+
+    after(() => {
+      MongoClient.connect.restore();
+    });
+
+    it('retorna status 404', () => {
+      expect(response).to.have.status(404);
     });
 
     it('retorna um objeto no body', () => {
@@ -268,7 +286,114 @@ describe('Testando a rota /recipes', () => {
     });
 
     it('com a mensagem correta', () => {
-      expect(response.body.message).to.be.equal('Invalid entries. Try again.');
+      expect(response.body.message).to.be.equal('recipe not found');
+    });
+  });
+});
+
+describe('POST /users/admin', () => {
+  const user = { name: 'Testy', password: 'tester123', email: 'testythetester@gmail.com', role: 'user' };
+  const admin = { name: 'Admin', password: 'admin1234', email: 'admin@gmail.com', role: 'admin' };
+
+  describe('quando não é passado um token jwt', () => {
+    let response;
+
+    before(async () => {
+      response = await chai.request(server).post('/users/admin');
+    });
+
+    it('retorna status 401', () => {
+      expect(response).to.have.status(HTTP_UNAUTHORIZED_STATUS);
+    });
+
+    it('retorna um objeto no body', () => {
+      expect(response.body).to.be.an('object');
+    });
+
+    it('objeto de resposta possui a propriedade "message"', () => {
+      expect(response.body).to.have.property('message');
+    });
+
+    it('com a mensagem correta', () => {
+      expect(response.body.message).to.be.equal(TOKEN_ERROR);
+    });
+  });
+
+  describe('sem estar logado como admin', () => {
+    let response;
+    const payload = { name: 'Adm Testy', password: 'admtesty123', email: 'testytheadmin@gmail.com' };
+
+    before(async () => {
+      const connectionMock = await getConnection();
+
+      sinon.stub(MongoClient, 'connect').resolves(connectionMock);
+
+      await connectionMock.db(DB_NAME).collection(COLLECTION_USER).insertOne(user);
+
+      const token = await chai.request(server).post('/login').send(user).then((res) => res.body.token);
+      
+      response = await chai.request(server).post('/users/admin').set('authorization', token).send(payload);
+    });
+
+    after(() => {
+      MongoClient.connect.restore();
+    });
+
+    it('retorna status 403', () => {
+      expect(response).to.have.status(HTTP_FORBIDDEN_STATUS);
+    });
+
+    it('retorna um objeto no body', () => {
+      expect(response.body).to.be.an('object');
+    });
+
+    it('objeto de resposta possui a propriedade "message"', () => {
+      expect(response.body).to.have.property('message');
+    });
+
+    it('com a mensagem correta', () => {
+      expect(response.body.message).to.be.equal(ADMIN_ERROR);
+    });
+  });
+
+  describe('com tudo válido', () => {
+    let response;
+    const payload = { name: 'Admin', password: 'admin123', email: 'admin@gmail.com' };
+
+    before(async () => {
+      const connectionMock = await getConnection();
+
+      sinon.stub(MongoClient, 'connect').resolves(connectionMock);
+
+      await connectionMock.db(DB_NAME).collection(COLLECTION_USER).insertOne(admin);
+
+      const token = await chai.request(server).post('/login').send(admin).then((res) => res.body.token);
+      
+      response = await chai.request(server).post('/users/admin').set('authorization', token).send(payload);
+    });
+
+    after(() => {
+      MongoClient.connect.restore();
+    });
+
+    it('retorna status 201', () => {
+      expect(response).to.have.status(201);
+    });
+
+    it('retorna um objeto no body', () => {
+      expect(response.body).to.be.an('object');
+    });
+
+    it('objeto de resposta possui a propriedade "user"', () => {
+      expect(response.body).to.have.property('user');
+    });
+
+    it('objeto de resposta possui a proprieadade "role"', () => {
+      expect(response.body.user).to.have.property('role');
+    });
+
+    it('com o perfil correto', () => {
+      expect(response.body.user.role).to.be.equal('admin');
     });
   });
 });
