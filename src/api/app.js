@@ -1,27 +1,21 @@
 const express = require('express');
 const path = require('path');
 
+const app = express();
+
 const {
-  loginRoutes,
   usersRoutes,
   recipesRoutes,
 } = require('../routes');
-
-const error = require('../middlewares/error');
-
-const app = express();
+const { loginControllers } = require('../controllers');
+const { error } = require('../middlewares');
 
 app.use(express.json());
-
-app.use('/login', loginRoutes);
+app.get('/', (req, res) => { res.send(); });
 app.use('/users', usersRoutes);
 app.use('/recipes', recipesRoutes);
-app.use('/images', express.static(path.join(__dirname, '../uploads')));
-
-app.get('/', (request, response) => {
-  response.send();
-});
-
+app.post('/login', loginControllers);
+app.use('/images', express.static(path.join(__dirname, '..', 'uploads')));
 app.use(error);
 
 module.exports = app;
