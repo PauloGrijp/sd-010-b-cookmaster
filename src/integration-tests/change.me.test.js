@@ -175,8 +175,8 @@ describe('Testando a rota /recipes', () => {
       response = await chai.request(server)
         .post('/login')
         .send({
-          email: 'whind@tests.com.br',
-          password: 'senhaSuperForte'
+          email: 'trybe@betrybe.com',
+          password: 'senha123'
         });
 
       response = await chai.request(server)
@@ -207,8 +207,8 @@ describe('Testando a rota /recipes', () => {
       response = await chai.request(server)
         .post('/login')
         .send({
-          email: 'whind@tests.com.br',
-          password: 'senhaSuperForte'
+          email: 'trybe@betrybe.com',
+          password: 'senha123'
         });
 
       response = await chai.request(server)
@@ -233,8 +233,8 @@ describe('Testando a rota /recipes', () => {
       response = await chai.request(server)
         .post('/login')
         .send({
-          email: 'whind@tests.com.br',
-          password: 'senhaSuperForte'
+          email: 'trybe@betrybe.com',
+          password: 'senha123'
         });
 
       const token = response.body.token;
@@ -253,6 +253,22 @@ describe('Testando a rota /recipes', () => {
         .set('authorization', token)
 
       expect(response).to.have.status(204);
+    });
+
+    it('retorna status 400', () => {
+      expect(response).to.have.status(400);
+    });
+
+    it('retorna um objeto no body', () => {
+      expect(response.body).to.be.an('object');
+    });
+
+    it('objeto de resposta possui a propriedade "message"', () => {
+      expect(response.body).to.have.property('message');
+    });
+
+    it('com a mensagem correta', () => {
+      expect(response.body.message).to.be.equal('Invalid entries. Try again.');
     });
   });
 });
