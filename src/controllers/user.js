@@ -25,6 +25,8 @@ const login = async (req, res) => {
     algorithm: 'HS256',
   };
 
+  console.log(user);
+
   const token = jwt.sign({ user }, secret, jwtConfig);
 
   return res.status(codes.ok).json({ token });

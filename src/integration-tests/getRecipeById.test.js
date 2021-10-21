@@ -2,7 +2,6 @@ const chai = require("chai");
 const chaiHttp = require('chai-http');
 const sinon = require('sinon');
 const { MongoClient } = require('mongodb');
-const { ObjectId } = require('mongodb');
 
 const server = require('../api/app');
 const { getConnection } = require('./connectionMock');
@@ -10,18 +9,25 @@ const { getConnection } = require('./connectionMock');
 chai.use(chaiHttp);
 
 const { expect } = chai;
-const id = '61620a8aacb5265a9a577507'
 
-const recipe = {
-  name: 'receita1',
-  ingredients: 'ingredientes 1',
-  preparation: 'mistura1',
-  userId: 'userId1',
-  _id: ObjectId(id),
-}
+const recipes = [
+  {
+    name: 'receita2',
+    ingredients: 'ingredientes 2',
+    preparation: 'mistura2',
+    userId: 'userId2',
+    _id: 'id2'
+  },
+  {
+    name: 'receita1',
+    ingredients: 'ingredientes 1',
+    preparation: 'mistura1',
+    userId: 'userId1',
+    _id: 'id1'
+  }
+]
 
-
-describe('GET /recipes', () => {
+describe('GET /recipes/:id', () => {
   let response;
 
   describe('retorna todas as receitas do banco', () => {
@@ -31,27 +37,27 @@ describe('GET /recipes', () => {
       sinon.stub(MongoClient, 'connect').resolves(connectionMock);
 
       await connectionMock.db('Cookmaster').collection('recipes').deleteMany({});
-      await connectionMock.db('Cookmaster').collection('recipes').insertOne(recipe);
+      await connectionMock.db('Cookmaster').collection('recipes').insertMany(recipes);
 
       response = await chai.request(server)
-        .get(`/recipes/${id}`);
+        .get('/recipes');
     });
 
     after(async () => {
       MongoClient.connect.restore();
-      await connectionMock.db('Cookmaster').collection('recipes').drop();
+      // await connectionMock.db('Cookmaster').collection('recipes').drop();
     });
 
     it('retorna o status 200 - ok', () => {
       expect(response).to.have.status(200);
     });
 
-    it('retorna um objeto', () => {
-      expect(response.body).to.be.an('object');
+    it('retorna um array com duas receitas', () => {
+      expect(response.body).to.be.an('array');
     });
 
-    it('o objeto possuí as propriedades "name", "ingredients", "preparation", "userId" e "_id"', () => {
-      expect(response.body).to.have.keys('name', 'ingredients', 'preparation', 'userId', '_id');
+    it('o array possuí dois objetos', () => {
+      expect(response.body.length).to.be.equal(2);
     });
   });
 });
