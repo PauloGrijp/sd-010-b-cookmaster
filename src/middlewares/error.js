@@ -21,27 +21,25 @@
 //   },
 // };
 
-const BAD_REQUEST = 400;
-const UNAUTHORIZED = 401;
-const INTERNAL_SERVER_ERROR = 500;
-
 const cases = (message) => {
   switch (message) {
     case 'Invalid entries. Try again.':
-      return BAD_REQUEST;
+      return 400;
     case 'All fields must be filled' || '"password" is not allowed to be empty':
-      return UNAUTHORIZED;
+      return 401;
     default:
-      return INTERNAL_SERVER_ERROR;
+      return 500;
   }
 };
 
-module.exports = (err, _req, res, _next) => {
+const error = (err, _req, res, _next) => {
   let code;
   if (err.isJoi) {
     code = cases(err.details[0].message);
     return res.status(code).json({ message: err.details[0].message });
   }
-  return res.status(err.code || INTERNAL_SERVER_ERROR)
+  return res.status(err.code || 500)
     .json({ message: err.message });
 };
+
+module.exports = error;

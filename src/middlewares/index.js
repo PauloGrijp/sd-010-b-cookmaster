@@ -1,11 +1,11 @@
 const error = require('./error');
-const authorization = require('./authorization');
-const userValidation = require('./userValidation');
-const upload = require('./upload');
+const validateAdmin = require('./validateAdmin');
+const validateJWT = require('./validateJWT');
+const multerStorage = require('./multerStorage');
 
 module.exports = {
   error,
-  authorization,
-  userValidation,
-  upload,
+  validateAdmin,
+  validateJWT,
+  multerStorage,
 };
