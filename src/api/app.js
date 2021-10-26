@@ -11,6 +11,7 @@ const { userController, recipeController } = require('../controllers');
 const app = express();
 
 app.use(bodyParser.json());
+// Não usado urlencoded , pois não há alteração na url.
 // app.use(bodyParser.urlencoded({ extended: true }));
 // app.use(express.static(__dirname));
 // // /images é o caminho/end-point da API onde as imagens estarão disponíveis
