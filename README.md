@@ -62,7 +62,7 @@ Este projeto foi criado como forma de avaliação do curso da Trybe, foi propost
 <br>
 
 
-<h2 id="status-do-Projeto" >📈 Status do Projeto</h2>
+<h2 id="status-do-Projeto" >📈 Status do projeto</h2>
 <br>
 <p align="justify"> 
   O projeto foi finalizado junto a trybe, entretanto já foi iniciado testes de integração que já se encontra com 30% de cobertura utilizando Mocha, Chai e Sinon. 
@@ -75,14 +75,16 @@ Este projeto foi criado como forma de avaliação do curso da Trybe, foi propost
 <br>
 
 <p align="justify"> 
-  Lorem Ipsum é simplesmente uma simulação de texto da indústria tipográfica e de impressos, e vem sendo utilizado desde o século XVI, quando um impressor desconhecido pegou uma bandeja de tipos e os embaralhou para fazer um livro de modelos de tipos. Lorem Ipsum sobreviveu não só a cinco séculos, como também ao salto para a editoração eletrônica, permanecendo essencialmente inalterado. Se popularizou na década de 60, quando a Letraset lançou decalques contendo passagens de Lorem Ipsum, e mais recentemente quando passou a ser integrado a softwares de editoração eletrônica como Aldus PageMaker.
+  para instalar as dependencias basta você executar o comando:
 </p>
+    npm install
 
 ![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
 <br>
 
 <h2>👨‍💻 Executando o projeto</h2>
 <br>
+    asas
 
 <p align="justify"> 
   Lorem Ipsum é simplesmente uma simulação de texto da indústria tipográfica e de impressos, e vem sendo utilizado desde o século XVI, quando um impressor desconhecido pegou uma bandeja de tipos e os embaralhou para fazer um livro de modelos de tipos. Lorem Ipsum sobreviveu não só a cinco séculos, como também ao salto para a editoração eletrônica, permanecendo essencialmente inalterado. Se popularizou na década de 60, quando a Letraset lançou decalques contendo passagens de Lorem Ipsum, e mais recentemente quando passou a ser integrado a softwares de editoração eletrônica como Aldus PageMaker.
